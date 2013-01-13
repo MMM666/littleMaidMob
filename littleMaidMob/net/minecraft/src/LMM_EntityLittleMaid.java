@@ -75,6 +75,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	public boolean maidFreedom;
 	public boolean maidWait;
 	public boolean maidContract;
+	public int homeWorld;
 	
 	// 動的な状態
 	protected EntityPlayer mstatMasterEntity;	// 主
@@ -840,6 +841,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		par1nbtTagCompound.setInteger("homeX", getHomePosition().posX);
 		par1nbtTagCompound.setInteger("homeY", getHomePosition().posY);
 		par1nbtTagCompound.setInteger("homeZ", getHomePosition().posZ);
+		par1nbtTagCompound.setInteger("homeWorld", homeWorld);
 		
 		// 追加分
 		for (int li = 0; li < maidEntityModeList.size(); li++) {
@@ -993,6 +995,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			int lhy = par1nbtTagCompound.getInteger("homeY");
 			int lhz = par1nbtTagCompound.getInteger("homeZ");
 			getHomePosition().set(lhx, lhy, lhz);
+			homeWorld = par1nbtTagCompound.getInteger("homeWorld");
 			
 			// テスト用
 			if (worldObj.isRemote) {
@@ -2914,18 +2917,18 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		return (dataWatcher.getWatchableObjectInt(dataWatch_Flags) & pFlagvalue) > 0;
 	}
 
-    /**
-     *  利き腕の設定
-     */
-    public void setDominantArm(int pindex) {
-    	if (maidDominantArm == pindex) return;
-    	for (LMM_SwingStatus lss : mstatSwingStatus) {
-    		lss.index = lss.lastIndex = -1;
-    	}
-    	maidDominantArm = pindex;
-        dataWatcher.updateObject(dataWatch_ColorMode, (maidMode & 0xffff) | ((maidColor & 0xff) << 16) | ((maidDominantArm & 0xff) << 24));
-        mod_LMM_littleMaidMob.Debug("Change Dominant.");
-    }
+	/**
+	 *  利き腕の設定
+	 */
+	public void setDominantArm(int pindex) {
+		if (maidDominantArm == pindex) return;
+		for (LMM_SwingStatus lss : mstatSwingStatus) {
+			lss.index = lss.lastIndex = -1;
+		}
+		maidDominantArm = pindex;
+		dataWatcher.updateObject(dataWatch_ColorMode, (maidMode & 0xffff) | ((maidColor & 0xff) << 16) | ((maidDominantArm & 0xff) << 24));
+		mod_LMM_littleMaidMob.Debug("Change Dominant.");
+	}
 
 	/**
 	 * 使っているTileかどうか判定して返す。
@@ -2936,6 +2939,12 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public void setHomeArea(int par1, int par2, int par3, int par4) {
+		homeWorld = dimension;
+		super.setHomeArea(par1, par2, par3, par4);
 	}
 
 }
