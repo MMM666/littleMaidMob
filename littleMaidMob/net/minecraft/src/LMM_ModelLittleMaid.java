@@ -133,6 +133,11 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 	}
 
 	@Override
+	public float[] getArmorModelsSize() {
+		return new float[] {0.1F, 0.5F};
+	}
+
+	@Override
 	public float getHeight() {
 		return 1.35F;
 	}
