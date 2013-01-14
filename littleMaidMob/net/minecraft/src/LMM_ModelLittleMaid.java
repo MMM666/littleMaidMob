@@ -149,6 +149,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+		// TODO:‚±‚Ì‚Ö‚ñ‰üC‚µ‚ÄLMMˆÈŠO‚©‚çŒÄ‚Î‚ê‚½‚É•`‰æ‚³‚ê‚é‚æ‚¤‚É‚·‚é
 		if (entity instanceof LMM_EntityLittleMaid) {
 			renderLM((LMM_EntityLittleMaid)entity, f, f1, f2, f3, f4, f5);
 		}

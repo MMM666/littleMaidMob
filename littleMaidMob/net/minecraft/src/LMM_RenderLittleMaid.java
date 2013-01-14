@@ -47,7 +47,7 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 
 	@Override
 	protected void preRenderCallback(EntityLiving entityliving, float f) {
-		float f1 = 0.9375F;
+		float f1 = modelMain.modelArmorInner.getCapsValueFloat(MMM_IModelCaps.caps_ScaleFactor);
 		GL11.glScalef(f1, f1, f1);
 	}
 
@@ -67,8 +67,8 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		modelMain.modelArmorInner = plittleMaid.textureModel0;
 		modelMain.isAlphablend = true;
 		mainModel = modelMain;
-		modelFATT.modelArmorOuter = plittleMaid.textureModel1;
-		modelFATT.modelArmorInner = plittleMaid.textureModel2;
+		modelFATT.modelArmorInner = plittleMaid.textureModel1;
+		modelFATT.modelArmorOuter = plittleMaid.textureModel2;
 		modelFATT.textureOuter = plittleMaid.textureArmor1;
 		modelFATT.textureInner = plittleMaid.textureArmor0;
 		modelFATT.isAlphablend = true;
