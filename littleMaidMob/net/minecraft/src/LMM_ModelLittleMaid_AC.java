@@ -53,5 +53,10 @@ public class LMM_ModelLittleMaid_AC extends MMM_ModelBiped {
 	public float getWidth() {
 		return 0.5F;
 	}
+	
+	@Override
+	public float getyOffset() {
+		return 1.215F;
+	}
 
 }

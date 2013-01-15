@@ -15,12 +15,13 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 
 
 	// Method
-	public LMM_RenderLittleMaid(MMM_ModelBiped modellmaid, float f) {
-		super(modellmaid, f);
+	public LMM_RenderLittleMaid(float f) {
+		super(null, f);
 		modelMain = new MMM_ModelArmors(this);
-//		modelMain.isAlphablend = true;
+		modelMain.isModelAlphablend = mod_LMM_littleMaidMob.AlphaBlend;
 		modelFATT = new MMM_ModelArmors(this);
-//		modelFATT.isAlphablend = false;
+		modelFATT.isModelAlphablend = mod_LMM_littleMaidMob.AlphaBlend;
+		mainModel = modelMain;
 		setRenderPassModel(modelFATT);
 	}
 
@@ -30,9 +31,7 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		ItemStack is = entitylmaid.maidInventory.armorItemInSlot(i);
 		if (is != null && is.stackSize > 0) {
 //			mod_littleMaidMob.Debug(String.format("en:%d-%d", i, ret));
-			((MMM_ModelBiped)modelFATT.modelArmorOuter).showArmorParts(i);
-			((MMM_ModelBiped)modelFATT.modelArmorInner).showArmorParts(i);
-			
+			modelFATT.showArmorParts(i);
 			return is.isItemEnchanted() ? 15 : 1;
 		}
 		
@@ -47,8 +46,10 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 
 	@Override
 	protected void preRenderCallback(EntityLiving entityliving, float f) {
-		float f1 = modelMain.modelArmorInner.getCapsValueFloat(MMM_IModelCaps.caps_ScaleFactor);
-		GL11.glScalef(f1, f1, f1);
+		Float lscale = (Float)modelMain.getCapsValue(MMM_IModelCaps.caps_ScaleFactor);
+		if (lscale != null) {
+			GL11.glScalef(lscale, lscale, lscale);
+		}
 	}
 
 	public void doRenderLitlleMaid(LMM_EntityLittleMaid plittleMaid, double px, double py, double pz, float f, float f1) {
@@ -66,7 +67,6 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		plittleMaid.textureModel0.render = this;
 		modelMain.modelArmorInner = plittleMaid.textureModel0;
 		modelMain.isAlphablend = true;
-		mainModel = modelMain;
 		modelFATT.modelArmorInner = plittleMaid.textureModel1;
 		modelFATT.modelArmorOuter = plittleMaid.textureModel2;
 		modelFATT.textureOuter = plittleMaid.textureArmor1;

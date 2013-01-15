@@ -99,7 +99,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		defaultTexture = defaultTexture.trim();
 		containerID = 222;
 		ModLoader.registerContainerID(this, containerID);
-		ModLoader.registerEntityID(net.minecraft.src.LMM_EntityLittleMaid.class, "LittleMaid", UniqueEntityId, 0xefffef, 0x9f5f5f);
+		ModLoader.registerEntityID(LMM_EntityLittleMaid.class, "LittleMaid", UniqueEntityId, 0xefffef, 0x9f5f5f);
 //        ModLoader.addEntityTracker(this, LMM_EntityLittleMaid.class, var2, var3, var4, var5);
 		ModLoader.addLocalization("entity.LittleMaid.name", "LittleMaid");
 		ModLoader.addLocalization("entity.LittleMaid.name", "ja_JP", "リトルメイド");
@@ -126,23 +126,21 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 				ModLoader.addLocalization("achievement.littleMaid.desc", "ja_JP", "メイドさんを入手しました。");
 			}
 			
-			
 			// 名称変換テーブル
 			ModLoader.addLocalization("littleMaidMob.text.Health", "Health");
 			ModLoader.addLocalization("littleMaidMob.text.Health", "ja_JP", "メイド強度");
 			ModLoader.addLocalization("littleMaidMob.text.AP", "AP");
 			ModLoader.addLocalization("littleMaidMob.text.AP", "ja_JP", "メイド装甲");
-
+			
 			// デフォルトモデルの設定
 			LMM_Client.init();
 		}
 		
 		// AIリストの追加
 		LMM_EntityModeManager.init();
-
+		
 		// アイテムスロット更新用のパケット
 		ModLoader.registerPacketChannel(this, "LMM|Upd");
-		
 		
 	}
 
@@ -176,14 +174,9 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 				}
 			} else {
 				// 通常スポーン設定
-				ModLoader.addSpawn(net.minecraft.src.LMM_EntityLittleMaid.class, spawnWeight, minGroupSize, maxGroupSize, EnumCreatureType.creature);
+				ModLoader.addSpawn(LMM_EntityLittleMaid.class, spawnWeight, minGroupSize, maxGroupSize, EnumCreatureType.creature);
 			}
 		}
-		
-		// テクスチャパックの構築
-//    	MMM_TextureManager.getArmorPrefix();
-//    	MMM_TextureManager.getModFile();
-//        MMM_TextureManager.getTextures();
 		
 		// モードリストを構築
 		LMM_EntityModeManager.loadEntityMode();
@@ -198,11 +191,6 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		
 		// IFFのロード
 		LMM_IFF.loadIFFs();
-		
-		// テクスチャインデックスの構築
-		Debug("Localmode: InitTextureList.");
-		MMM_TextureManager.initTextureList(true);
-
 		
 	}
 
@@ -224,23 +212,4 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		return LMM_Client.getContainerGUI(var1, var2, var3, var4, var5);
 	}
 
-	@Override
-	public void clientConnect(NetClientHandler var1) {
-		if (MMM_Helper.mc.isIntegratedServerRunning()) {
-//			Debug("Localmode: InitTextureList.");
-//			MMM_TextureManager.initTextureList(true);
-		} else {
-			Debug("Remortmode: ClearTextureList.");
-			MMM_TextureManager.initTextureList(false);
-		}
-	}
-
-	@Override
-	public void clientDisconnect(NetClientHandler var1) {
-//		super.clientDisconnect(var1);
-		Debug("Localmode: InitTextureList.");
-		MMM_TextureManager.initTextureList(true);
-	}
-	
-	
 }

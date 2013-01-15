@@ -221,7 +221,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		} else {
 			textureName = textureArmorName = "default";
 			maidColor = 12;
-			textureIndex = textureArmorIndex = -1;
+			textureIndex = textureArmorIndex = 0;
 			LMM_Client.setTextureValue(this);
 		}
 		
@@ -729,51 +729,51 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	 * 敵味方識別
 	 */
 	public boolean getIFF(Entity pEntity) {
-    	// 敵味方識別(敵=false)
-    	if (pEntity == null || pEntity == mstatMasterEntity) {
-    		return true;
-    	}
-    	
-    	int tt = LMM_IFF.getIFF(getMaidMaster(), pEntity);
-    	switch (tt) {
-    	case LMM_IFF.iff_Enemy:
-    		return false;
-    	case LMM_IFF.iff_Friendry:
-    		return true;
-    	case LMM_IFF.iff_Unknown:
-    		if (isBloodsuck()) {
-    			// 血に餓えている時は敵
-    			return false;
-    		}
-    		if (pEntity instanceof LMM_EntityLittleMaid) {
-    			// お遊びモードのメイドには敵対しない
-    			if (((LMM_EntityLittleMaid)pEntity).mstatPlayingRole > LMM_EntityMode_Playing.mpr_NULL) {
-    				return true;
-    			}
-    		}    		
-    		if (pEntity instanceof EntityCreature) {
-    			// 相手が何をターゲットにしているかで決まる
-    			Entity et = ((EntityCreature)pEntity).getEntityToAttack();
-    			if (et != null && et == mstatMasterEntity) {
-    				return false;
-    			} 
-    			if (et == this) {
-    				return false;
-    			}
-    			if (et instanceof LMM_EntityLittleMaid) {
-    				// 同じマスターのメイドを攻撃対象としている
-    				if (((LMM_EntityLittleMaid)et).getMaidMasterEntity() == mstatMasterEntity) {
-            			return false;
-        			}
-    			}
-    		}
-    		return true;
-    		
-    	default :
-    		return false;	
-    	}
+		// 敵味方識別(敵=false)
+		if (pEntity == null || pEntity == mstatMasterEntity) {
+			return true;
+		}
+		
+		int tt = LMM_IFF.getIFF(getMaidMaster(), pEntity);
+		switch (tt) {
+		case LMM_IFF.iff_Enemy:
+			return false;
+		case LMM_IFF.iff_Friendry:
+			return true;
+		case LMM_IFF.iff_Unknown:
+			if (isBloodsuck()) {
+				// 血に餓えている時は敵
+				return false;
+			}
+			if (pEntity instanceof LMM_EntityLittleMaid) {
+				// お遊びモードのメイドには敵対しない
+				if (((LMM_EntityLittleMaid)pEntity).mstatPlayingRole > LMM_EntityMode_Playing.mpr_NULL) {
+					return true;
+				}
+			}
+			if (pEntity instanceof EntityCreature) {
+				// 相手が何をターゲットにしているかで決まる
+				Entity et = ((EntityCreature)pEntity).getEntityToAttack();
+				if (et != null && et == mstatMasterEntity) {
+					return false;
+				}
+				if (et == this) {
+					return false;
+				}
+				if (et instanceof LMM_EntityLittleMaid) {
+					// 同じマスターのメイドを攻撃対象としている
+					if (((LMM_EntityLittleMaid)et).getMaidMasterEntity() == mstatMasterEntity) {
+						return false;
+					}
+				}
+			}
+			return true;
+			
+		default :
+			return false;
+		}
 	}
-	
+
 	@Override
 	public boolean canAttackClass(Class par1Class) {
 		// TODO: IFFの設定、クラス毎の判定しかできないので使わない。
@@ -1008,8 +1008,10 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			}
 		}
 		// TODO: ColorBitsをどうするべ？
-		textureIndex = MMM_TextureManager.setStringToIndex(textureName, -1);
-		textureArmorIndex = MMM_TextureManager.setStringToIndex(textureArmorName, -1);
+//		textureIndex = MMM_TextureManager.setStringToIndex(textureName, -1);
+//		textureArmorIndex = MMM_TextureManager.setStringToIndex(textureArmorName, -1);
+		textureIndex = MMM_TextureManager.getStringToIndex(textureName);
+		textureArmorIndex = MMM_TextureManager.getStringToIndex(textureArmorName);
 		setTextureIndex(textureIndex, textureArmorIndex);
 		onInventoryChanged();
 		
@@ -2019,6 +2021,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 				setEquipItem(lequip, lslotindex);
 //				mstatSwingStatus[lequip].index = lslotindex;
 			}
+			if (lslotindex >= maidInventory.maxInventorySize) {
+				LMM_Client.setArmorTextureValue(this);
+			}
 			String s = par2ItemStack == null ? null : par2ItemStack.getItemName();
 			mod_LMM_littleMaidMob.Debug(String.format("ID:%d Slot(%2d:%d):%s", entityId, lslotindex, lequip, s == null ? "NoItem" : s));
 		}
@@ -2064,31 +2069,34 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		return mstatMaskSelect > -1;
 	}
 
-    protected void checkHeadMount() {
-    	// 追加の頭部装備の判定
-    	ItemStack lis = maidInventory.getHeadMount();
-    	if (lis != null && lis.getItem() instanceof ItemBlock) {
-    		Block lblock = Block.blocksList[lis.getItem().itemID];
-			mstatPlanter = (lblock instanceof BlockFlower) && lblock.getRenderType() == 1;
-			mstatCamouflage = (lblock instanceof BlockLeaves) || (lblock instanceof BlockPumpkin);
-    	} else {
-    		mstatPlanter = false;
-    		mstatCamouflage = false;
-    	}
-    }
-    /**
-     * カモフラージュ！ 
-     */
-    public boolean isCamouflage() {
-    	return mstatCamouflage;
-    }
-    /**
-     * 鉢植え状態 
-     */
-    public boolean isPlanter() {
-    	return mstatPlanter;
-    }
-    
+	protected void checkHeadMount() {
+		// 追加の頭部装備の判定
+		ItemStack lis = maidInventory.getHeadMount();
+		mstatPlanter = false;
+		mstatCamouflage = false;
+		if (lis != null) {
+			if (lis.getItem() instanceof ItemBlock) {
+				Block lblock = Block.blocksList[lis.getItem().itemID];
+				mstatPlanter = (lblock instanceof BlockFlower) && lblock.getRenderType() == 1;
+				mstatCamouflage = (lblock instanceof BlockLeaves) || (lblock instanceof BlockPumpkin);
+			} else if (lis.getItem() instanceof ItemSkull) {
+				mstatCamouflage = true;
+			}
+		}		
+	}
+	/**
+	 * カモフラージュ！ 
+	 */
+	public boolean isCamouflage() {
+		return mstatCamouflage;
+	}
+	/**
+	 * 鉢植え状態 
+	 */
+	public boolean isPlanter() {
+		return mstatPlanter;
+	}
+
     /**
      * ポーション等による腕振りモーションの速度補正
      */
@@ -2710,7 +2718,10 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		setAIMoveSpeed(pFlag ? moveSpeed_Nomal : moveSpeed_Max);
 		setMoveForward(0.0F);
 		if (maidFreedom && isMaidContract()) {
-			setHomeArea(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ), 16);
+			setHomeArea(
+					MathHelper.floor_double(posX),
+					MathHelper.floor_double(posY),
+					MathHelper.floor_double(posZ), 16);
 		} else {
 			detachHome();
 		}
@@ -2732,8 +2743,8 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		textureArmorIndex = parmorindex;
 		dataWatcher.updateObject(dataWatch_Texture, (Integer.valueOf(pindex) & 0xffff) | ((Integer.valueOf(parmorindex) & 0xffff) << 16));
 		// TODO:この以下はホントはいらんけども修正めんどいので。
-		textureName = MMM_TextureManager.getIndexToString(pindex);
-		textureArmorName = MMM_TextureManager.getIndexToString(parmorindex);
+		textureName = MMM_TextureManager.getIndexToString(pindex).textureName;
+		textureArmorName = MMM_TextureManager.getIndexToString(parmorindex).textureName;
 	}
 
 	/**
@@ -2745,29 +2756,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		textureIndex = MMM_TextureManager.getStringToIndex(textureName);
 		textureArmorIndex = MMM_TextureManager.getStringToIndex(textureArmorName);
 		
-		if (textureIndex == -1) {
-			int li = MMM_TextureManager.getRequestIndex(textureName);
-			if (li > -1) {
-				byte ldata[] = new byte[10 + textureName.getBytes().length];
-				ldata[0] = LMM_Net.LMN_Server_GetTextureIndex;
-				ldata[5] = (byte)li;
-				MMM_Helper.setInt(ldata, 6, MMM_TextureManager.getTextureBox(textureName).getWildColorBits());
-				MMM_Helper.setStr(ldata, 10, textureName);
-				LMM_Net.sendToEServer(this, ldata);
-				mod_LMM_littleMaidMob.Debug("GetTextureIndex-Body");
-			}
-		} else if (textureArmorIndex == -1) {
-			int li = MMM_TextureManager.getRequestIndex(textureArmorName);
-			if (li > -1) {
-				byte ldata[] = new byte[10 + textureArmorName.getBytes().length];
-				ldata[0] = LMM_Net.LMN_Server_GetTextureIndex;
-				ldata[5] = (byte)li;
-				MMM_Helper.setInt(ldata, 6, MMM_TextureManager.getTextureBox(textureArmorName).getWildColorBits());
-				MMM_Helper.setStr(ldata, 10, textureArmorName);
-				LMM_Net.sendToEServer(this, ldata);
-				mod_LMM_littleMaidMob.Debug("GetTextureIndex-Armor");
-			}
-		} else {
+		if (textureIndex > -1 && textureArmorIndex > -1) {
 			// サーバーへテクスチャ情報を送信
 			byte ldata[] = new byte[9];
 			ldata[0] = LMM_Net.LMN_Server_SetTexture;
@@ -2781,45 +2770,29 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	public boolean updateTexturePack() {
 		// テクスチャパックが更新されていないかをチェック
+		// クライアント側の
 		boolean lflag = false;
-		String ls;
+		MMM_TextureBoxServer lbox;
 		
 		int ltexture = dataWatcher.getWatchableObjectInt(dataWatch_Texture);
 		int larmor = (ltexture >>> 16) & 0xffff;
 		ltexture &= 0xffff;
-		if (ltexture != textureIndex) {
-			ls = MMM_TextureManager.getIndexToString(ltexture);
-			if (ls != null) {
-				if (!ls.isEmpty()) {
-					mod_LMM_littleMaidMob.Debug(String.format("%d:texture %d -> %d : %s", entityId, textureIndex, ltexture, ls));
-					textureIndex = ltexture;
-					textureName = ls;
-					lflag = true;
-				}
-			} else {
-				// TODO: この辺MMM_へ組みなおす
-				MMM_TextureManager.setStringToIndex(ltexture);
-				byte[] ldata = new byte[3];
-				ldata[0] = LMM_Net.LMN_Server_GetTextureStr;
-				MMM_Helper.setShort(ldata, 1, ltexture);
-				LMM_Net.sendToServer(ldata);
+		if (textureIndex > -1 && ltexture != textureIndex) {
+			lbox = MMM_TextureManager.getIndexToString(ltexture);
+			if (lbox != null && lbox.textureName != null) {
+				mod_LMM_littleMaidMob.Debug(String.format("%d:texture %d -> %d : %s", entityId, textureIndex, ltexture, lbox.textureName));
+				textureIndex = ltexture;
+				textureName = lbox.textureName;
+				lflag = true;
 			}
 		}
-		if (larmor != textureArmorIndex) {
-			ls = MMM_TextureManager.getIndexToString(larmor);
-			if (ls != null) {
-				if (!ls.isEmpty()) {
-					mod_LMM_littleMaidMob.Debug(String.format("%d:armor %d -> %d : %s", entityId, textureArmorIndex, larmor, ls));
-					textureArmorIndex = larmor;
-					textureArmorName = ls;
-					lflag = true;
-				}
-			} else {
-				MMM_TextureManager.setStringToIndex(larmor);
-				byte[] ldata = new byte[3];
-				ldata[0] = LMM_Net.LMN_Server_GetTextureStr;
-				MMM_Helper.setShort(ldata, 1, larmor);
-				LMM_Net.sendToServer(ldata);
+		if (textureArmorIndex > -1 && larmor != textureArmorIndex) {
+			lbox = MMM_TextureManager.getIndexToString(larmor);
+			if (lbox != null && lbox.textureName != null) {
+				mod_LMM_littleMaidMob.Debug(String.format("%d:armor %d -> %d : %s", entityId, textureArmorIndex, larmor, lbox.textureName));
+				textureArmorIndex = larmor;
+				textureArmorName = lbox.textureName;
+				lflag = true;
 			}
 		}
 		

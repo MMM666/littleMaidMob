@@ -15,10 +15,10 @@ public class LMM_Net {
 	public static final byte LMN_Client_SetIFFValue		= (byte)0x04;
 	public static final byte LMN_Server_SaveIFF			= (byte)0x05;
 	public static final byte LMN_Server_GetIFFValue		= (byte)0x06;
-	public static final byte LMN_Server_GetTextureIndex	= (byte)0x07;
-	public static final byte LMN_Client_SetTextureIndex	= (byte)0x87;
-	public static final byte LMN_Server_GetTextureStr	= (byte)0x08;
-	public static final byte LMN_Client_SetTextureStr	= (byte)0x08;
+//	public static final byte LMN_Server_GetTextureIndex	= (byte)0x07;
+//	public static final byte LMN_Client_SetTextureIndex	= (byte)0x87;
+//	public static final byte LMN_Server_GetTextureStr	= (byte)0x08;
+//	public static final byte LMN_Client_SetTextureStr	= (byte)0x08;
 	
 
 
@@ -79,17 +79,10 @@ public class LMM_Net {
 	}
 	
 	/**
-	 * Entityを返す。
-	 */
-	public static Entity getEntity(byte[] pData, int pIndex, World pWorld) {
-		return pWorld.getEntityByID(MMM_Helper.getInt(pData, pIndex));
-	}
-	
-	/**
 	 * littleMaidのEntityを返す。
 	 */
 	public static LMM_EntityLittleMaid getLittleMaid(byte[] pData, int pIndex, World pWorld) {
-		Entity lentity = getEntity(pData, pIndex, pWorld);
+		Entity lentity = MMM_Helper.getEntity(pData, pIndex, pWorld);
 		if (lentity instanceof LMM_EntityLittleMaid) {
 			return (LMM_EntityLittleMaid)lentity;
 		} else {
@@ -150,45 +143,6 @@ public class LMM_Net {
 				ldata[1] = (byte)le.getValue().intValue();
 				LMM_Net.sendToClient(var1, ldata);
 			}
-			break;
-		
-		case LMN_Server_GetTextureIndex:
-			// テクスチャ名称のリクエストに対して番号を返す
-			/*
-			 * 0:ID
-			 * 1-4:EntityID
-			 * 5:index 要求かけた時の番号
-			 * 6-9:colorBits
-			 * 10-:Str
-			 */
-			String ls = MMM_Helper.getStr(var2.data, 10);
-			int lc = MMM_Helper.getInt(var2.data, 6);
-			int li = MMM_TextureManager.setStringToIndex(ls, lc);
-			mod_LMM_littleMaidMob.Debug(String.format("%d : %d : %04x : %s", li, var2.data[5], lc, ls == null ? "NULL" : ls));
-			ldata = new byte[] {
-					LMN_Client_SetTextureIndex,
-					var2.data[1], var2.data[2], var2.data[3], var2.data[4],
-					var2.data[5],
-					0, 0
-			};
-			MMM_Helper.setShort(ldata, 6, li);
-			sendToClient(var1, ldata);
-			break;
-		case LMN_Server_GetTextureStr:
-			// インデックスからテクスチャ名称を返す
-			/*
-			 * 0:ID
-			 * 1-2:index 登録テクスチャ番号
-			 */
-			int li8 = MMM_Helper.getShort(var2.data, 1);
-			String ls8 = MMM_TextureManager.getIndexToString(li8);
-			mod_LMM_littleMaidMob.Debug(String.format("%d : %s", li8, ls8 == null ? "NULL" : ls8));
-			ldata = new byte[3 + ls8.getBytes().length];
-			ldata[0] = LMN_Client_SetTextureStr;
-			ldata[1] = var2.data[1];
-			ldata[2] = var2.data[2];
-			MMM_Helper.setStr(ldata, 3, ls8);
-			sendToClient(var1, ldata);
 			break;
 			
 		}
