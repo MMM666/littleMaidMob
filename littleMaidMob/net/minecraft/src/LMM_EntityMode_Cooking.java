@@ -104,7 +104,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 
 	@Override
 	public boolean shouldBlock(int pMode) {
-		return false;
+		return myTile != null && myTile.isBurning();
 	}
 
 	@Override
@@ -156,8 +156,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 
 	@Override
 	public boolean executeBlock(int pMode, int px, int py, int pz) {
-		TileEntityFurnace ltile = myTile;
-		if (owner.worldObj.getBlockTileEntity(px, py, pz) != ltile) {
+		if (owner.worldObj.getBlockTileEntity(px, py, pz) != myTile) {
 			return false;
 		}		
 		
@@ -167,7 +166,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 		
 		if (owner.getSwingStatusDominant().canAttack()) {
 			// 完成品回収
-			litemstack = ltile.getStackInSlot(2);
+			litemstack = myTile.getStackInSlot(2);
 			if (litemstack != null) {
 				if (litemstack.stackSize > 0) {
 					if (owner.maidInventory.addItemStackToInventory(litemstack)) {
@@ -179,21 +178,21 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 						lflag = true;
 					}
 				}
-				ltile.setInventorySlotContents(2, null);
+				myTile.setInventorySlotContents(2, null);
 			}
 				
 			// 調理可能品を竈にぽーい
-			if (!lflag && ltile.getStackInSlot(0) == null) {
-				litemstack = ltile.getStackInSlot(2);
+			if (!lflag && myTile.getStackInSlot(0) == null) {
+				litemstack = myTile.getStackInSlot(2);
 				li = owner.maidInventory.getSmeltingItem();
 				owner.setEquipItem(li);
 				if (li > -1) {
 					litemstack = owner.maidInventory.getStackInSlot(li);
 					// レシピ対応品
-					if (litemstack.stackSize >= ltile.getInventoryStackLimit()) {
-						ltile.setInventorySlotContents(0, litemstack.splitStack(ltile.getInventoryStackLimit()));
+					if (litemstack.stackSize >= myTile.getInventoryStackLimit()) {
+						myTile.setInventorySlotContents(0, litemstack.splitStack(myTile.getInventoryStackLimit()));
 					} else {
-						ltile.setInventorySlotContents(0, litemstack.splitStack(litemstack.stackSize));
+						myTile.setInventorySlotContents(0, litemstack.splitStack(litemstack.stackSize));
 					}
 					if (litemstack.stackSize <= 0) {
 						owner.maidInventory.setInventorySlotContents(li, null);
@@ -205,14 +204,14 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 			}
 			
 			// 手持ちの燃料をぽーい
-			if (!lflag && ltile.getStackInSlot(1) == null && ltile.getStackInSlot(0) != null) {
+			if (!lflag && myTile.getStackInSlot(1) == null && myTile.getStackInSlot(0) != null) {
 				owner.getNextEquipItem();
 				litemstack = owner.getCurrentEquippedItem();
 				if (LMM_InventoryLittleMaid.isItemBurned(litemstack)) {
-					if (litemstack.stackSize >= ltile.getInventoryStackLimit()) {
-						ltile.setInventorySlotContents(1, litemstack.splitStack(ltile.getInventoryStackLimit()));
+					if (litemstack.stackSize >= myTile.getInventoryStackLimit()) {
+						myTile.setInventorySlotContents(1, litemstack.splitStack(myTile.getInventoryStackLimit()));
 					} else {
-						ltile.setInventorySlotContents(1, litemstack.splitStack(litemstack.stackSize));
+						myTile.setInventorySlotContents(1, litemstack.splitStack(litemstack.stackSize));
 					}
 					if (litemstack.stackSize <= 0) {
 						owner.maidInventory.setInventoryCurrentSlotContents(null);
@@ -222,39 +221,39 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 					owner.setSwing(5, LMM_EnumSound.addFuel);
 					lflag = true;
 				} else {
-					if (ltile.isBurning()) {
+					if (myTile.isBurning()) {
 						lflag = true;
 					} else {
 						// 燃やせるアイテムを持ってないので調理可能品を回収
-						ItemStack litemstack2 = ltile.getStackInSlotOnClosing(0);
+						ItemStack litemstack2 = myTile.getStackInSlotOnClosing(0);
 						if (owner.maidInventory.addItemStackToInventory(litemstack2)) {
 							owner.playSoundAtEntity("random.pop");
 							owner.setSwing(5, LMM_EnumSound.Null);
 							owner.getNextEquipItem();
 							lflag = false;
 						} else {
-							ltile.setInventorySlotContents(0, litemstack2);
+							myTile.setInventorySlotContents(0, litemstack2);
 						}
 					}
 				}
 			} 
 			
 			// 燃え終わってるのに燃料口に何かあるなら回収する
-			if (!lflag && !ltile.isBurning() && ltile.getStackInSlot(1) != null) {
-				ItemStack litemstack2 = ltile.getStackInSlotOnClosing(1);
+			if (!lflag && !myTile.isBurning() && myTile.getStackInSlot(1) != null) {
+				ItemStack litemstack2 = myTile.getStackInSlotOnClosing(1);
 				if (owner.maidInventory.addItemStackToInventory(litemstack2)) {
 					owner.playSoundAtEntity("random.pop");
 					owner.setSwing(5, LMM_EnumSound.Null);
 					owner.getNextEquipItem();
 					lflag = owner.maidInventory.isItemBurned(owner.getCurrentEquippedItem());
 				} else {
-					ltile.setInventorySlotContents(1, litemstack2);
+					myTile.setInventorySlotContents(1, litemstack2);
 				}
 			}
 		} else {
 			lflag = true;
 		}
-		if (ltile.isBurning()) {
+		if (myTile.isBurning()) {
 			owner.setWorking(true);
 			owner.setSneaking(py - (int)owner.posY <= 0);
 			lflag = true;

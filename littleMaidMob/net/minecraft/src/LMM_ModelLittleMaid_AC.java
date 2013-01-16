@@ -58,5 +58,11 @@ public class LMM_ModelLittleMaid_AC extends MMM_ModelBiped {
 	public float getyOffset() {
 		return 1.215F;
 	}
+	
+	@Override
+	public void renderItems(EntityLiving pEntity, Render pRender) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

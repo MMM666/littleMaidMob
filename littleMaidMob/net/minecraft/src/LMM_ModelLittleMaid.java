@@ -380,7 +380,6 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 
 	@Override
 	public void renderItems(EntityLiving pEntity, Render pRender) {
-		super.renderItems(pEntity, pRender);
 		if (pEntity instanceof LMM_EntityLittleMaid) {
 			renderItemsLM((LMM_EntityLittleMaid)pEntity, pRender);
 		}

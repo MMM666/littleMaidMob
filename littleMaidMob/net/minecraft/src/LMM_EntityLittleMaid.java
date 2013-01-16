@@ -618,20 +618,20 @@ public class LMM_EntityLittleMaid extends EntityTameable {
         
     	super.setDead();
     }
-    
-    /**
-     * 読み込み領域内のメイドさんの数
-     */
-    public int getMaidCount() {
-    	int lj = 0;
-    	for (int li = 0; li < worldObj.loadedEntityList.size(); li++) {
-    		if (worldObj.loadedEntityList.get(li) instanceof LMM_EntityLittleMaid) {
-    			lj++;
-    		}
-    	}
-    	return lj;
-    }
-	
+
+	/**
+	 * 読み込み領域内のメイドさんの数
+	 */
+	public int getMaidCount() {
+		int lj = 0;
+		for (int li = 0; li < worldObj.loadedEntityList.size(); li++) {
+			if (worldObj.loadedEntityList.get(li) instanceof LMM_EntityLittleMaid) {
+				lj++;
+			}
+		}
+		return lj;
+	}
+
 	@Override
 	public EntityAgeable createChild(EntityAgeable var1) {
 		// お子さんの設定
@@ -1157,7 +1157,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			li = looksWithInterestAXIS ? (li | dataWatch_Flags_looksWithInterestAXIS) : (li & ~dataWatch_Flags_looksWithInterestAXIS);
 			dataWatcher.updateObject(dataWatch_Flags, Integer.valueOf(li));
 		}
-    }
+	}
 
 	public boolean getLooksWithInterest() {
 		looksWithInterest = (dataWatcher.getWatchableObjectInt(dataWatch_Flags) & dataWatch_Flags_looksWithInterest) > 0;
@@ -1165,38 +1165,38 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 		return looksWithInterest;
 	}
-	
-    public float getInterestedAngle(float f) {
-        return (prevRotateAngleHead + (rotateAngleHead - prevRotateAngleHead) * f) * ((looksWithInterestAXIS ? 0.08F : -0.08F) * (float)Math.PI);
-    }
 
-	
+	public float getInterestedAngle(float f) {
+		return (prevRotateAngleHead + (rotateAngleHead - prevRotateAngleHead) * f) * ((looksWithInterestAXIS ? 0.08F : -0.08F) * (float)Math.PI);
+	}
+
+
 	// ダメージコントロール
 	@Override
 	public boolean isBlocking() {
 		return maidAvatar.isBlocking();
 	}
-	
+
 	@Override
 	protected void damageArmor(int i) {
 		maidAvatar.damageArmor(i);
 	}
-	
+
 	@Override
 	public int getTotalArmorValue() {
 		return maidAvatar.getTotalArmorValue();
 	}
-	
+
 	@Override
 	protected int applyArmorCalculations(DamageSource par1DamageSource, int par2) {
 		return maidAvatar.applyArmorCalculations(par1DamageSource, par2);
 	}
-	
+
 	@Override
 	protected int applyPotionDamageCalculations(DamageSource par1DamageSource, int par2) {
 		return maidAvatar.applyPotionDamageCalculations(par1DamageSource, par2);
 	}
-		
+
 	@Override
 	protected void damageEntity(DamageSource par1DamageSource, int par2) {
     	// ダメージソースに応じて音声変更
@@ -1339,38 +1339,38 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	protected void dropFewItems(boolean par1, int par2) {
-        // メイドさんはお砂糖とココアと不定形の何かでできてるの！
-        int k = rand.nextInt(3 + par2);
-        for(int j = 0; j <= k; j++) {
-            if(rand.nextInt(30) == 0) {
-                dropItem(Item.slimeBall.itemID, 1);
-            }
-            if(rand.nextInt(50) == 0) {
-                entityDropItem(new ItemStack(Item.dyePowder.itemID, 1, 3), 0F);
-            }
-            dropItem(Item.sugar.itemID, 1);
-        }
-        
-        // インベントリをブチマケロ！
-        maidInventory.dropAllItems();
+		// メイドさんはお砂糖とココアと不定形の何かでできてるの！
+		int k = rand.nextInt(3 + par2);
+		for(int j = 0; j <= k; j++) {
+			if(rand.nextInt(30) == 0) {
+				dropItem(Item.slimeBall.itemID, 1);
+			}
+			if(rand.nextInt(50) == 0) {
+				entityDropItem(new ItemStack(Item.dyePowder.itemID, 1, 3), 0F);
+			}
+			dropItem(Item.sugar.itemID, 1);
+		}
+		
+		// インベントリをブチマケロ！
+		maidInventory.dropAllItems();
 	}
-	
+
 	@Override
 	protected int getDropItemId() {
 		return Item.sugar.itemID;
 	}
-	
+
 	@Override
 	protected int getExperiencePoints(EntityPlayer par1EntityPlayer) {
-        return experienceValue;
+		return experienceValue;
 	}
-	
-	
+
+
 	@Override
 	public void applyEntityCollision(Entity par1Entity) {
 		// 閉所接触回避用
 		super.applyEntityCollision(par1Entity);
-
+		
 		if (par1Entity instanceof LMM_EntityLittleMaid) {
 			if (((LMM_EntityLittleMaid)par1Entity).aiAvoidPlayer.isActive) {
 				aiAvoidPlayer.isActive = true;
@@ -1379,7 +1379,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			aiAvoidPlayer.setActive();
 		}
 	}
-	
+
 	@Override
 	protected void updateAITick() {
 		// AI対応型はこっちが呼ばれる
@@ -1889,7 +1889,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		getNextEquipItem();
 //		setArmorTextureValue();
 	}
-	
+
 	/**
 	 * インベントリにある次の装備品を選択
 	 */
@@ -1908,7 +1908,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		setEquipItem(maidDominantArm, li);
 		return li > -1; 
 	}
-	
+
 	public void setEquipItem(int pArm, int pIndex) {
 		if (pArm == maidDominantArm) {
 			maidInventory.currentItem = pIndex;
@@ -2111,18 +2111,18 @@ public class LMM_EntityLittleMaid extends EntityTameable {
             return 6;
         }
     }
-    
+
 	/**
 	 * 手持ちアイテムの破壊
 	 */
-    public void destroyCurrentEquippedItem() {
-        maidInventory.setInventoryCurrentSlotContents(null);
-    }
-	
-    /**
-     * プレーヤのインベントリからアイテムを減らす
-     */
-    protected ItemStack decPlayerInventory(EntityPlayer par1EntityPlayer, int par2Index, int par3DecCount) {
+	public void destroyCurrentEquippedItem() {
+		maidInventory.setInventoryCurrentSlotContents(null);
+	}
+
+	/**
+	 * プレーヤのインベントリからアイテムを減らす
+	 */
+	protected ItemStack decPlayerInventory(EntityPlayer par1EntityPlayer, int par2Index, int par3DecCount) {
 		if (par1EntityPlayer == null) {
 			return null;
 		}
@@ -2135,38 +2135,40 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			return null;
 		}
 		
-        if (!par1EntityPlayer.capabilities.isCreativeMode) {
-        	// クリエイティブだと減らない
-        	itemstack1.stackSize -= par3DecCount;
-        }
-
-        if (itemstack1.getItem() instanceof ItemPotion) {
-            if(itemstack1.stackSize <= 0) {
-            	par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, new ItemStack(Item.glassBottle, par3DecCount));
-                return null;
-            } else {
-            	par1EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Item.glassBottle, par3DecCount));
-            }
-        } else {
-            if (itemstack1.stackSize <= 0) {
-                par1EntityPlayer.inventory.setInventorySlotContents(par2Index, null);
-                return null;
-            }
-        }
-        
-        return itemstack1;
+		if (!par1EntityPlayer.capabilities.isCreativeMode) {
+			// クリエイティブだと減らない
+			itemstack1.stackSize -= par3DecCount;
+		}
+		
+		if (itemstack1.getItem() instanceof ItemPotion) {
+			if(itemstack1.stackSize <= 0) {
+				par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, new ItemStack(Item.glassBottle, par3DecCount));
+				return null;
+			} else {
+				par1EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Item.glassBottle, par3DecCount));
+			}
+		} else {
+			if (itemstack1.stackSize <= 0) {
+				par1EntityPlayer.inventory.setInventorySlotContents(par2Index, null);
+				return null;
+			}
+		}
+		
+		return itemstack1;
 	}
-	
-    public void displayGUIMaidInventory(EntityPlayer pEntityPlayer) {
-    	// メイドインベントリ
 
-    	if (!worldObj.isRemote) {
-    		// server
-        	Container lcontainer = new LMM_ContainerInventory(pEntityPlayer.inventory, maidInventory);
-    		ModLoader.serverOpenWindow((EntityPlayerMP)pEntityPlayer, lcontainer, mod_LMM_littleMaidMob.containerID, entityId, 0, 0);
-    	}
-    }
-    
+	/**
+	 * メイドインベントリを開く
+	 * @param pEntityPlayer
+	 */
+	public void displayGUIMaidInventory(EntityPlayer pEntityPlayer) {
+		if (!worldObj.isRemote) {
+			// server
+			Container lcontainer = new LMM_ContainerInventory(pEntityPlayer.inventory, maidInventory);
+			ModLoader.serverOpenWindow((EntityPlayerMP)pEntityPlayer, lcontainer, mod_LMM_littleMaidMob.containerID, entityId, 0, 0);
+		}
+	}
+
 	@Override
 	public boolean interact(EntityPlayer par1EntityPlayer) {
 		// ナデリ判定
