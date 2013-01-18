@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 public class LMM_EntityAIFindBlock extends EntityAIBase implements LMM_IEntityAI {
 
@@ -32,7 +32,7 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements LMM_IEntityAI
 			return llmode.shouldBlock(theMaid.getMaidModeInt());
 		}
 		
-		// ƒ^[ƒQƒbƒg‚ğƒT[ƒ`
+		// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚’ã‚µãƒ¼ãƒ
 		tileX = MathHelper.floor_double(theMaid.posX);
 		tileY = MathHelper.floor_double(theMaid.posY);
 		tileZ = MathHelper.floor_double(theMaid.posZ);
@@ -45,7 +45,7 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements LMM_IEntityAI
 		MMM_EntityDummy.clearDummyEntity(theMaid);
 		boolean flagdammy = false;
 		
-		// CW•ûŒü‚ÉŒŸõ—Ìˆæ‚ğL‚°‚é 
+		// CWæ–¹å‘ã«æ¤œç´¢é ˜åŸŸã‚’åºƒã’ã‚‹ 
 		for (int d = 0; d < 4; d++) {
 			for (int a = 0; a < 18; a += 2) {
 				int del = a / 2;
@@ -126,19 +126,19 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements LMM_IEntityAI
 
 	@Override
 	public boolean continueExecuting() {
-		// ˆÚ“®’†‚ÍŒp‘±
+		// ç§»å‹•ä¸­ã¯ç¶™ç¶š
 		if (!theMaid.getNavigator().noPath()) return true;
 		
 		double ld = theMaid.getDistanceSq(tileX, tileY, tileZ);
 		if (ld > 100.0D) {
-			// õ“G”ÍˆÍŠO
+			// ç´¢æ•µç¯„å›²å¤–
 			theMaid.getActiveModeClass().farrangeBlock();
 			return false;
 		} else if (ld > 5.0D) {
-			// Ë’ö‹——£ŠO
+			// å°„ç¨‹è·é›¢å¤–
 			return theMaid.getActiveModeClass().outrangeBlock(theMaid.getMaidModeInt(), tileX, tileY, tileZ);
 		} else {
-			// Ë’ö‹——£
+			// å°„ç¨‹è·é›¢
 			return theMaid.getActiveModeClass().executeBlock(theMaid.getMaidModeInt(), tileX, tileY, tileZ);
 		}
 	}
@@ -155,7 +155,7 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements LMM_IEntityAI
 
 	@Override
 	public void updateTask() {
-		// ƒ^[ƒQƒbƒg‚ğŒ©‚Â‚¯‚Ä‚¢‚é
+		// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚’è¦‹ã¤ã‘ã¦ã„ã‚‹
 		theMaid.getLookHelper().setLookPosition(tileX + 0.5D, tileY + 0.5D, tileZ + 0.5D, 10F, theMaid.getVerticalFaceSpeed());
 	}
 

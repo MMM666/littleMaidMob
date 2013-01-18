@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import java.util.List;
 
@@ -83,7 +83,7 @@ public class LMM_EntityAICollectItem extends EntityAIBase {
 	}
 
 	public boolean canEntityItemBeSeen(Entity entity) {
-		// ƒAƒCƒeƒ€‚Ì‰Â‹”»’è
+		// ã‚¢ã‚¤ãƒ†ãƒ ã®å¯è¦–åˆ¤å®š
 		return theMaid.worldObj.rayTraceBlocks(Vec3.createVectorHelper(theMaid.posX, theMaid.posY + (double)theMaid.getEyeHeight(), theMaid.posZ), Vec3.createVectorHelper(entity.posX, entity.posY + ((entity.boundingBox.minY - entity.boundingBox.minY) / 2), entity.posZ)) == null;
 	}
 

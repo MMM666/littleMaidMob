@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import java.util.List;
 
@@ -36,19 +36,19 @@ public class LMM_EntityAIAvoidPlayer extends EntityAIBase implements LMM_IEntity
     	
     	theMaster = theMaid.mstatMasterEntity;
     	
-    	// ‘ÎÛ‚ÍŒ©‚¦‚é‚©H‚Ä‚©‚±‚ê‚¢‚ç‚È‚­‚ËH
+    	// å¯¾è±¡ã¯è¦‹ãˆã‚‹ã‹ï¼Ÿã¦ã‹ã“ã‚Œã„ã‚‰ãªãã­ï¼Ÿ
         if (!theMaid.getEntitySenses().canSee(theMaster)) {
             return false;
         }
 
-        // ˆÚ“®æ‚ğô’è
+        // ç§»å‹•å…ˆã‚’ç­–å®š
         Vec3 vec3d = RandomPositionGenerator.findRandomTargetBlockAwayFrom(theMaid, minDist, 7, Vec3.createVectorHelper(theMaster.posX, theMaster.posY, theMaster.posZ));
 
-        // ˆÚ“®æ‚ª–³‚¢
+        // ç§»å‹•å…ˆãŒç„¡ã„
         if (vec3d == null) {
             return false;
         }
-        // ˆÚ“®æ‚Ì‹——£‚ª‹ß‚¢
+        // ç§»å‹•å…ˆã®è·é›¢ãŒè¿‘ã„
         if (theMaster.getDistanceSq(vec3d.xCoord, vec3d.yCoord, vec3d.zCoord) < theMaid.mstatMasterDistanceSq) {
             return false;
         }
@@ -79,11 +79,11 @@ public class LMM_EntityAIAvoidPlayer extends EntityAIBase implements LMM_IEntity
 
     
     public void setActive() {
-    	// “®ìŠJn
+    	// å‹•ä½œé–‹å§‹
     	isActive = true;
     }
     
-	// Às‰Â”\ƒtƒ‰ƒO
+	// å®Ÿè¡Œå¯èƒ½ãƒ•ãƒ©ã‚°
     @Override
 	public void setEnable(boolean pFlag) {
 		isEnable = pFlag;

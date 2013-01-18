@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 public class LMM_EntityAIBegMove extends EntityAIBase {
 
@@ -36,7 +36,7 @@ public class LMM_EntityAIBegMove extends EntityAIBase {
 	@Override
 	public void updateTask() {
 //		mod_LMM_littleMaidMob.Debug(String.format("begrange:%f", theMaid.aiBeg.getDistanceSq()));
-		// ”‡‚¢Šñ‚êI
+		// é€™ã„å¯„ã‚Œï¼
 		if (theMaid.aiBeg.getDistanceSq() < 3.5D) {
 			theMaid.getNavigator().clearPathEntity();
 		} else {

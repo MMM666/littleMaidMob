@@ -1,11 +1,11 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
 /**
- * ‹ŒŒ^ƒ‚ƒfƒ‹ŒİŠ·‚Ìƒx[ƒXƒ‚ƒfƒ‹
+ * æ—§å‹ãƒ¢ãƒ‡ãƒ«äº’æ›ã®ãƒ™ãƒ¼ã‚¹ãƒ¢ãƒ‡ãƒ«
  */
 public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
 
@@ -41,13 +41,13 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
 		
         pyoffset += 8F;
         
-        // ‚±‚Ì‚Q‚Â‚Íƒ_ƒ~[
+        // ã“ã®ï¼’ã¤ã¯ãƒ€ãƒŸãƒ¼
         bipedCloak = new ModelRenderer(this, 0, 0);
         bipedCloak.showModel = false;
         bipedEars = new ModelRenderer(this, 0, 16);
         bipedEars.showModel = false;
 
-        // ‘•”õˆÊ’u
+        // è£…å‚™ä½ç½®
 		Arms = new MMM_ModelRenderer[1];
 		Arms[0] = new MMM_ModelRenderer(this, 0, 0);
 		Arms[0].setRotationPointLM(-1F, 5F, -1F);
@@ -133,37 +133,37 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
 	}
 	
     public float getHeight() {
-    	// g’·
+    	// èº«é•·
     	return 1.35F;
     }
 
     public float getWidth() {
-    	// ‰¡•
+    	// æ¨ªå¹…
     	return 0.5F;
     }
 
     public void equippedBlockPosition() {
-    	// è‚¿ƒuƒƒbƒN‚Ì•\¦ˆÊ’u
+    	// æ‰‹æŒã¡ãƒ–ãƒ­ãƒƒã‚¯ã®è¡¨ç¤ºä½ç½®
     	GL11.glTranslatef(0.0F, 0.1275F, -0.3125F);
     }
 
     public void equippedItemPosition3D() {
-    	// è‚¿‚RDƒAƒCƒeƒ€‚Ì•\¦ˆÊ’u
+    	// æ‰‹æŒã¡ï¼“Dã‚¢ã‚¤ãƒ†ãƒ ã®è¡¨ç¤ºä½ç½®
    		GL11.glTranslatef(0.02F, 0.1300F, 0.0F);
     }
 
     public void equippedItemPosition() {
-    	// è‚¿ƒAƒCƒeƒ€‚Ì•\¦ˆÊ’u
+    	// æ‰‹æŒã¡ã‚¢ã‚¤ãƒ†ãƒ ã®è¡¨ç¤ºä½ç½®
    		GL11.glTranslatef(0.20F, 0.0800F, -0.0875F);
     }
 
     public void equippedHeadItemPosition() {
-    	// “ª•”’…‘•ƒAƒCƒeƒ€‚Ì•\¦ˆÊ’u
+    	// é ­éƒ¨ç€è£…ã‚¢ã‚¤ãƒ†ãƒ ã®è¡¨ç¤ºä½ç½®
         GL11.glTranslatef(0.0F, 1.0F, 0.0F);
     }
 
     public void equippedItemBow() {
-    	// è‚¿‹|‚Ì•\¦ˆÊ’u
+    	// æ‰‹æŒã¡å¼“ã®è¡¨ç¤ºä½ç½®
 //    	GL11.glTranslatef(-0.07F, 0.005F, 0.3F);
         equippedItemPosition3D();
 //    	GL11.glTranslatef(-0.09F, -0.125F, 0.3F);
@@ -171,7 +171,7 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
     }
     
     public boolean isItemHolder() {
-    	// ƒAƒCƒeƒ€‚ğ‚Á‚Ä‚¢‚é‚Æ‚«‚Éè‚ğ‘O‚Éo‚·‚©‚Ç‚¤‚©B
+    	// ã‚¢ã‚¤ãƒ†ãƒ ã‚’æŒã£ã¦ã„ã‚‹ã¨ãã«æ‰‹ã‚’å‰ã«å‡ºã™ã‹ã©ã†ã‹ã€‚
     	return false;
     }
 
@@ -203,7 +203,7 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
         bipedLeftLeg.rotateAngleY = 0.0F;
 
         if (isRiding) {
-        	// æ‚è•¨‚Éæ‚Á‚Ä‚¢‚é
+        	// ä¹—ã‚Šç‰©ã«ä¹—ã£ã¦ã„ã‚‹
             bipedRightArm.rotateAngleX += -0.6283185F;
             bipedLeftArm.rotateAngleX += -0.6283185F;
             bipedRightLeg.rotateAngleX = -1.256637F;
@@ -211,7 +211,7 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
             bipedRightLeg.rotateAngleY = 0.3141593F;
             bipedLeftLeg.rotateAngleY = -0.3141593F;
         }
-        // ƒAƒCƒeƒ€‚Á‚Ä‚é‚Æ‚«‚Ì˜rU‚è‚ğ—}‚¦‚é
+        // ã‚¢ã‚¤ãƒ†ãƒ æŒã£ã¦ã‚‹ã¨ãã®è…•æŒ¯ã‚Šã‚’æŠ‘ãˆã‚‹
         if (heldItemLeft != 0) {
             bipedLeftArm.rotateAngleX = bipedLeftArm.rotateAngleX * 0.5F - 0.3141593F * (float)heldItemLeft;
         }
@@ -222,7 +222,7 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
         bipedRightArm.rotateAngleY = 0.0F;
         bipedLeftArm.rotateAngleY = 0.0F;
         if (onGround > -9990F && !aimedBow) {
-        	// ˜rU‚è
+        	// è…•æŒ¯ã‚Š
             float f6 = onGround;
             bipedBody.rotateAngleY = MathHelper.sin(MathHelper.sqrt_float(f6) * 3.141593F * 2.0F) * 0.2F;
             Skirt.rotateAngleY = bipedBody.rotateAngleY;
@@ -244,7 +244,7 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
             bipedRightArm.rotateAngleZ = MathHelper.sin(onGround * 3.141593F) * -0.4F;
         }
         if(isSneak) {
-        	// ‚µ‚á‚ª‚İ
+        	// ã—ã‚ƒãŒã¿
             bipedBody.rotateAngleX = 0.5F;
             bipedRightLeg.rotateAngleX -= 0.0F;
             bipedLeftLeg.rotateAngleX -= 0.0F;
@@ -261,7 +261,7 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
             Skirt.rotationPointZ = 2.7F;
             Skirt.rotateAngleX = 0.2F;
         } else {
-        	// ’Êí—§‚¿
+        	// é€šå¸¸ç«‹ã¡
             bipedBody.rotateAngleX = 0.0F;
             bipedRightLeg.rotationPointZ = 0.0F;
             bipedLeftLeg.rotationPointZ = 0.0F;
@@ -274,7 +274,7 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
             Skirt.rotateAngleX = 0.0F;
         }
         if (isWait) {
-        	//‘Ò‹@ó‘Ô‚Ì“Á•Ê•\¦
+        	//å¾…æ©ŸçŠ¶æ…‹ã®ç‰¹åˆ¥è¡¨ç¤º
         	bipedRightArm.rotateAngleX = MathHelper.sin(ticksExisted * 0.067F) * 0.05F -0.7F;
         	bipedRightArm.rotateAngleY = 0.0F;
         	bipedRightArm.rotateAngleZ = -0.4F;
@@ -283,7 +283,7 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
         	bipedLeftArm.rotateAngleZ = 0.4F;
         } else {
         	if (aimedBow) {
-        		// ‹|\‚¦
+        		// å¼“æ§‹ãˆ
                 float f6 = MathHelper.sin(onGround * 3.141593F);
                 float f7 = MathHelper.sin((1.0F - (1.0F - onGround) * (1.0F - onGround)) * 3.141593F);
                 bipedRightArm.rotateAngleZ = 0.0F;
@@ -305,7 +305,7 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
                 bipedRightArm.rotateAngleY += bipedHead.rotateAngleY;
                 bipedLeftArm.rotateAngleY += bipedHead.rotateAngleY;
         	} else {
-        		// ’Êí
+        		// é€šå¸¸
                 bipedRightArm.rotateAngleZ += 0.5F;
                 bipedLeftArm.rotateAngleZ -= 0.5F;
                 bipedRightArm.rotateAngleZ += MathHelper.cos(ticksExisted * 0.09F) * 0.05F + 0.05F;
@@ -318,7 +318,7 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
     }
     
 	public void renderItemsLM(LMM_EntityLittleMaid pEntity, Render pRender) {
-		// è‚¿‚Ì•\¦
+		// æ‰‹æŒã¡ã®è¡¨ç¤º
 		GL11.glPushMatrix();
 
 		ItemStack litemstack;
@@ -327,7 +327,7 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
 		litemstack = pEntity.getCurrentEquippedItem();
 		laction = (pEntity.maidAvatar.getItemInUseCount() > 0) ? litemstack.getItemUseAction() : null;
 		Arms[0].loadMatrix().renderItems(pEntity, pRender, false, laction ,litemstack);
-		// “ª•”‘•ü•i
+		// é ­éƒ¨è£…é£¾å“
 		if (pEntity.isCamouflage() || pEntity.isPlanter()) {
 			HeadMount.loadMatrix();
 			if (pEntity.isPlanter()) {

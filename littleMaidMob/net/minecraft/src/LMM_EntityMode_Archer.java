@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -20,17 +20,17 @@ public class LMM_EntityMode_Archer extends LMM_EntityModeBase {
 
 	@Override
 	public void init() {
-		// “o˜^ƒ‚[ƒh‚Ì–¼Ì’Ç‰Á
+		// ç™»éŒ²ãƒ¢ãƒ¼ãƒ‰ã®åç§°è¿½åŠ 
 		ModLoader.addLocalization("littleMaidMob.mode.Archer", "Archer");
 		ModLoader.addLocalization("littleMaidMob.mode.F-Archer", "F-Archer");
 		ModLoader.addLocalization("littleMaidMob.mode.T-Archer", "T-Archer");
 		ModLoader.addLocalization("littleMaidMob.mode.D-Archer", "D-Archer");
-//		ModLoader.addLocalization("littleMaidMob.mode.Archer", "ja_JP", "Ëè");
+//		ModLoader.addLocalization("littleMaidMob.mode.Archer", "ja_JP", "å°„æ‰‹");
 		ModLoader.addLocalization("littleMaidMob.mode.Blazingstar", "Blazingstar");
 		ModLoader.addLocalization("littleMaidMob.mode.F-Blazingstar", "F-Blazingstar");
 		ModLoader.addLocalization("littleMaidMob.mode.T-Blazingstar", "T-Blazingstar");
 		ModLoader.addLocalization("littleMaidMob.mode.D-Blazingstar", "D-Blazingstar");
-//		ModLoader.addLocalization("littleMaidMob.mode.Blazingstar", "ja_JP", "n–ÂU‚ç‚·Ò");
+//		ModLoader.addLocalization("littleMaidMob.mode.Blazingstar", "ja_JP", "åˆƒé³´æ•£ã‚‰ã™è€…");
 		LMM_GuiTriggerSelect.appendTriggerItem("Bow", "");
 		LMM_GuiTriggerSelect.appendTriggerItem("Arrow", "");
 	}
@@ -100,7 +100,7 @@ public class LMM_EntityMode_Archer extends LMM_EntityModeBase {
 		int li;
 		ItemStack litemstack;
 
-		// ƒ‚[ƒh‚É‰‚¶‚½¯•Ê”»’èA‘¬“x—Dæ
+		// ãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ãŸè­˜åˆ¥åˆ¤å®šã€é€Ÿåº¦å„ªå…ˆ
 		switch (pMode) {
 		case mmode_Archer :
 		case mmode_Blazingstar :
@@ -108,7 +108,7 @@ public class LMM_EntityMode_Archer extends LMM_EntityModeBase {
 				litemstack = owner.maidInventory.getStackInSlot(li);
 				if (litemstack == null) continue;
 
-				// Ëè
+				// å°„æ‰‹
 				if (litemstack.getItem() instanceof ItemBow || LMM_GuiTriggerSelect.checkWeapon("Bow", litemstack)) {
 					return li;
 				}
@@ -135,13 +135,13 @@ public class LMM_EntityMode_Archer extends LMM_EntityModeBase {
 		case mmode_Blazingstar:
 			owner.getWeaponStatus();
 			updateGuns();
-			// Blazingstar‚Ì“ÁêŒø‰Ê
+			// Blazingstarã®ç‰¹æ®ŠåŠ¹æœ
 			World lworld = owner.worldObj;
 			List<Entity> llist = lworld.getEntitiesWithinAABB(Entity.class, owner.boundingBox.expand(16D, 16D, 16D));
 			for (int li = 0; li < llist.size(); li++) {
 				Entity lentity = llist.get(li); 
 				if (lentity.isEntityAlive() && lentity.isBurning() && owner.rand.nextFloat() > 0.9F) {
-					// ”­‰ÎI
+					// ç™ºç«ï¼
 					int lx = (int)owner.posX;
 					int ly = (int)owner.posY;
 					int lz = (int)owner.posZ;
@@ -157,10 +157,10 @@ public class LMM_EntityMode_Archer extends LMM_EntityModeBase {
 	
 	protected void updateGuns() {
 		if (owner.getAttackTarget() == null || !owner.getAttackTarget().isEntityAlive()) {
-			// ‘ÎÛ‚ª€‚ñ‚¾
+			// å¯¾è±¡ãŒæ­»ã‚“ã 
 			if (!owner.weaponReload) {
 				if (owner.maidAvatar.isUsingItem()) {
-					// ƒ^[ƒQƒbƒg‚ª€‚ñ‚Å‚¢‚é‚ÍƒAƒCƒeƒ€‚Ìg—p‚ğƒNƒŠƒA
+					// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãŒæ­»ã‚“ã§ã„ã‚‹æ™‚ã¯ã‚¢ã‚¤ãƒ†ãƒ ã®ä½¿ç”¨ã‚’ã‚¯ãƒªã‚¢
 					if (owner.maidAvatar.isItemReload) {
 						owner.maidAvatar.stopUsingItem();
 						mod_LMM_littleMaidMob.Debug(String.format("id:%d cancel reload.", owner.entityId));
@@ -174,7 +174,7 @@ public class LMM_EntityMode_Archer extends LMM_EntityModeBase {
 			}
 		}
 		if (owner.weaponReload && !owner.maidAvatar.isUsingItem()) {
-			// “ÁêƒŠƒ[ƒh
+			// ç‰¹æ®Šãƒªãƒ­ãƒ¼ãƒ‰
 			owner.maidInventory.getCurrentItem().useItemRightClick(owner.worldObj, owner.maidAvatar);
 			mod_LMM_littleMaidMob.Debug(String.format("id:%d force reload.", owner.entityId));
 			owner.mstatAimeBow = true;

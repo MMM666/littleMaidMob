@@ -1,9 +1,9 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
 /**
- * u‚«•t‚«Šî–{Œ`
+ * çž¬ãä»˜ãåŸºæœ¬å½¢
  */
 public class LMM_ModelLittleMaid_SR2 extends LMM_ModelLittleMaid {
 
@@ -26,7 +26,7 @@ public class LMM_ModelLittleMaid_SR2 extends LMM_ModelLittleMaid {
 	public void initModel(float psize, float pyoffset) {
 		super.initModel(psize, pyoffset);
 		
-		// ’Ç‰Áƒp[ƒc
+		// è¿½åŠ ãƒ‘ãƒ¼ãƒ„
 		eyeR = new MMM_ModelRenderer(this, 32, 19);
 		eyeR.addPlate(-4.0F, -5.0F, -4.001F, 4, 4, 0, psize);
 		eyeR.setRotationPointLM(0.0F, 0.0F, 0.0F);
@@ -43,7 +43,7 @@ public class LMM_ModelLittleMaid_SR2 extends LMM_ModelLittleMaid {
 		super.setLivingAnimationsLM(pentitylittlemaid, f, f1, renderPartialTicks);
 		
 		float f3 = (float)pentitylittlemaid.ticksExisted + renderPartialTicks + pentitylittlemaid.entityIdFactor;
-		// –Úƒpƒ`
+		// ç›®ãƒ‘ãƒ
 		if( 0 > MathHelper.sin(f3 * 0.05F) + MathHelper.sin(f3 * 0.13F) + MathHelper.sin(f3 * 0.7F) + 2.55F) { 
 			eyeR.setVisible(true);
 			eyeL.setVisible(true);

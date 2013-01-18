@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,13 +70,13 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 		int li;
 		ItemStack litemstack;
 
-		// ƒ‚[ƒh‚É‰‚¶‚½¯•Ê”»’èA‘¬“x—Dæ
+		// ãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ãŸè­˜åˆ¥åˆ¤å®šã€é€Ÿåº¦å„ªå…ˆ
 		switch (pMode) {
 		case mmode_Pharmacist : 
 			for (li = 0; li < owner.maidInventory.maxInventorySize; li++) {
 				litemstack = owner.maidInventory.getStackInSlot(li);
 				if (litemstack != null) {
-					// ‘ÎÛ‚Í…ƒ|[ƒVƒ‡ƒ“
+					// å¯¾è±¡ã¯æ°´ãƒãƒ¼ã‚·ãƒ§ãƒ³
 					if (litemstack.getItem() instanceof ItemPotion && !litemstack.hasEffect()) {
 						return li;
 					}
@@ -102,7 +102,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 	
 	@Override
 	public boolean shouldBlock(int pMode) {
-		// Às’†”»’è
+		// å®Ÿè¡Œä¸­åˆ¤å®š
 /*
 		if (myTile.getBrewTime() > 0 
 				|| myTile.getStackInSlot(0) != null | myTile.getStackInSlot(1) != null || myTile.getStackInSlot(2) != null 
@@ -126,7 +126,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 			return false;
 		}
 		
-		// ¢ŠE‚ÌƒƒCƒh‚©‚ç
+		// ä¸–ç•Œã®ãƒ¡ã‚¤ãƒ‰ã‹ã‚‰
 		for (Object lo : owner.worldObj.getLoadedEntityList()) {
 			if (lo == owner) continue;
 			if (lo instanceof LMM_EntityLittleMaid) {
@@ -172,10 +172,10 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 		boolean lflag = false;
 		LMM_SwingStatus lswing = owner.getSwingStatusDominant();
 		
-		// ö—¯‘Ò‹@
+		// è’¸ç•™å¾…æ©Ÿ
 //    	isMaidChaseWait = true;
 		if (ltile.getStackInSlot(0) != null || ltile.getStackInSlot(1) != null || ltile.getStackInSlot(2) != null || ltile.getStackInSlot(3) != null || !lswing.canAttack()) {
-			// ‚¨d–’†
+			// ãŠä»•äº‹ä¸­
 			owner.setWorking(true);
 		}
 		
@@ -183,7 +183,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 			ItemStack litemstack2 = ltile.getStackInSlot(3);
 			
 			if (litemstack2 != null && ltile.getBrewTime() <= 0) {
-				// ö—¯•s”\‚È‚Ì‚Å‰ñû
+				// è’¸ç•™ä¸èƒ½ãªã®ã§å›å
 				if (py <= owner.posY) {
 					owner.setSneaking(true);
 				}
@@ -194,9 +194,9 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 					owner.setSwing(5, LMM_EnumSound.Null);
 				}
 			}
-			// Š®¬•i
+			// å®Œæˆå“
 			if (!lflag && maidSearchCount > owner.maidInventory.mainInventory.length) {
-				// ƒ|[ƒVƒ‡ƒ“‚Ì‰ñû
+				// ãƒãƒ¼ã‚·ãƒ§ãƒ³ã®å›å
 				for (int li = 0; li < 3 && !lflag; li ++) {
 					litemstack1 = ltile.getStackInSlot(li);
 					if (litemstack1 != null && owner.maidInventory.addItemStackToInventory(litemstack1)) {
@@ -215,7 +215,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 			
 			litemstack1 = owner.maidInventory.getCurrentItem();
 			if (!lflag && (litemstack1 != null && litemstack1.getItem() instanceof ItemPotion && !litemstack1.hasEffect())) {
-				// …•r‚ğ‚°‚Á‚Æ‚ê‚Å‚¡
+				// æ°´ç“¶ã‚’ã’ã£ã¨ã‚Œã§ãƒ
 				int li = 0;
 				for (li = 0; li < 3 && !lflag; li++) {
 					if (ltile.getStackInSlot(li) == null) {
@@ -230,7 +230,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 			}
 			if (!lflag && (ltile.getStackInSlot(0) != null || ltile.getStackInSlot(1) != null || ltile.getStackInSlot(2) != null)
 					&& (owner.maidInventory.currentItem == -1 || (litemstack1 != null && litemstack1.getItem() instanceof ItemPotion && !litemstack1.hasEffect()))) {
-				// ƒ|[ƒVƒ‡ƒ“ˆÈŠO‚ğŒŸõ
+				// ãƒãƒ¼ã‚·ãƒ§ãƒ³ä»¥å¤–ã‚’æ¤œç´¢
 				for (maidSearchCount = 0; maidSearchCount < owner.maidInventory.mainInventory.length; maidSearchCount++) {
 					litemstack1 = owner.maidInventory.getStackInSlot(maidSearchCount);
 					if (litemstack1 != null && !(litemstack1.getItem() instanceof ItemPotion)) {
@@ -243,7 +243,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 			}
 			
 			if (!lflag && litemstack2 == null && (ltile.getStackInSlot(0) != null || ltile.getStackInSlot(1) != null || ltile.getStackInSlot(2) != null)) {
-				// è‚¿‚ÌƒAƒCƒeƒ€‚ğ‚Û[‚¢
+				// æ‰‹æŒã¡ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’ã½ãƒ¼ã„
 				if (litemstack1 != null && !(litemstack1.getItem() instanceof ItemPotion) && litemstack1.getItem().isPotionIngredient()) {
 					ltile.setInventorySlotContents(3, litemstack1);
 					owner.maidInventory.setInventorySlotContents(maidSearchCount, null);
@@ -252,7 +252,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 					lflag = true;
 				} 
 				else if (litemstack1 == null || (litemstack1.getItem() instanceof ItemPotion && litemstack1.hasEffect()) || !litemstack1.getItem().isPotionIngredient()) {
-					// ‘ÎÛŠOƒAƒCƒeƒ€‚ğ”­Œ©‚µ‚½‚ÉI—¹
+					// å¯¾è±¡å¤–ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç™ºè¦‹ã—ãŸæ™‚ã«çµ‚äº†
 					maidSearchCount = owner.maidInventory.mainInventory.length;
 					lflag = false;
 				}
@@ -262,7 +262,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 			}
 			
 			
-			// I—¹ó‘Ô‚ÌƒLƒƒƒ“ƒZƒ‹
+			// çµ‚äº†çŠ¶æ…‹ã®ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 			if (owner.getSwingStatusDominant().index == -1 && litemstack2 == null) {
 				owner.getNextEquipItem();
 			}

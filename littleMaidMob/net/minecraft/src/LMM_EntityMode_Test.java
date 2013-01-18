@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 	
 	
 	/**
-	 * ŠeíÀŒ±—pB 
+	 * å„ç¨®å®Ÿé¨“ç”¨ã€‚ 
 	 */
 	public LMM_EntityMode_Test(LMM_EntityLittleMaid pEntity) {
 		super(pEntity);
@@ -38,7 +38,7 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 	public void showSpecial(LMM_RenderLittleMaid prenderlittlemaid, double px, double py, double pz) {
 		if (!isEnable) return;
 		
-		// –¼‘O‚Æ‚©‚Ì•\¦—p
+		// åå‰ã¨ã‹ã®è¡¨ç¤ºç”¨
 		List<String> llist = new ArrayList<String>();
 		double ld;
 		
@@ -82,7 +82,7 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 	}
 
 	
-	// ƒfƒoƒbƒO•\¦ƒRƒ}ƒ“ƒh’Ç‰Á—p
+	// ãƒ‡ãƒãƒƒã‚°è¡¨ç¤ºã‚³ãƒãƒ³ãƒ‰è¿½åŠ ç”¨
 	
 	@Override
 	public int compareTo(Object arg0) {
@@ -147,7 +147,7 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 
 	@Override
 	public List addTabCompletionOptions(ICommandSender var1, String[] var2) {
-		// “Á‚É•ÏŠ·‚µ‚È‚¢
+		// ç‰¹ã«å¤‰æ›ã—ãªã„
 		return null;
 	}
 

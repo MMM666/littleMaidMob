@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,7 +26,7 @@ public class LMM_SoundManager {
 	
 
 	public static void setSoundRate(int soundindex, String value, String target) {
-		// •¶š—ñ‚ğ‰ğÍ‚µ‚Ä’l‚ğİ’è
+		// æ–‡å­—åˆ—ã‚’è§£æã—ã¦å€¤ã‚’è¨­å®š
 		String arg[] = value.split(",");
 		String tvalue;
 		Map<Integer, Float> mif;
@@ -38,7 +38,7 @@ public class LMM_SoundManager {
 		
 		for (String s : arg) {
 			if (s.indexOf(';') == -1) {
-				// ƒeƒNƒXƒ`ƒƒw’èŒ‚ª–³‚¢
+				// ãƒ†ã‚¯ã‚¹ãƒãƒ£æŒ‡å®šè©ãŒç„¡ã„
 				s = s.trim();
 				float lf = s.isEmpty() ? 1.0F : Float.valueOf(s);
 				if (target.isEmpty()) {
@@ -52,7 +52,7 @@ public class LMM_SoundManager {
 					mif.put(-1, lf);
 				}
 			} else {
-				// ƒeƒNƒXƒ`ƒƒw’èŒ‰ğÍ
+				// ãƒ†ã‚¯ã‚¹ãƒãƒ£æŒ‡å®šè©è§£æ
 				String ss[] = s.trim().split(";");
 				String ls[];
 				if (ss.length < 2) continue;
@@ -87,7 +87,7 @@ public class LMM_SoundManager {
 		if (texturename == null || texturename.length() == 0) texturename = ";";
 		Map<Integer, Float> mif = soundRateTexture.get(texturename);
 		if (mif == null) {
-			// w’èŒ‚Ì‚à‚Ì‚ª–³‚¯‚ê‚Î–³w’è‚Ì‚à‚Ì‚ğŒŸõ
+			// æŒ‡å®šè©ã®ã‚‚ã®ãŒç„¡ã‘ã‚Œã°ç„¡æŒ‡å®šã®ã‚‚ã®ã‚’æ¤œç´¢
 			mif = soundRateTexture.get(";");
 			if (mif == null) {
 				return soundRateDefault;
@@ -104,20 +104,20 @@ public class LMM_SoundManager {
 	}
 
 	public static void setSoundValue(int soundindex, String value, String target) {
-		// •¶š—ñ‚ğ‰ğÍ‚µ‚Ä’l‚ğİ’è
+		// æ–‡å­—åˆ—ã‚’è§£æã—ã¦å€¤ã‚’è¨­å®š
 		String arg[] = value.split(",");
 		
 		for (String s : arg) {
 			String tvalue;
 			if (s.indexOf(';') == -1) {
-				// ƒeƒNƒXƒ`ƒƒw’èŒ‚ª–³‚¢
+				// ãƒ†ã‚¯ã‚¹ãƒãƒ£æŒ‡å®šè©ãŒç„¡ã„
 				if (target == null || target.isEmpty()) {
 					tvalue = value;
 				} else {
 					tvalue = (new StringBuilder()).append(target).append(";-1;").append(value).toString();
 				}
 			} else {
-				// ƒeƒNƒXƒ`ƒƒw’èŒ‰ğÍ
+				// ãƒ†ã‚¯ã‚¹ãƒãƒ£æŒ‡å®šè©è§£æ
 				String ss[] = s.trim().split(";");
 				if (ss.length == 2) {
 					tvalue = (new StringBuilder()).append(target).append(";").append(value).toString();
@@ -130,15 +130,15 @@ public class LMM_SoundManager {
 	}
 	
 	public static void setSoundValue(int soundindex, String value) {
-		// •¶š—ñ‚ğ‰ğÍ‚µ‚Ä’l‚ğİ’è
+		// æ–‡å­—åˆ—ã‚’è§£æã—ã¦å€¤ã‚’è¨­å®š
 		String arg[] = value.split(",");
 		
 		for (String s : arg) {
 			if (s.indexOf(';') == -1) {
-				// ƒeƒNƒXƒ`ƒƒw’èŒ‚ª–³‚¢
+				// ãƒ†ã‚¯ã‚¹ãƒãƒ£æŒ‡å®šè©ãŒç„¡ã„
 				soundsDefault.put(soundindex, s.trim());
 			} else {
-				// ƒeƒNƒXƒ`ƒƒw’èŒ‰ğÍ
+				// ãƒ†ã‚¯ã‚¹ãƒãƒ£æŒ‡å®šè©è§£æ
 				Map<String, Map<Integer, String>> msi = soundsTexture.get(soundindex);
 				if (msi == null) {
 					msi = new HashMap<String, Map<Integer,String>>();
@@ -174,7 +174,7 @@ public class LMM_SoundManager {
 		if (texturename == null || texturename.length() == 0) texturename = ";";
 		Map<Integer, String> mst = msi.get(texturename);
 		if (mst == null) {
-			// w’èŒ‚Ì‚à‚Ì‚ª–³‚¯‚ê‚Î–³w’è‚Ì‚à‚Ì‚ğŒŸõ
+			// æŒ‡å®šè©ã®ã‚‚ã®ãŒç„¡ã‘ã‚Œã°ç„¡æŒ‡å®šã®ã‚‚ã®ã‚’æ¤œç´¢
 			mst = msi.get(";");
 			if (mst == null) {
 				return soundsDefault.get(enumsound.index);
@@ -191,7 +191,7 @@ public class LMM_SoundManager {
 	}
 
 	public static void rebuildSoundPack() {
-		// “Áê•¶š‚ğ’l‚É•ÏŠ·
+		// ç‰¹æ®Šæ–‡å­—ã‚’å€¤ã«å¤‰æ›
 		
 		// Default
 		for (Entry<Integer, String> lt : soundsDefault.entrySet()) {
@@ -240,7 +240,7 @@ public class LMM_SoundManager {
 	}
 	
 	public static void decodeSoundPack(File file, boolean isdefault) {
-		// ƒTƒEƒ“ƒhƒpƒbƒN‚ğ‰ğÍ‚µ‚Ä‰¹º‚ğİ’è
+		// ã‚µã‚¦ãƒ³ãƒ‰ãƒ‘ãƒƒã‚¯ã‚’è§£æã—ã¦éŸ³å£°ã‚’è¨­å®š
 		try {
 			List<LMM_EnumSound> list1 = new ArrayList<LMM_EnumSound>();
 			list1.addAll(Arrays.asList(LMM_EnumSound.values()));
@@ -287,7 +287,7 @@ public class LMM_SoundManager {
 	    	}
 	    	breader.close();
 	    	
-	    	// –³‚©‚Á‚½€–Ú‚ğcfg‚Ö’Ç‰Á
+	    	// ç„¡ã‹ã£ãŸé …ç›®ã‚’cfgã¸è¿½åŠ 
 	    	if (!list1.isEmpty()) {
 		    	BufferedWriter bwriter = new BufferedWriter(new FileWriter(file, true));
 	    		for (int i = 0; i < list1.size(); i++) {
@@ -315,7 +315,7 @@ public class LMM_SoundManager {
 					continue;
 				}
 				if (file.isFile() && file.canRead() && file.getName().endsWith(".cfg")) {
-					// ‰¹º’è‹`ƒtƒ@ƒCƒ‹‚Æ”F¯
+					// éŸ³å£°å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã¨èªè­˜
 					mod_LMM_littleMaidMob.Debug("Load SoundPack:" + file.getName());
 					decodeSoundPack(file, false);
 				}
@@ -329,7 +329,7 @@ public class LMM_SoundManager {
 	}
 
 	public static boolean loadDefaultSoundPack() {
-		// getAppDirg‚¤‚ÆƒfƒBƒŒƒNƒgƒŠ‚ª‚È‚¯‚ê‚Îì¬‚³‚ê‚é
+		// getAppDirä½¿ã†ã¨ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒãªã‘ã‚Œã°ä½œæˆã•ã‚Œã‚‹
 		File sounddir = Minecraft.getAppDir("minecraft/resources/mod/sound/littleMaidMob"); 
         File soundfile = new File(sounddir, "littleMaidMob.cfg"); 
 		if (soundfile.exists() && soundfile.isFile()) {
@@ -345,13 +345,13 @@ public class LMM_SoundManager {
 
 	
 	public static boolean createDefaultSoundPack(File file1) {
-		// ƒTƒEƒ“ƒh‚ÌƒfƒtƒHƒ‹ƒg’l‚ğİ’è
+		// ã‚µã‚¦ãƒ³ãƒ‰ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®š
 		for (LMM_EnumSound eslm : LMM_EnumSound.values()) {
 			if (eslm == LMM_EnumSound.Null) continue;
 			setSoundValue(eslm.index, eslm.DefaultValue);
 		}
 		
-		// ƒfƒtƒHƒ‹ƒgƒTƒEƒ“ƒhƒpƒbƒN‚ğì¬
+		// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µã‚¦ãƒ³ãƒ‰ãƒ‘ãƒƒã‚¯ã‚’ä½œæˆ
 		if (file1.exists()) {
 			return false;
 		}
@@ -376,7 +376,7 @@ public class LMM_SoundManager {
 	}
 	
 	protected static void writeBuffer(BufferedWriter buffer, LMM_EnumSound enumsound) throws IOException {
-		// “n‚³‚ê‚½WBuffer‚Ö‘‚«‚Ş
+		// æ¸¡ã•ã‚ŒãŸWBufferã¸æ›¸ãè¾¼ã‚€
 		if (enumsound == LMM_EnumSound.Null) return;
 		
 		buffer.write("# ");
@@ -392,7 +392,7 @@ public class LMM_SoundManager {
 	}
 
 	protected static void writeBufferSoundRate(BufferedWriter buffer, float prate) throws IOException {
-		// “n‚³‚ê‚½WBuffer‚Ö‘‚«‚Ş
+		// æ¸¡ã•ã‚ŒãŸWBufferã¸æ›¸ãè¾¼ã‚€
 		buffer.write("# Living Voice Rate. 1.0=100%, 0.5=50%, 0.0=0%");
 		buffer.newLine();
 		buffer.write("LivingVoiceRate=" + prate);

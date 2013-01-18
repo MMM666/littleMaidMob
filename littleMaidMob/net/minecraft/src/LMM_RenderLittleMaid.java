@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import java.util.Map.Entry;
 
@@ -26,7 +26,7 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 	}
 
 	protected int setArmorModelEx(LMM_EntityLittleMaid entitylmaid, int i, float f) {
-		// ƒA[ƒ}[‚Ì•\¦İ’è
+		// ã‚¢ãƒ¼ãƒãƒ¼ã®è¡¨ç¤ºè¨­å®š
 		modelFATT.renderParts = i;
 		ItemStack is = entitylmaid.maidInventory.armorItemInSlot(i);
 		if (is != null && is.stackSize > 0) {
@@ -53,14 +53,14 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 	}
 
 	public void doRenderLitlleMaid(LMM_EntityLittleMaid plittleMaid, double px, double py, double pz, float f, float f1) {
-		// ‚¢‚­‚Â‚©d•¡‚µ‚Ä‚é‚Ì‚Å‚ ‚Æ‚ÅŠm”F
-		// p¨‚É‚æ‚é‚‚³’²®
+		// ã„ãã¤ã‹é‡è¤‡ã—ã¦ã‚‹ã®ã§ã‚ã¨ã§ç¢ºèª
+		// å§¿å‹¢ã«ã‚ˆã‚‹é«˜ã•èª¿æ•´
 		double lay = py;
 		if(plittleMaid.isSneaking()) {
-			// ‚µ‚á‚ª‚İ
+			// ã—ã‚ƒãŒã¿
 			lay -= 0.06D;
 		} else if (plittleMaid.isRiding() && plittleMaid.ridingEntity == null) {
-			// À‚è‚İ
+			// åº§ã‚Šè¾¼ã¿
 			lay -= 0.25D;
 		}
 		
@@ -79,13 +79,13 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		plittleMaid.textureModel0.isSneak  = plittleMaid.textureModel1.isSneak  = plittleMaid.textureModel2.isSneak  = plittleMaid.isSneaking();
 		plittleMaid.textureModel0.aimedBow = plittleMaid.textureModel1.aimedBow = plittleMaid.textureModel2.aimedBow = plittleMaid.isAimebow();
 		plittleMaid.textureModel0.isWait   = plittleMaid.textureModel1.isWait   = plittleMaid.textureModel2.isWait   = plittleMaid.isMaidWaitEx();
-		// ‚¾‚ª–³ˆÓ–¡‚¾
+		// ã ãŒç„¡æ„å‘³ã 
 		plittleMaid.textureModel0.isChild = plittleMaid.textureModel1.isChild = plittleMaid.textureModel2.isChild = plittleMaid.isChild();
 		
 		doRenderLiving(plittleMaid, px, lay, pz, f, f1);
 		
 		
-		// ‚Ğ‚à
+		// ã²ã‚‚
 		if(plittleMaid.mstatgotcha != null && plittleMaid.mstatgotcha instanceof EntityLiving) {
 			EntityLiving lel = (EntityLiving)plittleMaid.mstatgotcha;
 			py -= 0.5D;
@@ -149,12 +149,12 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		} else {
 			((MMM_ModelBiped)modelMain.modelArmorInner).isRendering = false;
 		}
-		// ƒAƒCƒeƒ€‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOˆÊ’u‚ğŠl“¾‚·‚é‚½‚ßrender‚ğŒÄ‚Ô•K—v‚ª‚ ‚é
+		// ã‚¢ã‚¤ãƒ†ãƒ ã®ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ä½ç½®ã‚’ç²å¾—ã™ã‚‹ãŸã‚renderã‚’å‘¼ã¶å¿…è¦ãŒã‚ã‚‹
 		this.mainModel.render(par1EntityLiving, par2, par3, par4, par5, par6, par7);
 	}
 
 	protected void renderSpecials(LMM_EntityLittleMaid entitylittlemaid, float f) {
-		// ƒn[ƒhƒ|ƒCƒ“ƒg‚Ì•`‰æ
+		// ãƒãƒ¼ãƒ‰ãƒã‚¤ãƒ³ãƒˆã®æç”»
 		((MMM_ModelBiped)modelMain.modelArmorInner).renderItems(entitylittlemaid, this);
 	}
 
@@ -170,7 +170,7 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		if (par1EntityLiving instanceof LMM_EntityLittleMaid) {
 			LMM_EntityLittleMaid llmm = (LMM_EntityLittleMaid)par1EntityLiving;
 	
-			// ’Ç‰Á•ª
+			// è¿½åŠ åˆ†
 			for (int li = 0; li < llmm.maidEntityModeList.size(); li++) {
 				llmm.maidEntityModeList.get(li).showSpecial(this, par2, par4, par6);
 			}

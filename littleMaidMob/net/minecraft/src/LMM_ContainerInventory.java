@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 public class LMM_ContainerInventory extends Container {
 	
@@ -36,7 +36,7 @@ public class LMM_ContainerInventory extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {
-		// ŠJ‚¯‚é‚©‚Ç‚¤‚©‚Ì”»’è
+		// é–‹ã‘ã‚‹ã‹ã©ã†ã‹ã®åˆ¤å®š
 		LMM_EntityLittleMaid entitylittlemaid = littlemaidInventory.entityLittleMaid; 
 		if(entitylittlemaid.isDead) {
 //		if(entitylittlemaid.isDead || entitylittlemaid.isOpenInventory()) {

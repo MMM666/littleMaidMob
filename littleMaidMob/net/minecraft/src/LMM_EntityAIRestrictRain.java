@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 public class LMM_EntityAIRestrictRain extends EntityAIBase implements LMM_IEntityAI {
 
@@ -26,7 +26,7 @@ public class LMM_EntityAIRestrictRain extends EntityAIBase implements LMM_IEntit
         theEntity.getNavigator().setAvoidSun(false);
     }
 
-	// Às‰Â”\ƒtƒ‰ƒO
+	// å®Ÿè¡Œå¯èƒ½ãƒ•ãƒ©ã‚°
 	@Override
 	public void setEnable(boolean pFlag) {
 		isEnable = pFlag;

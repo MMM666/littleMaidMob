@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.EXTRescaleNormal;
@@ -118,11 +118,11 @@ public class LMM_GuiInventory extends GuiContainer {
 		int ii = i - guiLeft;
 		int jj = j - guiTop;
 
-		// TODO:ƒƒCƒhƒAƒZƒ“ƒuƒ‹‰æ–Ê‚ðì‚é
+		// TODO:ãƒ¡ã‚¤ãƒ‰ã‚¢ã‚»ãƒ³ãƒ–ãƒ«ç”»é¢ã‚’ä½œã‚‹
 		if (ii > 25 && ii < 78 && jj > 7 && jj < 60) {
-			// ‰¾—…•\Ž¦—Ìˆæ
+			// ä¼½ç¾…è¡¨ç¤ºé ˜åŸŸ
 			if (Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54)) {
-				// Shift+‚Å‹tŽü‚è
+				// Shift+ã§é€†å‘¨ã‚Š
 				LMM_Client.setPrevTexturePackege(entitylittlemaid, k);
 			} else {
 				LMM_Client.setNextTexturePackege(entitylittlemaid, k);
@@ -140,7 +140,7 @@ public class LMM_GuiInventory extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-		// ”wŒi
+		// èƒŒæ™¯
 		String s = MMM_TextureManager.getTextureName(entitylittlemaid.textureName, MMM_TextureManager.tx_gui);
 		if (s == null) {
 			s = "/gui/littlemaidinventory.png";
@@ -213,7 +213,7 @@ public class LMM_GuiInventory extends GuiContainer {
 			}
 		}
 
-		// ƒLƒƒƒ‰
+		// ã‚­ãƒ£ãƒ©
 		GL11.glEnable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glPushMatrix();
@@ -250,7 +250,7 @@ public class LMM_GuiInventory extends GuiContainer {
 	}
 
 	private void displayDebuffEffects() {
-		// ƒ|[ƒVƒ‡ƒ“ƒGƒtƒFƒNƒg‚Ì•\Ž¦
+		// ãƒãƒ¼ã‚·ãƒ§ãƒ³ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®è¡¨ç¤º
 		int i = guiLeft - 124;
 		int j = guiTop;
 		int k = mc.renderEngine.getTexture("/gui/inventory.png");

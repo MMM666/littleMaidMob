@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 //	public static Minecraft mcGame;
 
-	// TODO:’è”‚Í—vC³
+	// TODO:å®šæ•°ã¯è¦ä¿®æ­£
 	private static final float moveSpeed_Nomal		= 0.23F;
 	private static final float moveSpeed_Max		= 0.3F;
 	private static final float moveSpeed_Overdrive	= 1.0F;
@@ -45,10 +45,10 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	protected static final int dataFlags_ForceUpdateInventory	= 0x80000000;
 	
 	
-//    protected long maidContractLimit;		// Œ_–ñ¸Œø“ú
-	protected int maidContractLimit;		// Œ_–ñŠúŠÔ
-	protected long maidAnniversary;			// Œ_–ñ“úUID‚Æ‚µ‚Äg—p
-	protected int maidDominantArm;			// —˜‚«˜rA1Byte
+//    protected long maidContractLimit;		// å¥‘ç´„å¤±åŠ¹æ—¥
+	protected int maidContractLimit;		// å¥‘ç´„æœŸé–“
+	protected long maidAnniversary;			// å¥‘ç´„æ—¥UIDã¨ã—ã¦ä½¿ç”¨
+	protected int maidDominantArm;			// åˆ©ãè…•ã€1Byte
 	public String textureArmor0[] = new String[4];
 	public String textureArmor1[] = new String[4];
 	public String textureName;
@@ -77,17 +77,17 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	public boolean maidContract;
 	public int homeWorld;
 	
-	// “®“I‚Èó‘Ô
-	protected EntityPlayer mstatMasterEntity;	// å
-	protected double mstatMasterDistanceSq;		// å‚Æ‚Ì‹——£AŒvZŒy—Ê‰»—p
-	protected Entity mstatgotcha;			// ƒƒCƒ„[ƒh—p
+	// å‹•çš„ãªçŠ¶æ…‹
+	protected EntityPlayer mstatMasterEntity;	// ä¸»
+	protected double mstatMasterDistanceSq;		// ä¸»ã¨ã®è·é›¢ã€è¨ˆç®—è»½é‡åŒ–ç”¨
+	protected Entity mstatgotcha;			// ãƒ¯ã‚¤ãƒ¤ãƒ¼ãƒ‰ç”¨
 //    protected TileEntity mstatTile;
 	protected boolean mstatBloodsuck;
 	protected boolean mstatClockMaid;
-	// ƒ}ƒXƒN”»’è
+	// ãƒã‚¹ã‚¯åˆ¤å®š
 //    protected boolean mstatMaskedMaid;
 	protected int mstatMaskSelect;
-	// ’Ç‰Á‚Ì“ª•”‘•”õ
+	// è¿½åŠ ã®é ­éƒ¨è£…å‚™
 	protected boolean mstatCamouflage;
 	protected boolean mstatPlanter;
 	protected boolean isMaidChaseWait;
@@ -101,32 +101,32 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	protected String mstatModeName;
 //    protected int timeSinceIgnited;
 	protected boolean mstatOpenInventory;
-	// ˜rU‚è
+	// è…•æŒ¯ã‚Š
 	public LMM_SwingStatus mstatSwingStatus[]; 
 	public boolean mstatAimeBow;
-	// ñü‚è
+	// é¦–å‘¨ã‚Š
 	private boolean looksWithInterest;
 	private boolean looksWithInterestAXIS;
 	private float rotateAngleHead;			// Angle
 	private float prevRotateAngleHead;		// prevAngle
 
 	/**
-	 * ŒÂ‘Ì‚²‚Æ‚É’l‚ğƒoƒ‰‚Â‚©‚¹‚é‚Ì‚Ég‚¤B
+	 * å€‹ä½“ã”ã¨ã«å€¤ã‚’ãƒãƒ©ã¤ã‹ã›ã‚‹ã®ã«ä½¿ã†ã€‚
 	 */
 	public float entityIdFactor;
 	
-	public boolean weaponFullAuto;	// ‘•”õ‚ªƒtƒ‹ƒI[ƒg•Ší‚©‚Ç‚¤‚©
-	public boolean weaponReload;	// ‘•”õ‚ªƒŠƒ[ƒh‚ğ—~‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
+	public boolean weaponFullAuto;	// è£…å‚™ãŒãƒ•ãƒ«ã‚ªãƒ¼ãƒˆæ­¦å™¨ã‹ã©ã†ã‹
+	public boolean weaponReload;	// è£…å‚™ãŒãƒªãƒ­ãƒ¼ãƒ‰ã‚’æ¬²ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹
 	public boolean maidCamouflage;
 	
 	
-	// ‰¹º
+	// éŸ³å£°
 	protected LMM_EnumSound maidAttackSound;
 	protected LMM_EnumSound maidDamegeSound;
 	protected int maidSoundInterval;
 	protected float maidSoundRate;
 	
-	// ÀŒ±—p
+	// å®Ÿé¨“ç”¨
 	private int firstload = 1;
 	public String statusMessage = "";
 	
@@ -157,7 +157,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	public LMM_EntityLittleMaid(World par1World) {
 		super(par1World);
-		// ‰Šúİ’è
+		// åˆæœŸè¨­å®š
 		maidInventory = new LMM_InventoryLittleMaid(this);
 		if (par1World != null ) {
 			maidAvatar = new LMM_EntityLittleMaidAvatar(par1World, MMM_Helper.mc, this);
@@ -171,33 +171,33 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		mstatWorkingCount = new MMM_Counter(11, 10, 0);
 		
 		entityIdFactor = (float)(entityId * 70);
-		// ˜rU‚è
+		// è…•æŒ¯ã‚Š
 		mstatSwingStatus = new LMM_SwingStatus[] { new LMM_SwingStatus(), new LMM_SwingStatus()};
 //		maidDominantArm = rand.nextInt(mstatSwingStatus.length);
 		setDominantArm(rand.nextInt(mstatSwingStatus.length));
 		
-		// Ä¶‰¹º
+		// å†ç”ŸéŸ³å£°
 		maidAttackSound = LMM_EnumSound.attack;
 		maidDamegeSound = LMM_EnumSound.hurt;
 		maidSoundInterval = 0;
 		
-		// –ì¶í—p‰Šú’lİ’è
+		// é‡ç”Ÿç¨®ç”¨åˆæœŸå€¤è¨­å®š
 		health = 15;
 		
-		// ˆÚ“®—pƒtƒBƒWƒJƒ‹İ’è
+		// ç§»å‹•ç”¨ãƒ•ã‚£ã‚¸ã‚«ãƒ«è¨­å®š
 		getNavigator().setAvoidsWater(true);
 		getNavigator().setBreakDoors(true);
 		moveSpeed = moveSpeed_Nomal;
 		
 		
-		// TODO:‚±‚ê‚ÍƒeƒXƒg
+		// TODO:ã“ã‚Œã¯ãƒ†ã‚¹ãƒˆ
 //		maidStabilizer.put("HeadTop", MMM_StabilizerManager.getStabilizer("WitchHat", "HeadTop"));
 		
 		
 		
-		// Œ`‘ÔŒ`¬ê
+		// å½¢æ…‹å½¢æˆå ´
 		if (!worldObj.isRemote) {
-			// ƒeƒNƒXƒ`ƒƒ[‚ğƒ‰ƒ“ƒ_ƒ€‚Å‘I‘ğ
+			// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¼ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã§é¸æŠ
 			if (mod_LMM_littleMaidMob.defaultTexture.isEmpty()) {
 				textureName = textureArmorName = MMM_TextureManager.getRandomTexture(rand);
 			} else {
@@ -208,11 +208,11 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 				textureName = textureArmorName = "default";
 				textureIndex = textureArmorIndex = MMM_TextureManager.getStringToIndex(textureName);
 			}
-			// –ì¶‚ÌƒƒCƒhF‚ğƒ‰ƒ“ƒ_ƒ€‚Åw’è
+			// é‡ç”Ÿã®ãƒ¡ã‚¤ãƒ‰è‰²ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã§æŒ‡å®š
 			maidColor = MMM_TextureManager.getRandomWildColor(textureIndex, rand);
 			mod_LMM_littleMaidMob.Debug(String.format("init-ID:%d, %s:%d", entityId, textureName, maidColor));
 			if (maidColor == -1) {
-				// w’èF‚ª–³‚¢ê‡‚Í•W€ƒ‚ƒfƒ‹‚É
+				// æŒ‡å®šè‰²ãŒç„¡ã„å ´åˆã¯æ¨™æº–ãƒ¢ãƒ‡ãƒ«ã«
 				textureName = textureArmorName = "default";
 				maidColor = 12;
 				textureIndex = textureArmorIndex = 0;
@@ -226,10 +226,10 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		}
 		
 		
-		// EntityMode‚Ì’Ç‰Á
+		// EntityModeã®è¿½åŠ 
 		maidEntityModeList = LMM_EntityModeManager.getModeList(this);
 		
-		// ƒ‚[ƒhƒŠƒXƒg
+		// ãƒ¢ãƒ¼ãƒ‰ãƒªã‚¹ãƒˆ
 		maidActiveModeClass = null;
 		maidModeList = new HashMap<Integer, EntityAITasks[]>();
 		maidModeIndexList = new HashMap<String, Integer>();
@@ -243,7 +243,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	protected void entityInit() {
 		super.entityInit();
 		/*
-		 * DataWatcher‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒT[ƒo[‚Ö‚Í’l‚ğ“n‚³‚È‚¢
+		 * DataWatcherã¯ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰ã‚µãƒ¼ãƒãƒ¼ã¸ã¯å€¤ã‚’æ¸¡ã•ãªã„
 		 */
 		
 		
@@ -251,18 +251,18 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		// 16: Tame(4), Sit(1) 
 		// 17:ownerName
 		
-		// “Æ©•ª
+		// ç‹¬è‡ªåˆ†
 		// 18:HP
 		mod_LMM_littleMaidMob.Debug(String.format("Client: %b, Spawn HP:%d", worldObj.isRemote, getHealth()));
 //        dataWatcher.addObject(dataWatch_Health, new Integer(getHealth()));
 		dataWatcher.addObject(dataWatch_Health, new Integer(getMaxHealth()));
-		// 19:maidMode(16Bit:LSB)AmaidColor(8Bit:<<16)AmaidDominantArm(8Bit:<<24);
+		// 19:maidMode(16Bit:LSB)ã€maidColor(8Bit:<<16)ã€maidDominantArm(8Bit:<<24);
 		dataWatcher.addObject(dataWatch_ColorMode, new Integer((maidMode & 0xffff) | ((maidColor & 0xff) << 16) | ((maidDominantArm & 0xff) << 24)));
-		// 20:‘I‘ğƒeƒNƒXƒ`ƒƒƒCƒ“ƒfƒbƒNƒX
+		// 20:é¸æŠãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 		dataWatcher.addObject(dataWatch_Texture, Integer.valueOf(0));
-		// 21:ƒA[ƒ}[ƒeƒNƒXƒ`ƒƒƒCƒ“ƒfƒbƒNƒX
+		// 21:ã‚¢ãƒ¼ãƒãƒ¼ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 //        dataWatcher.addObject(dataWatch_TexArmar, Integer.valueOf(0));
-		// 22:ó‘Ô‘JˆÚƒtƒ‰ƒOŒQ(32Bit)
+		// 22:çŠ¶æ…‹é·ç§»ãƒ•ãƒ©ã‚°ç¾¤(32Bit)
 		// isLookSuger, looksWithInterest, isContract, isBloodsuck, isWorking, isWait
 		dataWatcher.addObject(dataWatch_Flags, new Integer(0));
 		// 23:GotchaID
@@ -271,7 +271,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		// TODO:test:30:
 		dataWatcher.addObject(30, new Integer(0));
 
-		// 31:©—R•Ï”AEntityMode“™‚Åg—p‰Â”\‚È•Ï”B
+		// 31:è‡ªç”±å¤‰æ•°ã€EntityModeç­‰ã§ä½¿ç”¨å¯èƒ½ãªå¤‰æ•°ã€‚
 		dataWatcher.addObject(dataWatch_Free, new Integer(0));
 		
 	}
@@ -297,10 +297,10 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		aiTracer = new LMM_EntityAITracerMove(this);
 		aiSit = new LMM_EntityAIWait(this);
 				
-		// TODO:‚±‚ê‚¢‚ç‚È‚­‚ËH
+		// TODO:ã“ã‚Œã„ã‚‰ãªãã­ï¼Ÿ
 		aiProfiler = worldObj != null && worldObj.theProfiler != null ? worldObj.theProfiler : null;
 
-		// “®ìƒ‚[ƒh—p‚ÌTasksList‚ğ‰Šú‰»
+		// å‹•ä½œãƒ¢ãƒ¼ãƒ‰ç”¨ã®TasksListã‚’åˆæœŸåŒ–
 		EntityAITasks ltasks[] = new EntityAITasks[2];
 		ltasks[0] = new EntityAITasks(aiProfiler);
 		ltasks[1] = new EntityAITasks(aiProfiler);
@@ -318,16 +318,16 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		ltasks[0].addTask(10, aiAvoidPlayer);
 		ltasks[0].addTask(11, aiFreeRain);
 		ltasks[0].addTask(12, aiCollectItem);
-		// ˆÚ“®—pAI
+		// ç§»å‹•ç”¨AI
 		ltasks[0].addTask(15, aiTracer);
 		ltasks[0].addTask(16, aiFollow);
 		ltasks[0].addTask(17, aiWander);
 		ltasks[0].addTask(18, new EntityAILeapAtTarget(this, 0.3F));
-		// Mutex‚Ì‰e‹¿‚µ‚È‚¢“Áês“®
+		// Mutexã®å½±éŸ¿ã—ãªã„ç‰¹æ®Šè¡Œå‹•
 		ltasks[0].addTask(20, aiCloseDoor);
 		ltasks[0].addTask(21, aiOpenDoor);
 		ltasks[0].addTask(22, aiRestrictRain);
-		// ñ‚Ì“®‚«’P“Æ
+		// é¦–ã®å‹•ãå˜ç‹¬
 		ltasks[0].addTask(31, new EntityAIWatchClosest(this, net.minecraft.src.EntityLiving.class, 10F));
 		ltasks[0].addTask(32, new EntityAILookIdle(this));
 
@@ -336,7 +336,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 //		addMaidMode(ltasks, "Escorter", 0x0001);
 		
 
-		// ’Ç‰Á•ª
+		// è¿½åŠ åˆ†
 		for (LMM_EntityModeBase ieml : maidEntityModeList) {
 			ieml.addEntityMode(ltasks[0], ltasks[1]);
 		}
@@ -379,7 +379,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 	
 	public String getMaidModeString(int pindex) {
-		// ƒ‚[ƒh–¼Ì‚ÌŠl“¾
+		// ãƒ¢ãƒ¼ãƒ‰åç§°ã®ç²å¾—
 		String ls = "";
 		for (Entry<String, Integer> le : maidModeIndexList.entrySet()) {
 			if (le.getValue() == pindex) {
@@ -406,7 +406,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 		
 	public boolean setMaidMode(int pindex, boolean pplaying) {
-		// ƒ‚[ƒh‚É‰‚¶‚ÄAI‚ğØ‚è‘Ö‚¦‚é
+		// ãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ã¦AIã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
 		velocityChanged = true;
 		if (!maidModeList.containsKey(pindex)) return false;
 		if (maidMode == pindex) return true;
@@ -425,7 +425,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 //		}
 		EntityAITasks[] ltasks = maidModeList.get(pindex);
 		
-		// AI‚ğª’ê‚©‚ç‘‚«Š·‚¦‚é
+		// AIã‚’æ ¹åº•ã‹ã‚‰æ›¸ãæ›ãˆã‚‹
 		if (ltasks.length > 0 && ltasks[0] != null) {
 			setMaidModeAITasks(ltasks[0], tasks);
 		} else {
@@ -437,7 +437,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			setMaidModeAITasks(null, targetTasks);
 		}
 
-		// ƒ‚[ƒhØ‘Ö‚É‰‚¶‚½ˆ—Œn‚ğŠm•Û
+		// ãƒ¢ãƒ¼ãƒ‰åˆ‡æ›¿ã«å¿œã˜ãŸå‡¦ç†ç³»ã‚’ç¢ºä¿
 		setActiveModeClass(null);
 		aiJumpTo.setEnable(true);
 //		aiFollow.setEnable(true);
@@ -459,8 +459,8 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	protected void setMaidModeAITasks(EntityAITasks pTasksSRC, EntityAITasks pTasksDEST) {
-		// Šù‘¶‚ÌAI‚ğíœ‚µ‚Ä’u‚«Š·‚¦‚éB
-		// “®ì‚ğƒNƒŠƒA
+		// æ—¢å­˜ã®AIã‚’å‰Šé™¤ã—ã¦ç½®ãæ›ãˆã‚‹ã€‚
+		// å‹•ä½œã‚’ã‚¯ãƒªã‚¢
 		try {
 			ArrayList<EntityAITaskEntry> ltasksDoDEST = (ArrayList<EntityAITaskEntry>)ModLoader.getPrivateValue(EntityAITasks.class, pTasksDEST, 0);
 			ArrayList<EntityAITaskEntry> ltasksExeDEST = (ArrayList<EntityAITaskEntry>)ModLoader.getPrivateValue(EntityAITasks.class, pTasksDEST, 1);
@@ -488,7 +488,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		
 	}
 	
-	// “K—p‚³‚ê‚Ä‚¢‚éƒ‚[ƒhƒNƒ‰ƒX
+	// é©ç”¨ã•ã‚Œã¦ã„ã‚‹ãƒ¢ãƒ¼ãƒ‰ã‚¯ãƒ©ã‚¹
 	public LMM_EntityModeBase getActiveModeClass() {
 		return maidActiveModeClass;
 	}
@@ -501,7 +501,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		return maidActiveModeClass != null;
 	}
 	
-    // Œø‰Ê‰¹‚Ìİ’è
+    // åŠ¹æœéŸ³ã®è¨­å®š
     @Override
     protected String getHurtSound() {
       	playLittleMaidSound(maidDamegeSound, true);
@@ -516,7 +516,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     
     @Override
     protected String getLivingSound() {
-    	// •’i‚Ìº
+    	// æ™®æ®µã®å£°
     	LMM_EnumSound so = LMM_EnumSound.Null;
     	if (health < 10)
             so = LMM_EnumSound.living_whine;
@@ -555,12 +555,12 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
     
     public void playSoundAtEntity(String pname) {
-    	// ŠÈˆÕ‰¹ºÄ¶
+    	// ç°¡æ˜“éŸ³å£°å†ç”Ÿ
     	worldObj.playSoundAtEntity(this, pname, 0.5F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
     }
     
     public void playLittleMaidSound(LMM_EnumSound enumsound, boolean force) {
-    	// ‰¹º‚ÌÄ¶
+    	// éŸ³å£°ã®å†ç”Ÿ
     	if ((maidSoundInterval > 0 && !force) || enumsound == LMM_EnumSound.Null) return;
     	maidSoundInterval = 20;
     	
@@ -575,13 +575,13 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     
     @Override
     protected boolean canDespawn() {
-    	// ƒfƒXƒ|[ƒ“”»’è
+    	// ãƒ‡ã‚¹ãƒãƒ¼ãƒ³åˆ¤å®š
     	return mod_LMM_littleMaidMob.canDespawn || super.canDespawn();
     }
     
     @Override
     public boolean getCanSpawnHere() {
-    	// ƒXƒ|[ƒ“‰Â”\‚©H
+    	// ã‚¹ãƒãƒ¼ãƒ³å¯èƒ½ã‹ï¼Ÿ
     	if (mod_LMM_littleMaidMob.spawnLimit <= getMaidCount()) {
     		mod_LMM_littleMaidMob.Debug("Spawn Limit.");
     		return false;
@@ -590,7 +590,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
         int ly = MathHelper.floor_double(this.boundingBox.minY);
         int lz = MathHelper.floor_double(this.posZ);
 /*
-	// TODO:ƒT[ƒo[‘¤‚Å”»’è‚Å‚«‚È‚¢‚Ì‚ÅˆÓ–¡‚È‚µ
+	// TODO:ã‚µãƒ¼ãƒãƒ¼å´ã§åˆ¤å®šã§ããªã„ã®ã§æ„å‘³ãªã—
     	if (worldObj == null || textureModel == null  
     			|| !textureModel[0].getCanSpawnHere(worldObj, lx, ly, lz, this)) {
     		mod_LMM_littleMaidMob.Debug(String.format("%s is can't spawn hear.", textureName));
@@ -598,7 +598,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     	}
 */
     	if (mod_LMM_littleMaidMob.Dominant) {
-    		// ƒhƒ~ƒiƒ“ƒg
+    		// ãƒ‰ãƒŸãƒŠãƒ³ãƒˆ
     		return this.worldObj.checkIfAABBIsClear(this.boundingBox) 
     				&& this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() 
     				&& !this.worldObj.isAnyLiquid(this.boundingBox)
@@ -620,7 +620,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     }
 
 	/**
-	 * “Ç‚İ‚İ—Ìˆæ“à‚ÌƒƒCƒh‚³‚ñ‚Ì”
+	 * èª­ã¿è¾¼ã¿é ˜åŸŸå†…ã®ãƒ¡ã‚¤ãƒ‰ã•ã‚“ã®æ•°
 	 */
 	public int getMaidCount() {
 		int lj = 0;
@@ -634,17 +634,17 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	public EntityAgeable createChild(EntityAgeable var1) {
-		// ‚¨q‚³‚ñ‚Ìİ’è
+		// ãŠå­ã•ã‚“ã®è¨­å®š
 		return null;
 	}
 
 	@Override
 	public int getMaxHealth() {
-		// Å‘åHP
+		// æœ€å¤§HP
 		return 20;
 	}
 	
-    // ƒGƒtƒFƒNƒg•\¦
+    // ã‚¨ãƒ•ã‚§ã‚¯ãƒˆè¡¨ç¤º
     protected void showParticleFX(String s) {
     	showParticleFX(s, 1D, 1D, 1D);
     }
@@ -664,14 +664,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	public void handleHealthUpdate(byte par1) {
-        // worldObj.setEntityState(this, (byte))‚Åw’è‚³‚ê‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs
+        // worldObj.setEntityState(this, (byte))ã§æŒ‡å®šã•ã‚ŒãŸã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚’å®Ÿè¡Œ
 		switch (par1) {
 		case 10:
-			// •s‹@Œ™
+			// ä¸æ©Ÿå«Œ
     		showParticleFX("smoke", 0.02D, 0.02D, 0.02D);
 			break;
 		case 11:
-			// ƒSƒLƒQƒ“
+			// ã‚´ã‚­ã‚²ãƒ³
 	    	double a = getContractLimitDays() / 7D;
 	        double d6 = a * 0.3D;
 	        double d7 = a;
@@ -679,15 +679,15 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	        worldObj.spawnParticle("note", posX, posY + height + 0.1D, posZ, d6, d7, d8);
 			break;
 		case 12:
-			// ©—Rs“®
+			// è‡ªç”±è¡Œå‹•
     		showParticleFX("reddust", 0.5D, 0.5D, 0.5D, 1.0D, 1.0D, 1.0D);
     		break;
 		case 13:
-			// •s©—Rs“®
+			// ä¸è‡ªç”±è¡Œå‹•
     		showParticleFX("smoke", 0.02D, 0.02D, 0.02D);
     		break;
 		case 14:
-			// ƒgƒŒ[ƒT[
+			// ãƒˆãƒ¬ãƒ¼ã‚µãƒ¼
        		showParticleFX("explode", 0.3D, 0.3D, 0.3D, 0.0D, 0.0D, 0.0D);
        		break;
 			
@@ -698,7 +698,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	
 
     public int colorMultiplier(float pLight, float pPartialTicks) {
-    	// ”­Œõˆ——p
+    	// ç™ºå…‰å‡¦ç†ç”¨
     	int lbase = 0;
     	if (maidOverDriveTime.isEnable()) {
             int i;
@@ -718,18 +718,18 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     }
     
 	
-	// AIŠÖ˜A
+	// AIé–¢é€£
 	@Override
 	protected boolean isAIEnabled() {
-		// VAI‘Î‰
+		// æ–°AIå¯¾å¿œ
 		return true;
 	}
 	
 	/**
-	 * “G–¡•û¯•Ê
+	 * æ•µå‘³æ–¹è­˜åˆ¥
 	 */
 	public boolean getIFF(Entity pEntity) {
-		// “G–¡•û¯•Ê(“G=false)
+		// æ•µå‘³æ–¹è­˜åˆ¥(æ•µ=false)
 		if (pEntity == null || pEntity == mstatMasterEntity) {
 			return true;
 		}
@@ -742,17 +742,17 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			return true;
 		case LMM_IFF.iff_Unknown:
 			if (isBloodsuck()) {
-				// ŒŒ‚É‰ì‚¦‚Ä‚¢‚é‚Í“G
+				// è¡€ã«é¤“ãˆã¦ã„ã‚‹æ™‚ã¯æ•µ
 				return false;
 			}
 			if (pEntity instanceof LMM_EntityLittleMaid) {
-				// ‚¨—V‚Ñƒ‚[ƒh‚ÌƒƒCƒh‚É‚Í“G‘Î‚µ‚È‚¢
+				// ãŠéŠã³ãƒ¢ãƒ¼ãƒ‰ã®ãƒ¡ã‚¤ãƒ‰ã«ã¯æ•µå¯¾ã—ãªã„
 				if (((LMM_EntityLittleMaid)pEntity).mstatPlayingRole > LMM_EntityMode_Playing.mpr_NULL) {
 					return true;
 				}
 			}
 			if (pEntity instanceof EntityCreature) {
-				// ‘Šè‚ª‰½‚ğƒ^[ƒQƒbƒg‚É‚µ‚Ä‚¢‚é‚©‚ÅŒˆ‚Ü‚é
+				// ç›¸æ‰‹ãŒä½•ã‚’ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã«ã—ã¦ã„ã‚‹ã‹ã§æ±ºã¾ã‚‹
 				Entity et = ((EntityCreature)pEntity).getEntityToAttack();
 				if (et != null && et == mstatMasterEntity) {
 					return false;
@@ -761,7 +761,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 					return false;
 				}
 				if (et instanceof LMM_EntityLittleMaid) {
-					// “¯‚¶ƒ}ƒXƒ^[‚ÌƒƒCƒh‚ğUŒ‚‘ÎÛ‚Æ‚µ‚Ä‚¢‚é
+					// åŒã˜ãƒã‚¹ã‚¿ãƒ¼ã®ãƒ¡ã‚¤ãƒ‰ã‚’æ”»æ’ƒå¯¾è±¡ã¨ã—ã¦ã„ã‚‹
 					if (((LMM_EntityLittleMaid)et).getMaidMasterEntity() == mstatMasterEntity) {
 						return false;
 					}
@@ -776,24 +776,24 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	public boolean canAttackClass(Class par1Class) {
-		// TODO: IFF‚Ìİ’èAƒNƒ‰ƒX–ˆ‚Ì”»’è‚µ‚©‚Å‚«‚È‚¢‚Ì‚Åg‚í‚È‚¢B
+		// TODO: IFFã®è¨­å®šã€ã‚¯ãƒ©ã‚¹æ¯ã®åˆ¤å®šã—ã‹ã§ããªã„ã®ã§ä½¿ã‚ãªã„ã€‚
 		return true;
 	}
 
 	@Override
 	public boolean attackEntityAsMob(Entity par1Entity) {
 		
-		// ³í‚Í‰ñ•œ—Dæˆ—
+		// æ­£å¸¸æ™‚ã¯å›å¾©å„ªå…ˆå‡¦ç†
 		if (health < 10 && !isBloodsuck() && maidInventory.hasItem(Item.sugar.itemID)) {
 			return true;
 		}
 		
-		// “Áê‚ÈUŒ‚ˆ—
+		// ç‰¹æ®Šãªæ”»æ’ƒå‡¦ç†
 		if (isActiveModeClass() && getActiveModeClass().attackEntityAsMob(maidMode, par1Entity)) {
 			return true;
 		}
 		
-		// •W€ˆ—
+		// æ¨™æº–å‡¦ç†
 		setSwing(20, isBloodsuck() ? LMM_EnumSound.attack_bloodsuck : LMM_EnumSound.attack);
 		maidAvatar.attackTargetEntityWithCurrentItem(par1Entity);
 		return true;
@@ -801,7 +801,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	public boolean isBreedingItem(ItemStack par1ItemStack) {
-		// ‚¨D‚İ‚Í‰½H
+		// ãŠå¥½ã¿ã¯ä½•ï¼Ÿ
 		if (isMaidContractEX()) {
 			return par1ItemStack.itemID == Item.sugar.itemID;
 		} else {
@@ -812,7 +812,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
-		// ƒf[ƒ^ƒZ[ƒu
+		// ãƒ‡ãƒ¼ã‚¿ã‚»ãƒ¼ãƒ–
 		super.writeEntityToNBT(par1nbtTagCompound);
 		
 		par1nbtTagCompound.setTag("Inventory", maidInventory.writeToNBT(new NBTTagList()));
@@ -843,7 +843,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		par1nbtTagCompound.setInteger("homeZ", getHomePosition().posZ);
 		par1nbtTagCompound.setInteger("homeWorld", homeWorld);
 		
-		// ’Ç‰Á•ª
+		// è¿½åŠ åˆ†
 		for (int li = 0; li < maidEntityModeList.size(); li++) {
 			maidEntityModeList.get(li).writeEntityToNBT(par1nbtTagCompound);
 		}
@@ -851,11 +851,11 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound) {
-		// ƒf[ƒ^ƒ[ƒh
+		// ãƒ‡ãƒ¼ã‚¿ãƒ­ãƒ¼ãƒ‰
 		super.readEntityFromNBT(par1nbtTagCompound);
 		
 		if (par1nbtTagCompound.hasKey("ModeColor")) {
-			// ‹Œ”Å‚©‚ç‚ÌŒp³
+			// æ—§ç‰ˆã‹ã‚‰ã®ç¶™æ‰¿
 	        String s = par1nbtTagCompound.getString("Master");
 	        if(s.length() > 0) {
 	        	setOwner(s);
@@ -863,7 +863,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	        }
 	        NBTTagList nbttaglist = par1nbtTagCompound.getTagList("Inventory");
 	        maidInventory.readFromNBT(nbttaglist);
-	        // ƒA[ƒ}[ƒXƒƒbƒg•ÏX‚É‘Î‰‚·‚é‚½‚ß‚ÌƒR[ƒh
+	        // ã‚¢ãƒ¼ãƒãƒ¼ã‚¹ãƒ­ãƒƒãƒˆå¤‰æ›´ã«å¯¾å¿œã™ã‚‹ãŸã‚ã®ã‚³ãƒ¼ãƒ‰
 	        ItemStack[] armi = new ItemStack[4];
 	        for (int i = 0; i < 4; i++) {
 	        	ItemStack is = maidInventory.armorItemInSlot(i);
@@ -946,12 +946,12 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			}
 			maidAnniversary = par1nbtTagCompound.getLong("Anniversary");
 			if (maidAnniversary == 0L && isMaidContract()) {
-				// ƒ_ƒ~[‚Ì”’l‚ğ“ü‚ê‚é
+				// ãƒ€ãƒŸãƒ¼ã®æ•°å€¤ã‚’å…¥ã‚Œã‚‹
 				maidAnniversary = worldObj.getWorldTime() - entityId;
 			}
 			
 		} else {
-			// VŒ^
+			// æ–°å‹
 			mod_LMM_littleMaidMob.Debug("read." + worldObj.isRemote);
 			
 			maidInventory.readFromNBT(par1nbtTagCompound.getTagList("Inventory"));
@@ -970,13 +970,13 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 				}
 			}
 			if (isMaidContract() && maidContractLimit == 0) {
-				// ’l‚ª‚¨‚©‚µ‚¢‚Í‚P“ú•ª
+				// å€¤ãŒãŠã‹ã—ã„æ™‚ã¯ï¼‘æ—¥åˆ†
 //	        	maidContractLimit = worldObj.getWorldTime() + 24000L;
 				maidContractLimit = 24000;
 			}
 			maidAnniversary = par1nbtTagCompound.getLong("Anniversary");
 			if (maidAnniversary == 0L && isMaidContract()) {
-				// ƒ_ƒ~[‚Ì”’l‚ğ“ü‚ê‚é
+				// ãƒ€ãƒŸãƒ¼ã®æ•°å€¤ã‚’å…¥ã‚Œã‚‹
 				maidAnniversary = worldObj.getWorldTime() - entityId;
 			}
 			if (maidAvatar != null) {
@@ -997,17 +997,17 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			getHomePosition().set(lhx, lhy, lhz);
 			homeWorld = par1nbtTagCompound.getInteger("homeWorld");
 			
-			// ƒeƒXƒg—p
+			// ãƒ†ã‚¹ãƒˆç”¨
 			if (worldObj.isRemote) {
 //	        	setOwner(ModLoader.getMinecraftInstance().thePlayer.username);
 			}
 			
-			// ’Ç‰Á•ª
+			// è¿½åŠ åˆ†
 			for (int li = 0; li < maidEntityModeList.size(); li++) {
 				maidEntityModeList.get(li).readEntityFromNBT(par1nbtTagCompound);
 			}
 		}
-		// TODO: ColorBits‚ğ‚Ç‚¤‚·‚é‚×H
+		// TODO: ColorBitsã‚’ã©ã†ã™ã‚‹ã¹ï¼Ÿ
 //		textureIndex = MMM_TextureManager.setStringToIndex(textureName, -1);
 //		textureArmorIndex = MMM_TextureManager.setStringToIndex(textureArmorName, -1);
 		textureIndex = MMM_TextureManager.getStringToIndex(textureName);
@@ -1015,7 +1015,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		setTextureIndex(textureIndex, textureArmorIndex);
 		onInventoryChanged();
 		
-		// ƒhƒbƒyƒ‹‘Îô
+		// ãƒ‰ãƒƒãƒšãƒ«å¯¾ç­–
 		if (mod_LMM_littleMaidMob.antiDoppelganger && maidAnniversary > 0L) {
 			for (int i = 0; i < worldObj.loadedEntityList.size(); i++) {
 				Entity entity1 = (Entity)worldObj.loadedEntityList.get(i);
@@ -1023,7 +1023,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 					LMM_EntityLittleMaid elm = (LMM_EntityLittleMaid)entity1;
 					if (elm != this && elm.isMaidContract() && elm.maidAnniversary == maidAnniversary
 							&& elm.getMaidMaster().equalsIgnoreCase(getMaidMaster())) {
-						// V‚µ‚¢•û‚ğc‚·
+						// æ–°ã—ã„æ–¹ã‚’æ®‹ã™
 						if (entityId > elm.entityId) {
 							mod_LMM_littleMaidMob.Debug(String.format("Load Doppelganger ID:%d, %d" ,elm.entityId, maidAnniversary));
 							elm.setDead();
@@ -1043,7 +1043,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	public int getItemIcon(ItemStack par1ItemStack, int par2) {
-		// ƒAƒCƒeƒ€‚Ì•\¦
+		// ã‚¢ã‚¤ãƒ†ãƒ ã®è¡¨ç¤º
 		if (maidAvatar != null) {
 			return maidAvatar.getItemIcon(par1ItemStack, par2);
 		}
@@ -1056,7 +1056,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 
-	// ‚¨‚ñ‚Ô‚¨‚Î‚¯‚Í–³“G
+	// ãŠã‚“ã¶ãŠã°ã‘ã¯ç„¡æ•µ
 	@Override
 	public boolean canBeCollidedWith() {
 		if (ridingEntity != null && ridingEntity == mstatMasterEntity) {
@@ -1079,7 +1079,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	@Override
 	public double getYOffset() {
 		if(ridingEntity instanceof EntityPlayer) {
-			// p¨§Œä
+			// å§¿å‹¢åˆ¶å¾¡
 //        	setSneaking(true);
 //        	mstatAimeBow = true;
 //        	updateAimebow();
@@ -1091,14 +1091,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	public void updateRidden() {
-		// TODO:ƒAƒbƒvƒf[ƒg‚Éƒ`ƒFƒbƒN
+		// TODO:ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆæ™‚ã«ãƒã‚§ãƒƒã‚¯
 		++ticksExisted;
 		//
 		
 		if(ridingEntity instanceof EntityPlayer) {
 			EntityPlayer lep = (EntityPlayer)ridingEntity;
 			
-			// ƒwƒbƒhƒnƒK[
+			// ãƒ˜ãƒƒãƒ‰ãƒã‚¬ãƒ¼
 			renderYawOffset = lep.renderYawOffset;
 			prevRenderYawOffset = lep.prevRenderYawOffset;
 			double llpx = lastTickPosX;
@@ -1145,7 +1145,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		return getSwingStatusDominant().onGround;
 	}
 
-	// ñü‚è
+	// é¦–å‘¨ã‚Š
 	public void setLooksWithInterest(boolean f) {
 		if (looksWithInterest != f) {
 			looksWithInterest = f;
@@ -1171,7 +1171,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 
-	// ƒ_ƒ[ƒWƒRƒ“ƒgƒ[ƒ‹
+	// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«
 	@Override
 	public boolean isBlocking() {
 		return maidAvatar.isBlocking();
@@ -1199,22 +1199,22 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	protected void damageEntity(DamageSource par1DamageSource, int par2) {
-    	// ƒ_ƒ[ƒWƒ\[ƒX‚É‰‚¶‚Ä‰¹º•ÏX
+    	// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚½ãƒ¼ã‚¹ã«å¿œã˜ã¦éŸ³å£°å¤‰æ›´
     	if (par1DamageSource == DamageSource.fall) {
     		maidDamegeSound = LMM_EnumSound.hurt_fall;
     	}
         if(!par1DamageSource.isUnblockable() && isBlocking()) {
-        	// ƒuƒƒbƒLƒ“ƒO
+        	// ãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚°
             mod_LMM_littleMaidMob.Debug(String.format("Blocking success ID:%d, %d" , this.entityId, par2));
         	maidDamegeSound = LMM_EnumSound.hurt_guard;        		
         }
         
-        // ”íƒ_ƒ
+        // è¢«ãƒ€ãƒ¡
         maidAvatar.health = health;
 		if (par2 > 0 && getActiveModeClass() != null && !getActiveModeClass().damageEntity(maidMode, par1DamageSource, par2)) {
 	        maidAvatar.damageEntity(par1DamageSource, par2);
 	        
-	        // ƒ_ƒ[ƒW‚ğó‚¯‚é‚Æ‘Ò‹@‚ğ‰ğœ
+	        // ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ã‚‹ã¨å¾…æ©Ÿã‚’è§£é™¤
 	        setMaidWait(false);
 		}
 		
@@ -1230,17 +1230,17 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	public boolean attackEntityFrom(DamageSource par1DamageSource, int par2) {
     	Entity entity = par1DamageSource.getEntity();
     	
-    	// ƒ_ƒ[ƒWƒ\[ƒX‚ğ“Á’è‚µ‚Ä‰¹º‚Ìİ’è
+    	// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚½ãƒ¼ã‚¹ã‚’ç‰¹å®šã—ã¦éŸ³å£°ã®è¨­å®š
     	maidDamegeSound = LMM_EnumSound.hurt;
     	if (par1DamageSource == DamageSource.inFire || par1DamageSource == DamageSource.onFire || par1DamageSource == DamageSource.lava) {
     		maidDamegeSound = LMM_EnumSound.hurt_fire;
     	} 
     	else if (par1DamageSource instanceof EntityDamageSourceIndirect) {
-    		// ‚±‚ê‚µ‚©‚È‚¢‚Ì‚©cH
+    		// ã“ã‚Œã—ã‹ãªã„ã®ã‹â€¦ï¼Ÿ
 			Entity et = par1DamageSource.getSourceOfDamage();
         	if (et instanceof EntitySnowball) {
         		maidDamegeSound = LMM_EnumSound.hurt_snow;
-            	// ƒ_ƒ[ƒW‚O‚È‚Ì‚Å‚±‚±‚Å–Â‚ç‚·
+            	// ãƒ€ãƒ¡ãƒ¼ã‚¸ï¼ãªã®ã§ã“ã“ã§é³´ã‚‰ã™
 //            	playLittleMaidSound(damageSound, true);
         	}
     	}
@@ -1248,21 +1248,21 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     	setMaidWait(false);
         setMaidWaitCount(0);
         if (par2 > 0) {
-        	// —V‚Ñ‚ÍI‚í‚è‚¾I
+        	// éŠã³ã¯çµ‚ã‚ã‚Šã ï¼
         	setPlayingRole(0);
         	getNextEquipItem();
         }
 /*        
 //		if (entity != null && entity instanceof EntityLittleMaid && ((EntityLittleMaid)entity).playingRole != mpr_NULL) {
 		if (entity != null && maidDamegeSound == LMM_EnumSound.hurt_snow) {
-			// ‚¨—V‚Ñ”»’è—pAá‹Ê‚©‚Ç‚¤‚©”»’è
+			// ãŠéŠã³åˆ¤å®šç”¨ã€é›ªç‰ã‹ã©ã†ã‹åˆ¤å®š
     		if (!isMaidContract() || isMaidFreedom()) {
     			playingRole = mpr_QuickShooter;
     			mod_littleMaidMob.Debug("playingMode Enable.");
     		}
 		}
 */		
-		// ƒQ[ƒ€“ïˆÕ“x‚É‚æ‚éƒ_ƒ[ƒW‚Ì•â³
+		// ã‚²ãƒ¼ãƒ é›£æ˜“åº¦ã«ã‚ˆã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸ã®è£œæ­£
 		if(isMaidContract() && (entity instanceof EntityLiving) || (entity instanceof EntityArrow)) {
             if(worldObj.difficultySetting == 0) {
                 par2 = 0;
@@ -1276,7 +1276,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
         }
 /*		
         if(par2 == 0 && maidMode != mmode_Detonator) {
-        	// ƒm[ƒ_ƒ[ƒW
+        	// ãƒãƒ¼ãƒ€ãƒ¡ãƒ¼ã‚¸
         	if (maidDamegeSound == LMM_EnumSound.hurt) {
         		maidDamegeSound = LMM_EnumSound.hurt_nodamege;
         	}
@@ -1285,7 +1285,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
         }
 */        
         if(super.attackEntityFrom(par1DamageSource, par2)) {
-        	//Œ_–ñÒ‚Ì–¼‘Oƒ`ƒFƒbƒN‚Íƒ}ƒ‹ƒ`—p
+        	//å¥‘ç´„è€…ã®åå‰ãƒã‚§ãƒƒã‚¯ã¯ãƒãƒ«ãƒç”¨
             if (isMaidContract() && entity != null) {
             	if (getIFF(entity) && !isPlaying()) {
             		fleeingTick = 0;
@@ -1301,7 +1301,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
                 setPathToEntity(worldObj.getPathEntityToEntity(this, entityToAttack, 16F, true, false, false, true));
             }
     		if (maidMode == mmode_Healer && entity instanceof EntityLiving) {
-    			// ƒq[ƒ‰[‚Í–òÜ‚ÅUŒ‚
+    			// ãƒ’ãƒ¼ãƒ©ãƒ¼ã¯è–¬å‰¤ã§æ”»æ’ƒ
     			maidInventory.currentItem = maidInventory.getInventorySlotContainItemPotion(true, 0, ((EntityLiving)entity).isEntityUndead() & isMaskedMaid);
     		}
     		*/
@@ -1315,12 +1315,12 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	/**
-	 * ‘ÎÛ‚Éƒ|[ƒVƒ‡ƒ“‚ğg‚¤B
+	 * å¯¾è±¡ã«ãƒãƒ¼ã‚·ãƒ§ãƒ³ã‚’ä½¿ã†ã€‚
 	 */
 	public void usePotionTotarget(EntityLiving entityliving) {
 		ItemStack itemstack = maidInventory.getCurrentItem();
 		if (itemstack != null && itemstack.getItem() instanceof ItemPotion) {
-        	// ƒ|[ƒVƒ‡ƒ“Œø‰Ê‚Ì”­“®
+        	// ãƒãƒ¼ã‚·ãƒ§ãƒ³åŠ¹æœã®ç™ºå‹•
         	itemstack.stackSize--;
             List list = ((ItemPotion)itemstack.getItem()).getEffects(itemstack);
             if (list != null) {
@@ -1339,7 +1339,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	protected void dropFewItems(boolean par1, int par2) {
-		// ƒƒCƒh‚³‚ñ‚Í‚¨»“œ‚ÆƒRƒRƒA‚Æ•s’èŒ`‚Ì‰½‚©‚Å‚Å‚«‚Ä‚é‚ÌI
+		// ãƒ¡ã‚¤ãƒ‰ã•ã‚“ã¯ãŠç ‚ç³–ã¨ã‚³ã‚³ã‚¢ã¨ä¸å®šå½¢ã®ä½•ã‹ã§ã§ãã¦ã‚‹ã®ï¼
 		int k = rand.nextInt(3 + par2);
 		for(int j = 0; j <= k; j++) {
 			if(rand.nextInt(30) == 0) {
@@ -1351,7 +1351,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			dropItem(Item.sugar.itemID, 1);
 		}
 		
-		// ƒCƒ“ƒxƒ“ƒgƒŠ‚ğƒuƒ`ƒ}ƒPƒI
+		// ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã‚’ãƒ–ãƒãƒã‚±ãƒ­ï¼
 		maidInventory.dropAllItems();
 	}
 
@@ -1368,7 +1368,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	public void applyEntityCollision(Entity par1Entity) {
-		// •ÂŠÚG‰ñ”ğ—p
+		// é–‰æ‰€æ¥è§¦å›é¿ç”¨
 		super.applyEntityCollision(par1Entity);
 		
 		if (par1Entity instanceof LMM_EntityLittleMaid) {
@@ -1382,10 +1382,10 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	protected void updateAITick() {
-		// AI‘Î‰Œ^‚Í‚±‚Á‚¿‚ªŒÄ‚Î‚ê‚é
+		// AIå¯¾å¿œå‹ã¯ã“ã£ã¡ãŒå‘¼ã°ã‚Œã‚‹
 		dataWatcher.updateObject(dataWatch_Health, Integer.valueOf(getHealth()));
 		
-		// ’Ç‰Á•ª
+		// è¿½åŠ åˆ†
 		for (LMM_EntityModeBase ieml : maidEntityModeList) {
 			ieml.updateAITick(getMaidModeInt());
 		}
@@ -1397,18 +1397,18 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	/**
-	 * –„‘’‘ÎôƒRƒs[
+	 * åŸ‹è‘¬å¯¾ç­–ã‚³ãƒ”ãƒ¼
 	 */
 	private boolean isBlockTranslucent(int par1, int par2, int par3) {
 		return this.worldObj.isBlockNormalCube(par1, par2, par3);
 	}
 
 	/**
-	 * –„‘’‘ÎôƒRƒs[
+	 * åŸ‹è‘¬å¯¾ç­–ã‚³ãƒ”ãƒ¼
 	 */
 	@Override
 	protected boolean pushOutOfBlocks(double par1, double par3, double par5) {
-		// EntityPlayerSP‚Ì‚ğˆø‚Á’£‚Á‚Ä‚«‚½
+		// EntityPlayerSPã®ã‚’å¼•ã£å¼µã£ã¦ããŸ
 		int var7 = MathHelper.floor_double(par1);
 		int var8 = MathHelper.floor_double(par3);
 		int var9 = MathHelper.floor_double(par5);
@@ -1474,13 +1474,13 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	@Override
 	public void onLivingUpdate() {
 		
-		// ”ò‚Ñ“¹‹ï—p
+		// é£›ã³é“å…·ç”¨
 		weaponFullAuto = false;
 		weaponReload = false;
 		super.onLivingUpdate();
 		
 		maidInventory.decrementAnimations();
-		// –„‘’‘Îô
+		// åŸ‹è‘¬å¯¾ç­–
 		boolean grave = true;
 		grave &= pushOutOfBlocks(posX - (double)width * 0.34999999999999998D, boundingBox.minY, posZ + (double)width * 0.34999999999999998D);
 		grave &= pushOutOfBlocks(posX - (double)width * 0.34999999999999998D, boundingBox.minY, posZ - (double)width * 0.34999999999999998D);
@@ -1490,8 +1490,8 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			jump();
 		}
 		if(health > 0) {
-			// ‹ßÚŠÄ‹‚Ì’Ç‰Á‚Í‚±‚±
-			// ƒAƒCƒeƒ€‚Ì‰ñû
+			// è¿‘æ¥ç›£è¦–ã®è¿½åŠ ã¯ã“ã“
+			// ã‚¢ã‚¤ãƒ†ãƒ ã®å›å
 			if (!worldObj.isRemote) {
 				List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(1.0D, 0.0D, 1.0D));
 				if (list != null) {
@@ -1501,16 +1501,16 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 							entity.onCollideWithPlayer(maidAvatar);
 						}
 					}
-					// ƒAƒCƒeƒ€‚ªˆê”t‚É‚È‚Á‚Ä‚¢‚ÄƒAƒCƒeƒ€‚Éƒ^ƒQ‚ğ‚Æ‚Á‚Ä‚¢‚éê‡‚Íƒ^ƒQ‚ğƒNƒŠƒA
+					// ã‚¢ã‚¤ãƒ†ãƒ ãŒä¸€æ¯ã«ãªã£ã¦ã„ã¦ã‚¢ã‚¤ãƒ†ãƒ ã«ã‚¿ã‚²ã‚’ã¨ã£ã¦ã„ã‚‹å ´åˆã¯ã‚¿ã‚²ã‚’ã‚¯ãƒªã‚¢
 					if (entityToAttack instanceof EntityItem && maidInventory.getFirstEmptyStack() == -1) {
 						setTarget(null);
 					}
 				}
 			}
-			// Œv‚ğ‚Á‚Ä‚¢‚é
-			// TODO:‘½•ª‚±‚Ì•Ó‚è‚Ìˆ—‚Í‚¨‚©‚µ‚¢
+			// æ™‚è¨ˆã‚’æŒã£ã¦ã„ã‚‹
+			// TODO:å¤šåˆ†ã“ã®è¾ºã‚Šã®å‡¦ç†ã¯ãŠã‹ã—ã„
 			if (isMaidContractEX() && mstatClockMaid) {
-				// ƒQ[ƒ€“àŠÔ‚É‡‚í‚¹‚½‰¹º‚ÌÄ¶
+				// ã‚²ãƒ¼ãƒ å†…æ™‚é–“ã«åˆã‚ã›ãŸéŸ³å£°ã®å†ç”Ÿ
 				mstatTime = (int)(worldObj.getWorldTime() % 24000);
 				if (mstatMasterEntity != null) {
 					boolean b = mstatMasterEntity.isPlayerSleeping();
@@ -1574,21 +1574,21 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			if (!worldObj.isRemote) {
 				if (getSwingStatusDominant().canAttack()) {
 //					mod_LMM_littleMaidMob.Debug("isRemort:" + worldObj.isRemote);
-					// ‰ñ•œ
+					// å›å¾©
 					if (health < getMaxHealth()) {
 						if (maidInventory.consumeInventoryItem(Item.sugar.itemID)) {
 							eatSugar(true, false);
 						}
 					}
-					// ‚Â‚Ü‚İH‚¢
+					// ã¤ã¾ã¿é£Ÿã„
 					if (rand.nextInt(50000) == 0 && maidInventory.consumeInventoryItem(Item.sugar.itemID)) {
 						eatSugar(true, false);
 					}
-					// Œ_–ñXV
+					// å¥‘ç´„æ›´æ–°
 					if (isMaidContract()) {
 						float f = getContractLimitDays();
 						if (f <= 6 && maidInventory.consumeInventoryItem(Item.sugar.itemID)) {
-							// Œ_–ñXV
+							// å¥‘ç´„æ›´æ–°
 							eatSugar(true, true);
 						}
 					}
@@ -1599,11 +1599,11 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	public void onUpdate() {
-		// Entity‰‰ñ¶¬‚ÌƒCƒ“ƒxƒ“ƒgƒŠXV—p
-		// ƒT[ƒo[‚Ì•û‚ªæ‚É‹N“®‚·‚é‚Ì‚ÅƒNƒ‰ƒCƒAƒ“ƒg‘¤‚ªXV‚ğó‚¯æ‚ê‚È‚¢
+		// Entityåˆå›ç”Ÿæˆæ™‚ã®ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªæ›´æ–°ç”¨
+		// ã‚µãƒ¼ãƒãƒ¼ã®æ–¹ãŒå…ˆã«èµ·å‹•ã™ã‚‹ã®ã§ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå´ãŒæ›´æ–°ã‚’å—ã‘å–ã‚Œãªã„
 		if (firstload > 0) {
-			// ‰‰ñXV—p
-			// ƒT[ƒo[‚Ì•û‚ªæ‚É‹N“®‚µ‚Ä‚¢‚é‚Ì‚Å‹­§“Ç‚İ‚İ‚Ìè‡‚ª•K—v
+			// åˆå›æ›´æ–°ç”¨
+			// ã‚µãƒ¼ãƒãƒ¼ã®æ–¹ãŒå…ˆã«èµ·å‹•ã—ã¦ã„ã‚‹ã®ã§å¼·åˆ¶èª­ã¿è¾¼ã¿ã®æ‰‹é †ãŒå¿…è¦
 			if (--firstload == 0) {
 				if (worldObj.isRemote) {
 					LMM_Net.sendToEServer(this, new byte[] {LMM_Net.LMN_Server_UpdateSlots, 0, 0, 0, 0});
@@ -1613,14 +1613,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		}
 		
 
-		// å‚ÌŠm”F‚È‚Ç
+		// ä¸»ã®ç¢ºèªãªã©
 		mstatMasterEntity = getMaidMasterEntity();
 		if (mstatMasterEntity != null) {
 			mstatMasterDistanceSq = getDistanceSqToEntity(mstatMasterEntity);
 		}
-		// ƒŠƒAƒ‹ƒ^ƒCƒ€•Ï“®’l‚ğƒAƒbƒvƒf[ƒg
+		// ãƒªã‚¢ãƒ«ã‚¿ã‚¤ãƒ å¤‰å‹•å€¤ã‚’ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆ
 		if (worldObj.isRemote) {
-			// ƒNƒ‰ƒCƒAƒ“ƒg‘¤
+			// ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå´
 			boolean lupd = false;
 //			isWait();
 			lupd |= updateMaidContract();
@@ -1633,14 +1633,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			setMaidMode(lcolormode & 0xffff);
 			setDominantArm(lcolormode >>> 24);
 			if (health > 0) {
-				// ‚È‚º‚©€–SƒAƒjƒ[ƒVƒ‡ƒ“‚ª‚¨‚©‚µ‚­‚È‚é‚Ì‚Å”»’è•t‚¯‚éB
+				// ãªãœã‹æ­»äº¡ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒãŠã‹ã—ããªã‚‹ã®ã§åˆ¤å®šä»˜ã‘ã‚‹ã€‚
 				setEntityHealth(dataWatcher.getWatchableObjectInt(dataWatch_Health));
 			}
 			updateMaidFlagsClient();
 			updateGotcha();
 		} else {
 			boolean lf;
-			// ƒT[ƒo[‘¤
+			// ã‚µãƒ¼ãƒãƒ¼å´
 			updateRemainsContract();
 			// Overdrive
 			lf = maidOverDriveTime.isEnable();
@@ -1652,14 +1652,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			if (getMaidFlags(dataWatch_Flags_Working) != lf) {
 				setMaidFlags(lf, dataWatch_Flags_Working);
 			}
-			// X‚Ë‚é
+			// æ‹—ã­ã‚‹
 			if (!isMaidContractEX() && !isFreedom()) {
 				setFreedom(true);
 				setMaidWait(false);
 			}
 		}
-		// ˆÚ“®‘¬“x‚Ìİ’è
-		// TODO:AIü‚è‚ÌˆÚ“®‘¬“x‚ğ‰½‚Æ‚©‚µ‚È‚¢‚ÆˆÓ–¡‚È‚¢B
+		// ç§»å‹•é€Ÿåº¦ã®è¨­å®š
+		// TODO:AIå‘¨ã‚Šã®ç§»å‹•é€Ÿåº¦ã‚’ä½•ã¨ã‹ã—ãªã„ã¨æ„å‘³ãªã„ã€‚
 		moveSpeed = (maidContract & !maidFreedom) ? moveSpeed_Max : moveSpeed_Nomal;
 
 		
@@ -1672,18 +1672,18 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		swingProgressInt = maidAvatar.swingProgressInt = lmss1.swingProgressInt;
 		isSwingInProgress = maidAvatar.isSwingInProgress = lmss1.isSwingInProgress;
 
-		// Aveter‚Ì–ˆˆ—
+		// Aveterã®æ¯æ™‚å‡¦ç†
 		if (maidAvatar != null) {
 			maidAvatar.getValue();
 			maidAvatar.onUpdate();
 //			maidAvatar.setValue();
 		}
-		// “Æ©ˆ—
+		// ç‹¬è‡ªå‡¦ç†
 		for (LMM_EntityModeBase leb : maidEntityModeList) {
 			leb.onUpdate(maidMode);
 		}
 		
-		// ƒJƒEƒ“ƒ^Œn
+		// ã‚«ã‚¦ãƒ³ã‚¿ç³»
 		if (mstatWaitCount > 0) {
 			if (hasPath()) {
 				mstatWaitCount = 0;
@@ -1695,7 +1695,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			maidSoundInterval--;
 		}
 		
-		// ‚­‚Ñ‚©‚µ‚°	
+		// ãã³ã‹ã—ã’	
 		prevRotateAngleHead = rotateAngleHead;
 		if (getLooksWithInterest()) {
 			rotateAngleHead = rotateAngleHead + (1.0F - rotateAngleHead) * 0.4F;
@@ -1718,34 +1718,34 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		swingProgressInt = maidAvatar.swingProgressInt = lmss.swingProgressInt;
 		isSwingInProgress = maidAvatar.isSwingInProgress = lmss.isSwingInProgress;
 		
-		// ‚¿•¨‚ÌŠm”F
+		// æŒã¡ç‰©ã®ç¢ºèª
 		if (maidInventory.inventoryChanged) {
 			onInventoryChanged();
 			maidInventory.inventoryChanged = false;
 		}
 		if (!worldObj.isRemote) {
-			// ƒT[ƒo[‘¤ˆ—
-			// ƒCƒ“ƒxƒ“ƒgƒŠ‚ÌXV
+			// ã‚µãƒ¼ãƒãƒ¼å´å‡¦ç†
+			// ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®æ›´æ–°
 			for (int li = 0 ;li < maidInventory.getSizeInventory(); li++) {
 				boolean lchange = false;
 				int lselect = 0xff;
-				// ‘I‘ğ‘•”õ‚ª•Ï‚í‚Á‚½
+				// é¸æŠè£…å‚™ãŒå¤‰ã‚ã£ãŸ
 				for (int lj = 0; lj < mstatSwingStatus.length; lj++) {
 					lchange = mstatSwingStatus[lj].checkChanged();
 					if (mstatSwingStatus[lj].index == li) {
 						lselect = lj;
 					}
 				}
-				// ƒCƒ“ƒxƒ“ƒgƒŠ‚Ì’†g‚ª•Ï‚í‚Á‚½
+				// ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®ä¸­èº«ãŒå¤‰ã‚ã£ãŸ
 				if (lchange || maidInventory.isChanged(li)) {
 					((WorldServer)worldObj).getEntityTracker().sendPacketToAllPlayersTrackingEntity(this, new Packet5PlayerInventory(this.entityId, (li | lselect << 8) + 5, maidInventory.getStackInSlot(li)));
 					maidInventory.resetChanged(li);
 					mod_LMM_littleMaidMob.Debug(String.format("ID:%d - Slot(%x:%d-%d,%d) Update.", entityId, lselect, li, mstatSwingStatus[0].index, mstatSwingStatus[1].index));
 				}
 			}
-			// ‹|\‚¦
+			// å¼“æ§‹ãˆ
 			mstatAimeBow &= !getSwingStatusDominant().canAttack();
-			// \‚¦‚ÌXV
+			// æ§‹ãˆã®æ›´æ–°
 			updateAimebow();
 			
 			// TODO:test
@@ -1753,7 +1753,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 				dataWatcher.updateObject(30, experienceValue);
 			}
 			
-			// ©•ª‚æ‚è‘å‚«‚È‚à‚Ì‚Íæ‚Á‚¯‚È‚¢iƒCƒJœ‚­j
+			// è‡ªåˆ†ã‚ˆã‚Šå¤§ããªã‚‚ã®ã¯ä¹—ã£ã‘ãªã„ï¼ˆã‚¤ã‚«é™¤ãï¼‰
 			if (riddenByEntity != null && !(riddenByEntity instanceof EntitySquid)) {
 				if (height * width < riddenByEntity.height * riddenByEntity.width) {
 					if (riddenByEntity instanceof EntityLiving) {
@@ -1769,11 +1769,11 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			experienceValue = dataWatcher.getWatchableObjectInt(30);
 		}
 		
-		// •R‚Åf’v
+		// ç´ã§æ‹‰è‡´
 		if(mstatgotcha != null) {
 			double d = mstatgotcha.getDistanceSqToEntity(this);
 			if (entityToAttack == null) {
-				// ƒCƒ“ƒRƒ€‚²‚Á‚±—p
+				// ã‚¤ãƒ³ã‚³ãƒ ã”ã£ã“ç”¨
 				if (d > 4D) {
 //                    setPathToEntity(null);
 					getNavigator().clearPathEntity();
@@ -1830,9 +1830,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	public void onDeath(DamageSource par1DamageSource) {
 		super.onDeath(par1DamageSource);
 
-		// €ˆö‚ğ•\¦
+		// æ­»å› ã‚’è¡¨ç¤º
 		if (!worldObj.isRemote) {
-			// ƒ}ƒXƒ^[”»’è¸”s‚·‚é‚©‚àH
+			// ãƒã‚¹ã‚¿ãƒ¼åˆ¤å®šå¤±æ•—ã™ã‚‹ã‹ã‚‚ï¼Ÿ
 			if (mod_LMM_littleMaidMob.DeathMessage && mstatMasterEntity != null) {
 				String ls = par1DamageSource.getDamageType();
 				Entity lentity = par1DamageSource.getEntity();
@@ -1852,7 +1852,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		}
 	}
 
-	// ƒ|[ƒVƒ‡ƒ“ƒGƒtƒFƒNƒg
+	// ãƒãƒ¼ã‚·ãƒ§ãƒ³ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	@Override
 	protected void onNewPotionEffect(PotionEffect par1PotionEffect) {
         super.onNewPotionEffect(par1PotionEffect);
@@ -1880,7 +1880,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	
 	
 	/**
-	 *  ƒCƒ“ƒxƒ“ƒgƒŠ‚ª•ÏX‚³‚ê‚Ü‚µ‚½B
+	 *  ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªãŒå¤‰æ›´ã•ã‚Œã¾ã—ãŸã€‚
 	 */
 	public void onInventoryChanged() {
 		checkClockMaid();
@@ -1891,11 +1891,11 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	/**
-	 * ƒCƒ“ƒxƒ“ƒgƒŠ‚É‚ ‚éŸ‚Ì‘•”õ•i‚ğ‘I‘ğ
+	 * ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã«ã‚ã‚‹æ¬¡ã®è£…å‚™å“ã‚’é¸æŠ
 	 */
 	public boolean getNextEquipItem() {
 		if (worldObj.isRemote) {
-			// ƒNƒ‰ƒCƒAƒ“ƒg‘¤‚Íˆ—‚µ‚È‚¢
+			// ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå´ã¯å‡¦ç†ã—ãªã„
 			return false;
 		}
 		
@@ -1930,10 +1930,10 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	
 	
 	/**
-	 * ‘Î‰Œ^ËŒ‚•Ší‚ÌƒŠƒ[ƒh”»’è
+	 * å¯¾å¿œå‹å°„æ’ƒæ­¦å™¨ã®ãƒªãƒ­ãƒ¼ãƒ‰åˆ¤å®š
 	 */
 	public void getWeaponStatus() {
-		// ”ò‚Ñ“¹‹ï—p‚Ì“Áêˆ—
+		// é£›ã³é“å…·ç”¨ã®ç‰¹æ®Šå‡¦ç†
 		ItemStack is = maidInventory.getCurrentItem();
 		if (is == null) return;
 		
@@ -1956,10 +1956,10 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		}
 	}
 
-	// •ÛƒAƒCƒeƒ€ŠÖ˜A
+	// ä¿æŒã‚¢ã‚¤ãƒ†ãƒ é–¢é€£
 
 	/**
-	 * Œ»İ‚Ì‘•”õ•i
+	 * ç¾åœ¨ã®è£…å‚™å“
 	 */
 	public ItemStack getCurrentEquippedItem() {
 		return maidInventory.getCurrentItem();
@@ -2000,13 +2000,13 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			LMM_Client.setArmorTextureValue(this);
 		} else {
 			par1 -= 5;
-			// ‚¿•¨‚ÌƒAƒbƒvƒf[ƒg
-			// “Æ©Šg’£:•’Ê‚ÉƒXƒƒbƒg”Ô†‚Ì’Ê‚èAãˆÊ‚Wƒrƒbƒg‚Í‘•”õƒXƒƒbƒg
-			// par1‚ÍShort‚Å“n‚³‚ê‚é‚Ì‚Å‚»‚Ì‚æ‚¤‚ÉB
+			// æŒã¡ç‰©ã®ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆ
+			// ç‹¬è‡ªæ‹¡å¼µ:æ™®é€šã«ã‚¹ãƒ­ãƒƒãƒˆç•ªå·ã®é€šã‚Šã€ä¸Šä½ï¼˜ãƒ“ãƒƒãƒˆã¯è£…å‚™ã‚¹ãƒ­ãƒƒãƒˆ
+			// par1ã¯Shortã§æ¸¡ã•ã‚Œã‚‹ã®ã§ãã®ã‚ˆã†ã«ã€‚
 			int lslotindex = par1 & 0x7f;
 			int lequip = (par1 >>> 8) & 0xff;
 			maidInventory.setInventorySlotContents(lslotindex, par2ItemStack);
-			maidInventory.resetChanged(lslotindex);	// ‚±‚ê‚ÍˆÓ–¡‚È‚¢‚¯‚Ç‚ÈB
+			maidInventory.resetChanged(lslotindex);	// ã“ã‚Œã¯æ„å‘³ãªã„ã‘ã©ãªã€‚
 			maidInventory.inventoryChanged = true;
 //			if (par1 >= maidInventory.mainInventory.length) {
 //				LMM_Client.setArmorTextureValue(this);
@@ -2035,22 +2035,22 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	protected void checkClockMaid() {
-		// Œv‚ğ‚Á‚Ä‚¢‚é‚©H
+		// æ™‚è¨ˆã‚’æŒã£ã¦ã„ã‚‹ã‹ï¼Ÿ
 		mstatClockMaid = maidInventory.getInventorySlotContainItem(Item.pocketSundial.itemID) > -1;
 	}
 	/**
-	 * Œv‚ğ‚Á‚Ä‚¢‚é‚©?
+	 * æ™‚è¨ˆã‚’æŒã£ã¦ã„ã‚‹ã‹?
 	 */
 	public boolean isClockMaid() {
 		return mstatClockMaid;
 	}
 
 	protected void checkMaskedMaid() {
-		// ƒCƒ“ƒxƒ“ƒgƒŠ‚Éƒwƒ‹ƒ€‚ª‚ ‚é‚©H
+		// ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã«ãƒ˜ãƒ«ãƒ ãŒã‚ã‚‹ã‹ï¼Ÿ
 		for (int i = maidInventory.mainInventory.length - 1; i >= 0; i--) {
 			ItemStack is = maidInventory.getStackInSlot(i);
 			if (is != null && is.getItem() instanceof ItemArmor && ((ItemArmor)is.getItem()).armorType == 0) {
-				// ƒwƒ‹ƒ€‚ğ‚Á‚Ä‚é
+				// ãƒ˜ãƒ«ãƒ ã‚’æŒã£ã¦ã‚‹
 				mstatMaskSelect = i;
 				maidInventory.armorInventory[3] = is;
 				LMM_Client.setArmorTextureValue(this);
@@ -2063,14 +2063,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		return;
 	}
 	/**
-	 * ƒƒbƒg‚ğ”í‚Á‚Ä‚é‚© 
+	 * ãƒ¡ãƒƒãƒˆã‚’è¢«ã£ã¦ã‚‹ã‹ 
 	 */
 	public boolean isMaskedMaid() {
 		return mstatMaskSelect > -1;
 	}
 
 	protected void checkHeadMount() {
-		// ’Ç‰Á‚Ì“ª•”‘•”õ‚Ì”»’è
+		// è¿½åŠ ã®é ­éƒ¨è£…å‚™ã®åˆ¤å®š
 		ItemStack lis = maidInventory.getHeadMount();
 		mstatPlanter = false;
 		mstatCamouflage = false;
@@ -2085,20 +2085,20 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		}		
 	}
 	/**
-	 * ƒJƒ‚ƒtƒ‰[ƒWƒ…I 
+	 * ã‚«ãƒ¢ãƒ•ãƒ©ãƒ¼ã‚¸ãƒ¥ï¼ 
 	 */
 	public boolean isCamouflage() {
 		return mstatCamouflage;
 	}
 	/**
-	 * ”«A‚¦ó‘Ô 
+	 * é‰¢æ¤ãˆçŠ¶æ…‹ 
 	 */
 	public boolean isPlanter() {
 		return mstatPlanter;
 	}
 
     /**
-     * ƒ|[ƒVƒ‡ƒ““™‚É‚æ‚é˜rU‚èƒ‚[ƒVƒ‡ƒ“‚Ì‘¬“x•â³
+     * ãƒãƒ¼ã‚·ãƒ§ãƒ³ç­‰ã«ã‚ˆã‚‹è…•æŒ¯ã‚Šãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã®é€Ÿåº¦è£œæ­£
      */
     public int getSwingSpeedModifier() {
         if (isPotionActive(Potion.digSpeed)) {
@@ -2113,14 +2113,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     }
 
 	/**
-	 * è‚¿ƒAƒCƒeƒ€‚Ì”j‰ó
+	 * æ‰‹æŒã¡ã‚¢ã‚¤ãƒ†ãƒ ã®ç ´å£Š
 	 */
 	public void destroyCurrentEquippedItem() {
 		maidInventory.setInventoryCurrentSlotContents(null);
 	}
 
 	/**
-	 * ƒvƒŒ[ƒ„‚ÌƒCƒ“ƒxƒ“ƒgƒŠ‚©‚çƒAƒCƒeƒ€‚ğŒ¸‚ç‚·
+	 * ãƒ—ãƒ¬ãƒ¼ãƒ¤ã®ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã‹ã‚‰ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ¸›ã‚‰ã™
 	 */
 	protected ItemStack decPlayerInventory(EntityPlayer par1EntityPlayer, int par2Index, int par3DecCount) {
 		if (par1EntityPlayer == null) {
@@ -2136,7 +2136,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		}
 		
 		if (!par1EntityPlayer.capabilities.isCreativeMode) {
-			// ƒNƒŠƒGƒCƒeƒBƒu‚¾‚ÆŒ¸‚ç‚È‚¢
+			// ã‚¯ãƒªã‚¨ã‚¤ãƒ†ã‚£ãƒ–ã ã¨æ¸›ã‚‰ãªã„
 			itemstack1.stackSize -= par3DecCount;
 		}
 		
@@ -2158,7 +2158,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	/**
-	 * ƒƒCƒhƒCƒ“ƒxƒ“ƒgƒŠ‚ğŠJ‚­
+	 * ãƒ¡ã‚¤ãƒ‰ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã‚’é–‹ã
 	 * @param pEntityPlayer
 	 */
 	public void displayGUIMaidInventory(EntityPlayer pEntityPlayer) {
@@ -2171,9 +2171,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	public boolean interact(EntityPlayer par1EntityPlayer) {
-		// ƒiƒfƒŠ”»’è
+		// ãƒŠãƒ‡ãƒªåˆ¤å®š
 		if (health > 0 && par1EntityPlayer.riddenByEntity != null && !(par1EntityPlayer.riddenByEntity instanceof LMM_EntityLittleMaid)) {
-			// Ú‚¹‘Ö‚¦
+			// è¼‰ã›æ›¿ãˆ
 			par1EntityPlayer.riddenByEntity.mountEntity(this);
 			return true;
 		}
@@ -2183,7 +2183,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		
 		if (mstatgotcha == null && par1EntityPlayer.fishEntity == null) {
 			if(itemstack1 != null && itemstack1.itemID == Item.silk.itemID) {
-				// •R‚ÅŒq‚®
+				// ç´ã§ç¹‹ã
 				setGotcha(par1EntityPlayer.entityId);
 				mstatgotcha = par1EntityPlayer;
 				decPlayerInventory(par1EntityPlayer, -1, 1);
@@ -2192,10 +2192,10 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			} 
 			
 			if (isMaidContract()) {
-				// Œ_–ñó‘Ô
+				// å¥‘ç´„çŠ¶æ…‹
 				if (health > 0 && isMaidContractOwner(par1EntityPlayer)) {
 					if (itemstack1 != null) {
-						// ’Ç‰Á•ª‚Ìˆ—
+						// è¿½åŠ åˆ†ã®å‡¦ç†
 						setPathToEntity(null);
 						for (int li = 0; li < maidEntityModeList.size(); li++) {
 							if (maidEntityModeList.get(li).interact(par1EntityPlayer, itemstack1)) {
@@ -2203,9 +2203,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 							}
 						}
 						if (isRemainsContract()) {
-							// ’Êí
+							// é€šå¸¸
 							if (itemstack1.itemID == Item.sugar.itemID) {
-								// ƒ‚[ƒhØ‘Ö
+								// ãƒ¢ãƒ¼ãƒ‰åˆ‡æ›¿
 								decPlayerInventory(par1EntityPlayer, -1, 1);
 								eatSugar(false, true);
 								worldObj.setEntityState(this, (byte)11);
@@ -2214,7 +2214,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 								if (!worldObj.isRemote) {
 									setFreedom(isFreedom());
 									if (isMaidWait()) {
-										// “®ìƒ‚[ƒh‚ÌØ‘Ö
+										// å‹•ä½œãƒ¢ãƒ¼ãƒ‰ã®åˆ‡æ›¿
 										boolean lflag = false;
 										setActiveModeClass(null);
 										for (int li = 0; li < maidEntityModeList.size() && !lflag; li++) {
@@ -2231,14 +2231,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 										setMaidWait(false);
 										getNextEquipItem();
 									} else {
-										// ‘Ò‹@
+										// å¾…æ©Ÿ
 										setMaidWait(true);
 									}
 								}
 								return true;
 							}
 							else if (itemstack1.itemID == Item.dyePowder.itemID) {
-								// ƒJƒ‰[ƒƒCƒh
+								// ã‚«ãƒ©ãƒ¼ãƒ¡ã‚¤ãƒ‰
 								if (!worldObj.isRemote) {
 									setMaidColor(15 - itemstack1.getItemDamage());
 								}
@@ -2246,14 +2246,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 								return true;
 							}
 							else if (itemstack1.itemID == Item.feather.itemID) {
-								// ©—Rs“®
+								// è‡ªç”±è¡Œå‹•
 								decPlayerInventory(par1EntityPlayer, -1, 1);
 								setFreedom(!isFreedom());
 								worldObj.setEntityState(this, isFreedom() ? (byte)12 : (byte)13);
 								return true;
 							}
 							else if (itemstack1.itemID == Item.saddle.itemID) {
-								// Œ¨Ô
+								// è‚©è»Š
 								if (!worldObj.isRemote) {
 									this.mountEntity(par1EntityPlayer);
 									return true;
@@ -2266,14 +2266,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 								return true;
 							}
 							else if (itemstack1.itemID == Item.book.itemID) {
-								// IFF‚ÌƒI[ƒvƒ“
+								// IFFã®ã‚ªãƒ¼ãƒ—ãƒ³
 								decPlayerInventory(par1EntityPlayer, -1, 1);
 //	    		            	ModLoader.openGUI(par1EntityPlayer, new LMM_GuiIFF(worldObj, this));
 								LMM_Client.OpenIFF(this, par1EntityPlayer);
 								return true;
 							}
 							else if ((itemstack1.itemID == Item.glassBottle.itemID) && (experienceValue >= 5)) {
-								// Expƒ{ƒgƒ‹
+								// Expãƒœãƒˆãƒ«
 								decPlayerInventory(par1EntityPlayer, -1, 1);
 								if (!worldObj.isRemote) {
 									entityDropItem(new ItemStack(Item.expBottle), 0.5F);
@@ -2285,7 +2285,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 								return true;
 							}
 							else if (itemstack1.getItem() instanceof ItemPotion) {
-								// ƒ|[ƒVƒ‡ƒ“
+								// ãƒãƒ¼ã‚·ãƒ§ãƒ³
 								if(!worldObj.isRemote) {
 									List list = ((ItemPotion)itemstack1.getItem()).getEffects(itemstack1);
 									if (list != null) {
@@ -2313,13 +2313,13 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 								return true;
 							}
 						} else {
-							// ƒXƒgƒ‰ƒCƒL
+							// ã‚¹ãƒˆãƒ©ã‚¤ã‚­
 							if (itemstack1.itemID == Item.sugar.itemID) {
-								// óæ‹‘”Û
+								// å—å–æ‹’å¦
 								worldObj.setEntityState(this, (byte)10);
 								return true;
 							} else if (itemstack1.itemID == Item.cake.itemID) {
-								// ÄŒ_–ñ
+								// å†å¥‘ç´„
 								decPlayerInventory(par1EntityPlayer, -1, 1);
 								maidContractLimit = (24000 * 7);
 								setFreedom(false);
@@ -2332,7 +2332,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 							}
 						}
 					}
-					// ƒƒCƒhƒCƒ“ƒxƒ“ƒgƒŠ
+					// ãƒ¡ã‚¤ãƒ‰ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒª
 					getNavigator().clearPathEntity();
 					isJumping = false;
 					displayGUIMaidInventory(par1EntityPlayer);
@@ -2341,10 +2341,10 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 					return true;
 				}
 			} else {
-				// –¢Œ_–ñ
+				// æœªå¥‘ç´„
 				if (itemstack1 != null) {
 					if (itemstack1.itemID == Item.cake.itemID) {
-						// Œ_–ñ
+						// å¥‘ç´„
 						decPlayerInventory(par1EntityPlayer, -1, 1);
 						
 						deathTime = 0;
@@ -2359,10 +2359,10 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 							playLittleMaidSound(LMM_EnumSound.getCake, true);
 //    	                    playTameEffect(true);
 							worldObj.setEntityState(this, (byte)7);
-							// Œ_–ñ‹L”O“ú‚ÆA‰ŠúŒ_–ñŠúŠÔ
+							// å¥‘ç´„è¨˜å¿µæ—¥ã¨ã€åˆæœŸå¥‘ç´„æœŸé–“
 							maidContractLimit = (24000 * 7);
 							maidAnniversary = worldObj.getWorldTime();
-							// ƒeƒNƒXƒ`ƒƒ‚ÌƒAƒbƒvƒf[ƒg:‚¢‚ç‚ñH
+							// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆ:ã„ã‚‰ã‚“ï¼Ÿ
 //							LMM_Net.sendToAllEClient(this, new byte[] {LMM_Net.LMN_Client_UpdateTexture, 0, 0, 0, 0});
 							
 						}
@@ -2385,7 +2385,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		return false;
 	}
 
-	// ƒƒCƒh‚ÌŒ_–ñİ’è
+	// ãƒ¡ã‚¤ãƒ‰ã®å¥‘ç´„è¨­å®š
 	@Override
 	public boolean isTamed() {
 		return isMaidContract();
@@ -2410,7 +2410,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	/**
-	 * Œ_–ñŠúŠÔ‚Ìc‚è‚ª‚ ‚é‚©‚ğŠm”F
+	 * å¥‘ç´„æœŸé–“ã®æ®‹ã‚ŠãŒã‚ã‚‹ã‹ã‚’ç¢ºèª
 	 */
 	protected void updateRemainsContract() {
 		boolean lflag = false;
@@ -2431,7 +2431,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	public boolean updateMaidContract() {
-		// “¯ˆê«‚Ìƒ`ƒFƒbƒN
+		// åŒä¸€æ€§ã®ãƒã‚§ãƒƒã‚¯
 		boolean lf = isMaidContract();
 		if (maidContract != lf) {
 			maidContract = lf;
@@ -2449,12 +2449,12 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	public EntityPlayer getMaidMasterEntity() {
-		// å‚ğŠl“¾
+		// ä¸»ã‚’ç²å¾—
 		if (isMaidContract()) {
 			EntityPlayer entityplayer = mstatMasterEntity;
 			if (mstatMasterEntity == null || mstatMasterEntity.isDead) {
 				String lname; 
-				// ƒT[ƒo[‘¤‚È‚ç‚¿‚á‚ñ‚ÆƒI[ƒi”»’è‚·‚é
+				// ã‚µãƒ¼ãƒãƒ¼å´ãªã‚‰ã¡ã‚ƒã‚“ã¨ã‚ªãƒ¼ãƒŠåˆ¤å®šã™ã‚‹
 				if (!MMM_Helper.isClient
 						|| mod_LMM_littleMaidMob.checkOwnerName 
 						|| MMM_Helper.mc.thePlayer == null) {
@@ -2463,7 +2463,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 					lname = MMM_Helper.mc.thePlayer.username;
 				}
 				entityplayer = worldObj.getPlayerEntityByName(lname);
-				// ‚Æ‚è‚ ‚¦‚¸å‚Ì–¼‘O‚ğ“ü‚ê‚Ä‚İ‚é
+				// ã¨ã‚Šã‚ãˆãšä¸»ã®åå‰ã‚’å…¥ã‚Œã¦ã¿ã‚‹
 				maidAvatar.username = lname;
 				
 				if (entityplayer != null && maidAvatar != null) {
@@ -2487,7 +2487,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 //		return pentity == mstatMasterEntity;
 	}
 
-	// ƒƒCƒh‚Ì‘Ò‹@İ’è
+	// ãƒ¡ã‚¤ãƒ‰ã®å¾…æ©Ÿè¨­å®š
 	public boolean isMaidWait() {
 		return maidWait;
 	}
@@ -2497,7 +2497,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	public void setMaidWait(boolean pflag) {
-		// ‘Ò‹@í‘Ô‚Ìİ’èA isMaidWaitŒn‚Åtrue‚ğ•Ô‚·‚È‚çAI‚ªŸè‚ÉˆÚ“®‚ğ’â~‚³‚¹‚éB
+		// å¾…æ©Ÿå¸¸æ…‹ã®è¨­å®šã€ isMaidWaitç³»ã§trueã‚’è¿”ã™ãªã‚‰AIãŒå‹æ‰‹ã«ç§»å‹•ã‚’åœæ­¢ã•ã›ã‚‹ã€‚
 		maidWait = pflag;
 		setMaidFlags(pflag, dataWatch_Flags_Wait);
 		
@@ -2516,8 +2516,8 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	
-	// ƒCƒ“ƒxƒ“ƒgƒŠ‚Ì•\¦ŠÖŒW
-	// ‚Ü‚³‚®‚ê‚é‚Ì‚Íˆêl‚¾‚¯
+	// ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®è¡¨ç¤ºé–¢ä¿‚
+	// ã¾ã•ãã‚Œã‚‹ã®ã¯ä¸€äººã ã‘
 	public void setOpenInventory(boolean flag) {
 		mstatOpenInventory = flag;
 	}
@@ -2527,14 +2527,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	/**
-	 * GUI‚ğŠJ‚¢‚½‚ÉƒT[ƒo[‘¤‚ÅŒÄ‚Î‚ê‚éB
+	 * GUIã‚’é–‹ã„ãŸæ™‚ã«ã‚µãƒ¼ãƒãƒ¼å´ã§å‘¼ã°ã‚Œã‚‹ã€‚
 	 */
 	public void onGuiOpened() {
 		setOpenInventory(true);
 	}
 
 	/**
-	 * GUI‚ğ•Â‚ß‚½‚ÉƒT[ƒo[‘¤‚ÅŒÄ‚Î‚ê‚éB
+	 * GUIã‚’é–‰ã‚ãŸæ™‚ã«ã‚µãƒ¼ãƒãƒ¼å´ã§å‘¼ã°ã‚Œã‚‹ã€‚
 	 */
 	public void onGuiClosed() {
 		setOpenInventory(false);
@@ -2542,14 +2542,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		setMaidWaitCount((li == 0) ? 50 : 0);
 	}
 
-	// ˜rU‚è
+	// è…•æŒ¯ã‚Š
 	public void setSwing(int attacktime, LMM_EnumSound enumsound) {
 		setSwing(attacktime, enumsound, maidDominantArm);
 	}
 	public void setSwing(int pattacktime, LMM_EnumSound enumsound, int pArm) {
 		mstatSwingStatus[pArm].attackTime = pattacktime;
 		maidAttackSound = enumsound;
-//        soundInterval = 0;// ‚¢‚é‚©H
+//        soundInterval = 0;// ã„ã‚‹ã‹ï¼Ÿ
 		if (!weaponFullAuto) {
 			setSwinging(pArm);
 //        	mstatSwingStatus[pArm].isSwinging = maidAvatar.isSwinging = true;
@@ -2586,7 +2586,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
     /**
-     * —˜‚«˜r‚ÌƒŠƒ[ƒhƒ^ƒCƒ€
+     * åˆ©ãè…•ã®ãƒªãƒ­ãƒ¼ãƒ‰ã‚¿ã‚¤ãƒ 
      */
     public LMM_SwingStatus getSwingStatusDominant() {
     	return mstatSwingStatus[maidDominantArm];
@@ -2597,7 +2597,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     }
 
 
-	// ¡ª‚ÌƒƒCƒh‚ÍŒŒ‚É‹Q‚¦‚Ä‚¨‚é
+	// ä»Šå®µã®ãƒ¡ã‚¤ãƒ‰ã¯è¡€ã«é£¢ãˆã¦ãŠã‚‹
 	public void setBloodsuck(boolean pFlag) {
 		mstatBloodsuck = pFlag;
 		setMaidFlags(pFlag, dataWatch_Flags_Bloodsuck);
@@ -2608,7 +2608,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 
-	// »“œŠÖ˜A
+	// ç ‚ç³–é–¢é€£
 	public void setLookSuger(boolean pFlag) {
 		mstatLookSuger = pFlag;
 		setMaidFlags(pFlag, dataWatch_Flags_LooksSugar);
@@ -2619,9 +2619,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	/**
-	 * ƒyƒƒbEEE‚±‚ê‚ÍEEE»“œƒbII
-	 * motion : ˜r‚ğU‚é‚©H
-	 * recontract : Œ_–ñ‰„’·Œø‰ÊƒAƒŠH
+	 * ãƒšãƒ­ãƒƒãƒ»ãƒ»ãƒ»ã“ã‚Œã¯ãƒ»ãƒ»ãƒ»ç ‚ç³–ãƒƒï¼ï¼
+	 * motion : è…•ã‚’æŒ¯ã‚‹ã‹ï¼Ÿ
+	 * recontract : å¥‘ç´„å»¶é•·åŠ¹æœã‚¢ãƒªï¼Ÿ
 	 */
 	public void eatSugar(boolean motion, boolean recontract) {
 		if (motion) {
@@ -2634,44 +2634,44 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		mod_LMM_littleMaidMob.Debug(("eat Suger." + worldObj.isRemote));
 		
 		if (recontract) {
-			// Œ_–ñŠúŠÔ‚Ì‰„’·
+			// å¥‘ç´„æœŸé–“ã®å»¶é•·
 			maidContractLimit += 24000;
 			if (maidContractLimit > 168000) {
 				maidContractLimit = 168000;	// 24000 * 7
 			}
 		}
 		
-		// b’èˆ—
+		// æš«å®šå‡¦ç†
 		if (maidAvatar != null) {
 			maidAvatar.foodStats.addStats(20, 20F);
 		}
 	}
 
 
-	// ‚¨d–ƒ`ƒ…
+	// ãŠä»•äº‹ãƒãƒ¥
 	/**
-	 * d–’†‚©‚Ç‚¤‚©‚Ìİ’è
+	 * ä»•äº‹ä¸­ã‹ã©ã†ã‹ã®è¨­å®š
 	 */
 	public void setWorking(boolean pFlag) {
 		mstatWorkingCount.setEnable(pFlag);
 	}
 	
 	/**
-	 * d–’†‚©‚Ç‚¤‚©‚ğ•Ô‚·
+	 * ä»•äº‹ä¸­ã‹ã©ã†ã‹ã‚’è¿”ã™
 	 */
 	public boolean isWorking() {
 		return mstatWorkingCount.isEnable();
 	}
 
     /**
-     * d–‚ªI—¹‚µ‚Ä‚à—]‰C‚ğŠÜ‚ß‚Ä•Ô‚·
+     * ä»•äº‹ãŒçµ‚äº†ã—ã¦ã‚‚ä½™éŸ»ã‚’å«ã‚ã¦è¿”ã™
      */
     public boolean isWorkingDelay() {
     	return mstatWorkingCount.isDelay();
     }
     
     /**
-     * ƒgƒŒ[ƒT[ƒ‚[ƒh‚Ìİ’è
+     * ãƒˆãƒ¬ãƒ¼ã‚µãƒ¼ãƒ¢ãƒ¼ãƒ‰ã®è¨­å®š
      */
     public void setTracer(boolean pFlag) {
     	maidTracer = pFlag;
@@ -2685,14 +2685,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     }
     
     /**
-     * ƒgƒŒ[ƒT[ƒ‚[ƒh‚Å‚ ‚é‚©H
+     * ãƒˆãƒ¬ãƒ¼ã‚µãƒ¼ãƒ¢ãƒ¼ãƒ‰ã§ã‚ã‚‹ã‹ï¼Ÿ
      */
     public boolean isTracer() {
     	return maidTracer;
     }
     
     
-    // ‚¨—V‚Ñƒ‚[ƒh
+    // ãŠéŠã³ãƒ¢ãƒ¼ãƒ‰
     public void setPlayingRole(int pValue) {
     	mstatPlayingRole = pValue;
     }
@@ -2706,9 +2706,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     }
 
 
-	// ©—Rs“®
+	// è‡ªç”±è¡Œå‹•
 	public void setFreedom(boolean pFlag) {
-		// AIŠÖ˜A‚ÌƒŠƒZƒbƒg‚à‚±‚±‚ÅB
+		// AIé–¢é€£ã®ãƒªã‚»ãƒƒãƒˆã‚‚ã“ã“ã§ã€‚
 		maidFreedom = pFlag;
 		aiRestrictRain.setEnable(pFlag);
 		aiFreeRain.setEnable(pFlag);
@@ -2737,29 +2737,29 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 
 	/**
-	 * ƒeƒNƒXƒ`ƒƒƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
-	 * ƒT[ƒo[‘¤‚Åg—p‚³‚ê‚éŠÖ”AƒNƒ‰ƒCƒAƒ“ƒg‚ÅŒÄ‚ñ‚Å‚àˆÓ–¡‚È‚µB
+	 * ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’è¨­å®šã™ã‚‹ã€‚
+	 * ã‚µãƒ¼ãƒãƒ¼å´ã§ä½¿ç”¨ã•ã‚Œã‚‹é–¢æ•°ã€ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã§å‘¼ã‚“ã§ã‚‚æ„å‘³ãªã—ã€‚
 	 */
 	public void setTextureIndex(int pindex, int parmorindex) {
 		textureIndex = pindex;
 		textureArmorIndex = parmorindex;
 		dataWatcher.updateObject(dataWatch_Texture, (Integer.valueOf(pindex) & 0xffff) | ((Integer.valueOf(parmorindex) & 0xffff) << 16));
-		// TODO:‚±‚ÌˆÈ‰º‚Íƒzƒ“ƒg‚Í‚¢‚ç‚ñ‚¯‚Ç‚àC³‚ß‚ñ‚Ç‚¢‚Ì‚ÅB
+		// TODO:ã“ã®ä»¥ä¸‹ã¯ãƒ›ãƒ³ãƒˆã¯ã„ã‚‰ã‚“ã‘ã©ã‚‚ä¿®æ­£ã‚ã‚“ã©ã„ã®ã§ã€‚
 		textureName = MMM_TextureManager.getIndexToString(pindex).textureName;
 		textureArmorName = MMM_TextureManager.getIndexToString(parmorindex).textureName;
 	}
 
 	/**
-	 * ƒT[ƒo[‚ÖƒeƒNƒXƒ`ƒƒƒpƒbƒN‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ‘—‚éB
-	 * ƒNƒ‰ƒCƒAƒ“ƒg‘¤‚Ìˆ—
+	 * ã‚µãƒ¼ãƒãƒ¼ã¸ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ‘ãƒƒã‚¯ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’é€ã‚‹ã€‚
+	 * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå´ã®å‡¦ç†
 	 */
 	protected void sendTextureToServer() {
-		// 16bit‚ ‚ê‚ÎƒeƒNƒXƒ`ƒƒƒpƒbƒN‚Ì”‚É‚½‚è‚ñ‚×
+		// 16bitã‚ã‚Œã°ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ‘ãƒƒã‚¯ã®æ•°ã«ãŸã‚Šã‚“ã¹
 		textureIndex = MMM_TextureManager.getStringToIndex(textureName);
 		textureArmorIndex = MMM_TextureManager.getStringToIndex(textureArmorName);
 		
 		if (textureIndex > -1 && textureArmorIndex > -1) {
-			// ƒT[ƒo[‚ÖƒeƒNƒXƒ`ƒƒî•ñ‚ğ‘—M
+			// ã‚µãƒ¼ãƒãƒ¼ã¸ãƒ†ã‚¯ã‚¹ãƒãƒ£æƒ…å ±ã‚’é€ä¿¡
 			byte ldata[] = new byte[9];
 			ldata[0] = LMM_Net.LMN_Server_SetTexture;
 			MMM_Helper.setShort(ldata, 5, textureIndex);
@@ -2771,8 +2771,8 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 
 	public boolean updateTexturePack() {
-		// ƒeƒNƒXƒ`ƒƒƒpƒbƒN‚ªXV‚³‚ê‚Ä‚¢‚È‚¢‚©‚ğƒ`ƒFƒbƒN
-		// ƒNƒ‰ƒCƒAƒ“ƒg‘¤‚Ì
+		// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ‘ãƒƒã‚¯ãŒæ›´æ–°ã•ã‚Œã¦ã„ãªã„ã‹ã‚’ãƒã‚§ãƒƒã‚¯
+		// ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå´ã®
 		boolean lflag = false;
 		MMM_TextureBoxServer lbox;
 		
@@ -2811,7 +2811,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	public boolean updateMaidColor() {
-		// “¯ˆê«‚Ìƒ`ƒFƒbƒN
+		// åŒä¸€æ€§ã®ãƒã‚§ãƒƒã‚¯
 		int lc = getMaidColor();
 		if (maidColor != lc) {
 			maidColor = lc;
@@ -2821,7 +2821,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
     /**
-     * •R‚Ì‚¿å
+     * ç´ã®æŒã¡ä¸»
      */
     public void updateGotcha() {
     	int lid = dataWatcher.getWatchableObjectInt(dataWatch_Gotcha);
@@ -2845,7 +2845,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     }
     
     /**
-     * ‹|\‚¦‚ğXV
+     * å¼“æ§‹ãˆã‚’æ›´æ–°
      */
     public void updateAimebow() {
     	boolean lflag = (maidAvatar != null && maidAvatar.isUsingItemLittleMaid()) || mstatAimeBow;
@@ -2858,7 +2858,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     
 
 	/**
-	 * Šeíƒtƒ‰ƒO‚ÌƒAƒbƒvƒf[ƒg
+	 * å„ç¨®ãƒ•ãƒ©ã‚°ã®ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆ
 	 */
 	public void updateMaidFlagsClient() {
 		int li = dataWatcher.getWatchableObjectInt(dataWatch_Flags);
@@ -2875,9 +2875,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	/**
-	 * ƒtƒ‰ƒOŒQ‚É’l‚ğƒZƒbƒgB
-	 * @param pCheckF ‘ÎÛ’lB
-	 * @param pFlagsF ‘ÎÛƒtƒ‰ƒOB
+	 * ãƒ•ãƒ©ã‚°ç¾¤ã«å€¤ã‚’ã‚»ãƒƒãƒˆã€‚
+	 * @param pCheckï¼š å¯¾è±¡å€¤ã€‚
+	 * @param pFlagsï¼š å¯¾è±¡ãƒ•ãƒ©ã‚°ã€‚
 	 */
 	public void setMaidFlags(boolean pFlag, int pFlagvalue) {
 		int li = dataWatcher.getWatchableObjectInt(dataWatch_Flags);
@@ -2886,14 +2886,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	/**
-	 * w’è‚³‚ê‚½ƒtƒ‰ƒO‚ğŠl“¾
+	 * æŒ‡å®šã•ã‚ŒãŸãƒ•ãƒ©ã‚°ã‚’ç²å¾—
 	 */
 	public boolean getMaidFlags(int pFlagvalue) {
 		return (dataWatcher.getWatchableObjectInt(dataWatch_Flags) & pFlagvalue) > 0;
 	}
 
 	/**
-	 *  —˜‚«˜r‚Ìİ’è
+	 *  åˆ©ãè…•ã®è¨­å®š
 	 */
 	public void setDominantArm(int pindex) {
 		if (maidDominantArm == pindex) return;
@@ -2906,7 +2906,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	/**
-	 * g‚Á‚Ä‚¢‚éTile‚©‚Ç‚¤‚©”»’è‚µ‚Ä•Ô‚·B
+	 * ä½¿ã£ã¦ã„ã‚‹Tileã‹ã©ã†ã‹åˆ¤å®šã—ã¦è¿”ã™ã€‚
 	 */
 	public boolean isUsingTile(TileEntity pTile) {
 		if (isActiveModeClass()) {

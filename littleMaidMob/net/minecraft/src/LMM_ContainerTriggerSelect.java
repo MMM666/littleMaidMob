@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class LMM_ContainerTriggerSelect extends ContainerCreative {
 	}
 	
     private void initAllSelections() {
-    	// ƒRƒ“ƒeƒi•\¦—pƒAƒCƒeƒ€‚Ìİ’è
+    	// ã‚³ãƒ³ãƒ†ãƒŠè¡¨ç¤ºç”¨ã‚¢ã‚¤ãƒ†ãƒ ã®è¨­å®š
     	this.itemList.clear();
         Item[] var2 = Item.itemsList;
         int var3 = var2.length;
@@ -61,7 +61,7 @@ public class LMM_ContainerTriggerSelect extends ContainerCreative {
 	
 	@Override
 	public void scrollTo(float f) {
-		// ƒXƒNƒ[ƒ‹ƒ|ƒWƒVƒ‡ƒ“
+		// ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒã‚¸ã‚·ãƒ§ãƒ³
         int i = (itemList.size() / 8 - 5) + 1;
         int j = (int)((double)(f * (float)i) + 0.5D);
         if(j < 0)
@@ -89,7 +89,7 @@ public class LMM_ContainerTriggerSelect extends ContainerCreative {
 	@Override
 	public ItemStack slotClick(int i, int j, int flag, EntityPlayer entityplayer) {
 		if (i >= 40) {
-			// ƒZƒbƒg‚³‚ê‚½ƒAƒCƒeƒ€‚ğ’è‹`
+			// ã‚»ãƒƒãƒˆã•ã‚ŒãŸã‚¢ã‚¤ãƒ†ãƒ ã‚’å®šç¾©
 			int lk = (i - 40) + weaponOffset * 8;
 			for (; weaponSelect.size() <= lk + 7;) {
 				weaponSelect.add(null);
@@ -107,7 +107,7 @@ public class LMM_ContainerTriggerSelect extends ContainerCreative {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i) {
-    	// ShiftƒNƒŠƒbƒN‚Ì”½‰
+    	// Shiftã‚¯ãƒªãƒƒã‚¯æ™‚ã®åå¿œ
         ItemStack itemstack = null;
         Slot slot = (Slot)inventorySlots.get(i);
         if(slot != null && slot.getHasStack()) {
@@ -124,16 +124,16 @@ public class LMM_ContainerTriggerSelect extends ContainerCreative {
 
     @Override
     protected boolean mergeItemStack(ItemStack itemstack, int i, int j, boolean flag) {
-    	// itemstackˆÈŠO‚Í–³Œø
+    	// itemstackä»¥å¤–ã¯ç„¡åŠ¹
         boolean flag1 = false;
         int k = 0;
         
-        // “¯‚¶‚Ì‚ª‚ ‚Á‚½‚Æ‚«‚Í’Ç‰Á‚µ‚È‚¢
+        // åŒã˜ã®ãŒã‚ã£ãŸã¨ãã¯è¿½åŠ ã—ãªã„
         while (itemstack.stackSize > 0 && k < weaponSelect.size()) {
             ItemStack itemstack1 = weaponSelect.get(k);
             if(itemstack1 != null) {
             	if (itemstack1.itemID == itemstack.itemID && (!itemstack.getHasSubtypes() || itemstack.getItemDamage() == itemstack1.getItemDamage())) {
-                	// “¯ˆêƒAƒCƒeƒ€‚Å‚ ‚é
+                	// åŒä¸€ã‚¢ã‚¤ãƒ†ãƒ ã§ã‚ã‚‹
                     flag1 = true;
                     break;
             	}
@@ -161,7 +161,7 @@ public class LMM_ContainerTriggerSelect extends ContainerCreative {
 
 	
     public void setWeaponlist(float f) {
-    	// ƒXƒNƒ[ƒ‹ƒ|ƒWƒVƒ‡ƒ“
+    	// ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒã‚¸ã‚·ãƒ§ãƒ³
         int i = (weaponSelect.size() / 8 - 4) + 1;
         weaponOffset = (int)((double)(f * (float)i) + 0.5D);
         if(weaponOffset < 0) {

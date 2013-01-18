@@ -1,4 +1,4 @@
-package net.minecraft.src;
+﻿package net.minecraft.src;
 
 public class LMM_EntityAIWander extends EntityAIWander implements LMM_IEntityAI {
 

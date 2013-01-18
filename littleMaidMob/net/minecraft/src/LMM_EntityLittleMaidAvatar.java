@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 
@@ -17,7 +17,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	public LMM_EntityLittleMaidAvatar(World par1World, Minecraft pminecraft, LMM_EntityLittleMaid par2EntityLittleMaid) {
 		super(par1World);
 
-		// ‰Šúİ’è
+		// åˆæœŸè¨­å®š
 		avatar = par2EntityLittleMaid;
 		mc = pminecraft;
 		
@@ -93,12 +93,12 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 
 	@Override
 	public void triggerAchievement(StatBase par1StatBase) {
-		// ƒAƒ`[ƒuƒƒ“ƒgE‚µ
+		// ã‚¢ãƒãƒ¼ãƒ–ãƒ¡ãƒ³ãƒˆæ®ºã—
 	}
 
 	@Override
 	public void onItemPickup(Entity entity, int i) {
-		// ƒAƒCƒeƒ€‰ñû‚ÌƒGƒtƒFƒNƒg
+		// ã‚¢ã‚¤ãƒ†ãƒ å›åã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 		if (worldObj.isRemote) {
 			// Client
 			LMM_Client.onItemPickup(this, entity, i);
@@ -152,7 +152,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	
 	@Override
 	public void destroyCurrentEquippedItem() {
-		// ƒAƒCƒeƒ€‚ª‰ó‚ê‚½‚Ì‚ÅŸ‚Ì‘•”õ‚ğ‘I‘ğ
+		// ã‚¢ã‚¤ãƒ†ãƒ ãŒå£Šã‚ŒãŸã®ã§æ¬¡ã®è£…å‚™ã‚’é¸æŠ
 		super.destroyCurrentEquippedItem();
 		avatar.getNextEquipItem();
 	}
@@ -185,7 +185,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
     }
 
 	public void getValue() {
-		// EntityLittleMaid‚©‚ç’l‚ğƒRƒs[
+		// EntityLittleMaidã‹ã‚‰å€¤ã‚’ã‚³ãƒ”ãƒ¼
 		setPosition(avatar.posX, avatar.posY, avatar.posZ);
 		prevPosX = avatar.prevPosX;
 		prevPosY = avatar.prevPosY;
@@ -202,7 +202,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 
 
 	public void getValueVector(double atx, double aty, double atz, double atl) {
-		// EntityLittleMaid‚©‚ç’l‚ğƒRƒs[
+		// EntityLittleMaidã‹ã‚‰å€¤ã‚’ã‚³ãƒ”ãƒ¼
 		double l = MathHelper.sqrt_double(atl);
 		appendX = atx / l;
 		appendY = aty / l;
@@ -229,10 +229,10 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	}
 
 	/**
-	 * ËŒ‚ŠÇ§—pArotation‚ğ“ª‚É‡‚í‚¹‚é
+	 * å°„æ’ƒç®¡åˆ¶ç”¨ã€rotationã‚’é ­ã«åˆã‚ã›ã‚‹
 	 */
 	public void getValueVectorFire(double atx, double aty, double atz, double atl) {
-		// EntityLittleMaid‚©‚ç’l‚ğƒRƒs[
+		// EntityLittleMaidã‹ã‚‰å€¤ã‚’ã‚³ãƒ”ãƒ¼
 		double l = MathHelper.sqrt_double(atl);
 		appendX = atx / l;
 		appendY = aty / l;
@@ -266,7 +266,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 
 	
 	public void setValue() {
-		// EntityLittleMiad‚Ö’l‚ğƒRƒs[
+		// EntityLittleMiadã¸å€¤ã‚’ã‚³ãƒ”ãƒ¼
 		avatar.setPosition(posX, posY, posZ);
 		avatar.prevPosX = prevPosX;
 		avatar.prevPosY = prevPosY;
@@ -282,7 +282,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	}
 
 	public void setValueRotation() {
-		// EntityLittleMiad‚Ö’l‚ğƒRƒs[
+		// EntityLittleMiadã¸å€¤ã‚’ã‚³ãƒ”ãƒ¼
 		avatar.rotationPitch = rotationPitch;
 		avatar.rotationYaw = rotationYaw;
 		avatar.prevRotationPitch = prevRotationPitch;
@@ -297,7 +297,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	}
 
 	public void setValueVector() {
-		// EntityLittleMiad‚Ö’l‚ğƒRƒs[
+		// EntityLittleMiadã¸å€¤ã‚’ã‚³ãƒ”ãƒ¼
 		avatar.posX = posX - appendX;
 		avatar.posY = posY - appendY;
 		avatar.posZ = posZ - appendZ;

@@ -1,17 +1,17 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * ƒ}ƒ‹ƒ`—p‚É•ª—£B
- * •ª—£‚µ‚Æ‚©‚È‚¢‚ÆNoSuchMethod‚Å—‚¿‚éB
+ * ãƒãƒ«ãƒç”¨ã«åˆ†é›¢ã€‚
+ * åˆ†é›¢ã—ã¨ã‹ãªã„ã¨NoSuchMethodã§è½ã¡ã‚‹ã€‚
  *
  */
 public class LMM_Client {
 
 	public static void init() {
-		// ƒfƒtƒHƒ‹ƒgƒ‚ƒfƒ‹‚Ìİ’è
+		// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ¢ãƒ‡ãƒ«ã®è¨­å®š
 		MMM_TextureManager.defaultModel = new MMM_ModelBiped[] {
 				new LMM_ModelLittleMaid(0.0F),
 				new LMM_ModelLittleMaid(0.1F),
@@ -40,7 +40,7 @@ public class LMM_Client {
 		
 	}
 
-	// ƒeƒNƒXƒ`ƒƒAƒ‚ƒfƒ‹AF
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã€ãƒ¢ãƒ‡ãƒ«ã€è‰²
 	public static void setTextureValue(LMM_EntityLittleMaid pEntity) {
 		if (pEntity.textureName == null) return;
 		int i = pEntity.maidColor;
@@ -55,22 +55,22 @@ public class LMM_Client {
 			if (!pEntity.isMaidContract()) i += MMM_TextureManager.tx_wild;
 			pEntity.texture = MMM_TextureManager.getTextureName(pEntity.textureName, i);
 		}
-		// ƒ‚ƒfƒ‹‚Ìİ’è
+		// ãƒ¢ãƒ‡ãƒ«ã®è¨­å®š
 		MMM_TextureBox ltb = MMM_TextureManager.getTextureBox(pEntity.textureName);
 		pEntity.textureModel0 = ltb.models[0];
-		// g’·•ÏX—p
+		// èº«é•·å¤‰æ›´ç”¨
 		pEntity.setSize(pEntity.textureModel0.getWidth(), pEntity.textureModel0.getHeight());
 		pEntity.setPosition(pEntity.posX, pEntity.posY, pEntity.posZ);
 		mod_LMM_littleMaidMob.Debug(String.format("ID:%d, TextureModel:%s", pEntity.entityId, ltb.modelName));
-		// ƒ‚ƒfƒ‹‚Ì‰Šú‰»
+		// ãƒ¢ãƒ‡ãƒ«ã®åˆæœŸåŒ–
 		pEntity.textureModel0.changeModel(pEntity);
-		// ƒXƒ^ƒr‚Ì•t‚¯‘Ö‚¦
+		// ã‚¹ã‚¿ãƒ“ã®ä»˜ã‘æ›¿ãˆ
 		for (Entry<String, MMM_EquippedStabilizer> le : pEntity.maidStabilizer.entrySet()) {
 			if (le.getValue() != null) {
 				le.getValue().updateEquippedPoint(pEntity.textureModel0);
 			}
 		}
-		// ƒA[ƒ}[
+		// ã‚¢ãƒ¼ãƒãƒ¼
 		setArmorTextureValue(pEntity);
 		pEntity.maidSoundRate = LMM_SoundManager.getSoundRate(pEntity.textureName, pEntity.maidColor);
 	}
@@ -78,7 +78,7 @@ public class LMM_Client {
 	public static void setArmorTextureValue(LMM_EntityLittleMaid pEntity) {
 		if (!pEntity.worldObj.isRemote) return;
 		if (pEntity.textureArmorName == null) return;
-		// ƒA[ƒ}[ƒ‚ƒfƒ‹
+		// ã‚¢ãƒ¼ãƒãƒ¼ãƒ¢ãƒ‡ãƒ«
 		MMM_TextureBox ltb = MMM_TextureManager.getTextureBox(pEntity.textureName);
 		pEntity.textureModel1 = ltb.models[1];
 		pEntity.textureModel2 = ltb.models[2];
@@ -98,7 +98,7 @@ public class LMM_Client {
 			else
 				pEntity.textureName = MMM_TextureManager.getNextPackege(pEntity.textureName, pEntity.maidColor + MMM_TextureManager.tx_wild);
 			if (pEntity.textureName == null) {
-				// w’èF‚ª–³‚¢ê‡‚Í•W€ƒ‚ƒfƒ‹‚É
+				// æŒ‡å®šè‰²ãŒç„¡ã„å ´åˆã¯æ¨™æº–ãƒ¢ãƒ‡ãƒ«ã«
 				pEntity.textureName = pEntity.textureArmorName = "default";
 				pEntity.maidColor = 12;
 			} else {
@@ -133,8 +133,8 @@ public class LMM_Client {
 // Avatarr
 	
 	public static void onItemPickup(LMM_EntityLittleMaidAvatar pAvatar, Entity entity, int i) {
-		// ƒAƒCƒeƒ€‰ñû‚ÌƒGƒtƒFƒNƒg
-		// TODO:‚±‚Á‚¿‚ğg‚¤‚©H
+		// ã‚¢ã‚¤ãƒ†ãƒ å›åã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
+		// TODO:ã“ã£ã¡ã‚’ä½¿ã†ã‹ï¼Ÿ
 //        mc.effectRenderer.addEffect(new EntityPickupFX(mc.theWorld, entity, avatar, -0.5F));
 		pAvatar.mc.effectRenderer.addEffect(new EntityPickupFX(pAvatar.mc.theWorld, entity, pAvatar.avatar, 0.1F));
 	}
@@ -152,7 +152,7 @@ public class LMM_Client {
 // Network
 
 	public static void clientCustomPayload(NetClientHandler var1, Packet250CustomPayload var2) {
-		// ƒNƒ‰ƒCƒAƒ“ƒg‘¤‚Ì“ÁêƒpƒPƒbƒgóM“®ì
+		// ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå´ã®ç‰¹æ®Šãƒ‘ã‚±ãƒƒãƒˆå—ä¿¡å‹•ä½œ
 		byte lmode = var2.data[0];
 		int leid = 0;
 		LMM_EntityLittleMaid lemaid = null;
@@ -165,25 +165,25 @@ public class LMM_Client {
 		
 		switch (lmode) {
 		case LMM_Net.LMN_Client_SwingArm : 
-			// ˜rU‚è
+			// è…•æŒ¯ã‚Š
 			byte larm = var2.data[5];
 			lemaid.setSwinging(larm);
 			break;
 			
 		case LMM_Net.LMN_Client_UpdateTexture : 
-			// ‚¨’…‘Ö‚¦
+			// ãŠç€æ›¿ãˆ
 			LMM_Client.setTextureValue(lemaid);
 			break;
 			
 		case LMM_Net.LMN_Client_SetIFFValue:
-			// IFF‚Ìİ’è’l‚ğóM
+			// IFFã®è¨­å®šå€¤ã‚’å—ä¿¡
 			int lval = var2.data[1];
 			String lname = "";
 			for (int li = 6; li < var2.data.length; li++) {
 				lname += (char)var2.data[li];
 			}
 			
-			// TODO:GUI‚Åg—p‚·‚é’l‚ğİ’è‚·‚é‚æ‚¤‚É
+			// TODO:GUIã§ä½¿ç”¨ã™ã‚‹å€¤ã‚’è¨­å®šã™ã‚‹ã‚ˆã†ã«
 			LMM_IFF.setIFFValue(null, lname, lval);
 			break;
 			

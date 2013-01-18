@@ -1,9 +1,9 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 import java.util.List;
 
 /**
- * “Æ©Šî€‚Æ‚µ‚Äƒ‚[ƒh’è”‚Í0x0080‚Í•½íA0x00c0‚ÍŒŒ‚Ü‚İ‚êƒ‚[ƒh‚Æ‹æ•ÊB
+ * ç‹¬è‡ªåŸºæº–ã¨ã—ã¦ãƒ¢ãƒ¼ãƒ‰å®šæ•°ã¯0x0080ã¯å¹³å¸¸ã€0x00c0ã¯è¡€ã¾ã¿ã‚Œãƒ¢ãƒ¼ãƒ‰ã¨åŒºåˆ¥ã€‚
  */
 public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 
@@ -22,11 +22,11 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 	
 	@Override
 	public void init() {
-		// “o˜^ƒ‚[ƒh‚Ì–¼Ì’Ç‰Á
+		// ç™»éŒ²ãƒ¢ãƒ¼ãƒ‰ã®åç§°è¿½åŠ 
 		ModLoader.addLocalization("littleMaidMob.mode.Fencer", "Fencer");
-		ModLoader.addLocalization("littleMaidMob.mode.Fencer", "ja_JP", "Œì‰qŒ•m");
+		ModLoader.addLocalization("littleMaidMob.mode.Fencer", "ja_JP", "è­·è¡›å‰£å£«");
 		ModLoader.addLocalization("littleMaidMob.mode.Bloodsucker", "Bloodsucker");
-		ModLoader.addLocalization("littleMaidMob.mode.Bloodsucker", "ja_JP", "ŒŒ‚É‹Q‚¦‚½–»“y");
+		ModLoader.addLocalization("littleMaidMob.mode.Bloodsucker", "ja_JP", "è¡€ã«é£¢ãˆãŸå†¥åœŸ");
 		LMM_GuiTriggerSelect.appendTriggerItem("Sword", "");
 		LMM_GuiTriggerSelect.appendTriggerItem("Axe", "");
 	}
@@ -96,19 +96,19 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 		int lld;
 		ItemStack litemstack;
 
-		// ƒ‚[ƒh‚É‰‚¶‚½¯•Ê”»’èA‘¬“x—Dæ
+		// ãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ãŸè­˜åˆ¥åˆ¤å®šã€é€Ÿåº¦å„ªå…ˆ
 		switch (pMode) {
 		case mmode_Fencer : 
 			for (li = 0; li < owner.maidInventory.maxInventorySize; li++) {
 				litemstack = owner.maidInventory.getStackInSlot(li);
 				if (litemstack == null) continue;
 
-				// Œ•
+				// å‰£
 				if (litemstack.getItem() instanceof ItemSword || LMM_GuiTriggerSelect.checkWeapon("Sword", litemstack)) {
 					return li;
 				}
 
-				// UŒ‚—Í‚È‚‚¢‚à‚Ì‚ğ‹L‰¯‚·‚é
+				// æ”»æ’ƒåŠ›ãªé«˜ã„ã‚‚ã®ã‚’è¨˜æ†¶ã™ã‚‹
 				lld = 1;
 				try {
 					lld = litemstack.getDamageVsEntity(null);
@@ -126,12 +126,12 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 				litemstack = owner.maidInventory.getStackInSlot(li);
 				if (litemstack == null) continue;
 				
-				// •€
+				// æ–§
 				if (litemstack.getItem() instanceof ItemAxe || LMM_GuiTriggerSelect.checkWeapon("Axe", litemstack)) {
 					return li;
 				}
 
-				// UŒ‚—Í‚È‚‚¢‚à‚Ì‚ğ‹L‰¯‚·‚é
+				// æ”»æ’ƒåŠ›ãªé«˜ã„ã‚‚ã®ã‚’è¨˜æ†¶ã™ã‚‹
 				lld = 1;
 				try {
 					lld = litemstack.getDamageVsEntity(null);
@@ -151,7 +151,7 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 
 	@Override
 	public boolean checkItemStack(ItemStack pItemStack) {
-		// ‘•”õƒAƒCƒeƒ€‚ğ‰ñû
+		// è£…å‚™ã‚¢ã‚¤ãƒ†ãƒ ã‚’å›å
 		return pItemStack.getItem() instanceof ItemSword || pItemStack.getItem() instanceof ItemAxe;
 	}
 	
