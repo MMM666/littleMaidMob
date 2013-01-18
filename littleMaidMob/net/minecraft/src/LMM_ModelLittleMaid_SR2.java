@@ -38,11 +38,11 @@ public class LMM_ModelLittleMaid_SR2 extends LMM_ModelLittleMaid {
 	}
 
 	@Override
-	public void setLivingAnimationsLM(LMM_EntityLittleMaid pentitylittlemaid,
-			float f, float f1, float renderPartialTicks) {
-		super.setLivingAnimationsLM(pentitylittlemaid, f, f1, renderPartialTicks);
+	public void setLivingAnimations(EntityLiving entityliving, float f,
+			float f1, float renderPartialTicks) {
+		super.setLivingAnimations(entityliving, f, f1, renderPartialTicks);
 		
-		float f3 = (float)pentitylittlemaid.ticksExisted + renderPartialTicks + pentitylittlemaid.entityIdFactor;
+		float f3 = (float)entityliving.ticksExisted + renderPartialTicks + entityIdFactor;
 		// 目パチ
 		if( 0 > MathHelper.sin(f3 * 0.05F) + MathHelper.sin(f3 * 0.13F) + MathHelper.sin(f3 * 0.7F) + 2.55F) { 
 			eyeR.setVisible(true);
@@ -54,12 +54,12 @@ public class LMM_ModelLittleMaid_SR2 extends LMM_ModelLittleMaid {
 	}
 
 	@Override
-	public void setRotationAnglesLM(float f, float f1, float ticksExisted, float pheadYaw,
-			float pheadPitch, float f5, LMM_EntityLittleMaid pentitylittlemaid) {
-		super.setRotationAnglesLM(f, f1, ticksExisted, pheadYaw, pheadPitch, f5, pentitylittlemaid);
-	
-		if (aimedBow) {
-			if (pentitylittlemaid.maidDominantArm == 0) {
+	public void setRotationAngles(float f, float f1, float ticksExisted, float pheadYaw,
+			float pheadPitch, float f5, Entity pEntity) {
+		super.setRotationAngles(f, f1, ticksExisted, pheadYaw, pheadPitch, f5, pEntity);
+		
+		if (aimedBow && modelCaps != null) {
+			if (modelCaps.getCapsValueInt(caps_dominantArm) == 0) {
 				eyeL.setVisible(true);
 			} else {
 				eyeR.setVisible(true);

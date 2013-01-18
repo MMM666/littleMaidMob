@@ -10,17 +10,18 @@ import org.lwjgl.opengl.GL12;
 public class LMM_RenderLittleMaid extends RenderLiving {
 
 	// Feilds
-	protected MMM_ModelArmors modelMain;
-	protected MMM_ModelArmors modelFATT;
+	protected MMM_ModelDuo modelMain;
+	protected MMM_ModelDuo modelFATT;
 
 
 	// Method
 	public LMM_RenderLittleMaid(float f) {
 		super(null, f);
-		modelMain = new MMM_ModelArmors(this);
-		modelMain.isModelAlphablend = mod_LMM_littleMaidMob.AlphaBlend;
-		modelFATT = new MMM_ModelArmors(this);
+		modelFATT = new MMM_ModelDuo(this);
 		modelFATT.isModelAlphablend = mod_LMM_littleMaidMob.AlphaBlend;
+		modelMain = new MMM_ModelDuo(this);
+		modelMain.isModelAlphablend = mod_LMM_littleMaidMob.AlphaBlend;
+		modelMain.capsLink = modelFATT;
 		mainModel = modelMain;
 		setRenderPassModel(modelFATT);
 	}
@@ -72,15 +73,28 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		modelFATT.textureOuter = plittleMaid.textureArmor1;
 		modelFATT.textureInner = plittleMaid.textureArmor0;
 		modelFATT.isAlphablend = true;
+		if (modelMain.modelArmorInner == null) {
+			modelMain.modelArmorInner = MMM_TextureManager.defaultModel[0];
+		}
+		modelMain.setModelCaps(plittleMaid.maidCaps);
 		
-		plittleMaid.textureModel0.heldItemLeft = plittleMaid.textureModel0.heldItemRight = 0;
-		plittleMaid.textureModel0.onGround = plittleMaid.textureModel1.onGround = plittleMaid.textureModel2.onGround = renderSwingProgress(plittleMaid, f1);
-		plittleMaid.textureModel0.isRiding = plittleMaid.textureModel1.isRiding = plittleMaid.textureModel2.isRiding = plittleMaid.isRiding();
-		plittleMaid.textureModel0.isSneak  = plittleMaid.textureModel1.isSneak  = plittleMaid.textureModel2.isSneak  = plittleMaid.isSneaking();
-		plittleMaid.textureModel0.aimedBow = plittleMaid.textureModel1.aimedBow = plittleMaid.textureModel2.aimedBow = plittleMaid.isAimebow();
-		plittleMaid.textureModel0.isWait   = plittleMaid.textureModel1.isWait   = plittleMaid.textureModel2.isWait   = plittleMaid.isMaidWaitEx();
+		modelMain.setCapsValue(MMM_IModelCaps.caps_heldItemLeft, (Integer)0);
+		modelMain.setCapsValue(MMM_IModelCaps.caps_heldItemRight, (Integer)0);
+		modelMain.setCapsValue(MMM_IModelCaps.caps_onGround, renderSwingProgress(plittleMaid, f1));
+		modelMain.setCapsValue(MMM_IModelCaps.caps_isRiding, plittleMaid.isRiding());
+		modelMain.setCapsValue(MMM_IModelCaps.caps_isSneak, plittleMaid.isSneaking());
+		modelMain.setCapsValue(MMM_IModelCaps.caps_aimedBow, plittleMaid.isAimebow());
+		modelMain.setCapsValue(MMM_IModelCaps.caps_isWait, plittleMaid.isMaidWait());
+		modelMain.setCapsValue(MMM_IModelCaps.caps_isChild, plittleMaid.isChild());
+		modelMain.setCapsValue(MMM_IModelCaps.caps_entityIdFactor, plittleMaid.entityIdFactor);
+//		plittleMaid.textureModel0.heldItemLeft = plittleMaid.textureModel0.heldItemRight = 0;
+//		plittleMaid.textureModel0.onGround = plittleMaid.textureModel1.onGround = plittleMaid.textureModel2.onGround = renderSwingProgress(plittleMaid, f1);
+//		plittleMaid.textureModel0.isRiding = plittleMaid.textureModel1.isRiding = plittleMaid.textureModel2.isRiding = plittleMaid.isRiding();
+//		plittleMaid.textureModel0.isSneak  = plittleMaid.textureModel1.isSneak  = plittleMaid.textureModel2.isSneak  = plittleMaid.isSneaking();
+//		plittleMaid.textureModel0.aimedBow = plittleMaid.textureModel1.aimedBow = plittleMaid.textureModel2.aimedBow = plittleMaid.isAimebow();
+//		plittleMaid.textureModel0.isWait   = plittleMaid.textureModel1.isWait   = plittleMaid.textureModel2.isWait   = plittleMaid.isMaidWaitEx();
 		// だが無意味だ
-		plittleMaid.textureModel0.isChild = plittleMaid.textureModel1.isChild = plittleMaid.textureModel2.isChild = plittleMaid.isChild();
+//		plittleMaid.textureModel0.isChild = plittleMaid.textureModel1.isChild = plittleMaid.textureModel2.isChild = plittleMaid.isChild();
 		
 		doRenderLiving(plittleMaid, px, lay, pz, f, f1);
 		

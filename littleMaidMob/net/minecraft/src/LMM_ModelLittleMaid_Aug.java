@@ -94,17 +94,17 @@ public class LMM_ModelLittleMaid_Aug extends LMM_ModelLittleMaid_SR2 {
 	}
 	
 	@Override
-	public void setLivingAnimationsLM(LMM_EntityLittleMaid pentitylittlemaid,
-			float f, float f1, float renderPartialTicks) {
-		super.setLivingAnimationsLM(pentitylittlemaid, f, f1, renderPartialTicks);
+	public void setLivingAnimations(EntityLiving entityliving, float f,
+			float f1, float renderPartialTicks) {
+		super.setLivingAnimations(entityliving, f, f1, renderPartialTicks);
 
-		float f3 = (float)pentitylittlemaid.ticksExisted + renderPartialTicks + pentitylittlemaid.entityIdFactor;
+		float f3 = (float)entityliving.ticksExisted + renderPartialTicks + entityIdFactor;
 		float f4;
-		if (pentitylittlemaid.isLookSuger()) {
+		if (modelCaps != null && modelCaps.getCapsValueBoolean(caps_isLookSuger)) {
 			f3 *= 8.0F;
 			f4 = -0.2F;
 		} else {
-			f4 = (1F - (float)pentitylittlemaid.health / 20F) * 0.5F;
+			f4 = (1F - (float)entityliving.health / 20F) * 0.5F;
 		}
 		float f5 = MathHelper.sin(f3 * 0.067F) * 0.05F - f4;
 		float f6 = 40.0F / 57.29578F;
@@ -113,11 +113,11 @@ public class LMM_ModelLittleMaid_Aug extends LMM_ModelLittleMaid_SR2 {
 		sensor3.setRotateAngle(MathHelper.sin(f3 * 0.067F) * 0.05F - 1.2F - f4, MathHelper.sin(f3 * 0.09F) * 0.4F, MathHelper.cos(f3 * 0.09F) * 0.2F);
 		sensor4.setRotateAngle(MathHelper.sin(f3 * 0.067F) * 0.05F + f4, MathHelper.cos(f3 * 0.09F) * 0.5F, MathHelper.sin(f3 * 0.09F) * 0.2F);
 	}
-	
+
 	@Override
-	public void setRotationAnglesLM(float f, float f1, float ticksExisted, float pheadYaw,
-			float pheadPitch, float f5, LMM_EntityLittleMaid pentitylittlemaid) {
-		super.setRotationAnglesLM(f, f1, ticksExisted, pheadYaw, pheadPitch, f5, pentitylittlemaid);
+	public void setRotationAngles(float f, float f1, float ticksExisted,
+			float pheadYaw, float pheadPitch, float f5, Entity pEntity) {
+		super.setRotationAngles(f, f1, ticksExisted, pheadYaw, pheadPitch, f5, pEntity);
 		
 		SideTailR.rotateAngleX =  SideTailL.rotateAngleX = -bipedHead.rotateAngleX / 1.5F;
 	}

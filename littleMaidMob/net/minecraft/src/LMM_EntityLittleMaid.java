@@ -65,6 +65,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	
 	public LMM_InventoryLittleMaid maidInventory;
 	public LMM_EntityLittleMaidAvatar maidAvatar;
+	public LMM_EntityCaps maidCaps;	// Client側のみ
 
 	public List<LMM_EntityModeBase> maidEntityModeList;
 	public Map<Integer, EntityAITasks[]> maidModeList;
@@ -223,6 +224,8 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			maidColor = 12;
 			textureIndex = textureArmorIndex = 0;
 			LMM_Client.setTextureValue(this);
+			// モデルレンダリング用のフラグ獲得用ヘルパー関数
+			maidCaps = new LMM_EntityCaps(this);
 		}
 		
 		

@@ -10,7 +10,9 @@ public class LMM_SwingStatus {
 	public int swingProgressInt;
 	public float onGround;
 	public int attackTime;
-
+	public int usingCount;
+	public int itemInUseCount;
+	public int maxItemUseDuration;
 
 	public LMM_SwingStatus() {
 		index = lastIndex = -1;
@@ -53,6 +55,10 @@ public class LMM_SwingStatus {
 			swingProgressInt = 0;
 		}
 		swingProgress = (float)swingProgressInt / (float)li;
+		
+		if (itemInUseCount > 0) {
+			itemInUseCount--;
+		}
 	}
 
 	/**
@@ -95,6 +101,33 @@ public class LMM_SwingStatus {
 		boolean lflag = index != lastIndex;
 		lastIndex = index;
 		return lflag;
+	}
+
+// アイテムの使用に関わる関数群
+
+	public int getItemInUseCount() {
+		return itemInUseCount;
+	}
+
+	public boolean isUsingItem() {
+		return itemInUseCount > 0;
+	}
+
+	public int getItemInUseDuration() {
+		return isUsingItem() ? maxItemUseDuration - itemInUseCount : 0;
+	}
+
+	public void clearItemInUse() {
+		itemInUseCount = 0;
+	}
+
+	public void stopUsingItem() {
+		clearItemInUse();
+	}
+
+	public void setItemInUse(ItemStack itemstack, int i) {
+		itemInUseCount = i;
+		maxItemUseDuration = itemstack.getMaxItemUseDuration();
 	}
 
 }

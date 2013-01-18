@@ -1,5 +1,8 @@
 ﻿package net.minecraft.src;
 
+import java.io.ObjectInputStream.GetField;
+import java.util.Map;
+
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -17,7 +20,8 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 	public MMM_ModelRenderer bipedLeftLeg;
 	public MMM_ModelRenderer Skirt;
 
-	
+
+
 	/**
 	 * コンストラクタは全て継承させること
 	 */
@@ -153,46 +157,32 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		// TODO:このへん改修してLMM以外から呼ばれた時に描画されるようにする
-		if (entity instanceof LMM_EntityLittleMaid) {
-			renderLM((LMM_EntityLittleMaid)entity, f, f1, f2, f3, f4, f5);
-		}
-	}
-
-	public void renderLM(LMM_EntityLittleMaid pentitylittlemaid, float f,
+	public void render(Entity entity, float f,
 			float f1, float ticksExisted, float pheadYaw, float pheadPitch, float f5) {
-		setRotationAnglesLM(f, f1, ticksExisted, pheadYaw, pheadPitch, f5, pentitylittlemaid);
-		mainFrame.render(f5, pentitylittlemaid);
-
-		renderStabilizer(pentitylittlemaid, pentitylittlemaid.maidStabilizer, f, f1, ticksExisted, pheadYaw, pheadPitch, f5);
+		if (entity instanceof EntityLiving) {
+			setRotationAngles(f, f1, ticksExisted, pheadYaw, pheadPitch, f5, entity);
+			mainFrame.render(f5, (EntityLiving)entity);
+			if (modelCaps != null) {
+				renderStabilizer(entity, (Map<String, MMM_EquippedStabilizer>)modelCaps.getCapsValue(caps_stabiliser), f, f1, ticksExisted, pheadYaw, pheadPitch, f5);
+			}
+		}
 	}
 	
 	@Override
-	public void setLivingAnimations(EntityLiving entityliving, float f, float f1, float f2) {
-		if (entityliving instanceof LMM_EntityLittleMaid) {
-			setLivingAnimationsLM((LMM_EntityLittleMaid)entityliving, f, f1, f2);
+	public void setLivingAnimations(EntityLiving entityliving, float f, float f1, float renderPartialTicks) {
+		if (modelCaps != null) {
+			float angle = modelCaps.getCapsValueFloat(caps_interestedAngle, (Float)renderPartialTicks);
+			bipedHead.rotateAngleZ = angle;
 		}
-	}
-	
-	public void setLivingAnimationsLM(LMM_EntityLittleMaid pentitylittlemaid, float f, float f1, float renderPartialTicks) {
-		float angle = pentitylittlemaid.getInterestedAngle(renderPartialTicks);
-		bipedHead.rotateAngleZ = angle;
 	}
 
 	/**
 	 * 姿勢制御用
 	 * 独自追加分
-	 * setRotationAnglesの代わりにこちらを使う。
 	 */
 	@Override
-	public void setRotationAngles(float par1, float par2, float par3,
-			float par4, float par5, float par6, Entity par7Entity) {
-		super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);
-		setRotationAnglesLM(par1, par2, par3, par4, par5, par6, (LMM_EntityLittleMaid)par7Entity);
-	}
-
-	public void setRotationAnglesLM(float f, float f1, float ticksExisted, float pheadYaw, float pheadPitch, float f5, LMM_EntityLittleMaid pentitylittlemaid) {
+	public void setRotationAngles(float f, float f1, float ticksExisted,
+			float pheadYaw, float pheadPitch, float f5, Entity pEntity) {
 		bipedHead.rotateAngleY = pheadYaw / 57.29578F;
 		bipedHead.rotateAngleX = pheadPitch / 57.29578F;
 		bipedRightArm.rotateAngleX = MathHelper.cos(f * 0.6662F + 3.141593F) * 2.0F * f1 * 0.5F;
@@ -225,9 +215,20 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 		
 		bipedRightArm.rotateAngleY = 0.0F;
 		bipedLeftArm.rotateAngleY = 0.0F;
-		float onGroundR = pentitylittlemaid.getSwingStatus(0).onGround;
-		float onGroundL = pentitylittlemaid.getSwingStatus(1).onGround;
-		
+
+		float[] lgrounds = null;
+		float onGroundR = 0;
+		float onGroundL = 0;
+		if (modelCaps != null) {
+			lgrounds = (float[])modelCaps.getCapsValue(caps_Grounds);
+			if (lgrounds != null) {
+				onGroundR = lgrounds[0];
+				onGroundL = lgrounds[1];
+			}
+		}
+		if (lgrounds == null) {
+			onGroundR = onGround;
+		}
 		if ((onGroundR > -9990F || onGroundL > -9990F) && !aimedBow) {
 			// 腕振り
 //            float f6 = 1.0F + onGroundR - onGroundL;
@@ -380,39 +381,34 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 
 	@Override
 	public void renderItems(EntityLiving pEntity, Render pRender) {
-		if (pEntity instanceof LMM_EntityLittleMaid) {
-			renderItemsLM((LMM_EntityLittleMaid)pEntity, pRender);
-		}
-	}
-	
-	public void renderItemsLM(LMM_EntityLittleMaid pEntity, Render pRender) {
 		// 手持ちの表示
 		GL11.glPushMatrix();
-
-		ItemStack litemstack;
-		EnumAction laction;
-//		Arms[0].setRotationPointLM(-1F, 5F, -1F);
-//		Arms[1].setRotationPointLM(1F, 5F, -1F);
-		// R
-		litemstack = pEntity.mstatSwingStatus[0].getItemStack(pEntity);
-		laction = (pEntity.maidDominantArm == 0 && pEntity.maidAvatar.getItemInUseCount() > 0) ? litemstack.getItemUseAction() : null;
-		Arms[0].loadMatrix().renderItems(pEntity, pRender, false, laction ,litemstack);
-		// L
-		litemstack = pEntity.mstatSwingStatus[1].getItemStack(pEntity);
-		laction = (pEntity.maidDominantArm == 1 && pEntity.maidAvatar.getItemInUseCount() > 0) ? litemstack.getItemUseAction() : null;
-		Arms[1].loadMatrix().renderItems(pEntity, pRender, false, laction, litemstack);
-		// 頭部装飾品
-		if (pEntity.isCamouflage() || pEntity.isPlanter()) {
-			HeadMount.loadMatrix();
-			if (pEntity.isPlanter()) {
-				GL11.glTranslatef(0F, -0.56F, 0F);
+		boolean lflag = true;
+		if (modelCaps != null) {
+			ItemStack[] litemstacks = (ItemStack[])modelCaps.getCapsValue(caps_Items);
+			EnumAction[] lactions = (EnumAction[])modelCaps.getCapsValue(caps_Actions);
+			if (litemstacks != null) {
+				// R
+				Arms[0].loadMatrix().renderItems(pEntity, pRender, false, lactions[0] ,litemstacks[0]);
+				// L
+				Arms[1].loadMatrix().renderItems(pEntity, pRender, false, lactions[1], litemstacks[1]);
+				lflag = false;
 			}
-			HeadMount.renderItems(pEntity, pRender, true, null, pEntity.maidInventory.getHeadMount());
+			// 頭部装飾品
+			boolean lplanter = modelCaps.getCapsValueBoolean(caps_isPlanter);
+			if (modelCaps.getCapsValueBoolean(caps_isCamouflage) || lplanter) {
+				HeadMount.loadMatrix();
+				if (lplanter) {
+					GL11.glTranslatef(0F, -0.56F, 0F);
+				}
+				HeadMount.renderItems(pEntity, pRender, true, null, (ItemStack)modelCaps.getCapsValue(caps_HeadMount));
+			}
 		}
-		
+		if (lflag) {
+			Arms[0].loadMatrix().renderItems(pEntity, pRender, false, null, pEntity.getHeldItem());
+		}
 		GL11.glPopMatrix();
 	}
-
 
 	// 不要部品
 	@Override
@@ -421,6 +417,5 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 	@Override
 	public void renderCloak(float par1) {
 	}
-
 
 }

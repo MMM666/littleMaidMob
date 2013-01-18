@@ -30,13 +30,17 @@ public class LMM_EntityAICollectItem extends EntityAIBase {
 				
 				if (!ei.isDead && ei.onGround && ei.delayBeforeCanPickup <= 0 && !ei.isBurning()
 						&& canEntityItemBeSeen(ei) && (ep == null ||
-						ep.getDistanceSq(ei.posX + MathHelper.sin(ep.rotationYaw * 0.01745329252F) * 2.0D, ei.posY, ei.posZ - MathHelper.cos(ep.rotationYaw * 0.01745329252F) * 2.0D) > 7.5D))
+						ep.getDistanceSq(
+								ei.posX + MathHelper.sin(ep.rotationYaw * 0.01745329252F) * 2.0D,
+								ei.posY,
+								ei.posZ - MathHelper.cos(ep.rotationYaw * 0.01745329252F) * 2.0D) > 7.5D))
 				{
-					if ((ei.func_92059_d().itemID != Item.sugar.itemID)) {
+					ItemStack lstack = ei.getEntityItem();
+					if ((lstack.itemID != Item.sugar.itemID)) {
 						if ((theMaid.maidActiveModeClass == null)) {
 							return false;
 						}
-						if ((!theMaid.maidActiveModeClass.checkItemStack(ei.func_92059_d()))) {
+						if ((!theMaid.maidActiveModeClass.checkItemStack(lstack))) {
 							return false;
 						}
 					}

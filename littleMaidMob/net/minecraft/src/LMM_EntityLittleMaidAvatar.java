@@ -145,44 +145,47 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 		}
 		
 	}
-	
+
 	@Override
 	protected void alertWolves(EntityLiving par1EntityLiving, boolean par2) {
 	}
-	
+
 	@Override
 	public void destroyCurrentEquippedItem() {
 		// アイテムが壊れたので次の装備を選択
 		super.destroyCurrentEquippedItem();
 		avatar.getNextEquipItem();
 	}
-	
+
 	@Override
 	public void onKillEntity(EntityLiving entityliving) {
 	}
-	
-    @Override
+
+	@Override
 	public void clearItemInUse() {
-    	super.clearItemInUse();
-    	isItemTrigger = false;
-    	isItemReload = isItemPreReload = false;
-    }
+		super.clearItemInUse();
+		isItemTrigger = false;
+		isItemReload = isItemPreReload = false;
+		avatar.getSwingStatusDominant().clearItemInUse();
+	}
 
-    @Override
-    public void stopUsingItem() {
-    	super.stopUsingItem();
-    }
-    
-    @Override
-    public void setItemInUse(ItemStack itemstack, int i) {
-        super.setItemInUse(itemstack, i);
-        isItemTrigger = true;
-        isItemReload = isItemPreReload;
-    }
+	@Override
+	public void stopUsingItem() {
+		super.stopUsingItem();
+		avatar.getSwingStatusDominant().stopUsingItem();
+	}
+	
+	@Override
+	public void setItemInUse(ItemStack itemstack, int i) {
+		super.setItemInUse(itemstack, i);
+		isItemTrigger = true;
+		isItemReload = isItemPreReload;
+		avatar.getSwingStatusDominant().setItemInUse(itemstack, i);
+	}
 
-    public boolean isUsingItemLittleMaid() {
-        return super.isUsingItem() | isItemTrigger;
-    }
+	public boolean isUsingItemLittleMaid() {
+		return super.isUsingItem() | isItemTrigger;
+	}
 
 	public void getValue() {
 		// EntityLittleMaidから値をコピー
@@ -264,7 +267,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 		return pValue;
 	}
 
-	
+
 	public void setValue() {
 		// EntityLittleMiadへ値をコピー
 		avatar.setPosition(posX, posY, posZ);
