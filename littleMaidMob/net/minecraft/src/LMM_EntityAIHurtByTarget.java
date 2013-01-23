@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 public class LMM_EntityAIHurtByTarget extends EntityAIHurtByTarget {
 
@@ -18,8 +18,20 @@ public class LMM_EntityAIHurtByTarget extends EntityAIHurtByTarget {
 	}
 
 	@Override
+	public boolean shouldExecute() {
+		if (theMaid.isMaidContract() && !theMaid.isBlocking() && theMaid.mstatMasterEntity != null) {
+			// ƒtƒFƒ“ƒT[Œn‚Íå‚É‘Î‚·‚éUŒ‚‚É”½‰
+			EntityLiving lentity = theMaid.mstatMasterEntity.getAITarget();
+			if (isSuitableTarget(lentity, false)) {
+				theMaid.setRevengeTarget(lentity);
+				return true;
+			}
+		}
+		return super.shouldExecute();
+	}
+
+	@Override
 	public void startExecuting() {
-		
 		super.startExecuting();
 	}
 
@@ -30,7 +42,7 @@ public class LMM_EntityAIHurtByTarget extends EntityAIHurtByTarget {
 		String s2 = taskOwner.getAttackTarget() == null ? "Null" : taskOwner.getAttackTarget().getClass().toString();
 //		System.out.println(String.format("ID:%d, target:%s, attack:%s", taskOwner.entityId, s1, s2));
 		
-		// æ®´ã‚‰ã‚ŒãŸä»•è¿”ã—
+		// ‰£‚ç‚ê‚½d•Ô‚µ
 		EntityLiving leliving = taskOwner.getAITarget();
 		if (leliving != null && leliving != taskOwner.getAttackTarget()) {
 			taskOwner.setAttackTarget(null);
@@ -41,7 +53,7 @@ public class LMM_EntityAIHurtByTarget extends EntityAIHurtByTarget {
 	
 	@Override
 	protected boolean isSuitableTarget(EntityLiving par1EntityLiving, boolean par2) {
-		// LMMç”¨ã«ã‚«ã‚¹ã‚¿ãƒ 
+		// LMM—p‚ÉƒJƒXƒ^ƒ€
 		if (par1EntityLiving == null) {
 			return false;
 		}
@@ -68,17 +80,17 @@ public class LMM_EntityAIHurtByTarget extends EntityAIHurtByTarget {
 			}
 		}
 		
-		// åŸºç‚¹ã‹ã‚‰ä¸€å®šè·é›¢é›¢ã‚Œã¦ã„ã‚‹å ´åˆã‚‚æ”»æ’ƒã—ãªã„
+		// Šî“_‚©‚çˆê’è‹——£—£‚ê‚Ä‚¢‚éê‡‚àUŒ‚‚µ‚È‚¢
 		if (!taskOwner.isWithinHomeDistance(MathHelper.floor_double(par1EntityLiving.posX), MathHelper.floor_double(par1EntityLiving.posY), MathHelper.floor_double(par1EntityLiving.posZ))) {
 			return false;
 		}
 		
-		// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãŒè¦‹ãˆãªã„
+		// ƒ^[ƒQƒbƒg‚ªŒ©‚¦‚È‚¢
 		if (shouldCheckSight && !taskOwner.getEntitySenses().canSee(par1EntityLiving)) {
 			return false;
 		}
 		
-		// æ”»æ’ƒä¸­æ­¢åˆ¤å®šï¼Ÿ
+		// UŒ‚’†~”»’èH
 		if (this.field_75303_a) {
 			if (--this.field_75302_c <= 0) {
 				this.field_75301_b = 0;

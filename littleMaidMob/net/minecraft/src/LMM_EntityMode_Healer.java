@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +19,7 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 
 	@Override
 	public void init() {
-		// ç™»éŒ²ãƒ¢ãƒ¼ãƒ‰ã®åç§°è¿½åŠ 
+		// “o˜^ƒ‚[ƒh‚Ì–¼Ì’Ç‰Á
 		ModLoader.addLocalization("littleMaidMob.mode.Healer", "Healer");
 		ModLoader.addLocalization("littleMaidMob.mode.F-Healer", "F-Healer");
 		ModLoader.addLocalization("littleMaidMob.mode.T-Healer", "T-Healer");
@@ -32,7 +32,7 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 		ltasks[0] = pDefaultMove;
 		ltasks[1] = new EntityAITasks(owner.aiProfiler);
 		
-		// ç´¢æ•µç³»
+		// õ“GŒn
 		ltasks[1].addTask(1, new EntityAIHurtByTarget(owner, true));
 
 		owner.addMaidMode(ltasks, "Healer", mmode_Healer);
@@ -70,7 +70,7 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
     		for (int i = 0; i < owner.maidInventory.getSizeInventory(); i++) {
     			ItemStack is = owner.maidInventory.getStackInSlot(i);
     			if (is == null) continue;
-				// å¯¾è±¡ã¯é£Ÿæ–™ã‹ãƒãƒ¼ã‚·ãƒ§ãƒ³
+				// ‘ÎÛ‚ÍH—¿‚©ƒ|[ƒVƒ‡ƒ“
 				if (is.getItem() instanceof ItemFood || (is.getItem() instanceof ItemPotion && is.hasEffect())) {
     	    		return i;
     			}
@@ -88,20 +88,20 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 	@Override
 	public void updateAITick(int pMode) {
 		if (pMode == mmode_Healer) {
-			// è¿‘æ¥ã—ãŸä¸»ã«é£Ÿç‰©ã‚’çªã£è¾¼ã‚€
+			// ‹ßÚ‚µ‚½å‚ÉH•¨‚ğ“Ë‚Á‚Ş
 	        if (owner.getSwingStatusDominant().canAttack()) {
-	            // ä¸»ã®å›å¾©
+	            // å‚Ì‰ñ•œ
 	            if (owner.isMaidContractEX() && owner.mstatMasterDistanceSq < 16D  
 	            		&& owner.mstatMasterEntity != null && owner.mstatMasterEntity.isEntityAlive()
 	            		&& owner.mstatMasterEntity instanceof EntityPlayer
 	            		&& owner.canEntityBeSeen(owner.mstatMasterEntity)) {
 		        	EntityPlayer lmaster = owner.mstatMasterEntity; 
 	            	int h = lmaster.foodStats.getFoodLevel();
-	            	// ãƒã‚¹ã‚¯ãƒ‰ãƒ¡ã‚¤ãƒ‰ã¯è³¢ã„ãª
+	            	// ƒ}ƒXƒNƒhƒƒCƒh‚ÍŒ«‚¢‚È
 	            	while (owner.isMaskedMaid()) {
-	            		// ä¸»ã®çŠ¶æ…‹ã«åˆã‚ã›ã¦ã‚¢ã‚¤ãƒ†ãƒ ã‚’é¸æŠ
+	            		// å‚Ìó‘Ô‚É‡‚í‚¹‚ÄƒAƒCƒeƒ€‚ğ‘I‘ğ
 	            		if (lmaster.health < 9) {
-	            			// HPãŒæ¸›ã£ã¦ã„ã‚‹ã¨ãã¯ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ãƒˆãƒ’ãƒ¼ãƒ«
+	            			// HP‚ªŒ¸‚Á‚Ä‚¢‚é‚Æ‚«‚ÍƒCƒ“ƒXƒ^ƒ“ƒgƒq[ƒ‹
 	            			int j = owner.maidInventory.getInventorySlotContainItemPotion(false, Potion.heal.id, lmaster.isEntityUndead());
 	            			if (j > -1) {
 	            				owner.maidInventory.currentItem = j;
@@ -109,7 +109,7 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 	            			}
 	            		} 
 	            		if (h < 18) {
-	            			// è‡ªç„¶å›å¾©ã§ããªã„è…¹å…·åˆãªã‚‰é£Ÿæ–™
+	            			// ©‘R‰ñ•œ‚Å‚«‚È‚¢• ‹ï‡‚È‚çH—¿
 	            			int j = owner.maidInventory.getInventorySlotContainItemFood();
 	            			if (j > -1) {
 	            				owner.maidInventory.currentItem = j;
@@ -122,7 +122,7 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 	          		ItemStack itemstack1 = owner.maidInventory.getCurrentItem();
 	              	if (itemstack1 != null) {
 	                  	if (itemstack1.getItem() instanceof ItemFood) {
-	                    	// é£Ÿæ–™ã‚’çªã£è¾¼ã‚€
+	                    	// H—¿‚ğ“Ë‚Á‚Ş
 	                  		if (h < 18) {
 	                        	owner.setSwing(10, LMM_EnumSound.healing);
 	                        	itemstack1 = itemstack1.onFoodEaten(owner.worldObj, lmaster);
@@ -136,7 +136,7 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 	                  	}
 	                  	else if (itemstack1.getItem() instanceof ItemPotion) {
 	                        boolean f = true;
-	                        // ãƒãƒ¼ã‚·ãƒ§ãƒ³ã®åŠ¹æœãŒé‡è¤‡ã—ãªã„ã‚ˆã†ã«ä½¿ã†
+	                        // ƒ|[ƒVƒ‡ƒ“‚ÌŒø‰Ê‚ªd•¡‚µ‚È‚¢‚æ‚¤‚Ég‚¤
 	                        List list = ((ItemPotion)itemstack1.getItem()).getEffects(itemstack1);
 	                        if (list != null) {
 	                            PotionEffect potioneffect;

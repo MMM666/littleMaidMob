@@ -1,4 +1,4 @@
-﻿package net.minecraft.src;
+package net.minecraft.src;
 
 public class LMM_EntityAIFollowOwner extends EntityAIBase implements LMM_IEntityAI {
 

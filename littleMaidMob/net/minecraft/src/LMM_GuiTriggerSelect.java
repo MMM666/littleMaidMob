@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +66,7 @@ public class LMM_GuiTriggerSelect extends GuiContainer {
 	
 	@Override
 	public void onGuiClosed() {
-		// è¨­å®šå€¤ã®ãƒ‡ã‚³ãƒ¼ãƒ‰
+		// İ’è’l‚ÌƒfƒR[ƒh
 		setItemList();
 		
 		super.onGuiClosed();
@@ -108,7 +108,7 @@ public class LMM_GuiTriggerSelect extends GuiContainer {
                 ItemStack itemstack1 = inventoryplayer.getItemStack();
                 ItemStack itemstack4 = slot.getStack();
                 if(itemstack1 != null && itemstack4 != null && itemstack1.itemID == itemstack4.itemID) {
-                	// é¸æŠã‚¢ã‚¤ãƒ†ãƒ ãŒç©ºã§ã¯ãªã„æ™‚
+                	// ‘I‘ğƒAƒCƒeƒ€‚ª‹ó‚Å‚Í‚È‚¢
                     if(j != 0) {
                         inventoryplayer.setItemStack(null);
                     }
@@ -127,7 +127,7 @@ public class LMM_GuiTriggerSelect extends GuiContainer {
                 mc.playerController.sendSlotPacket(itemstack, (slot.slotNumber - inventorySlots.inventorySlots.size()) + 9 + 36);
             }
         } else {
-        	//Slotä»¥å¤–ã®ã¨ã“ã‚ã¯æ¨ã¦ã‚‹
+        	//SlotˆÈŠO‚Ì‚Æ‚±‚ë‚ÍÌ‚Ä‚é
             InventoryPlayer inventoryplayer1 = mc.thePlayer.inventory;
             inventoryplayer1.setItemStack(null);
         }
@@ -292,7 +292,7 @@ public class LMM_GuiTriggerSelect extends GuiContainer {
     }
 
     public static void appendTriggerItem(String triggerstr, String indexstr) {
-    	// ãƒˆãƒªã‚¬ãƒ¼ã‚¢ã‚¤ãƒ†ãƒ ã®è¿½åŠ 
+    	// ƒgƒŠƒK[ƒAƒCƒeƒ€‚Ì’Ç‰Á
     	List<Integer> llist = new ArrayList<Integer>();
     	appendWeaponsIndex(indexstr, llist);
     	selector.put(triggerstr, llist);
@@ -307,7 +307,7 @@ public class LMM_GuiTriggerSelect extends GuiContainer {
 	}
 	
 	/**
-	 * ã‚¢ã‚¤ãƒ†ãƒ ãŒæŒ‡å®šã•ã‚ŒãŸãƒˆãƒªã‚¬ãƒ¼ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‹ã‚’åˆ¤å®š
+	 * ƒAƒCƒeƒ€‚ªw’è‚³‚ê‚½ƒgƒŠƒK[‚É“o˜^‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è
 	 */
 	public static boolean checkWeapon(String pName, ItemStack pItemStack) {
 		if (!selector.containsKey(pName)) {

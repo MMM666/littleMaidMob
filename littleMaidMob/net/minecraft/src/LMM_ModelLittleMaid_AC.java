@@ -1,7 +1,7 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 /**
- * ã‚¹ã‚¿ãƒ“ãƒ©ã‚¤ã‚¶ãƒ¼æ­è¼‰æ©Ÿ
+ * ƒXƒ^ƒrƒ‰ƒCƒU[“‹Ú‹@
  */
 public class LMM_ModelLittleMaid_AC extends MMM_ModelBiped {
 

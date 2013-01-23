@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.io.ObjectInputStream.GetField;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.Map;
 import org.lwjgl.opengl.GL11;
 
 /**
- * LMMç”¨ã«æœ€é©åŒ–
+ * LMM—p‚ÉÅ“K‰»
  */
 public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 
@@ -23,19 +23,19 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã¯å…¨ã¦ç¶™æ‰¿ã•ã›ã‚‹ã“ã¨
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Í‘S‚ÄŒp³‚³‚¹‚é‚±‚Æ
 	 */
 	public LMM_ModelLittleMaid() {
 		super();
 	}
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã¯å…¨ã¦ç¶™æ‰¿ã•ã›ã‚‹ã“ã¨
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Í‘S‚ÄŒp³‚³‚¹‚é‚±‚Æ
 	 */
 	public LMM_ModelLittleMaid(float psize) {
 		super(psize);
 	}
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã¯å…¨ã¦ç¶™æ‰¿ã•ã›ã‚‹ã“ã¨
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Í‘S‚ÄŒp³‚³‚¹‚é‚±‚Æ
 	 */
 	public LMM_ModelLittleMaid(float psize, float pyoffset) {
 		super(psize, pyoffset);
@@ -44,19 +44,19 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 
 	@Override
 	public void initModel(float psize, float pyoffset) {
-		// æ¨™æº–å‹
+		// •W€Œ^
 		textureHeight = 32;
 		textureWidth = 64;
 		
 		
 		Arms = new MMM_ModelRenderer[18];
-		// æ‰‹æŒã¡
+		// è‚¿
 		Arms[0] = new MMM_ModelRenderer(this, 0, 0);
 		Arms[0].setRotationPointLM(-1F, 5F, -1F);
 		Arms[1] = new MMM_ModelRenderer(this, 0, 0);
 		Arms[1].setRotationPoint(1F, 5F, -1F);
 		Arms[1].isInvertX = true;
-		// ãƒã‚¤ãƒ—ãƒ­ãƒ€ã‚¯ãƒˆã‚¨ãƒ•ã‚§ã‚¯ã‚¿ãƒ¼
+		// ƒoƒCƒvƒƒ_ƒNƒgƒGƒtƒFƒNƒ^[
 		Arms[2] = new MMM_ModelRenderer(this, 0, 0);
 		Arms[2].setRotationPoint(-3F, 9F, 6F);
 		Arms[2].setRotateAngleDeg(45F, 0F, 0F);
@@ -64,7 +64,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 		Arms[3].setRotationPoint(3F, 9F, 6F);
 		Arms[3].setRotateAngleDeg(45F, 0F, 0F);
 		Arms[3].isInvertX = true;
-		// ãƒ†ãƒ¼ãƒ«ã‚½ãƒ¼ãƒ‰
+		// ƒe[ƒ‹ƒ\[ƒh
 		Arms[4] = new MMM_ModelRenderer(this, 0, 0);
 		Arms[4].setRotationPoint(-2F, 0F, 0F);
 		Arms[4].setRotateAngleDeg(180F, 0F, 0F);
@@ -177,8 +177,8 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 	}
 
 	/**
-	 * å§¿å‹¢åˆ¶å¾¡ç”¨
-	 * ç‹¬è‡ªè¿½åŠ åˆ†
+	 * p¨§Œä—p
+	 * “Æ©’Ç‰Á•ª
 	 */
 	@Override
 	public void setRotationAngles(float f, float f1, float ticksExisted,
@@ -195,7 +195,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 		bipedLeftLeg.rotateAngleY = 0.0F;
 		
 		if (isRiding) {
-			// ä¹—ã‚Šç‰©ã«ä¹—ã£ã¦ã„ã‚‹
+			// æ‚è•¨‚Éæ‚Á‚Ä‚¢‚é
 			bipedRightArm.rotateAngleX += -0.6283185F;
 			bipedLeftArm.rotateAngleX += -0.6283185F;
 			bipedRightLeg.rotateAngleX = -1.256637F;
@@ -205,7 +205,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 		}
 		
 		
-		// ã‚¢ã‚¤ãƒ†ãƒ æŒã£ã¦ã‚‹ã¨ãã®è…•æŒ¯ã‚Šã‚’æŠ‘ãˆã‚‹+è¡¨ç¤ºè§’ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+		// ƒAƒCƒeƒ€‚Á‚Ä‚é‚Æ‚«‚Ì˜rU‚è‚ğ—}‚¦‚é+•\¦ŠpƒIƒtƒZƒbƒg
 		if (heldItemLeft != 0) {
 			bipedLeftArm.rotateAngleX = bipedLeftArm.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)heldItemLeft;
 		}
@@ -230,7 +230,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 			onGroundR = onGround;
 		}
 		if ((onGroundR > -9990F || onGroundL > -9990F) && !aimedBow) {
-			// è…•æŒ¯ã‚Š
+			// ˜rU‚è
 //            float f6 = 1.0F + onGroundR - onGroundL;
 			float f6, f7, f8;
 			f6 = MathHelper.sin(MathHelper.sqrt_float(onGroundR) * (float)Math.PI * 2.0F);
@@ -270,7 +270,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 			}
 		}
 		if(isSneak) {
-			// ã—ã‚ƒãŒã¿
+			// ‚µ‚á‚ª‚İ
 			bipedBody.rotateAngleX = 0.5F;
 			bipedRightLeg.rotateAngleX -= 0.0F;
 			bipedLeftLeg.rotateAngleX -= 0.0F;
@@ -285,7 +285,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 			Skirt.rotationPointZ = 2.7F;
 			Skirt.rotateAngleX = 0.2F;
 		} else {
-			// é€šå¸¸ç«‹ã¡
+			// ’Êí—§‚¿
 			bipedBody.rotateAngleX = 0.0F;
 			bipedRightLeg.rotationPointZ = 0.0F;
 			bipedLeftLeg.rotationPointZ = 0.0F;
@@ -297,7 +297,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 			Skirt.rotateAngleX = 0.0F;
 		}
 		if (isWait) {
-			//å¾…æ©ŸçŠ¶æ…‹ã®ç‰¹åˆ¥è¡¨ç¤º
+			//‘Ò‹@ó‘Ô‚Ì“Á•Ê•\¦
 			bipedRightArm.rotateAngleX = MathHelper.sin(ticksExisted * 0.067F) * 0.05F -0.7F;
 			bipedRightArm.rotateAngleY = 0.0F;
 			bipedRightArm.rotateAngleZ = -0.4F;
@@ -306,7 +306,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 			bipedLeftArm.rotateAngleZ = 0.4F;
 		} else {
 			if (aimedBow) {
-				// å¼“æ§‹ãˆ
+				// ‹|\‚¦
 				float f6 = MathHelper.sin(onGround * 3.141593F);
 				float f7 = MathHelper.sin((1.0F - (1.0F - onGround) * (1.0F - onGround)) * 3.141593F);
 				bipedRightArm.rotateAngleZ = 0.0F;
@@ -326,7 +326,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 				bipedRightArm.rotateAngleY += bipedHead.rotateAngleY;
 				bipedLeftArm.rotateAngleY += bipedHead.rotateAngleY;
 			} else {
-				// é€šå¸¸
+				// ’Êí
 				bipedRightArm.rotateAngleZ += 0.5F;
 				bipedLeftArm.rotateAngleZ -= 0.5F;
 				bipedRightArm.rotateAngleZ += MathHelper.cos(ticksExisted * 0.09F) * 0.05F + 0.05F;
@@ -346,7 +346,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 
 	@Override
 	public void showAllParts() {
-		// è¡¨ç¤ºåˆ¶é™ã‚’è§£é™¤ã—ã¦ã™ã¹ã¦ã®éƒ¨å“ã‚’è¡¨ç¤º
+		// •\¦§ŒÀ‚ğ‰ğœ‚µ‚Ä‚·‚×‚Ä‚Ì•”•i‚ğ•\¦
 		bipedHead.setVisible(true);
 		bipedBody.setVisible(true);
 		bipedRightArm.setVisible(true);
@@ -358,20 +358,20 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 
 	@Override
 	public int showArmorParts(int parts) {
-		// é§ã®è¡¨ç¤ºç”¨
+		// ŠZ‚Ì•\¦—p
 		boolean f;
-		// å…œ
+		// Š•
 		f = parts == 3 ? true : false;
 		bipedHead.setVisible(f);
-		// é§
+		// ŠZ
 		f = parts == 2 ? true : false;
 		bipedBody.setVisible(f);
 		bipedRightArm.setVisible(f);
 		bipedLeftArm.setVisible(f);
-		// è„šç”²
+		// ‹rb
 		f = parts == 1 ? true : false;
 		Skirt.setVisible(f);
-		// è‡‘å½“
+		// äa“–
 		f = parts == 0 ? true : false;
 		bipedRightLeg.setVisible(f);
 		bipedLeftLeg.setVisible(f);
@@ -381,7 +381,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 
 	@Override
 	public void renderItems(EntityLiving pEntity, Render pRender) {
-		// æ‰‹æŒã¡ã®è¡¨ç¤º
+		// è‚¿‚Ì•\¦
 		GL11.glPushMatrix();
 		boolean lflag = true;
 		if (modelCaps != null) {
@@ -394,7 +394,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 				Arms[1].loadMatrix().renderItems(pEntity, pRender, false, lactions[1], litemstacks[1]);
 				lflag = false;
 			}
-			// é ­éƒ¨è£…é£¾å“
+			// “ª•”‘•ü•i
 			boolean lplanter = modelCaps.getCapsValueBoolean(caps_isPlanter);
 			if (modelCaps.getCapsValueBoolean(caps_isCamouflage) || lplanter) {
 				HeadMount.loadMatrix();
@@ -410,7 +410,7 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 		GL11.glPopMatrix();
 	}
 
-	// ä¸è¦éƒ¨å“
+	// •s—v•”•i
 	@Override
 	public void renderEars(float par1) {
 	}

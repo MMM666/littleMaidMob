@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEntityAI {
 
@@ -89,7 +89,7 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEn
 		theMaid.getLookHelper().setLookPositionWithEntity(entityTarget, 30F, 30F);
 		
 		if ((isReroute || theMaid.getEntitySenses().canSee(entityTarget)) && --rerouteTimer <= 0) {
-			// ãƒªãƒ«ãƒ¼ãƒˆ
+			// ƒŠƒ‹[ƒg
 			rerouteTimer = 4 + theMaid.getRNG().nextInt(7);
 			theMaid.getNavigator().tryMoveToXYZ(entityTarget.posX, entityTarget.posY, entityTarget.posZ, moveSpeed);
 		}
@@ -98,7 +98,7 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEn
 			return;
 		}
 		
-		// æ­£é¢ã‹ã‚‰110åº¦æ–¹å‘ãŒæ”»æ’ƒç¯„å›²
+		// ³–Ê‚©‚ç110“x•ûŒü‚ªUŒ‚”ÍˆÍ
 		double tdx = entityTarget.posX - theMaid.posX;
 		double tdz = entityTarget.posZ - theMaid.posZ;
 		double vdx = -Math.sin(theMaid.renderYawOffset * 3.1415926535897932384626433832795F / 180F);
@@ -112,9 +112,9 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEn
 		if (!theMaid.getSwingStatusDominant().canAttack()) {
 			return;
 		} else {
-			// æ”»æ’ƒ
+			// UŒ‚
 			theMaid.attackEntityAsMob(entityTarget);
-			// å¯¾è±¡ã‚’å†è¨­å®šã•ã›ã‚‹
+			// ‘ÎÛ‚ðÄÝ’è‚³‚¹‚é
 			if (!theMaid.isBloodsuck()) {
 				theMaid.setAttackTarget(null);
 				theMaid.setTarget(null);

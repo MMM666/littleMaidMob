@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 	
 	
 	/**
-	 * å„ç¨®å®Ÿé¨“ç”¨ã€‚ 
+	 * ŠeíÀŒ±—pB 
 	 */
 	public LMM_EntityMode_Test(LMM_EntityLittleMaid pEntity) {
 		super(pEntity);
@@ -38,7 +38,7 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 	public void showSpecial(LMM_RenderLittleMaid prenderlittlemaid, double px, double py, double pz) {
 		if (!isEnable) return;
 		
-		// åå‰ã¨ã‹ã®è¡¨ç¤ºç”¨
+		// –¼‘O‚Æ‚©‚Ì•\¦—p
 		List<String> llist = new ArrayList<String>();
 		double ld;
 		
@@ -82,7 +82,7 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 	}
 
 	
-	// ãƒ‡ãƒãƒƒã‚°è¡¨ç¤ºã‚³ãƒãƒ³ãƒ‰è¿½åŠ ç”¨
+	// ƒfƒoƒbƒO•\¦ƒRƒ}ƒ“ƒh’Ç‰Á—p
 	
 	@Override
 	public int compareTo(Object arg0) {
@@ -147,7 +147,7 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 
 	@Override
 	public List addTabCompletionOptions(ICommandSender var1, String[] var2) {
-		// ç‰¹ã«å¤‰æ›ã—ãªã„
+		// “Á‚É•ÏŠ·‚µ‚È‚¢
 		return null;
 	}
 
@@ -158,7 +158,8 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 
 	@Override
 	public boolean interact(EntityPlayer pentityplayer, ItemStack pitemstack) {
-		if (pitemstack.itemID == Item.slimeBall.itemID && owner.maidContractLimit > 0) {
+		if (pitemstack.itemID == Item.slimeBall.itemID) {
+//		if (pitemstack.itemID == Item.slimeBall.itemID && owner.maidContractLimit > 0) {
 			owner.maidContractLimit -= 24000;
 			return true;
 		}

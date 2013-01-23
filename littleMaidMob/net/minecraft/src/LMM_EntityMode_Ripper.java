@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 
@@ -22,9 +22,9 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 
 	@Override
 	public void init() {
-		// ç™»éŒ²ãƒ¢ãƒ¼ãƒ‰ã®åç§°è¿½åŠ 
+		// “o˜^ƒ‚[ƒh‚Ì–¼Ì’Ç‰Á
 		ModLoader.addLocalization("littleMaidMob.mode.Ripper", "Ripper");
-		ModLoader.addLocalization("littleMaidMob.mode.Ripper", "ja_JP", "æ¯›ç‹©ã‚ŠéšŠ");
+		ModLoader.addLocalization("littleMaidMob.mode.Ripper", "ja_JP", "–Ñë‚è‘à");
 		ModLoader.addLocalization("littleMaidMob.mode.TNT-D", "TNT-D");
 //		ModLoader.addLocalization("littleMaidMob.mode.TNT-D", "ja_JP", "TNT-D");
 		ModLoader.addLocalization("littleMaidMob.mode.Detonator", "Detonator");
@@ -104,7 +104,7 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 
 	@Override
 	public void onUpdate(int pMode) {
-		// è‡ªçˆ†ãƒ¢ãƒ¼ãƒ‰
+		// ©”šƒ‚[ƒh
 		if (pMode == mmode_Detonator && owner.isEntityAlive()) {
 			if (timeSinceIgnited < 0) {
 				if (lastTimeSinceIgnited != timeSinceIgnited) {
@@ -116,20 +116,20 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 			}
 			lastTimeSinceIgnited = timeSinceIgnited;
 			if (timeSinceIgnited > -1) {
-				// æœ€æœŸã®ç¬é–“ã¯ã‚»ãƒ„ãƒŠã‚¤
+				// ÅŠú‚ÌuŠÔ‚ÍƒZƒcƒiƒC
 				if (owner.isMovementCeased() || timeSinceIgnited > 22) {
 					owner.getLookHelper().setLookPositionWithEntity(owner.getMaidMasterEntity(), 40F, 40F);
 				}
 				mod_LMM_littleMaidMob.Debug(String.format("ID:%d(%s)-dom:%d(%d)", owner.entityId, owner.worldObj.isRemote ? "C" : "W", owner.maidDominantArm, owner.maidInventory.currentItem));
 				
 				if (owner.maidInventory.isItemExplord(owner.maidInventory.currentItem) && timeSinceIgnited++ > 30) {
-					// TODO:è‡ªçˆ†å¨åŠ›ã‚’å¯¾å¿œã•ã›ãŸã„ã‘ã©ç„¡ç†ã½ï¼Ÿ
+					// TODO:©”šˆĞ—Í‚ğ‘Î‰‚³‚¹‚½‚¢‚¯‚Ç–³—‚ÛH
 					owner.maidInventory.decrStackSize(owner.maidInventory.currentItem, 1);
-					// ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã‚’ãƒ–ãƒãƒã‚±ãƒ­ï¼
+					// ƒCƒ“ƒxƒ“ƒgƒŠ‚ğƒuƒ`ƒ}ƒPƒI
 					owner.maidInventory.dropAllItems(true);
 					timeSinceIgnited = -1;
 					owner.setDead();
-					// Mobã«ã‚ˆã‚‹ç ´å£Šã®æ˜¯é
+					// Mob‚É‚æ‚é”j‰ó‚Ì¥”ñ
 					boolean lflag = owner.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
 					owner.worldObj.createExplosion(owner, owner.posX, owner.posY, owner.posZ, 3F, lflag);
 				}
@@ -178,7 +178,7 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 		int li;
 		ItemStack litemstack;
 		
-		// ãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ãŸè­˜åˆ¥åˆ¤å®šã€é€Ÿåº¦å„ªå…ˆ
+		// ƒ‚[ƒh‚É‰‚¶‚½¯•Ê”»’èA‘¬“x—Dæ
 		switch (pMode) {
 		case mmode_Ripper :
 		case mmode_TNTD :
@@ -186,7 +186,7 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 				litemstack = owner.maidInventory.getStackInSlot(li);
 				if (litemstack == null) continue;
 				
-				// ã¯ã•ã¿
+				// ‚Í‚³‚İ
 				if (litemstack.getItem() instanceof ItemShears) {
 					return li;
 				}
@@ -194,7 +194,7 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 			break;
 		case mmode_Detonator :
 			for (li = 0; li < owner.maidInventory.maxInventorySize; li++) {
-				// çˆ†ç™ºç‰©
+				// ”š”­•¨
 				if (owner.maidInventory.isItemExplord(li)) {
 					return li;
 				}
@@ -210,14 +210,14 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 	@Override
 	public boolean attackEntityAsMob(int pMode, Entity pEntity) {
 		if (pMode == mmode_Detonator) {
-			// é€šå¸¸æ®´ã‚Š
+			// ’Êí‰£‚è
 			return false;
 		}
 		
 		if (owner.getSwingStatusDominant().canAttack()) {
 			if (pEntity instanceof EntityCreeper) {
-				// TODO:ã‚«ãƒƒãƒˆã‚ªãƒ•
-				// ãªã‚“ã§Privateã«ã‹ãˆãŸã—
+				// TODO:ƒJƒbƒgƒIƒt
+				// ‚È‚ñ‚ÅPrivate‚É‚©‚¦‚½‚µ
 				try {
 					ModLoader.setPrivateValue(EntityCreeper.class, (EntityCreeper)pEntity, 1, 0);
 				} catch (Exception e) {
@@ -275,7 +275,7 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 	}
 	
 	protected float setLittleMaidFlashTime(float f) {
-		// çˆ†ç™ºã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ç™ºå…‰æ™‚é–“
+		// ”š”­ƒJƒEƒ“ƒgƒ_ƒEƒ“”­ŒõŠÔ
 		if (timeSinceIgnited > -1) {
 			return ((float)this.lastTimeSinceIgnited + (float)(this.timeSinceIgnited - this.lastTimeSinceIgnited) * f) / 28.0F;
 		} else { 
@@ -308,7 +308,7 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 	
 	@Override
 	public boolean damageEntity(int pMode, DamageSource par1DamageSource, int par2) {
-		// èµ·çˆ†
+		// ‹N”š
 		if (pMode == mmode_Detonator && owner.maidInventory.isItemExplord(owner.getCurrentEquippedItem())) {
 			if (timeSinceIgnited == -1) {
 				owner.worldObj.playSoundAtEntity(owner, "random.fuse", 1.0F, 0.5F);

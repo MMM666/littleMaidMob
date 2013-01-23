@@ -1,9 +1,9 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.util.List;
 
 /**
- * ç‹¬è‡ªåŸºæº–ã¨ã—ã¦ãƒ¢ãƒ¼ãƒ‰å®šæ•°ã¯0x0080ã¯å¹³å¸¸ã€0x00c0ã¯è¡€ã¾ã¿ã‚Œãƒ¢ãƒ¼ãƒ‰ã¨åŒºåˆ¥ã€‚
+ * “Æ©Šî€‚Æ‚µ‚Äƒ‚[ƒh’è”‚Í0x0080‚Í•½íA0x00c0‚ÍŒŒ‚Ü‚İ‚êƒ‚[ƒh‚Æ‹æ•ÊB
  */
 public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 
@@ -22,11 +22,11 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 	
 	@Override
 	public void init() {
-		// ç™»éŒ²ãƒ¢ãƒ¼ãƒ‰ã®åç§°è¿½åŠ 
+		// “o˜^ƒ‚[ƒh‚Ì–¼Ì’Ç‰Á
 		ModLoader.addLocalization("littleMaidMob.mode.Fencer", "Fencer");
-		ModLoader.addLocalization("littleMaidMob.mode.Fencer", "ja_JP", "è­·è¡›å‰£å£«");
+		ModLoader.addLocalization("littleMaidMob.mode.Fencer", "ja_JP", "Œì‰qŒ•m");
 		ModLoader.addLocalization("littleMaidMob.mode.Bloodsucker", "Bloodsucker");
-		ModLoader.addLocalization("littleMaidMob.mode.Bloodsucker", "ja_JP", "è¡€ã«é£¢ãˆãŸå†¥åœŸ");
+		ModLoader.addLocalization("littleMaidMob.mode.Bloodsucker", "ja_JP", "ŒŒ‚É‹Q‚¦‚½–»“y");
 		LMM_GuiTriggerSelect.appendTriggerItem("Sword", "");
 		LMM_GuiTriggerSelect.appendTriggerItem("Axe", "");
 	}
@@ -37,23 +37,23 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 		EntityAITasks[] ltasks = new EntityAITasks[2];
 		ltasks[0] = pDefaultMove;
 		ltasks[1] = new EntityAITasks(owner.aiProfiler);
-
-		ltasks[1].addTask(1, new EntityAIOwnerHurtByTarget(owner));
-		ltasks[1].addTask(2, new EntityAIOwnerHurtTarget(owner));
+		
+//		ltasks[1].addTask(1, new EntityAIOwnerHurtByTarget(owner));
+//		ltasks[1].addTask(2, new EntityAIOwnerHurtTarget(owner));
 		ltasks[1].addTask(3, new LMM_EntityAIHurtByTarget(owner, true));
 		ltasks[1].addTask(4, new LMM_EntityAINearestAttackableTarget(owner, EntityLiving.class, 16F, 0, true));
-
+		
 		owner.addMaidMode(ltasks, "Fencer", mmode_Fencer);
-
-
+		
+		
 		// Bloodsucker:0x00c0
 		EntityAITasks[] ltasks2 = new EntityAITasks[2];
 		ltasks2[0] = pDefaultMove;
 		ltasks2[1] = new EntityAITasks(owner.aiProfiler);
-
+		
 		ltasks2[1].addTask(1, new LMM_EntityAIHurtByTarget(owner, true));
 		ltasks2[1].addTask(2, new LMM_EntityAINearestAttackableTarget(owner, EntityLiving.class, 16F, 0, true));
-
+		
 		owner.addMaidMode(ltasks2, "Bloodsucker", mmode_Bloodsucker);
 	}
 
@@ -96,19 +96,19 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 		int lld;
 		ItemStack litemstack;
 
-		// ãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ãŸè­˜åˆ¥åˆ¤å®šã€é€Ÿåº¦å„ªå…ˆ
+		// ƒ‚[ƒh‚É‰‚¶‚½¯•Ê”»’èA‘¬“x—Dæ
 		switch (pMode) {
 		case mmode_Fencer : 
 			for (li = 0; li < owner.maidInventory.maxInventorySize; li++) {
 				litemstack = owner.maidInventory.getStackInSlot(li);
 				if (litemstack == null) continue;
 
-				// å‰£
+				// Œ•
 				if (litemstack.getItem() instanceof ItemSword || LMM_GuiTriggerSelect.checkWeapon("Sword", litemstack)) {
 					return li;
 				}
 
-				// æ”»æ’ƒåŠ›ãªé«˜ã„ã‚‚ã®ã‚’è¨˜æ†¶ã™ã‚‹
+				// UŒ‚—Í‚È‚‚¢‚à‚Ì‚ğ‹L‰¯‚·‚é
 				lld = 1;
 				try {
 					lld = litemstack.getDamageVsEntity(null);
@@ -126,12 +126,12 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 				litemstack = owner.maidInventory.getStackInSlot(li);
 				if (litemstack == null) continue;
 				
-				// æ–§
+				// •€
 				if (litemstack.getItem() instanceof ItemAxe || LMM_GuiTriggerSelect.checkWeapon("Axe", litemstack)) {
 					return li;
 				}
 
-				// æ”»æ’ƒåŠ›ãªé«˜ã„ã‚‚ã®ã‚’è¨˜æ†¶ã™ã‚‹
+				// UŒ‚—Í‚È‚‚¢‚à‚Ì‚ğ‹L‰¯‚·‚é
 				lld = 1;
 				try {
 					lld = litemstack.getDamageVsEntity(null);
@@ -151,7 +151,7 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 
 	@Override
 	public boolean checkItemStack(ItemStack pItemStack) {
-		// è£…å‚™ã‚¢ã‚¤ãƒ†ãƒ ã‚’å›å
+		// ‘•”õƒAƒCƒeƒ€‚ğ‰ñû
 		return pItemStack.getItem() instanceof ItemSword || pItemStack.getItem() instanceof ItemAxe;
 	}
 	

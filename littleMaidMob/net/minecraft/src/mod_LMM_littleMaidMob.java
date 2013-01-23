@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
@@ -58,7 +58,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 
 	public static void Debug(String s) {
-		// ãƒ‡ãƒãƒƒã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+		// ƒfƒoƒbƒOƒƒbƒZ[ƒW
 		if (DebugMessage) {
 			System.out.println((new StringBuilder()).append("littleMaidMob-").append(s).toString());
 		}
@@ -66,7 +66,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 	
 	@Override
 	public String getVersion() {
-		return "1.4.7-1";
+		return "1.4.7-2";
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@Override
 	public String getPriorities() {
-		// MMMLibã‚’è¦æ±‚
+		// MMMLib‚ğ—v‹
 		return "required-after:mod_MMM_MMMLib";
 	}
 
@@ -102,9 +102,9 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		ModLoader.registerEntityID(LMM_EntityLittleMaid.class, "LittleMaid", UniqueEntityId, 0xefffef, 0x9f5f5f);
 //        ModLoader.addEntityTracker(this, LMM_EntityLittleMaid.class, var2, var3, var4, var5);
 		ModLoader.addLocalization("entity.LittleMaid.name", "LittleMaid");
-		ModLoader.addLocalization("entity.LittleMaid.name", "ja_JP", "ãƒªãƒˆãƒ«ãƒ¡ã‚¤ãƒ‰");
+		ModLoader.addLocalization("entity.LittleMaid.name", "ja_JP", "ƒŠƒgƒ‹ƒƒCƒh");
 		if (enableSpawnEgg) {
-			// æ‹›å–šç”¨ãƒ¬ã‚·ãƒ”ã‚’è¿½åŠ 
+			// µŠ«—pƒŒƒVƒs‚ğ’Ç‰Á
 			ModLoader.addRecipe(new ItemStack(Item.monsterPlacer, 1, UniqueEntityId), new Object[] {
 				"scs",
 				"sbs",
@@ -117,29 +117,29 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		}
 		
 		if (MMM_Helper.isClient) {
-			// ã‚¢ãƒå®Ÿé¨“ç”¨
+			// ƒAƒ`ÀŒ±—p
 			if (AchievementID != 0) {
 				ac_Contract = new Achievement(AchievementID, "littleMaid", 1, -4, Item.cake, AchievementList.bakeCake).registerAchievement();
 //                ModLoader.AddAchievementDesc(ac_Contract, "(21)", "Capture the LittleMaid!");
 				ModLoader.addAchievementDesc(ac_Contract, "Enlightenment!", "Capture the LittleMaid!");
-				ModLoader.addLocalization("achievement.littleMaid", "ja_JP", "æ‚Ÿã‚Šã€‚");
-				ModLoader.addLocalization("achievement.littleMaid.desc", "ja_JP", "ãƒ¡ã‚¤ãƒ‰ã•ã‚“ã‚’å…¥æ‰‹ã—ã¾ã—ãŸã€‚");
+				ModLoader.addLocalization("achievement.littleMaid", "ja_JP", "Œå‚èB");
+				ModLoader.addLocalization("achievement.littleMaid.desc", "ja_JP", "ƒƒCƒh‚³‚ñ‚ğ“üè‚µ‚Ü‚µ‚½B");
 			}
 			
-			// åç§°å¤‰æ›ãƒ†ãƒ¼ãƒ–ãƒ«
+			// –¼Ì•ÏŠ·ƒe[ƒuƒ‹
 			ModLoader.addLocalization("littleMaidMob.text.Health", "Health");
-			ModLoader.addLocalization("littleMaidMob.text.Health", "ja_JP", "ãƒ¡ã‚¤ãƒ‰å¼·åº¦");
+			ModLoader.addLocalization("littleMaidMob.text.Health", "ja_JP", "ƒƒCƒh‹­“x");
 			ModLoader.addLocalization("littleMaidMob.text.AP", "AP");
-			ModLoader.addLocalization("littleMaidMob.text.AP", "ja_JP", "ãƒ¡ã‚¤ãƒ‰è£…ç”²");
+			ModLoader.addLocalization("littleMaidMob.text.AP", "ja_JP", "ƒƒCƒh‘•b");
 			
-			// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ¢ãƒ‡ãƒ«ã®è¨­å®š
+			// ƒfƒtƒHƒ‹ƒgƒ‚ƒfƒ‹‚Ìİ’è
 			LMM_Client.init();
 		}
 		
-		// AIãƒªã‚¹ãƒˆã®è¿½åŠ 
+		// AIƒŠƒXƒg‚Ì’Ç‰Á
 		LMM_EntityModeManager.init();
 		
-		// ã‚¢ã‚¤ãƒ†ãƒ ã‚¹ãƒ­ãƒƒãƒˆæ›´æ–°ç”¨ã®ãƒ‘ã‚±ãƒƒãƒˆ
+		// ƒAƒCƒeƒ€ƒXƒƒbƒgXV—p‚ÌƒpƒPƒbƒg
 		ModLoader.registerPacketChannel(this, "LMM|Upd");
 		
 	}
@@ -155,7 +155,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		// Dominant
 		if(spawnWeight > 0) {
 			if (Dominant) {
-				// ã‚ã‚‰ã‚†ã‚‹å ´æ‰€ã«ã‚¹ãƒãƒ¼ãƒ³ã™ã‚‹
+				// ‚ ‚ç‚ä‚éêŠ‚ÉƒXƒ|[ƒ“‚·‚é
 				try {
 					Field afield[] = (net.minecraft.src.BiomeGenBase.class).getDeclaredFields();
 					LinkedList<BiomeGenBase> linkedlist = new LinkedList<BiomeGenBase>();
@@ -173,36 +173,36 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 					Debug("Dominate Exception.");
 				}
 			} else {
-				// é€šå¸¸ã‚¹ãƒãƒ¼ãƒ³è¨­å®š
+				// ’ÊíƒXƒ|[ƒ“İ’è
 				ModLoader.addSpawn(LMM_EntityLittleMaid.class, spawnWeight, minGroupSize, maxGroupSize, EnumCreatureType.creature);
 			}
 		}
 		
-		// ãƒ¢ãƒ¼ãƒ‰ãƒªã‚¹ãƒˆã‚’æ§‹ç¯‰
+		// ƒ‚[ƒhƒŠƒXƒg‚ğ\’z
 		LMM_EntityModeManager.loadEntityMode();
 		
 		if (MMM_Helper.isClient) {
-			// éŸ³å£°ã®è§£æ
+			// ‰¹º‚Ì‰ğÍ
 			Debug("SoundDir:".concat((Minecraft.getAppDir("minecraft/resources/mod/sound").toString())));
-			// ã‚µã‚¦ãƒ³ãƒ‰ãƒ‘ãƒƒã‚¯
+			// ƒTƒEƒ“ƒhƒpƒbƒN
 			LMM_SoundManager.loadDefaultSoundPack();
 			LMM_SoundManager.loadSoundPack();
 		}
 		
-		// IFFã®ãƒ­ãƒ¼ãƒ‰
+		// IFF‚Ìƒ[ƒh
 		LMM_IFF.loadIFFs();
 		
 	}
 
 	@Override
 	public void serverCustomPayload(NetServerHandler var1, Packet250CustomPayload var2) {
-		// ã‚µãƒ¼ãƒå´ã®å‹•ä½œ
+		// ƒT[ƒo‘¤‚Ì“®ì
 		LMM_Net.serverCustomPayload(var1, var2);
 	}
 
 	@Override
 	public void clientCustomPayload(NetClientHandler var1, Packet250CustomPayload var2) {
-		// ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå´ã®ç‰¹æ®Šãƒ‘ã‚±ãƒƒãƒˆå—ä¿¡å‹•ä½œ
+		// ƒNƒ‰ƒCƒAƒ“ƒg‘¤‚Ì“ÁêƒpƒPƒbƒgóM“®ì
 		LMM_Client.clientCustomPayload(var1, var2);
 	}
 

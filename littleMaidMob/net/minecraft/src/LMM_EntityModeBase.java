@@ -1,19 +1,19 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.util.List;
 
 /**
- * LMMç”¨ç‹¬è‡ªAIå‡¦ç†ã«ä½¿ç”¨ã€‚
- * ã“ã®ç¶™æ‰¿ã‚¯ãƒ©ã‚¹ã‚’AIå‡¦ç†ã¨ã—ã¦æ¸¡ã™ã“ã¨ãŒã§ãã‚‹ã€‚
- * ã¾ãŸã€AIå‡¦ç†é¸æŠä¸­ã¯ç‰¹å®šã®é–¢æ•°ã‚’é™¤ã„ã¦é¸æŠä¸­ã®ã‚¯ãƒ©ã‚¹ã®ã¿ãŒå‡¦ç†ã•ã‚Œã‚‹ã€‚
- * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã™ã‚‹äº‹ã«ã‚ˆã‚Šãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã‚’ä¿æŒã€‚
+ * LMM—p“Æ©AIˆ—‚Ég—pB
+ * ‚±‚ÌŒp³ƒNƒ‰ƒX‚ğAIˆ—‚Æ‚µ‚Ä“n‚·‚±‚Æ‚ª‚Å‚«‚éB
+ * ‚Ü‚½AAIˆ—‘I‘ğ’†‚Í“Á’è‚ÌŠÖ”‚ğœ‚¢‚Ä‘I‘ğ’†‚ÌƒNƒ‰ƒX‚Ì‚İ‚ªˆ—‚³‚ê‚éB
+ * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚·‚é–‚É‚æ‚èƒ[ƒJƒ‹•Ï”‚ğ•ÛB
  */
 public abstract class LMM_EntityModeBase {
 
 	public final LMM_EntityLittleMaid owner;
 	
 	/**
-	 * åˆæœŸåŒ–
+	 * ‰Šú‰»
 	 */
 	public LMM_EntityModeBase(LMM_EntityLittleMaid pEntity) {
 		owner = pEntity;
@@ -22,203 +22,203 @@ public abstract class LMM_EntityModeBase {
 	
 	public int fpriority;
 	/**
-	 * å„ªå…ˆé †ä½ã€‚
+	 * —Dæ‡ˆÊB
 	 */
 	public abstract int priority();
 	
 	/**
-	 * èµ·å‹•æ™‚ã®åˆæœŸåŒ–ã€‚
+	 * ‹N“®‚Ì‰Šú‰»B
 	 */
 	public void init() {
 	}
 	
 	/**
-	 * ãƒ¢ãƒ¼ãƒ‰ã®è¿½åŠ ã€‚
+	 * ƒ‚[ƒh‚Ì’Ç‰ÁB
 	 */
 	public abstract void addEntityMode(EntityAITasks pDefaultMove, EntityAITasks pDefaultTargeting);
 
 	/**
-	 * ç‹¬è‡ªãƒ‡ãƒ¼ã‚¿ä¿å­˜ç”¨ã€‚
+	 * “Æ©ƒf[ƒ^•Û‘¶—pB
 	 */
 	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
 	}
 	/**
-	 * ç‹¬è‡ªãƒ‡ãƒ¼ã‚¿èª­è¾¼ç”¨ã€‚
+	 * “Æ©ƒf[ƒ^“Ç—pB
 	 */
 	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound) {
 	}
 
 	/**
-	 * renderSpecialã®è¿½åŠ å®Ÿè£…ç”¨ã€‚
+	 * renderSpecial‚Ì’Ç‰ÁÀ‘•—pB
 	 */
 	public void showSpecial(LMM_RenderLittleMaid prenderlittlemaid, double px, double py, double pz) {
 	}
 
 	/**
-	 * ã‚µãƒ¼ãƒãƒ¼å´ã®ã¿ã®æ¯æ™‚å‡¦ç†ã€‚
+	 * ƒT[ƒo[‘¤‚Ì‚İ‚Ì–ˆˆ—B
 	 */
 	public void updateAITick(int pMode) {
 	}
 
 	/**
-	 * æ¯æ™‚å‡¦ç†ã€‚
+	 * –ˆˆ—B
 	 */
 	public void onUpdate(int pMode) {
 	}
 	
 	/**
-	 * ã“ã®ã¸ã‚“ã®å‡¦ç†ã¯è‹¥å¹²æ™‚é–“ã‹ã‹ã£ã¦ã‚‚è‰¯ã—ã€‚
-	 * ä»–ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’ä½¿ç”¨ã—ãŸã„æ™‚ã€‚
+	 * ‚±‚Ì‚Ö‚ñ‚Ìˆ—‚ÍáŠ±ŠÔ‚©‚©‚Á‚Ä‚à—Ç‚µB
+	 * ‘¼‚ÌƒAƒCƒeƒ€‚ğg—p‚µ‚½‚¢B
 	 */
 	public boolean interact(EntityPlayer pentityplayer, ItemStack pitemstack) {
 		return false;
 	}
 
 	/**
-	 * ç ‚ç³–ã§ãƒ¢ãƒ¼ãƒ‰ãƒã‚§ãƒ³ã‚¸ã—ãŸæ™‚ã€‚
+	 * »“œ‚Åƒ‚[ƒhƒ`ƒFƒ“ƒW‚µ‚½B
 	 */
 	public boolean changeMode(EntityPlayer pentityplayer) {
 		return false;
 	}
 
 	/**
-	 * ãƒ¢ãƒ¼ãƒ‰ãƒã‚§ãƒ³ã‚¸æ™‚ã®è¨­å®šå‡¦ç†ã®æœ¬ä½“ã€‚
-	 * ã“ã£ã¡ã«å‡¦ç†ã‚’æ›¸ã‹ãªã„ã¨ãƒ­ãƒ¼ãƒ‰æ™‚ã«ãŠã‹ã—ããªã‚‹ã‹ã‚‚ï¼Ÿ
+	 * ƒ‚[ƒhƒ`ƒFƒ“ƒW‚Ìİ’èˆ—‚Ì–{‘ÌB
+	 * ‚±‚Á‚¿‚Éˆ—‚ğ‘‚©‚È‚¢‚Æƒ[ƒh‚É‚¨‚©‚µ‚­‚È‚é‚©‚àH
 	 */
 	public boolean setMode(int pMode) {
 		return false;
 	}
 
 	/**
-	 * ä½¿ç”¨ã‚¢ã‚¤ãƒ†ãƒ ã®é¸æŠã€‚
-	 * æˆ»ã‚Šå€¤ã¯ã‚¹ãƒ­ãƒƒãƒˆç•ªå·
+	 * g—pƒAƒCƒeƒ€‚Ì‘I‘ğB
+	 * –ß‚è’l‚ÍƒXƒƒbƒg”Ô†
 	 */
 	public int getNextEquipItem(int pMode) {
-		// æœªé¸æŠ
+		// –¢‘I‘ğ
 		return -1;
 	}
 	
 	/**
-	 * ã‚¢ã‚¤ãƒ†ãƒ å›åå¯å¦ã®åˆ¤å®šå¼ã€‚
-	 * æ‹¾ã„ã«è¡Œãã‚¢ã‚¤ãƒ†ãƒ ã®åˆ¤å®šã€‚
+	 * ƒAƒCƒeƒ€‰ñû‰Â”Û‚Ì”»’è®B
+	 * E‚¢‚És‚­ƒAƒCƒeƒ€‚Ì”»’èB
 	 */
 	public boolean checkItemStack(ItemStack pItemStack) {
-		// å›åå¯¾è±¡ã‚¢ã‚¤ãƒ†ãƒ ã®è¨­å®šãªã—
+		// ‰ñû‘ÎÛƒAƒCƒeƒ€‚Ìİ’è‚È‚µ
 		return false;
 	}
 
 	/**
-	 * æ”»æ’ƒåˆ¤å®šå‡¦ç†ã€‚
-	 * ç‰¹æ®Šãªæ”»æ’ƒå‹•ä½œã¯ã“ã“ã§å®Ÿè£…ã€‚
+	 * UŒ‚”»’èˆ—B
+	 * “Áê‚ÈUŒ‚“®ì‚Í‚±‚±‚ÅÀ‘•B
 	 */
 	public boolean attackEntityAsMob(int pMode, Entity pEntity) {
-		// ç‰¹æ®Šæ”»æ’ƒã®è¨­å®šãªã—
+		// “ÁêUŒ‚‚Ìİ’è‚È‚µ
 		return false;
 	}
 
 	/**
-	 * ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒã‚§ãƒƒã‚¯åˆ¤å®šã‚’ã™ã‚‹ã‹ã©ã†ã‹ã€‚
-	 * åˆ¤å®šå¼ã®ã©ã¡ã‚‰ã‚’ä½¿ã†ã‹ã‚’ã“ã‚Œã§é¸æŠã€‚
+	 * ƒuƒƒbƒN‚Ìƒ`ƒFƒbƒN”»’è‚ğ‚·‚é‚©‚Ç‚¤‚©B
+	 * ”»’è®‚Ì‚Ç‚¿‚ç‚ğg‚¤‚©‚ğ‚±‚ê‚Å‘I‘ğB
 	 */
 	public boolean isSearchBlock() {
 		return false;
 	}
 	
 	/**
-	 * isSearchBlock=falseã®ã¨ãã«åˆ¤å®šã•ã‚Œã‚‹ã€‚
+	 * isSearchBlock=false‚Ì‚Æ‚«‚É”»’è‚³‚ê‚éB
 	 */
 	public boolean shouldBlock(int pMode) {
 		return false;
 	}
 	
 	/**
-	 * æ¢ã—æ±‚ã‚ãŸãƒ–ãƒ­ãƒƒã‚¯ã§ã‚ã‚‹ã‹ã€‚
-	 * trueã‚’è¿”ã™ã¨æ¤œç´¢çµ‚äº†ã€‚
+	 * ’T‚µ‹‚ß‚½ƒuƒƒbƒN‚Å‚ ‚é‚©B
+	 * true‚ğ•Ô‚·‚ÆŒŸõI—¹B
 	 */
 	public boolean checkBlock(int pMode, int px, int py, int pz) {
 		return false;
 	}
 	
 	/**
-	 * æ¤œç´¢ç¯„å›²ã«ç´¢æ•µå¯¾è±¡ãŒãªã‹ã£ãŸã€‚
+	 * ŒŸõ”ÍˆÍ‚Éõ“G‘ÎÛ‚ª‚È‚©‚Á‚½B
 	 */
 	public TileEntity overlooksBlock(int pMode) {
 		return null;
 	}
 
 	/**
-	 * å°„ç¨‹è·é›¢ã«å…¥ã£ãŸã‚‰å®Ÿè¡Œã•ã‚Œã‚‹ã€‚
-	 * æˆ»ã‚Šå€¤ãŒtrueã®æ™‚ã¯çµ‚äº†ã›ãšã«å‹•ä½œç¶™ç¶š
+	 * Ë’ö‹——£‚É“ü‚Á‚½‚çÀs‚³‚ê‚éB
+	 * –ß‚è’l‚ªtrue‚Ì‚ÍI—¹‚¹‚¸‚É“®ìŒp‘±
 	 */
 	public boolean executeBlock(int pMode, int px, int py, int pz) {
 		return false;
 	}
 	
 	/**
-	 * AIå®Ÿè¡Œæ™‚ã«å‘¼ã°ã‚Œã‚‹ã€‚
+	 * AIÀs‚ÉŒÄ‚Î‚ê‚éB
 	 */
 	public void startBlock(int pMode) {
 	}
 
 	/**
-	 * AIçµ‚äº†æ™‚ã«å‘¼ã°ã‚Œã‚‹ã€‚
+	 * AII—¹‚ÉŒÄ‚Î‚ê‚éB
 	 */
 	public void resetBlock(int pMode) {
 	}
 
 	
 	/**
-	 * ç‹¬è‡ªç´¢æ•µå‡¦ç†ã®ä½¿ç”¨æœ‰ç„¡
+	 * “Æ©õ“Gˆ—‚Ìg—p—L–³
 	 */
 	public boolean isSearchEntity() {
 		return false;
 	}
 	
 	/**
-	 * ç‹¬è‡ªç´¢æ•µå‡¦ç†
+	 * “Æ©õ“Gˆ—
 	 */
 	public boolean checkEntity(int pMode, Entity pEntity) {
 		return false;
 	}
 	
 	/**
-	 * ç™ºå…‰å‡¦ç†ç”¨
+	 * ”­Œõˆ——p
 	 */
 	public int colorMultiplier(float pLight, float pPartialTicks) {
 		return 0;
 	}
 	
 	/**
-	 * è¢«ãƒ€ãƒ¡æ™‚ã®å‡¦ç†ã€‚
-	 * trueã‚’è¿”ã™ã¨å‡¦ç†ã‚’ä¹—ã£å–ã‚‹ã€‚
+	 * ”íƒ_ƒ‚Ìˆ—B
+	 * true‚ğ•Ô‚·‚Æˆ—‚ğæ‚Áæ‚éB
 	 */
 	public boolean damageEntity(int pMode, DamageSource par1DamageSource, int par2) {
 		return false;
 	}
 	
 	/**
-	 * è‡ªåˆ†ãŒä½¿ã£ã¦ã„ã‚‹Tileãªã‚‰Trueã‚’è¿”ã™ã€‚
+	 * ©•ª‚ªg‚Á‚Ä‚¢‚éTile‚È‚çTrue‚ğ•Ô‚·B
 	 */
 	public boolean isUsingTile(TileEntity pTile) {
 		return false;
 	}
 
 	/**
-	 * æŒã£ã¦ã‚‹Tileã‚’è¿”ã™ã€‚
+	 * ‚Á‚Ä‚éTile‚ğ•Ô‚·B
 	 */
 	public List<TileEntity> getTiles() {
 		return null;
 	}
 
 	/**
-	 * æœ‰åŠ¹å°„ç¨‹è·é›¢ã‚’è¶…ãˆãŸæ™‚ã®å‡¦ç†
+	 * —LŒøË’ö‹——£‚ğ’´‚¦‚½‚Ìˆ—
 	 */
 	public boolean outrangeBlock(int pMode, int pX, int pY, int pZ) {
 		return owner.getNavigator().tryMoveToXYZ(pX, pY, pZ, owner.getAIMoveSpeed());
 	}
 
 	/**
-	 * é™ç•Œè·é›¢ã‚’è¶…ãˆãŸæ™‚ã®å‡¦ç†
+	 * ŒÀŠE‹——£‚ğ’´‚¦‚½‚Ìˆ—
 	 */
 	public void farrangeBlock() {
 		owner.getNavigator().clearPathEntity();

@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,11 +71,11 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 		int li;
 		ItemStack litemstack;
 		
-		// ãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ãŸè­˜åˆ¥åˆ¤å®šã€é€Ÿåº¦å„ªå…ˆ
+		// ƒ‚[ƒh‚É‰‚¶‚½¯•Ê”»’èA‘¬“x—Dæ
 		switch (pMode) {
 		case mmode_Cooking :
 			for (li = 0; li < owner.maidInventory.maxInventorySize; li++) {
-				// èª¿ç†
+				// ’²—
 				if (owner.maidInventory.isItemBurned(li)) {
 					return li;
 				}
@@ -93,7 +93,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 
 	@Override
 	public boolean isSearchBlock() {
-		// ç‡ƒç„¼ã‚¢ã‚¤ãƒ†ãƒ ã‚’æŒã£ã¦ã„ã‚‹ï¼Ÿ
+		// ”RÄƒAƒCƒeƒ€‚ğ‚Á‚Ä‚¢‚éH
 		if (owner.getCurrentEquippedItem() != null && owner.maidInventory.getSmeltingItem() > -1) {
 			mySerch = null;
 			owner.setSneaking(false);
@@ -114,23 +114,23 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 			return false;
 		}
 		
-		// ä¸–ç•Œã®ãƒ¡ã‚¤ãƒ‰ã‹ã‚‰
+		// ¢ŠE‚ÌƒƒCƒh‚©‚ç
 		for (Object lo : owner.worldObj.getLoadedEntityList()) {
 			if (lo == owner) continue;
 			if (lo instanceof LMM_EntityLittleMaid) {
 				LMM_EntityLittleMaid lem = (LMM_EntityLittleMaid)lo;
 				if (lem.isUsingTile(ltile)) {
-					// èª°ã‹ãŒä½¿ç”¨ä¸­
+					// ’N‚©‚ªg—p’†
 					return false;
 				}
 				if (myTile != null && lem.isUsingTile(myTile)) {
-					// æ‰‹æŒã¡ã‚’èª°ã‹ãŒä½¿ã£ã¦ã‚‹ãªã‚‰ã‚¯ãƒªã‚¢
+					// è‚¿‚ğ’N‚©‚ªg‚Á‚Ä‚é‚È‚çƒNƒŠƒA
 					myTile = null;
 				}
 			}
 		}
 		if (myTile != null) {
-			// ä½¿ç”¨ã—ã¦ã„ãŸç«ˆãªã‚‰ãã“ã§çµ‚äº†
+			// g—p‚µ‚Ä‚¢‚½â}‚È‚ç‚»‚±‚ÅI—¹
 			return myTile == ltile;
 		}
 		
@@ -165,7 +165,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 		int li;
 		
 		if (owner.getSwingStatusDominant().canAttack()) {
-			// å®Œæˆå“å›å
+			// Š®¬•i‰ñû
 			litemstack = myTile.getStackInSlot(2);
 			if (litemstack != null) {
 				if (litemstack.stackSize > 0) {
@@ -181,14 +181,14 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 				myTile.setInventorySlotContents(2, null);
 			}
 				
-			// èª¿ç†å¯èƒ½å“ã‚’ç«ˆã«ã½ãƒ¼ã„
+			// ’²—‰Â”\•i‚ğâ}‚É‚Û[‚¢
 			if (!lflag && myTile.getStackInSlot(0) == null) {
 				litemstack = myTile.getStackInSlot(2);
 				li = owner.maidInventory.getSmeltingItem();
 				owner.setEquipItem(li);
 				if (li > -1) {
 					litemstack = owner.maidInventory.getStackInSlot(li);
-					// ãƒ¬ã‚·ãƒ”å¯¾å¿œå“
+					// ƒŒƒVƒs‘Î‰•i
 					if (litemstack.stackSize >= myTile.getInventoryStackLimit()) {
 						myTile.setInventorySlotContents(0, litemstack.splitStack(myTile.getInventoryStackLimit()));
 					} else {
@@ -203,7 +203,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 				}
 			}
 			
-			// æ‰‹æŒã¡ã®ç‡ƒæ–™ã‚’ã½ãƒ¼ã„
+			// è‚¿‚Ì”R—¿‚ğ‚Û[‚¢
 			if (!lflag && myTile.getStackInSlot(1) == null && myTile.getStackInSlot(0) != null) {
 				owner.getNextEquipItem();
 				litemstack = owner.getCurrentEquippedItem();
@@ -224,7 +224,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 					if (myTile.isBurning()) {
 						lflag = true;
 					} else {
-						// ç‡ƒã‚„ã›ã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã‚’æŒã£ã¦ãªã„ã®ã§èª¿ç†å¯èƒ½å“ã‚’å›å
+						// ”R‚â‚¹‚éƒAƒCƒeƒ€‚ğ‚Á‚Ä‚È‚¢‚Ì‚Å’²—‰Â”\•i‚ğ‰ñû
 						ItemStack litemstack2 = myTile.getStackInSlotOnClosing(0);
 						if (owner.maidInventory.addItemStackToInventory(litemstack2)) {
 							owner.playSoundAtEntity("random.pop");
@@ -238,7 +238,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 				}
 			} 
 			
-			// ç‡ƒãˆçµ‚ã‚ã£ã¦ã‚‹ã®ã«ç‡ƒæ–™å£ã«ä½•ã‹ã‚ã‚‹ãªã‚‰å›åã™ã‚‹
+			// ”R‚¦I‚í‚Á‚Ä‚é‚Ì‚É”R—¿Œû‚É‰½‚©‚ ‚é‚È‚ç‰ñû‚·‚é
 			if (!lflag && !myTile.isBurning() && myTile.getStackInSlot(1) != null) {
 				ItemStack litemstack2 = myTile.getStackInSlotOnClosing(1);
 				if (owner.maidInventory.addItemStackToInventory(litemstack2)) {

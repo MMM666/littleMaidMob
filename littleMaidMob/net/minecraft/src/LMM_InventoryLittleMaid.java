@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.util.Iterator;
 import java.util.List;
@@ -6,15 +6,15 @@ import java.util.List;
 public class LMM_InventoryLittleMaid extends InventoryPlayer {
 
 	/**
-	 *  æœ€å¤§ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªæ•°
+	 *  Å‘åƒCƒ“ƒxƒ“ƒgƒŠ”
 	 */
 	public static final int maxInventorySize = 18;
 	/**
-	 * ã‚ªãƒ¼ãƒŠãƒ¼
+	 * ƒI[ƒi[
 	 */
 	public LMM_EntityLittleMaid entityLittleMaid;
 	/**
-	 * ã‚¹ãƒ­ãƒƒãƒˆå¤‰æ›´ãƒã‚§ãƒƒã‚¯ç”¨
+	 * ƒXƒƒbƒg•ÏXƒ`ƒFƒbƒN—p
 	 */
 	public ItemStack prevItems[];
 
@@ -59,7 +59,7 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
 
 	@Override
 	public int getSizeInventory() {
-		// ä¸€å¿œ
+		// ˆê‰
 		return mainInventory.length + armorInventory.length;
 	}
 
@@ -75,13 +75,13 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
 
     @Override
     public int getTotalArmorValue() {
-    	// èº«ã«ç€ã‘ã¦ã„ã‚‹ã‚¢ãƒ¼ãƒãƒ¼ã®é˜²å¾¡åŠ›ã®åˆç®—
-        // é ­éƒ¨ä»¥å¤–
+    	// g‚É’…‚¯‚Ä‚¢‚éƒA[ƒ}[‚Ì–hŒä—Í‚Ì‡Z
+        // “ª•”ˆÈŠO
     	ItemStack lis = armorInventory[3];
     	armorInventory[3] = null;
 //    	int li = super.getTotalArmorValue() * 20 / 17;
     	int li = super.getTotalArmorValue();
-    	// å…œåˆ†ã®è£œæ­£
+    	// Š••ª‚Ì•â³
     	for (int lj = 0; lj < armorInventory.length; lj++) {
     		if (armorInventory[lj] != null && armorInventory[lj].getItem() instanceof ItemArmor) {
     			li++;
@@ -93,8 +93,8 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
 
     @Override
     public void damageArmor(int i) {
-    	// è£…å‚™ã‚¢ãƒ¼ãƒãƒ¼ã«å¯¾ã™ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸
-    	// é ­éƒ¨ã¯é™¤å¤–
+    	// ‘•”õƒA[ƒ}[‚É‘Î‚·‚éƒ_ƒ[ƒW
+    	// “ª•”‚ÍœŠO
         ItemStack lis = armorInventory[3];
         armorInventory[3] = null;
         super.damageArmor(i);
@@ -111,7 +111,7 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
         ItemStack itemstack = getStackInSlot(index);
         if (itemstack != null) {
         	if (itemstack.getItem() instanceof ItemAxe) {
-        		// ã‚¢ãƒƒã‚¯ã‚¹ã®æ”»æ’ƒåŠ›ã‚’è£œæ­£
+        		// ƒAƒbƒNƒX‚ÌUŒ‚—Í‚ğ•â³
         		return itemstack.getDamageVsEntity(entity) * 3 / 2 + 1;
         		
         	} else {
@@ -123,7 +123,7 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
     }
     
     public void dropAllItems(boolean detonator) {
-        // ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã‚’ãƒ–ãƒãƒã‚±ãƒ­ï¼
+        // ƒCƒ“ƒxƒ“ƒgƒŠ‚ğƒuƒ`ƒ}ƒPƒI
     	armorInventory[3] = null;
         for (int i = 0; i < getSizeInventory(); i++) {
         	ItemStack it = getStackInSlot(i);
@@ -131,7 +131,7 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
             	if (detonator && isItemExplord(i)) { 
                     int j = it.getItem().itemID;
             		for (int l = 0; l < it.stackSize; l++) {
-            			// çˆ†è–¬ã¶ã¡ã¾ã‘
+            			// ”š–ò‚Ô‚¿‚Ü‚¯
             			((BlockTNT)Block.blocksList[j]).onBlockDestroyedByExplosion(entityLittleMaid.worldObj,
             					MathHelper.floor_double(entityLittleMaid.posX) + entityLittleMaid.rand.nextInt(7) - 3,
             					MathHelper.floor_double(entityLittleMaid.posY) + entityLittleMaid.rand.nextInt(7) - 3,
@@ -174,7 +174,7 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
     }
     
     /**
-     * é ­éƒ¨ã®è¿½åŠ ã‚¢ã‚¤ãƒ†ãƒ ã‚’è¿”ã™ã€‚
+     * “ª•”‚Ì’Ç‰ÁƒAƒCƒeƒ€‚ğ•Ô‚·B
      */
     public ItemStack getHeadMount() {
     	return mainInventory[mainInventory.length - 1];
@@ -187,7 +187,7 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
 	}
 
     protected int getInventorySlotContainItem(int itemid) {
-    	// æŒ‡å®šã•ã‚ŒãŸã‚¢ã‚¤ãƒ†ãƒ IDã®ç‰©ã‚’æŒã£ã¦ã„ã‚Œã°è¿”ã™
+    	// w’è‚³‚ê‚½ƒAƒCƒeƒ€ID‚Ì•¨‚ğ‚Á‚Ä‚¢‚ê‚Î•Ô‚·
         for (int j = 0; j < mainInventory.length; j++) {
             if (mainInventory[j] != null && mainInventory[j].itemID == itemid) {
                 return j;
@@ -198,7 +198,7 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
     }
 
     protected int getInventorySlotContainItem(Class itemClass) {
-    	// æŒ‡å®šã•ã‚ŒãŸã‚¢ã‚¤ãƒ†ãƒ ã‚¯ãƒ©ã‚¹ã®ç‰©ã‚’æŒã£ã¦ã„ã‚Œã°è¿”ã™
+    	// w’è‚³‚ê‚½ƒAƒCƒeƒ€ƒNƒ‰ƒX‚Ì•¨‚ğ‚Á‚Ä‚¢‚ê‚Î•Ô‚·
         for (int j = 0; j < mainInventory.length; j++) {
 //            if (mainInventory[j] != null && mainInventory[j].getItem().getClass().isAssignableFrom(itemClass)) {
             if (mainInventory[j] != null && itemClass.isAssignableFrom(mainInventory[j].getItem().getClass())) {
@@ -211,7 +211,7 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
 
     
     protected int getInventorySlotContainItemAndDamage(int itemid, int damege) {
-    	// ã¨ãƒ€ãƒ¡ãƒ¼ã‚¸å€¤
+    	// ‚Æƒ_ƒ[ƒW’l
         for (int i = 0; i < mainInventory.length; i++) {
             if (mainInventory[i] != null && mainInventory[i].itemID == itemid && mainInventory[i].getItemDamage() == damege) {
                 return i;
@@ -222,19 +222,19 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
     }
 
     protected ItemStack getInventorySlotContainItemStack(int itemid) {
-    	// ã„ã‚‰ã‚“ã‹ã‚‚ï¼Ÿ
+    	// ‚¢‚ç‚ñ‚©‚àH
     	int j = getInventorySlotContainItem(itemid);
     	return j > -1 ? mainInventory[j] : null;
     }
 
     protected ItemStack getInventorySlotContainItemStackAndDamege(int itemid, int damege) {
-    	// ã„ã‚‰ã‚“ã‹ã‚‚ï¼Ÿ
+    	// ‚¢‚ç‚ñ‚©‚àH
     	int j = getInventorySlotContainItemAndDamage(itemid, damege);
     	return j > -1 ? mainInventory[j] : null;
     }
 
     public int getInventorySlotContainItemFood() {
-    	// ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®æœ€åˆã®é£Ÿæ–™ã‚’è¿”ã™
+    	// ƒCƒ“ƒxƒ“ƒgƒŠ‚ÌÅ‰‚ÌH—¿‚ğ•Ô‚·
         for (int j = 0; j < mainInventory.length; j++) {
 			ItemStack mi = mainInventory[j];
             if(mi != null && mi.getItem() instanceof ItemFood) {
@@ -247,15 +247,15 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
     }
     
     public int getSmeltingItem() {
-		// èª¿ç†å¯èƒ½ã‚¢ã‚¤ãƒ†ãƒ ã‚’è¿”ã™
+		// ’²—‰Â”\ƒAƒCƒeƒ€‚ğ•Ô‚·
 		for (int i = 0; i < mainInventory.length; i++) {
 			if (isItemSmelting(i) && i != currentItem) {
 				ItemStack mi = mainInventory[i];
 				if (mi.getMaxDamage() > 0 && mi.getItemDamage() == 0) {
-					// ä¿®å¾©ãƒ¬ã‚·ãƒ”å¯¾ç­–
+					// C•œƒŒƒVƒs‘Îô
 					continue;
 				}
-				// ãƒ¬ã‚·ãƒ”å¯¾å¿œå“
+				// ƒŒƒVƒs‘Î‰•i
 				return i;
 			}
 		}
@@ -263,9 +263,9 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
     }
    
     public int getInventorySlotContainItemPotion(boolean flag, int potionID, boolean isUndead) {
-    	// ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®æœ€åˆã®ãƒãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¿”ã™
-    	// flag = true: æ”»æ’ƒãƒ»ãƒ‡ãƒãƒ•ç³»ã€ false: å›å¾©ãƒ»è£œåŠ©ç³»
-    	// potionID: è¦æ±‚ãƒãƒ¼ã‚·ãƒ§ãƒ³ã®ID
+    	// ƒCƒ“ƒxƒ“ƒgƒŠ‚ÌÅ‰‚Ìƒ|[ƒVƒ‡ƒ“‚ğ•Ô‚·
+    	// flag = true: UŒ‚EƒfƒoƒtŒnA false: ‰ñ•œE•â•Œn
+    	// potionID: —v‹ƒ|[ƒVƒ‡ƒ“‚ÌID
         for(int j = 0; j < mainInventory.length; j++) {
             if(mainInventory[j] != null && mainInventory[j].getItem() instanceof ItemPotion) {
             	ItemStack is = mainInventory[j];
@@ -309,7 +309,7 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
     
     
     public boolean isItemBurned(int index) {
-    	// ç‡ƒãˆã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã‹?
+    	// ”R‚¦‚éƒAƒCƒeƒ€‚©?
     	return index > -1 && isItemBurned(getStackInSlot(index));
     }
 
@@ -318,7 +318,7 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
     }
 
     public boolean isItemSmelting(int index) {
-    	// ç‡ƒãˆã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã‹?
+    	// ”R‚¦‚éƒAƒCƒeƒ€‚©?
     	return isItemSmelting(getStackInSlot(index));
     }
 
@@ -327,7 +327,7 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
     }
     
     public boolean isItemExplord(int index) {
-    	// çˆ†ç™ºç‰©ï¼Ÿ
+    	// ”š”­•¨H
     	return (index >= 0) && isItemExplord(getStackInSlot(index));
     }
     
@@ -338,9 +338,9 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
     }
     
     
-    // ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®è»¢é€é–¢é€£
+    // ƒCƒ“ƒxƒ“ƒgƒŠ‚Ì“]‘—ŠÖ˜A
     public boolean isChanged(int pIndex) {
-    	// å¤‰åŒ–ãŒã‚ã£ãŸã‹ã®åˆ¤å®š
+    	// •Ï‰»‚ª‚ ‚Á‚½‚©‚Ì”»’è
     	ItemStack lis = getStackInSlot(pIndex);
     	return !ItemStack.areItemStacksEqual(lis, prevItems[pIndex]);
 //    	return (lis == null || prevItems[pIndex] == null) ? (prevItems[pIndex] != lis) : !ItemStack.areItemStacksEqual(lis, prevItems[pIndex]);
@@ -352,13 +352,13 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
     }
     
     public void resetChanged(int pIndex) {
-    	// å‡¦ç†æ¸ˆã¿ã®ãƒã‚§ãƒƒã‚¯
+    	// ˆ—Ï‚İ‚Ìƒ`ƒFƒbƒN
     	ItemStack lis = getStackInSlot(pIndex);
     	prevItems[pIndex] = (lis == null ? null : lis.copy());
     }
     
     public void clearChanged() {
-    	// å¼·åˆ¶ãƒªãƒ­ãƒ¼ãƒ‰ç”¨ã€ãƒ€ãƒŸãƒ¼ã‚’ç™»éŒ²ã—ã¦å¼·åˆ¶çš„ã«ä¸€å‘¨ã•ã›ã‚‹
+    	// ‹­§ƒŠƒ[ƒh—pAƒ_ƒ~[‚ğ“o˜^‚µ‚Ä‹­§“I‚Éˆêü‚³‚¹‚é
     	ItemStack lis = new ItemStack(Item.sugar);
     	for (int li = 0; li < prevItems.length; li++) {
     		prevItems[li] = lis;

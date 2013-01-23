@@ -5,8 +5,8 @@ import java.util.Map;
 
 
 /**
- * Entity縺ｮ繝�繝ｼ繧ｿ隱ｭ縺ｿ蜿悶ｊ逕ｨ縺ｮ繧ｯ繝ｩ繧ｹ
- * 蛻･縺ｫEntity縺ｫ繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ莉倥￠縺ｦ繧０K
+ * Entityのデータ読み取り用のクラス
+ * 別にEntityにインターフェース付けてもOK
  */
 public class LMM_EntityCaps implements MMM_IModelCaps {
 

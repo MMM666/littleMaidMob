@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 public class LMM_EntityMode_Playing extends LMM_EntityModeBase {
 
@@ -34,16 +34,16 @@ public class LMM_EntityMode_Playing extends LMM_EntityModeBase {
 	@Override
 	public void updateAITick(int pMode) {
 		if (!owner.isPlaying() && owner.isFreedom()) {
-			// è‡ªç”±è¡Œå‹•ä¸­ã®å›ºä½“ã¯è™è¦–çœˆã€…ã¨éš™ã‚’ã†ã‹ãŒã†ã€‚
+			// ©—Rs“®’†‚ÌŒÅ‘Ì‚ÍŒÕ‹á¼X‚ÆŒ„‚ğ‚¤‚©‚ª‚¤B
 			
-			// é›ªåŸåˆ¤å®š
+			// áŒ´”»’è
 			if (owner.getPlayingRole() == 0) {
-	    		// TODO:ãŠéŠã³åˆ¤å®š
+	    		// TODO:‚¨—V‚Ñ”»’è
 	    		int xx = MathHelper.floor_double(owner.posX);
 	        	int yy = MathHelper.floor_double(owner.posY);
 	        	int zz = MathHelper.floor_double(owner.posZ);
 	        	
-				// 5x5ãŒé›ªã®å¹³åŸãªã‚‰ãŠéŠã³åˆ¤å®šãŒç™ºç”Ÿ
+				// 5x5‚ªá‚Ì•½Œ´‚È‚ç‚¨—V‚Ñ”»’è‚ª”­¶
 	        	boolean f = true;
 	        	for (int z = -1; z < 2; z++)
 	        	{
@@ -63,7 +63,7 @@ public class LMM_EntityMode_Playing extends LMM_EntityModeBase {
 				
 			}
 			
-			// ãƒã‚§ã‚¹ãƒˆåˆ¤å®š
+			// ƒ`ƒFƒXƒg”»’è
 			if (owner.getAttackTarget() == null && owner.maidInventory.getFirstEmptyStack() == -1) {
 				
 			}

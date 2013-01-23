@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +36,9 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 		ModLoader.addLocalization("littleMaidMob.mode.Strike", "Strike");
 		ModLoader.addLocalization("littleMaidMob.mode.Wait", "Wait");
 		ModLoader.addLocalization("littleMaidMob.mode.Wild", "Wild");
-		ModLoader.addLocalization("littleMaidMob.mode.Wild", "ja_JP", "é‡ç”Ÿç¨®");
+		ModLoader.addLocalization("littleMaidMob.mode.Wild", "ja_JP", "–ì¶í");
 		ModLoader.addLocalization("littleMaidMob.mode.Escorter", "Escorter");
-		ModLoader.addLocalization("littleMaidMob.mode.Escorter", "ja_JP", "å¾“è€…");
+		ModLoader.addLocalization("littleMaidMob.mode.Escorter", "ja_JP", "]Ò");
 		ModLoader.addLocalization("littleMaidMob.mode.F-Escorter", "Freedom");
 		ModLoader.addLocalization("littleMaidMob.mode.D-Escorter", "D-Escorter");
 		ModLoader.addLocalization("littleMaidMob.mode.T-Escorter", "Taracer");
@@ -83,7 +83,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 
 	@Override
 	public boolean changeMode(EntityPlayer pentityplayer) {
-		// å¼·åˆ¶çš„ã«å‰²ã‚Šå½“ã¦ã‚‹
+		// ‹­§“I‚ÉŠ„‚è“–‚Ä‚é
 		owner.setMaidMode("Escorter");
 		return true;
 	}
@@ -120,7 +120,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 	public boolean isSearchBlock() {
 		if (owner.getMaidModeInt() == mmode_Escorter && owner.isFreedom() && owner.maidInventory.getFirstEmptyStack() == -1) {
 /*
-			// ãƒã‚§ã‚¹ãƒˆã‚«ãƒ¼ãƒˆã®æ¤œç´¢
+			// ƒ`ƒFƒXƒgƒJ[ƒg‚ÌŒŸõ
 			List<Entity> list = owner.worldObj.getEntitiesWithinAABB(IInventory.class, owner.boundingBox.expand(8D, 2D, 8D));
 			double cartl = 256D;
 			for (Entity lentity : list) {
@@ -129,7 +129,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 						continue;
 					}
 					double l = lentity.getDistanceSqToEntity(owner);
-					// è¦‹ãˆã‚‹ä½ç½®ã«ã‚ã‚‹æœ€ã‚‚è¿‘ã„èª¿ã¹ã¦ã„ãªã„ã‚«ãƒ¼ãƒˆãƒã‚§ã‚¹ãƒˆ
+					// Œ©‚¦‚éˆÊ’u‚É‚ ‚éÅ‚à‹ß‚¢’²‚×‚Ä‚¢‚È‚¢ƒJ[ƒgƒ`ƒFƒXƒg
 					
 					if (cartl > l && owner.getEntitySenses().canSee(lentity)) {
 						myTile = (IInventory)lentity;
@@ -138,7 +138,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 				}
 			}
 */
-			// Entityç³»ã®InventoryãŒè¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°é€šå¸¸ã®ã‚µãƒ¼ãƒã‚’å®Ÿè¡Œ
+			// EntityŒn‚ÌInventory‚ªŒ©‚Â‚©‚ç‚È‚¯‚ê‚Î’Êí‚ÌƒT[ƒ`‚ğÀs
 			return myTile == null;
 		}
 		return false;
@@ -156,19 +156,19 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 			return false;
 		}
 		
-		// ä¸–ç•Œã®ãƒ¡ã‚¤ãƒ‰ã‹ã‚‰
+		// ¢ŠE‚ÌƒƒCƒh‚©‚ç
 		for (Object lo : owner.worldObj.getLoadedEntityList()) {
 			if (lo instanceof LMM_EntityLittleMaid) {
 				LMM_EntityLittleMaid lem = (LMM_EntityLittleMaid)lo;
 //				if (lem.isUsingTile(ltile)) {
-//					// èª°ã‹ãŒä½¿ã£ã¦ã„ã‚‹
+//					// ’N‚©‚ªg‚Á‚Ä‚¢‚é
 //					return false;
 //				}
 			}
 		}
 		
 		if (fusedTiles.contains(ltile)) {
-			// æ—¢ã«é€šã‚ŠéããŸå ´æ‰€ã‚ˆãƒƒï¼
+			// Šù‚É’Ê‚è‰ß‚¬‚½êŠ‚æƒbI
 			return false;
 		}
 		myTile = (IInventory)ltile;
@@ -195,27 +195,27 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 	public boolean executeBlock(int pMode, int px, int py, int pz) {
 //		isMaidChaseWait = true;
 		if (myTile instanceof TileEntityChest) {
-			// ãƒ–ãƒ­ãƒƒã‚¯ç³»ã®ãƒã‚§ã‚¹ãƒˆ
+			// ƒuƒƒbƒNŒn‚Ìƒ`ƒFƒXƒg
 			if (!((TileEntityChest) myTile).isInvalid()) {
-				// ã‚µãƒ¼ãƒã—ãŸãƒã‚§ã‚¹ãƒˆ
+				// ƒT[ƒ`‚µ‚½ƒ`ƒFƒXƒg
 				TileEntityChest lchest = (TileEntityChest)myTile;
-				// ä½¿ç”¨ç›´å‰ã«å¯è¦–åˆ¤å®š
+				// g—p’¼‘O‚É‰Â‹”»’è
 				if (MMM_Helper.canBlockBeSeen(owner, lchest.xCoord, lchest.yCoord, lchest.zCoord, false, true, false)) {
 					if (myChest == null) {
 						getChest();
 						if (myChest != null) {
 							myChest.openChest();
 						} else {
-							// é–‹ã‹ãªã„ãƒã‚§ã‚¹ãƒˆ
+							// ŠJ‚©‚È‚¢ƒ`ƒFƒXƒg
 							myTile = null;
 						}
 					}
-					// ãƒã‚§ã‚¹ãƒˆã«åç´
+					// ƒ`ƒFƒXƒg‚Éû”[
 					owner.setWorking(true);
 					putChest();
 					return true;
 				} else {
-					// è¦‹å¤±ã£ãŸ
+					// Œ©¸‚Á‚½
 					myTile = null;
 					if (myChest != null) {
 						myChest.closeChest();
@@ -223,7 +223,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 					}
 				}
 			} else {
-				// Tileã®æ¶ˆå¤±
+				// Tile‚ÌÁ¸
 				myTile = null;
 				if (myChest != null) {
 					myChest.closeChest();
@@ -231,7 +231,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 				}
 			}
 		} else if (myTile instanceof Entity) {
-			// ãƒã‚§ã‚¹ãƒˆä»˜ã‚«ãƒ¼ãƒˆã¨ã‹
+			// ƒ`ƒFƒXƒg•tƒJ[ƒg‚Æ‚©
 			/*
 			Entity lentity = (Entity)myTile;
 			if (!lentity.isDead) {
@@ -246,10 +246,10 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 					if (myChest != null) {
 						faceEntity(myEntity, 30F, 40F);
 					}
-					// ãƒã‚§ã‚¹ãƒˆã«åç´
+					// ƒ`ƒFƒXƒg‚Éû”[
 					putChest();
 				} else {
-					// ãƒã‚§ã‚¹ãƒˆã¾ã§ã®ãƒ‘ã‚¹ã‚’ä½œã‚‹
+					// ƒ`ƒFƒXƒg‚Ü‚Å‚ÌƒpƒX‚ğì‚é
 					if (!isMaidWaitEx()) {
 						double distance = getDistanceSqToEntity(myEntity);
 						if (distance == lastdistance) {
@@ -268,7 +268,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 				}
 				
 			} else {
-				// Entityã®æ­»äº¡
+				// Entity‚Ì€–S
 				myTile = null;
 				if (myChest != null) {
 					myChest.closeChest();
@@ -282,14 +282,14 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 
 	@Override
 	public boolean outrangeBlock(int pMode, int pX, int pY, int pZ) {
-		// ãƒã‚§ã‚¹ãƒˆã¾ã§ã®ãƒ‘ã‚¹ã‚’ä½œã‚‹
+		// ƒ`ƒFƒXƒg‚Ü‚Å‚ÌƒpƒX‚ğì‚é
 		boolean lf = false;
 		if (!owner.isMaidWaitEx()) {
 			double distance;
 			if (myTile instanceof TileEntity) {
 				distance = ((TileEntity)myTile).getDistanceFrom(owner.posX, owner.posY, owner.posZ);
 				if (distance == lastdistance) {
-					// ç§»å‹•ãŒå›ºã¾ã‚‰ãªã„ã‚ˆã†ã«ä¹±æ•°åŠ é€Ÿ
+					// ˆÚ“®‚ªŒÅ‚Ü‚ç‚È‚¢‚æ‚¤‚É—”‰Á‘¬
 					mod_LMM_littleMaidMob.Debug("Assert.");
 					owner.updateWanderPath();
 					lf = true;
@@ -300,7 +300,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 				distance = 0;
 			}
 			lastdistance = distance;
-			// ãƒ¬ãƒ³ã‚¸å¤–ã®ãƒã‚§ã‚¹ãƒˆã¯é–‰ã˜ã‚‹
+			// ƒŒƒ“ƒWŠO‚Ìƒ`ƒFƒXƒg‚Í•Â‚¶‚é
 			if (myChest != null) {
 				myChest.closeChest();
 				myChest = null;
@@ -317,7 +317,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 
 
 	protected boolean getChest() {
-		// ãƒã‚§ã‚¹ãƒˆã‚’ç²å¾—
+		// ƒ`ƒFƒXƒg‚ğŠl“¾
 		if (myTile == null) {
 			return false;
 		}
@@ -330,10 +330,10 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 		if(obj == null || world.isRemote) {
 			return false;
 		}
-		// æ¤œç´¢æ¸ˆã¿
+		// ŒŸõÏ‚İ
 		fusedTiles.add(obj);
 		
-		// é–‹ãã‹ã©ã†ã‹ã®åˆ¤å®š
+		// ŠJ‚­‚©‚Ç‚¤‚©‚Ì”»’è
 		if(world.isBlockNormalCube(i, j + 1, k)) {
 			return false;
 		}
@@ -374,9 +374,9 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 	}
 
 	protected void putChest() {
-		// ãƒã‚§ã‚¹ãƒˆã«è¿‘æ¥
+		// ƒ`ƒFƒXƒg‚É‹ßÚ
 		if (owner.getSwingStatusDominant().canAttack() && myChest != null) {
-			// ç ‚ç³–ã€æ™‚è¨ˆã€è¢«ã£ã¦ã„ã‚‹ãƒ˜ãƒ«ãƒ ä»¥å¤–ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’çªã£è¾¼ã‚€
+			// »“œAŒvA”í‚Á‚Ä‚¢‚éƒwƒ‹ƒ€ˆÈŠO‚ÌƒAƒCƒeƒ€‚ğ“Ë‚Á‚Ş
 			ItemStack is;
 			mod_LMM_littleMaidMob.Debug(String.format("getChest:%d", maidSearchCount));
 			while ((is = owner.maidInventory.getStackInSlot(maidSearchCount)) == null && maidSearchCount < owner.maidInventory.mainInventory.length) {
@@ -427,14 +427,14 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 			}
 //			mod_littleMaidMob.Debug(String.format("getchest3:%d", maidSearchCount));
 			if (++maidSearchCount >= owner.maidInventory.mainInventory.length) {
-				// æ¤œç´¢æ¸ˆã¿ã®å¯¾è±¡ã‚’ã‚¹ã‚¿ãƒƒã‚¯
+				// ŒŸõÏ‚İ‚Ì‘ÎÛ‚ğƒXƒ^ƒbƒN
 //				serchedChest.add(myChest);
 				myTile = null;
 				myChest.closeChest();
 				myChest = null;
 				lastdistance = 0D;
 				mod_LMM_littleMaidMob.Debug("endChest.");
-				// ç©ºããŒã§ããŸã‚‰æœç´¢çµ‚äº†
+				// ‹ó‚«‚ª‚Å‚«‚½‚ç‘{õI—¹
 				if (owner.maidInventory.getFirstEmptyStack() > -1) {
 					mod_LMM_littleMaidMob.Debug("Search clear.");
 					fusedTiles.clear();

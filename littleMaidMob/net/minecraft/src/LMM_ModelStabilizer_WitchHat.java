@@ -1,4 +1,4 @@
-﻿package net.minecraft.src;
+package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
@@ -10,7 +10,7 @@ public class LMM_ModelStabilizer_WitchHat extends MMM_ModelStabilizerBase {
 	public MMM_ModelRenderer WitchHat3;
 	
 	public LMM_ModelStabilizer_WitchHat() {
-		// まじょこぼう
+		// �܂��傱�ڂ�
 		textureWidth = 64;
 		textureHeight = 32;
 		

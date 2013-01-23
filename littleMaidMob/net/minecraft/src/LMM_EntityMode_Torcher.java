@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
 	
@@ -58,14 +58,14 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
 		int li;
 		ItemStack litemstack;
 
-		// ãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ãŸè­˜åˆ¥åˆ¤å®šã€é€Ÿåº¦å„ªå…ˆ
+		// ƒ‚[ƒh‚É‰‚¶‚½¯•Ê”»’èA‘¬“x—Dæ
 		switch (pMode) {
 		case mmode_Torcher : 
 			for (li = 0; li < owner.maidInventory.maxInventorySize; li++) {
 				litemstack = owner.maidInventory.getStackInSlot(li);
 				if (litemstack == null) continue;
 
-				// æ¾æ˜
+				// ¼–¾
 				if (litemstack.itemID == Block.torchWood.blockID || LMM_GuiTriggerSelect.checkWeapon("Torch", litemstack)) {
 					return li;
 				}
@@ -100,11 +100,11 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
     }
 	
     /**
-     * do1:å½“ãŸã‚Šåˆ¤å®šã®ãƒã‚§ãƒƒã‚¯
-     * do2:å¸¸æ™‚ãƒ–ãƒ­ã‚¯åˆ¤å®šã€é€éåˆ¤å®šã‚‚å½“ãŸã‚Šåˆ¤å®šã‚‚ç„¡è¦–ã€‚
+     * do1:“–‚½‚è”»’è‚Ìƒ`ƒFƒbƒN
+     * do2:íƒuƒƒN”»’èA“§‰ß”»’è‚à“–‚½‚è”»’è‚à–³‹B
      */
     protected boolean canBlockBeSeen(int x, int y, int z, boolean toTop, boolean do1, boolean do2) {
-    	// ãƒ–ãƒ­ãƒƒã‚¯ã®å¯è¦–åˆ¤å®š
+    	// ƒuƒƒbƒN‚Ì‰Â‹”»’è
     	World worldObj = owner.worldObj;
     	Block lblock = Block.blocksList[worldObj.getBlockId(x, y, z)];
         lblock.setBlockBoundsBasedOnState(worldObj, x, y, z);
@@ -114,7 +114,7 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
     	MovingObjectPosition movingobjectposition = worldObj.rayTraceBlocks_do_do(vec3d, vec3d1, do1, do2);
 
     	if (movingobjectposition != null && movingobjectposition.typeOfHit == EnumMovingObjectType.TILE) {
-        	// æ¥è§¦ãƒ–ãƒ­ãƒƒã‚¯ãŒæŒ‡å®šã—ãŸã‚‚ã®ãªã‚‰ã°
+        	// ÚGƒuƒƒbƒN‚ªw’è‚µ‚½‚à‚Ì‚È‚ç‚Î
         	if (movingobjectposition.blockX == x && 
         		movingobjectposition.blockY == y &&
         		movingobjectposition.blockZ == z) {
@@ -140,7 +140,7 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
 		if (lis == null) return false;
 		
 		int li = lis.stackSize;
-		// TODO:å½“ãŸã‚Šåˆ¤å®šã‚’ã©ã†ã™ã‚‹ã‹
+		// TODO:“–‚½‚è”»’è‚ğ‚Ç‚¤‚·‚é‚©
 		if (lis.tryPlaceItemIntoWorld(owner.maidAvatar, owner.worldObj, px, py - 1, pz, 1, 0.5F, 1.0F, 0.5F)) {
 			owner.setSwing(10, LMM_EnumSound.installation);
 

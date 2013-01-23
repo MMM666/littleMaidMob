@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 public class LMM_SwingStatus {
 
@@ -23,14 +23,14 @@ public class LMM_SwingStatus {
 	}
 
 	/**
-	 * TODO:æ•°å€¤ã®æ›´æ–°ç”¨ã€onEntityUpdateå†…ã§å‘¼ã¶äº‹:ã„ã‚‰ã‚“ã‹ï¼Ÿ
+	 * TODO:”’l‚ÌXV—pAonEntityUpdate“à‚ÅŒÄ‚Ô–:‚¢‚ç‚ñ‚©H
 	 */
 	public void onEntityUpdate(LMM_EntityLittleMaid pEntity) {
 		prevSwingProgress = swingProgress;
 	}
 
 	/**
-	 * æ•°å€¤ã®æ›´æ–°ç”¨ã€onUpdateå†…ã§å‘¼ã¶äº‹
+	 * ”’l‚ÌXV—pAonUpdate“à‚ÅŒÄ‚Ô–
 	 */
 	public void onUpdate(LMM_EntityLittleMaid pEntity) {
 		prevSwingProgress = swingProgress;
@@ -38,7 +38,7 @@ public class LMM_SwingStatus {
 			attackTime--;
 		}
 		
-		// è…•æŒ¯ã‚Š
+		// ˜rU‚è
 		int li = pEntity.getSwingSpeedModifier();
 		if (isSwingInProgress) {
 			if (swingProgressInt == 0) {
@@ -62,7 +62,7 @@ public class LMM_SwingStatus {
 	}
 
 	/**
-	 * é¸æŠä¸­ã®ã‚¹ãƒ­ãƒƒãƒˆç•ªå·ã‚’è¨­å®š
+	 * ‘I‘ğ’†‚ÌƒXƒƒbƒg”Ô†‚ğİ’è
 	 */
 	public void setSlotIndex(int pIndex) {
 		index = pIndex;
@@ -70,7 +70,7 @@ public class LMM_SwingStatus {
 	}
 
 	/**
-	 * é¸æŠä¸­ã®ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªå†…ã‚¢ã‚¤ãƒ†ãƒ ã‚¹ã‚¿ãƒƒã‚¯ã‚’è¿”ã™
+	 * ‘I‘ğ’†‚ÌƒCƒ“ƒxƒ“ƒgƒŠ“àƒAƒCƒeƒ€ƒXƒ^ƒbƒN‚ğ•Ô‚·
 	 */
 	public ItemStack getItemStack(LMM_EntityLittleMaid pEntity) {
 		if (index > -1) {
@@ -95,7 +95,7 @@ public class LMM_SwingStatus {
 	}
 
 	/**
-	 * å¤‰æ›´ãŒã‚ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã€ãƒ•ãƒ©ã‚°ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ã€‚
+	 * •ÏX‚ª‚ ‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µAƒtƒ‰ƒO‚ğƒNƒŠƒA‚·‚éB
 	 */
 	public boolean checkChanged() {
 		boolean lflag = index != lastIndex;
@@ -103,7 +103,7 @@ public class LMM_SwingStatus {
 		return lflag;
 	}
 
-// ã‚¢ã‚¤ãƒ†ãƒ ã®ä½¿ç”¨ã«é–¢ã‚ã‚‹é–¢æ•°ç¾¤
+// ƒAƒCƒeƒ€‚Ìg—p‚ÉŠÖ‚í‚éŠÖ”ŒQ
 
 	public int getItemInUseCount() {
 		return itemInUseCount;

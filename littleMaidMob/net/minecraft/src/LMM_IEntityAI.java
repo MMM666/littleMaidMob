@@ -1,8 +1,8 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 public interface LMM_IEntityAI {
 	
-	//å®Ÿè¡Œå¯èƒ½åˆ¤å®š
+	//Às‰Â”\”»’è
 	public void setEnable(boolean pFlag);
 	public boolean getEnable();
 	

@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntityAI {
 
@@ -21,12 +21,12 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 	@Override
 	public boolean shouldExecute() {
 		if (!isEnable || !theMaid.isMaidContractEX() || theMaid.isMaidWaitEx()) {
-			// å¥‘ç´„å€‹ä½“ã®ã¿ãŒè·³ã¶
+			// Œ_–ñŒÂ‘Ì‚Ì‚İ‚ª’µ‚Ô
 			return false;
 		}
 		
 		if (theMaid.isFreedom()) {
-			// è‡ªç”±è¡Œå‹•ã®å­ã¯åŸºç‚¹ã¸ã‚¸ãƒ£ãƒ³ãƒ—
+			// ©—Rs“®‚Ìq‚ÍŠî“_‚ÖƒWƒƒƒ“ƒv
 			if (theMaid.homeWorld != theMaid.dimension) {
 				mod_LMM_littleMaidMob.Debug(String.format("ID:%d, %d -> %d, Change HomeWorld. reset HomePosition.",
 						theMaid.entityId,theMaid.homeWorld, theMaid.worldObj.worldInfo.getDimension()));
@@ -55,7 +55,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 					return false;
 				}
 			} else {
-				// ã‚¿ãƒ¼ã‚²ãƒ†ã‚£ãƒ³ã‚°ä¸­ã¯è·é›¢ãŒä¼¸ã³ã‚‹
+				// ƒ^[ƒQƒeƒBƒ“ƒO’†‚Í‹——£‚ªL‚Ñ‚é
 				if (theMaid.mstatMasterDistanceSq < (theMaid.isBloodsuck() ? 1024D : 256D)) {
 					return false;
 				}
@@ -81,7 +81,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 							&& theWorld.isBlockNormalCube(i + l, k - 1, j + i1)
 							&& !theWorld.isBlockNormalCube(i + l, k, j + i1)
 							&& !theWorld.isBlockNormalCube(i + l, k + 1, j + i1)) {
-						// ä¸»ã®å‰ã«è·³ã°ãªã„
+						// å‚Ì‘O‚É’µ‚Î‚È‚¢
 						double dd = theOwner.getDistanceSq(
 								(double) (i + l) + 0.5D + MathHelper.sin(theOwner.rotationYaw * 0.01745329252F) * 2.0D,
 								(double) k,
@@ -100,12 +100,12 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 				}
 			}
 		} else {
-			// ãƒ›ãƒ¼ãƒ ãƒã‚¸ã‚·ãƒ§ãƒ³ã‚¨ãƒªã‚¢å¤–ã§è»¢ç§»
+			// ƒz[ƒ€ƒ|ƒWƒVƒ‡ƒ“ƒGƒŠƒAŠO‚Å“]ˆÚ
 			int lx = theMaid.getHomePosition().posX;
 			int ly = theMaid.getHomePosition().posY;
 			int lz = theMaid.getHomePosition().posZ;
 			if (!(isCanJump(lx, ly, lz))) {
-				// ãƒ›ãƒ¼ãƒ ãƒã‚¸ã‚·ãƒ§ãƒ³æ¶ˆå¤±
+				// ƒz[ƒ€ƒ|ƒWƒVƒ‡ƒ“Á¸
 				mod_LMM_littleMaidMob.Debug(String.format(
 						"ID:%d(%s) home lost.",
 						theMaid.entityId, theMaid.worldObj.isRemote ? "C" : "W"));
@@ -113,7 +113,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 				int b;
 				// int c;
 				boolean f = false;
-				// ï½™åº§æ¨™ã§åœ°é¢ã‚’æ¤œå‡º
+				// ‚™À•W‚Å’n–Ê‚ğŒŸo
 				for (a = 1; a < 6 && !f; a++) {
 					if (isCanJump(lx, ly + a, lz)) {
 						f = true;
@@ -129,7 +129,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 					}
 				}
 
-				// CWæ–¹å‘ã«æ¤œç´¢é ˜åŸŸã‚’åºƒã’ã‚‹
+				// CW•ûŒü‚ÉŒŸõ—Ìˆæ‚ğL‚°‚é
 				loop_search: for (a = 2; a < 18 && !f; a += 2) {
 					lx--;
 					lz--;
@@ -181,7 +181,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 	}
 
 	/**
-	 * è»¢ç§»å…ˆã®ãƒã‚§ãƒƒã‚¯
+	 * “]ˆÚæ‚Ìƒ`ƒFƒbƒN
 	 */
 	protected boolean isCanJump(int px, int py, int pz) {
 		double lw = (double) theMaid.width / 2D;

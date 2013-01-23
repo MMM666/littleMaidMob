@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -19,9 +19,9 @@ import net.minecraft.client.Minecraft;
 public class LMM_GuiIFF extends MMM_GuiMobSelect {
 	
 	public static final String IFFString[] = {
-		"ENEMY",	// åæ’ƒã€ç‹© 
-		"UNKNOWN", 	// åæ’ƒ
-		"FRIENDLY"	// æ”»æ’ƒã—ãªã„
+		"ENEMY",	// ”½Œ‚Aë 
+		"UNKNOWN", 	// ”½Œ‚
+		"FRIENDLY"	// UŒ‚‚µ‚È‚¢
 	};
 
 	protected LMM_EntityLittleMaid target;
@@ -36,22 +36,22 @@ public class LMM_GuiIFF extends MMM_GuiMobSelect {
     @Override
     protected boolean checkEntity(String pName, Entity pEntity, int pIndex) {
     	boolean lf = false;
-    	// Entityã®å€¤ã‚’è¨­å®š
+    	// Entity‚Ì’l‚ğİ’è
     	int liff = LMM_IFF.checkEntityStatic(pName, pEntity, pIndex, entityMap);
     	if (pEntity instanceof EntityLiving) {
     		if (pEntity instanceof LMM_EntityLittleMaid) {
         		if (pIndex == 0 || pIndex == 1) {
-        			// é‡ç”Ÿç¨®ã€è‡ªåˆ†å¥‘ç´„è€…
+        			// –ì¶íA©•ªŒ_–ñÒ
             		lf = true;
         		} else {
-        			// å¥‘ç´„è€…
+        			// Œ_–ñÒ
         		}
         	} else if (pEntity instanceof EntityTameable) {
         		if (pIndex == 0 || pIndex == 1) {
-        			// é‡ç”Ÿç¨®ã€è‡ªåˆ†ã®
+        			// –ì¶íA©•ª‚Ì
             		lf = true;
         		} else {
-        			// ä»–äººã®å®¶ç•œ
+        			// ‘¼l‚Ì‰Æ’{
         		}
         	}
     	}
@@ -120,7 +120,7 @@ public class LMM_GuiIFF extends MMM_GuiMobSelect {
 	@Override
 	public void drawSlot(int pSlotindex, int pX, int pY, int pDrawheight,
 			Tessellator pTessellator, String pName, Entity pEntity) {
-		// åå‰ã¨æ•µå‘³æ–¹è­˜åˆ¥ã®æç”»
+		// –¼‘O‚Æ“G–¡•û¯•Ê‚Ì•`‰æ
         int tt = LMM_IFF.getIFF(null, pName);
         int c = 0xffffff;
         switch (tt) {

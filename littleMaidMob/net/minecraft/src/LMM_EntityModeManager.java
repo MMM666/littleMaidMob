@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ public class LMM_EntityModeManager extends MMM_ManagerBase {
 
     
 	public static void init() {
-		// ç‰¹å®šåç§°ã‚’ãƒ—ãƒªãƒ•ã‚£ãƒƒã‚¯ã‚¹ã«æŒã¤modãƒ•ã‚¡ã‚¤ã‚’ã‚’ç²å¾—
+		// “Á’è–¼Ì‚ğƒvƒŠƒtƒBƒbƒNƒX‚É‚Âmodƒtƒ@ƒC‚ğ‚ğŠl“¾
 		MMM_FileManager.getModFile("EntityMode", prefix);
 	}
 	
@@ -25,8 +25,8 @@ public class LMM_EntityModeManager extends MMM_ManagerBase {
 
 	@Override
 	protected boolean append(Class pclass) {
-		// ãƒ—ãƒ©ã‚¤ã‚ªãƒªãƒ†ã‚£ãƒ¼é †ã«è¿½åŠ 
-		// ã‚½ãƒ¼ã‚¿ãƒ¼ä½¿ã†ï¼Ÿ
+		// ƒvƒ‰ƒCƒIƒŠƒeƒB[‡‚É’Ç‰Á
+		// ƒ\[ƒ^[g‚¤H
 		if (!LMM_EntityModeBase.class.isAssignableFrom(pclass)) {
 			return false;
 		}
@@ -56,7 +56,7 @@ public class LMM_EntityModeManager extends MMM_ManagerBase {
 	}
 	
 	/**
-	 * AIè¿½åŠ ç”¨ã®ãƒªã‚¹ãƒˆã‚’ç²å¾—ã€‚ 
+	 * AI’Ç‰Á—p‚ÌƒŠƒXƒg‚ğŠl“¾B 
 	 */
 	public static List<LMM_EntityModeBase> getModeList(LMM_EntityLittleMaid pentity) {
 		List<LMM_EntityModeBase> llist = new ArrayList<LMM_EntityModeBase>();

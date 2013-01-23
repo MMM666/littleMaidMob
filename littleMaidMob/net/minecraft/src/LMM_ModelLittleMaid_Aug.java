@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 
@@ -32,7 +32,7 @@ public class LMM_ModelLittleMaid_Aug extends LMM_ModelLittleMaid_SR2 {
 	public void initModel(float psize, float pyoffset) {
 		super.initModel(psize, pyoffset);
 		
-		// å†æ§‹æˆãƒ‘ãƒ¼ãƒ„
+		// Ä\¬ƒp[ƒc
 		SideTailR = new MMM_ModelRenderer(this);
 		SideTailR.setTextureOffset(46, 20).addBox(-1.5F, -0.5F, -1.0F, 2, 10, 2, psize);
 		SideTailR.setRotationPointLM(-5F, -7.8F, 1.9F);
@@ -41,7 +41,7 @@ public class LMM_ModelLittleMaid_Aug extends LMM_ModelLittleMaid_SR2 {
 		SideTailL.setRotationPointLM(4F, -7.8F, 1.9F);
 
 		
-		// å¢—åŠ ãƒ‘ãƒ¼ãƒ„
+		// ‘‰Áƒp[ƒc
 		shaggyB = new MMM_ModelRenderer(this, 24, 0);
 		shaggyB.addPlate(-5.0F, 0.0F, 0.0F, 10, 4, 4, psize);
 		shaggyB.setRotationPointLM(0.0F, -1.0F, 4.0F);
@@ -69,7 +69,7 @@ public class LMM_ModelLittleMaid_Aug extends LMM_ModelLittleMaid_SR2 {
 		sensor4.setRotationPointLM(0.0F, -8.0F + pyoffset, 0.0F);
 
 		
-		// å¤‰æ›´ãƒ‘ãƒ¼ãƒ„
+		// •ÏXƒp[ƒc
 		bipedHead.clearCubeList();
 		bipedHead.mirror = false;
 		bipedHead.setTextureOffset(0, 0).addBox(-4F, -8F, -4F, 8, 8, 8, psize);			// Head

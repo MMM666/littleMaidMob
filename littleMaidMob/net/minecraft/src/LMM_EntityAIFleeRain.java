@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.util.Random;
 
@@ -72,7 +72,7 @@ public class LMM_EntityAIFleeRain extends EntityAIBase implements LMM_IEntityAI 
         return null;
     }
     
-	// å®Ÿè¡Œå¯èƒ½ãƒ•ãƒ©ã‚°
+	// Às‰Â”\ƒtƒ‰ƒO
     @Override
 	public void setEnable(boolean pFlag) {
 		isEnable = pFlag;
