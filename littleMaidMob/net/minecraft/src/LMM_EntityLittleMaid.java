@@ -1480,6 +1480,23 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		// ”ò‚Ñ“¹‹ï—p
 		weaponFullAuto = false;
 		weaponReload = false;
+		
+		if (health > 0) {
+			if (!worldObj.isRemote) {
+				if (getSwingStatusDominant().canAttack()) {
+					// ‰ñ•œ”»’è
+					if (!isBloodsuck()) {
+						// ’Êí‚Í‰ñ•œ—Dæ
+						if (health < getMaxHealth()) {
+							if (maidInventory.consumeInventoryItem(Item.sugar.itemID)) {
+								eatSugar(true, false);
+							}
+						}
+					}
+				}
+			}
+		}
+		
 		super.onLivingUpdate();
 		
 		maidInventory.decrementAnimations();
