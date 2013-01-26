@@ -17,7 +17,7 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
 	@Override
 	public void init() {
 		ModLoader.addLocalization("littleMaidMob.mode.Torcher", "Torcher");
-		LMM_GuiTriggerSelect.appendTriggerItem("Torch", "");
+		LMM_TriggerSelect.appendTriggerItem(null, "Torch", "");
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
 	public boolean changeMode(EntityPlayer pentityplayer) {
 		ItemStack litemstack = owner.maidInventory.getStackInSlot(0);
 		if (litemstack != null) {
-			if (litemstack.itemID == Block.torchWood.blockID || LMM_GuiTriggerSelect.checkWeapon("Torch", litemstack)) {
+			if (litemstack.itemID == Block.torchWood.blockID || LMM_TriggerSelect.checkWeapon(owner.getMaidMaster(), "Torch", litemstack)) {
 				owner.setMaidMode("Torcher");
 				return true;
 			}
@@ -66,7 +66,7 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
 				if (litemstack == null) continue;
 
 				// èºñæ
-				if (litemstack.itemID == Block.torchWood.blockID || LMM_GuiTriggerSelect.checkWeapon("Torch", litemstack)) {
+				if (litemstack.itemID == Block.torchWood.blockID || LMM_TriggerSelect.checkWeapon(owner.getMaidMaster(), "Torch", litemstack)) {
 					return li;
 				}
 			}

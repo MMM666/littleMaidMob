@@ -27,8 +27,8 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 		ModLoader.addLocalization("littleMaidMob.mode.Fencer", "ja_JP", "Œì‰qŒ•Žm");
 		ModLoader.addLocalization("littleMaidMob.mode.Bloodsucker", "Bloodsucker");
 		ModLoader.addLocalization("littleMaidMob.mode.Bloodsucker", "ja_JP", "ŒŒ‚É‹Q‚¦‚½–»“y");
-		LMM_GuiTriggerSelect.appendTriggerItem("Sword", "");
-		LMM_GuiTriggerSelect.appendTriggerItem("Axe", "");
+		LMM_TriggerSelect.appendTriggerItem(null, "Sword", "");
+		LMM_TriggerSelect.appendTriggerItem(null, "Axe", "");
 	}
 
 	@Override
@@ -61,10 +61,10 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 	public boolean changeMode(EntityPlayer pentityplayer) {
 		ItemStack litemstack = owner.maidInventory.getStackInSlot(0);
 		if (litemstack != null) {
-			if (litemstack.getItem() instanceof ItemSword || LMM_GuiTriggerSelect.checkWeapon("Sword", litemstack)) {
+			if (litemstack.getItem() instanceof ItemSword || LMM_TriggerSelect.checkWeapon(owner.getMaidMaster(), "Sword", litemstack)) {
 				owner.setMaidMode("Fencer");
 				return true;
-			} else  if (litemstack.getItem() instanceof ItemAxe || LMM_GuiTriggerSelect.checkWeapon("Axe", litemstack)) {
+			} else  if (litemstack.getItem() instanceof ItemAxe || LMM_TriggerSelect.checkWeapon(owner.getMaidMaster(), "Axe", litemstack)) {
 				owner.setMaidMode("Bloodsucker");
 				return true;
 			}
@@ -104,7 +104,7 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 				if (litemstack == null) continue;
 
 				// Œ•
-				if (litemstack.getItem() instanceof ItemSword || LMM_GuiTriggerSelect.checkWeapon("Sword", litemstack)) {
+				if (litemstack.getItem() instanceof ItemSword || LMM_TriggerSelect.checkWeapon(owner.getMaidMaster(), "Sword", litemstack)) {
 					return li;
 				}
 
@@ -127,7 +127,7 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 				if (litemstack == null) continue;
 				
 				// •€
-				if (litemstack.getItem() instanceof ItemAxe || LMM_GuiTriggerSelect.checkWeapon("Axe", litemstack)) {
+				if (litemstack.getItem() instanceof ItemAxe || LMM_TriggerSelect.checkWeapon(owner.getMaidMaster(), "Axe", litemstack)) {
 					return li;
 				}
 

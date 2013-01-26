@@ -8,10 +8,9 @@ import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 
 /**
@@ -35,7 +34,7 @@ public class LMM_IFF {
 		if (pUsername == null) {
 			return DefaultIFF;
 		}
-		if (MMM_Helper.mc != null && MMM_Helper.mc.getIntegratedServer() != null) {
+		if (MMM_Helper.isClient && MMM_Helper.mc.isIntegratedServerRunning()) {
 			pUsername = "";
 		}
 		
@@ -239,27 +238,27 @@ public class LMM_IFF {
 		return lfile;
 	}
 
-    public static void loadIFF(String pUsername) {
+	public static void loadIFF(String pUsername) {
 		// IFF ファイルの読込み
-    	// 動作はサーバー側で想定
-    	File lfile = getFile(pUsername);
+		// 動作はサーバー側で想定
+		File lfile = getFile(pUsername);
 		if(!(lfile.exists() && lfile.canRead())) {
-        	return;
-        }
-    	Map<String, Integer> lmap = getUserIFF(pUsername); 
+			return;
+		}
+		Map<String, Integer> lmap = getUserIFF(pUsername); 
 		
-        try {
-            FileReader fr = new FileReader(lfile);
-            BufferedReader br = new BufferedReader(fr);
-            
-            String s;
-        	while ((s = br.readLine()) != null) {
-        		String t[] = s.split("=");
-        		if (t.length > 1) {
-        			if (t[0].startsWith("triggerWeapon")) {
-        		        LMM_GuiTriggerSelect.appendTriggerItem(t[0].substring(13), t[1]);
-        				continue;
-        			}
+		try {
+			FileReader fr = new FileReader(lfile);
+			BufferedReader br = new BufferedReader(fr);
+			
+			String s;
+			while ((s = br.readLine()) != null) {
+				String t[] = s.split("=");
+				if (t.length > 1) {
+					if (t[0].startsWith("triggerWeapon")) {
+						LMM_TriggerSelect.appendTriggerItem(pUsername, t[0].substring(13), t[1]);
+						continue;
+					}
 /*        			
         			if (t[0].compareTo("exclusionList") == 0) {
         				exclusionList.clear();
@@ -269,22 +268,22 @@ public class LMM_IFF {
         				continue;
         			}
 */
-        			int i = Integer.valueOf(t[1]);
-        			if (i > 2) {
-        				i = iff_Unknown;
-        			}
-        			lmap.put(t[0], i);
-        		}
-        	}
-            
-            br.close();
-            fr.close();
-        }
-        catch (Exception e) {
-        	e.printStackTrace();
-        }
+					int i = Integer.valueOf(t[1]);
+					if (i > 2) {
+						i = iff_Unknown;
+					}
+					lmap.put(t[0], i);
+				}
+			}
+			
+			br.close();
+			fr.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public static void saveIFF(String pUsername) {
 		// IFF ファイルの書込み
 		File lfile = getFile(MMM_Helper.isClient ? null : pUsername);
@@ -296,16 +295,15 @@ public class LMM_IFF {
 				BufferedWriter bw = new BufferedWriter(fw);
 				
 				// トリガーアイテムのリスト
-				for (Entry<String, List<Integer>> le : LMM_GuiTriggerSelect.selector.entrySet()) {
+				for (Entry<Integer, List<Integer>> le : LMM_TriggerSelect.usersTrigger.get(pUsername).entrySet()) {
 					StringBuilder sb = new StringBuilder();
-					sb.append("triggerWeapon").append(le.getKey()).append("=");
+					sb.append("triggerWeapon").append(LMM_TriggerSelect.selector.get(le.getKey())).append("=");
 					if (!le.getValue().isEmpty()) {
 						sb.append(le.getValue().get(0));
 						for (int i = 1; i < le.getValue().size(); i++) {
 							sb.append(",").append(le.getValue().get(i));
 						}
 					}
-					
 					sb.append("\r\n");
 					bw.write(sb.toString());
 				}
