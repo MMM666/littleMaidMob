@@ -17,6 +17,9 @@ import net.minecraft.client.Minecraft;
 
 public class LMM_SoundManager {
 	
+//	protected static final File sounddir = new File(Minecraft.getMinecraftDir(), "/resources/mod/sound/littleMaidMob");
+	protected static File sounddir;
+
 	// soundindex, value
 	public static Map<Integer, String> soundsDefault = new HashMap<Integer, String>();
 	// soundIndex, texturePack, color, value
@@ -308,7 +311,8 @@ public class LMM_SoundManager {
 	}
 	
 	public static void loadSoundPack() {
-        File sounddir = Minecraft.getAppDir("minecraft/resources/mod/sound/littleMaidMob"); 
+//		File sounddir = Minecraft.getAppDir("minecraft/resources/mod/sound/littleMaidMob"); 
+//		File sounddir = new File(Minecraft.getMinecraftDir(), "/resources/mod/sound/littleMaidMob");
 		if (sounddir.exists() && sounddir.isDirectory()) {
 			for (File file : sounddir.listFiles()) {
 				if (file.getName().compareToIgnoreCase("littleMaidMob.cfg") == 0) {
@@ -330,8 +334,8 @@ public class LMM_SoundManager {
 
 	public static boolean loadDefaultSoundPack() {
 		// getAppDir使うとディレクトリがなければ作成される
-		File sounddir = Minecraft.getAppDir("minecraft/resources/mod/sound/littleMaidMob"); 
-        File soundfile = new File(sounddir, "littleMaidMob.cfg"); 
+//		File sounddir = Minecraft.getAppDir("minecraft/resources/mod/sound/littleMaidMob"); 
+		File soundfile = new File(sounddir, "littleMaidMob.cfg"); 
 		if (soundfile.exists() && soundfile.isFile()) {
 			mod_LMM_littleMaidMob.Debug(soundfile.getName());
 			decodeSoundPack(soundfile, true);
@@ -357,8 +361,8 @@ public class LMM_SoundManager {
 		}
 		try {
 			if (file1.createNewFile()) {
-		    	BufferedWriter bwriter = new BufferedWriter(new FileWriter(file1));
-
+				BufferedWriter bwriter = new BufferedWriter(new FileWriter(file1));
+				
 				for (LMM_EnumSound eslm : LMM_EnumSound.values()) {
 					writeBuffer(bwriter, eslm);
 				}
@@ -374,7 +378,7 @@ public class LMM_SoundManager {
 		}
 		return true;
 	}
-	
+
 	protected static void writeBuffer(BufferedWriter buffer, LMM_EnumSound enumsound) throws IOException {
 		// 渡されたWBufferへ書き込む
 		if (enumsound == LMM_EnumSound.Null) return;

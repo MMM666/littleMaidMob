@@ -2289,7 +2289,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 								// IFF‚ÌƒI[ƒvƒ“
 								decPlayerInventory(par1EntityPlayer, -1, 1);
 //	    		            	ModLoader.openGUI(par1EntityPlayer, new LMM_GuiIFF(worldObj, this));
-								LMM_Client.OpenIFF(this, par1EntityPlayer);
+								if (!worldObj.isRemote) {
+									LMM_Client.OpenIFF(this, par1EntityPlayer);
+								}
 								return true;
 							}
 							else if ((itemstack1.itemID == Item.glassBottle.itemID) && (experienceValue >= 5)) {

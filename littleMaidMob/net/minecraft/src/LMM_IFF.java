@@ -18,15 +18,13 @@ import net.minecraft.server.MinecraftServer;
  */
 public class LMM_IFF {
 
-	public static final int iff_Enemy		= 0;
-	public static final int iff_Unknown		= 1;
-	public static final int iff_Friendry	= 2;
+	public static final int iff_Enemy = 0;
+	public static final int iff_Unknown = 1;
+	public static final int iff_Friendry = 2;
 
 	public static Map<String, Integer> DefaultIFF = new TreeMap<String, Integer>();
-	public static Map<String, Map<String, Integer>> UserIFF = new HashMap<String, Map<String,Integer>>();
+	public static Map<String, Map<String, Integer>> UserIFF = new HashMap<String, Map<String, Integer>>();
 
-
-	
 	/**
 	 * IFFのゲット
 	 */
@@ -37,7 +35,7 @@ public class LMM_IFF {
 		if (MMM_Helper.isClient && MMM_Helper.mc.isIntegratedServerRunning()) {
 			pUsername = "";
 		}
-		
+
 		if (!UserIFF.containsKey(pUsername)) {
 			// IFFがないので作成
 			if (pUsername.isEmpty()) {
@@ -52,155 +50,149 @@ public class LMM_IFF {
 		return UserIFF.get(pUsername);
 	}
 
-	/**
-	 * IFFのゲット
-	 */
-	/*
-	public static Map<String, Integer> getUserIFF(EntityPlayer pEntity) {
-		if (pEntity == null) {
-			return DefaultIFF;
-		}
-		if (mod_LMM_littleMaidMob.mcGame != null && mod_LMM_littleMaidMob.mcGame.getIntegratedServer() != null) {
-			return getUserIFF("");
-		} else {
-			return getUserIFF(pEntity.username);
-		}
-	}
-
-	public static void setIFFValue(EntityPlayer pPlayer, String pName, int pValue) {
-		Map<String, Integer> lmap = getUserIFF(pPlayer);
-		lmap.put(pName, pValue);
-	}
-*/
 	public static void setIFFValue(String pUsername, String pName, int pValue) {
 		Map<String, Integer> lmap = getUserIFF(pUsername);
 		lmap.put(pName, pValue);
 	}
-	
-    protected static int checkEntityStatic(String pName, Entity pEntity, int pIndex, Map<String, Entity> pMap) {
-    	int liff = LMM_IFF.iff_Unknown;
-    	if (pEntity instanceof EntityLiving) {
-        	if (pEntity instanceof LMM_EntityLittleMaid) {
-        		switch (pIndex) {
-        		case 0:
-        			// 野生種
-            		liff = LMM_IFF.iff_Unknown;
-            		break;
-        		case 1:
-        			// 自分の契約者
-            		pName = (new StringBuilder()).append(pName).append(":Contract").toString();
-            		((LMM_EntityLittleMaid)pEntity).setMaidContract(true);
-            		liff = LMM_IFF.iff_Friendry;
-            		break;
-        		case 2:
-        			// 他人の契約者
-            		pName = (new StringBuilder()).append(pName).append(":Others").toString();
-            		((LMM_EntityLittleMaid)pEntity).setMaidContract(true);
-            		liff = LMM_IFF.iff_Friendry;
-            		break;
-        		}
-        	} else if (pEntity instanceof EntityTameable) {
-        		switch (pIndex) {
-        		case 0:
-        			// 野生種
-        			break;
-        		case 1:
-        			// 自分の家畜
-            		pName = (new StringBuilder()).append(pName).append(":Taim").toString();
-            		((EntityTameable)pEntity).setTamed(true);
-            		liff = LMM_IFF.iff_Friendry;
-            		break;
-        		case 2:
-        			// 他人の家畜
-            		pName = (new StringBuilder()).append(pName).append(":Others").toString();
-            		((EntityTameable)pEntity).setTamed(true);
-            		liff = LMM_IFF.iff_Unknown;
-            		break;
-        		}
-        		if (pIndex != 0) {
-            		if (pEntity instanceof EntityOcelot) {
-                        ((EntityOcelot)pEntity).setTameSkin(1 + pEntity.worldObj.rand.nextInt(3));
-            		}
-        		}
-        	}
-        	if (pMap != null) {
-            	// 表示用Entityの追加
-        		pMap.put(pName, (EntityLiving)pEntity);
-        		mod_LMM_littleMaidMob.Debug(pName + "added.");
-        	}
-        	
-    		// IFFの初期値
-    		if (!DefaultIFF.containsKey(pName)) {
-    			if (pEntity instanceof IMob) {
-    				liff = LMM_IFF.iff_Enemy;
-    			}
+
+	protected static int checkEntityStatic(String pName, Entity pEntity,
+			int pIndex, Map<String, Entity> pMap) {
+		int liff = LMM_IFF.iff_Unknown;
+		if (pEntity instanceof EntityLiving) {
+			if (pEntity instanceof LMM_EntityLittleMaid) {
+				switch (pIndex) {
+				case 0:
+					// 野生種
+					liff = LMM_IFF.iff_Unknown;
+					break;
+				case 1:
+					// 自分の契約者
+					pName = (new StringBuilder()).append(pName)
+							.append(":Contract").toString();
+					((LMM_EntityLittleMaid) pEntity).setMaidContract(true);
+					liff = LMM_IFF.iff_Friendry;
+					break;
+				case 2:
+					// 他人の契約者
+					pName = (new StringBuilder()).append(pName)
+							.append(":Others").toString();
+					((LMM_EntityLittleMaid) pEntity).setMaidContract(true);
+					liff = LMM_IFF.iff_Friendry;
+					break;
+				}
+			} else if (pEntity instanceof EntityTameable) {
+				switch (pIndex) {
+				case 0:
+					// 野生種
+					break;
+				case 1:
+					// 自分の家畜
+					pName = (new StringBuilder()).append(pName).append(":Taim")
+							.toString();
+					((EntityTameable) pEntity).setTamed(true);
+					liff = LMM_IFF.iff_Friendry;
+					break;
+				case 2:
+					// 他人の家畜
+					pName = (new StringBuilder()).append(pName)
+							.append(":Others").toString();
+					((EntityTameable) pEntity).setTamed(true);
+					liff = LMM_IFF.iff_Unknown;
+					break;
+				}
+				if (pIndex != 0) {
+					if (pEntity instanceof EntityOcelot) {
+						((EntityOcelot) pEntity)
+								.setTameSkin(1 + pEntity.worldObj.rand
+										.nextInt(3));
+					}
+				}
+			}
+			if (pMap != null) {
+				// 表示用Entityの追加
+				pMap.put(pName, (EntityLiving) pEntity);
+				mod_LMM_littleMaidMob.Debug(pName + " added.");
+			}
+			
+			// IFFの初期値
+			if (!DefaultIFF.containsKey(pName)) {
+				if (pEntity instanceof IMob) {
+					liff = LMM_IFF.iff_Enemy;
+				}
 				DefaultIFF.put(pName, liff);
-    		}
-    	}
-    	
-    	return liff;
-    }
-    
-    /**
-     * 敵味方識別判定 
-     */
-    public static int getIFF(String pUsername, String entityname) {
-    	if (entityname == null) {
-    		return mod_LMM_littleMaidMob.Aggressive ?  iff_Enemy : iff_Friendry;
-    	}
+			}
+		}
+
+		return liff;
+	}
+
+	/**
+	 * 敵味方識別判定
+	 */
+	public static int getIFF(String pUsername, String entityname) {
+		if (entityname == null) {
+			return mod_LMM_littleMaidMob.Aggressive ? iff_Enemy : iff_Friendry;
+		}
 		int t = iff_Enemy;
 		Map<String, Integer> lmap = getUserIFF(pUsername);
-    	if (lmap.containsKey(entityname)) {
-    		t = lmap.get(entityname);
-    	}
-    	return t;
-    }
+		if (lmap.containsKey(entityname)) {
+			t = lmap.get(entityname);
+		}
+		return t;
+	}
 
-    /**
-     * 敵味方識別判定 
-     */
-    public static int getIFF(String pUsername, Entity entity) {
-    	if (entity == null || !(entity instanceof EntityLiving)) {
-    		return mod_LMM_littleMaidMob.Aggressive ?  iff_Enemy : iff_Friendry;
-    	}
-    	String lename = EntityList.getEntityString(entity);
-    	String lcname = lename;
-    	if (lename == null) {
-    		// 名称未定義MOB、プレーヤーとか？
-    		return iff_Friendry;
-//    		return mod_LMM_littleMaidMob.Aggressive ?  iff_Unknown : iff_Friendry;
-    	}
-    	int li = 0;
-    	if (entity instanceof LMM_EntityLittleMaid) {
-    		if (((LMM_EntityLittleMaid)entity).isMaidContract()) {
-        		if (((LMM_EntityLittleMaid)entity).getMaidMaster().contentEquals(pUsername)) {
-    				// 自分の
-        			lcname = (new StringBuilder()).append(lename).append(":Contract").toString();
-        			li = 1;
-    			} else {
-    				// 他人の
-        			lcname = (new StringBuilder()).append(lename).append(":Others").toString();
-        			li = 2;
-    			}
-    		}
-    	} else if (entity instanceof EntityTameable) {
-    		if (((EntityTameable)entity).isTamed()) {
-        		if (((EntityTameable)entity).getOwnerName().contentEquals(pUsername)) {
-        			// 自分の
-        			lcname = (new StringBuilder()).append(lename).append(":Taim").toString();
-        			li = 1;
-        		} else {
-        			// 他人の
-        			lcname = (new StringBuilder()).append(lename).append(":Others").toString();
-        			li = 2;
-        		}
-    		}
-    	}
-    	if (!getUserIFF(pUsername).containsKey(lcname)) {
-    		checkEntityStatic(lename, entity, li, null);
-    	}
-    	return getIFF(pUsername, lcname);
-    }
+	/**
+	 * 敵味方識別判定
+	 */
+	public static int getIFF(String pUsername, Entity entity) {
+		if (entity == null || !(entity instanceof EntityLiving)) {
+			return mod_LMM_littleMaidMob.Aggressive ? iff_Enemy : iff_Friendry;
+		}
+		String lename = EntityList.getEntityString(entity);
+		String lcname = lename;
+		if (lename == null) {
+			// 名称未定義MOB、プレーヤーとか？
+			return iff_Friendry;
+			// return mod_LMM_littleMaidMob.Aggressive ? iff_Unknown :
+			// iff_Friendry;
+		}
+		int li = 0;
+		if (entity instanceof LMM_EntityLittleMaid) {
+			if (((LMM_EntityLittleMaid) entity).isMaidContract()) {
+				if (((LMM_EntityLittleMaid) entity).getMaidMaster()
+						.contentEquals(pUsername)) {
+					// 自分の
+					lcname = (new StringBuilder()).append(lename)
+							.append(":Contract").toString();
+					li = 1;
+				} else {
+					// 他人の
+					lcname = (new StringBuilder()).append(lename)
+							.append(":Others").toString();
+					li = 2;
+				}
+			}
+		} else if (entity instanceof EntityTameable) {
+			if (((EntityTameable) entity).isTamed()) {
+				if (((EntityTameable) entity).getOwnerName().contentEquals(
+						pUsername)) {
+					// 自分の
+					lcname = (new StringBuilder()).append(lename)
+							.append(":Taim").toString();
+					li = 1;
+				} else {
+					// 他人の
+					lcname = (new StringBuilder()).append(lename)
+							.append(":Others").toString();
+					li = 2;
+				}
+			}
+		}
+		if (!getUserIFF(pUsername).containsKey(lcname)) {
+			checkEntityStatic(lename, entity, li, null);
+		}
+		return getIFF(pUsername, lcname);
+	}
 
 	public static void loadIFFs() {
 		// サーバー側の
@@ -210,7 +202,8 @@ public class LMM_IFF {
 			File lfile = MinecraftServer.getServer().getFile("");
 			for (File lf : lfile.listFiles()) {
 				if (lf.getName().endsWith("littleMaidMob.iff")) {
-					String ls = lf.getName().substring(17, lf.getName().length() - 20);
+					String ls = lf.getName().substring(17,
+							lf.getName().length() - 20);
 					mod_LMM_littleMaidMob.Debug(ls);
 					loadIFF(ls);
 				}
@@ -242,10 +235,10 @@ public class LMM_IFF {
 		// IFF ファイルの読込み
 		// 動作はサーバー側で想定
 		File lfile = getFile(pUsername);
-		if(!(lfile.exists() && lfile.canRead())) {
+		if (!(lfile.exists() && lfile.canRead())) {
 			return;
 		}
-		Map<String, Integer> lmap = getUserIFF(pUsername); 
+		Map<String, Integer> lmap = getUserIFF(pUsername);
 		
 		try {
 			FileReader fr = new FileReader(lfile);
@@ -256,18 +249,10 @@ public class LMM_IFF {
 				String t[] = s.split("=");
 				if (t.length > 1) {
 					if (t[0].startsWith("triggerWeapon")) {
-						LMM_TriggerSelect.appendTriggerItem(pUsername, t[0].substring(13), t[1]);
+						LMM_TriggerSelect.appendTriggerItem(pUsername,
+								t[0].substring(13), t[1]);
 						continue;
 					}
-/*        			
-        			if (t[0].compareTo("exclusionList") == 0) {
-        				exclusionList.clear();
-        				for (String ls : t[1].split(",")) {
-        					exclusionList.add(ls.trim());
-        				}
-        				continue;
-        			}
-*/
 					int i = Integer.valueOf(t[1]);
 					if (i > 2) {
 						i = iff_Unknown;
@@ -278,8 +263,7 @@ public class LMM_IFF {
 			
 			br.close();
 			fr.close();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -287,17 +271,21 @@ public class LMM_IFF {
 	public static void saveIFF(String pUsername) {
 		// IFF ファイルの書込み
 		File lfile = getFile(MMM_Helper.isClient ? null : pUsername);
-		Map<String, Integer> lmap = getUserIFF(pUsername); 
+		Map<String, Integer> lmap = getUserIFF(pUsername);
 		
 		try {
-			if(!lmap.isEmpty() && (lfile.exists() || lfile.createNewFile()) && lfile.canWrite()) {
+			if (!lmap.isEmpty() && (lfile.exists() || lfile.createNewFile())
+					&& lfile.canWrite()) {
 				FileWriter fw = new FileWriter(lfile);
 				BufferedWriter bw = new BufferedWriter(fw);
 				
 				// トリガーアイテムのリスト
-				for (Entry<Integer, List<Integer>> le : LMM_TriggerSelect.usersTrigger.get(pUsername).entrySet()) {
+				for (Entry<Integer, List<Integer>> le : LMM_TriggerSelect
+						.getUserTrigger(pUsername).entrySet()) {
 					StringBuilder sb = new StringBuilder();
-					sb.append("triggerWeapon").append(LMM_TriggerSelect.selector.get(le.getKey())).append("=");
+					sb.append("triggerWeapon")
+							.append(LMM_TriggerSelect.selector.get(le.getKey()))
+							.append("=");
 					if (!le.getValue().isEmpty()) {
 						sb.append(le.getValue().get(0));
 						for (int i = 1; i < le.getValue().size(); i++) {
@@ -307,30 +295,16 @@ public class LMM_IFF {
 					sb.append("\r\n");
 					bw.write(sb.toString());
 				}
-/*
-                // 判定除外対象リスト
-            	StringBuilder lsb = new StringBuilder();
-            	for (String ls : exclusionList) {
-            		if (lsb.length() == 0) {
-                    	lsb.append("exclusionList=").append(ls);
-            		} else {
-                		lsb.append(", ").append(ls);
-            		}
-            	}
-            	if (lsb.length() > 0) {
-                	bw.write(lsb.append("\r\n").toString());
-            	}
-*/                
 				
 				for (Map.Entry<String, Integer> me : lmap.entrySet()) {
-					bw.write(String.format("%s=%d\r\n", me.getKey(), me.getValue()));
+					bw.write(String.format("%s=%d\r\n", me.getKey(),
+							me.getValue()));
 				}
 				
 				bw.close();
 				fw.close();
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

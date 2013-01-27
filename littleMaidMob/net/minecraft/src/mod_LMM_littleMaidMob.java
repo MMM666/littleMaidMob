@@ -1,5 +1,6 @@
 package net.minecraft.src;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.Map;
@@ -51,7 +52,8 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@MLProp(info="UniqueEntityId(-1 is AutoAssigned.)", max=255)
 	public static int UniqueEntityId = -1;
-	
+	@MLProp(info="FilePath mode.")
+	public static boolean useMinecraftPath = false;
 
 	public static Achievement ac_Contract;
 	public static int containerID;
@@ -183,7 +185,12 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		
 		if (MMM_Helper.isClient) {
 			// 音声の解析
-			Debug("SoundDir:".concat((Minecraft.getAppDir("minecraft/resources/mod/sound").toString())));
+			if (useMinecraftPath) {
+				LMM_SoundManager.sounddir = new File(Minecraft.getMinecraftDir(), "/resources/mod/sound/littleMaidMob");
+			} else {
+				LMM_SoundManager.sounddir = Minecraft.getAppDir("minecraft/resources/mod/sound/littleMaidMob"); 
+			}
+			Debug("SoundDir:".concat(LMM_SoundManager.sounddir.toString()));
 			// サウンドパック
 			LMM_SoundManager.loadDefaultSoundPack();
 			LMM_SoundManager.loadSoundPack();

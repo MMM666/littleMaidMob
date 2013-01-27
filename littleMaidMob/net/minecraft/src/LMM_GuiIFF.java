@@ -2,9 +2,10 @@ package net.minecraft.src;
 
 public class LMM_GuiIFF extends MMM_GuiMobSelect {
 
-	public static final String IFFString[] = { "ENEMY", // ”½Œ‚Aë
-			"UNKNOWN", // ”½Œ‚
-			"FRIENDLY" // UŒ‚‚µ‚È‚¢
+	public static final String IFFString[] = {
+		"ENEMY", // ”½Œ‚Aë
+		"UNKNOWN", // ”½Œ‚
+		"FRIENDLY" // UŒ‚‚µ‚È‚¢
 	};
 
 	protected LMM_EntityLittleMaid target;
