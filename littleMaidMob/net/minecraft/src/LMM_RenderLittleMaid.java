@@ -65,17 +65,18 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 			lay -= 0.25D;
 		}
 		
-		plittleMaid.textureModel0.render = this;
+//		plittleMaid.textureModel0.render = this;
+		modelMain.setRender(this);
 		modelMain.modelArmorInner = plittleMaid.textureModel0;
 		modelMain.isAlphablend = true;
 		modelFATT.modelArmorInner = plittleMaid.textureModel1;
 		modelFATT.modelArmorOuter = plittleMaid.textureModel2;
-		modelFATT.textureOuter = plittleMaid.textureArmor1;
-		modelFATT.textureInner = plittleMaid.textureArmor0;
+		modelFATT.textureOuter = plittleMaid.textureArmor2;
+		modelFATT.textureInner = plittleMaid.textureArmor1;
 		modelFATT.isAlphablend = true;
-		if (modelMain.modelArmorInner == null) {
-			modelMain.modelArmorInner = MMM_TextureManager.defaultModel[0];
-		}
+//		if (modelMain.modelArmorInner == null) {
+//			modelMain.modelArmorInner = MMM_TextureManager.defaultModel[0];
+//		}
 		modelMain.setModelCaps(plittleMaid.maidCaps);
 		
 		modelMain.setCapsValue(MMM_IModelCaps.caps_heldItemLeft, (Integer)0);
@@ -87,12 +88,6 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		modelMain.setCapsValue(MMM_IModelCaps.caps_isWait, plittleMaid.isMaidWait());
 		modelMain.setCapsValue(MMM_IModelCaps.caps_isChild, plittleMaid.isChild());
 		modelMain.setCapsValue(MMM_IModelCaps.caps_entityIdFactor, plittleMaid.entityIdFactor);
-//		plittleMaid.textureModel0.heldItemLeft = plittleMaid.textureModel0.heldItemRight = 0;
-//		plittleMaid.textureModel0.onGround = plittleMaid.textureModel1.onGround = plittleMaid.textureModel2.onGround = renderSwingProgress(plittleMaid, f1);
-//		plittleMaid.textureModel0.isRiding = plittleMaid.textureModel1.isRiding = plittleMaid.textureModel2.isRiding = plittleMaid.isRiding();
-//		plittleMaid.textureModel0.isSneak  = plittleMaid.textureModel1.isSneak  = plittleMaid.textureModel2.isSneak  = plittleMaid.isSneaking();
-//		plittleMaid.textureModel0.aimedBow = plittleMaid.textureModel1.aimedBow = plittleMaid.textureModel2.aimedBow = plittleMaid.isAimebow();
-//		plittleMaid.textureModel0.isWait   = plittleMaid.textureModel1.isWait   = plittleMaid.textureModel2.isWait   = plittleMaid.isMaidWaitEx();
 		// だが無意味だ
 //		plittleMaid.textureModel0.isChild = plittleMaid.textureModel1.isChild = plittleMaid.textureModel2.isChild = plittleMaid.isChild();
 		
@@ -159,9 +154,9 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 			float par3, float par4, float par5, float par6, float par7) {
 		if (!par1EntityLiving.getHasActivePotion()) {
 			this.loadDownloadableImageTexture(par1EntityLiving.skinUrl, par1EntityLiving.getTexture());
-			((MMM_ModelBiped)modelMain.modelArmorInner).isRendering = true;
+			modelMain.setArmorRendering(true);
 		} else {
-			((MMM_ModelBiped)modelMain.modelArmorInner).isRendering = false;
+			modelMain.setArmorRendering(false);
 		}
 		// アイテムのレンダリング位置を獲得するためrenderを呼ぶ必要がある
 		this.mainModel.render(par1EntityLiving, par2, par3, par4, par5, par6, par7);
@@ -169,7 +164,7 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 
 	protected void renderSpecials(LMM_EntityLittleMaid entitylittlemaid, float f) {
 		// ハードポイントの描画
-		((MMM_ModelBiped)modelMain.modelArmorInner).renderItems(entitylittlemaid, this);
+		modelMain.renderItems(entitylittlemaid, this);
 	}
 
 	@Override

@@ -49,8 +49,8 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	protected int maidContractLimit;		// 契約期間
 	protected long maidAnniversary;			// 契約日UIDとして使用
 	protected int maidDominantArm;			// 利き腕、1Byte
-	public String textureArmor0[] = new String[4];
 	public String textureArmor1[] = new String[4];
+	public String textureArmor2[] = new String[4];
 	public String textureName;
 	public String textureArmorName;
 	public int textureIndex;
@@ -197,7 +197,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		
 		
 		// 形態形成場
-		if (!worldObj.isRemote) {
+		if (worldObj != null && !worldObj.isRemote) {
 			// テクスチャーをランダムで選択
 			if (mod_LMM_littleMaidMob.defaultTexture.isEmpty()) {
 				textureName = textureArmorName = MMM_TextureManager.getRandomTexture(rand);
@@ -239,7 +239,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		initModeList();
 		mstatModeName = "";
 		maidMode = 65535;
-		setMaidMode("Wild");
+		if (worldObj != null) {
+			setMaidMode("Wild");
+		}
 	}
 
 	@Override
@@ -256,7 +258,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		
 		// 独自分
 		// 18:HP
-		mod_LMM_littleMaidMob.Debug(String.format("Client: %b, Spawn HP:%d", worldObj.isRemote, getHealth()));
+//		mod_LMM_littleMaidMob.Debug(String.format("Client: %b, Spawn HP:%d", worldObj.isRemote, getHealth()));
 //        dataWatcher.addObject(dataWatch_Health, new Integer(getHealth()));
 		dataWatcher.addObject(dataWatch_Health, new Integer(getMaxHealth()));
 		// 19:maidMode(16Bit:LSB)、maidColor(8Bit:<<16)、maidDominantArm(8Bit:<<24);
@@ -2289,7 +2291,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 								// IFFのオープン
 								decPlayerInventory(par1EntityPlayer, -1, 1);
 //	    		            	ModLoader.openGUI(par1EntityPlayer, new LMM_GuiIFF(worldObj, this));
-								if (!worldObj.isRemote) {
+								if (worldObj.isRemote) {
 									LMM_Client.OpenIFF(this, par1EntityPlayer);
 								}
 								return true;

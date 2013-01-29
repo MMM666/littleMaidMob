@@ -44,7 +44,7 @@ public class LMM_Client {
 	public static void setTextureValue(LMM_EntityLittleMaid pEntity) {
 		if (pEntity.textureName == null) return;
 		int i = pEntity.maidColor;
-		if (!pEntity.isMaidContract()) i += MMM_TextureManager.tx_wild;
+		if (!pEntity.maidContract) i += MMM_TextureManager.tx_wild;
 		
 		pEntity.texture = MMM_TextureManager.getTextureName(pEntity.textureName, i);
 //		mod_littleMaidMob.Debug(String.format("id:%d, tex:%s", entityId, texture));
@@ -52,7 +52,7 @@ public class LMM_Client {
 			mod_LMM_littleMaidMob.Debug("tex-null");
 			setNextTexturePackege(pEntity, 0);
 			i = pEntity.maidColor;
-			if (!pEntity.isMaidContract()) i += MMM_TextureManager.tx_wild;
+			if (!pEntity.maidContract) i += MMM_TextureManager.tx_wild;
 			pEntity.texture = MMM_TextureManager.getTextureName(pEntity.textureName, i);
 		}
 		// モデルの設定
@@ -76,24 +76,23 @@ public class LMM_Client {
 	}
 
 	public static void setArmorTextureValue(LMM_EntityLittleMaid pEntity) {
-		if (!pEntity.worldObj.isRemote) return;
 		if (pEntity.textureArmorName == null) return;
 		// アーマーモデル
-		MMM_TextureBox ltb = MMM_TextureManager.getTextureBox(pEntity.textureName);
+		MMM_TextureBox ltb = MMM_TextureManager.getTextureBox(pEntity.textureArmorName);
 		pEntity.textureModel1 = ltb.models[1];
 		pEntity.textureModel2 = ltb.models[2];
-		mod_LMM_littleMaidMob.Debug(String.format("Model:%s / %s", pEntity.textureModel0.getClass().getSimpleName(), pEntity.textureModel1.getClass().getSimpleName()));
+//		mod_LMM_littleMaidMob.Debug(String.format("Model:%s / %s", pEntity.textureModel0.getClass().getSimpleName(), pEntity.textureModel1.getClass().getSimpleName()));
 
 		for (int i = 0; i < 4; i++) {
 			ItemStack is = pEntity.maidInventory.armorItemInSlot(i);
-			pEntity.textureArmor0[i] = MMM_TextureManager.getArmorTextureName(pEntity.textureArmorName, MMM_TextureManager.tx_armor1, is);
-			pEntity.textureArmor1[i] = MMM_TextureManager.getArmorTextureName(pEntity.textureArmorName, MMM_TextureManager.tx_armor2, is);
+			pEntity.textureArmor1[i] = MMM_TextureManager.getArmorTextureName(pEntity.textureArmorName, MMM_TextureManager.tx_armor1, is);
+			pEntity.textureArmor2[i] = MMM_TextureManager.getArmorTextureName(pEntity.textureArmorName, MMM_TextureManager.tx_armor2, is);
 		}
 	}
 
 	public static void setNextTexturePackege(LMM_EntityLittleMaid pEntity, int pTargetTexture) {
 		if (pTargetTexture == 0) {
-			if (pEntity.isMaidContract())
+			if (pEntity.maidContract)
 				pEntity.textureName = MMM_TextureManager.getNextPackege(pEntity.textureName, pEntity.maidColor);
 			else
 				pEntity.textureName = MMM_TextureManager.getNextPackege(pEntity.textureName, pEntity.maidColor + MMM_TextureManager.tx_wild);
@@ -116,7 +115,7 @@ public class LMM_Client {
 
 	public static void setPrevTexturePackege(LMM_EntityLittleMaid pEntity, int pTargetTexture) {
 		if (pTargetTexture == 0) {
-			if (pEntity.isMaidContract())
+			if (pEntity.maidContract)
 				pEntity.textureName = MMM_TextureManager.getPrevPackege(pEntity.textureName,pEntity. maidColor);
 			else
 				pEntity.textureName = MMM_TextureManager.getPrevPackege(pEntity.textureName, pEntity.maidColor + MMM_TextureManager.tx_wild);
