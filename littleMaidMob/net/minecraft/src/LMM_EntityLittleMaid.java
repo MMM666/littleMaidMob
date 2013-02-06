@@ -1748,21 +1748,23 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		if (!worldObj.isRemote) {
 			// サーバー側処理
 			// インベントリの更新
-			for (int li = 0 ;li < maidInventory.getSizeInventory(); li++) {
-				boolean lchange = false;
-				int lselect = 0xff;
-				// 選択装備が変わった
-				for (int lj = 0; lj < mstatSwingStatus.length; lj++) {
-					lchange = mstatSwingStatus[lj].checkChanged();
-					if (mstatSwingStatus[lj].index == li) {
-						lselect = lj;
+			if (!mstatOpenInventory) {
+				for (int li = 0 ;li < maidInventory.getSizeInventory(); li++) {
+					boolean lchange = false;
+					int lselect = 0xff;
+					// 選択装備が変わった
+					for (int lj = 0; lj < mstatSwingStatus.length; lj++) {
+						lchange = mstatSwingStatus[lj].checkChanged();
+						if (mstatSwingStatus[lj].index == li) {
+							lselect = lj;
+						}
 					}
-				}
-				// インベントリの中身が変わった
-				if (lchange || maidInventory.isChanged(li)) {
-					((WorldServer)worldObj).getEntityTracker().sendPacketToAllPlayersTrackingEntity(this, new Packet5PlayerInventory(this.entityId, (li | lselect << 8) + 5, maidInventory.getStackInSlot(li)));
-					maidInventory.resetChanged(li);
-					mod_LMM_littleMaidMob.Debug(String.format("ID:%d - Slot(%x:%d-%d,%d) Update.", entityId, lselect, li, mstatSwingStatus[0].index, mstatSwingStatus[1].index));
+					// インベントリの中身が変わった
+					if (lchange || maidInventory.isChanged(li)) {
+						((WorldServer)worldObj).getEntityTracker().sendPacketToAllPlayersTrackingEntity(this, new Packet5PlayerInventory(this.entityId, (li | lselect << 8) + 5, maidInventory.getStackInSlot(li)));
+						maidInventory.resetChanged(li);
+						mod_LMM_littleMaidMob.Debug(String.format("ID:%d - Slot(%x:%d-%d,%d) Update.", entityId, lselect, li, mstatSwingStatus[0].index, mstatSwingStatus[1].index));
+					}
 				}
 			}
 			// 弓構え

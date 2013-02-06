@@ -3,10 +3,65 @@ ModelRendererにアイテム表示用のオブジェクトを追加（ハードポイント）
 
 
 マルチ用にトリガーアイテム周りをGUIから分離。
+再起動時のお料理状態（焼きアイテムや燃料を持っていないと待機になっちゃう）
 調理対象アイテムを登録制にする？
 搭乗時の謎の振動（ロード時など）
 再起動後トレーサーが止まる
 薬師の動作を料理人に合わせる
+
+
+
+PFLMが公開できそうな状態になりまして、テストをしていたら
+モデルをPFLMのモデルにしてからPFLMのモデルの読み込みをしない状態での起動時にメイドがエラー消滅したので報告です。
+消滅を避けてデフォルトメイドに出来るよう対応をよろしくお願いします。
+
+littleMaidMob-read.false
+net.minecraft.src.ReportedException: Loading entity NBT
+   at net.minecraft.src.Entity.readFromNBT(Entity.java:1535)
+   at net.minecraft.src.EntityList.createEntityFromNBT(EntityList.java:95)
+   at net.minecraft.src.AnvilChunkLoader.readChunkFromNBT(AnvilChunkLoader.java:360)
+   at net.minecraft.src.AnvilChunkLoader.checkedReadChunkFromNBT(AnvilChunkLoader.java:83)
+   at net.minecraft.src.AnvilChunkLoader.loadChunk(AnvilChunkLoader.java:63)
+   at net.minecraft.src.ChunkProviderServer.safeLoadChunk(ChunkProviderServer.java:157)
+   at net.minecraft.src.ChunkProviderServer.loadChunk(ChunkProviderServer.java:94)
+   at net.minecraft.server.MinecraftServer.initialWorldChunkLoad(MinecraftServer.java:324)
+   at net.minecraft.src.IntegratedServer.loadAllWorlds(IntegratedServer.java:86)
+   at net.minecraft.src.IntegratedServer.startServer(IntegratedServer.java:102)
+   at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:465)
+   at net.minecraft.src.ThreadMinecraftServer.run(ThreadMinecraftServer.java:18)
+Caused by: java.lang.NullPointerException
+   at net.minecraft.src.MMM_TextureManager.getStringToIndex(MMM_TextureManager.java:713)
+   at net.minecraft.src.LMM_EntityLittleMaid.readEntityFromNBT(LMM_EntityLittleMaid.java:1018)
+   at net.minecraft.src.Entity.readFromNBT(Entity.java:1528)
+   ... 11 more
+
+
+
+littleMaidMob-read.false
+net.minecraft.src.ReportedException: Loading entity NBT
+   at net.minecraft.src.Entity.readFromNBT(Entity.java:1535)
+   at net.minecraft.src.EntityList.createEntityFromNBT(EntityList.java:95)
+   at net.minecraft.src.AnvilChunkLoader.readChunkFromNBT(AnvilChunkLoader.java:360)
+   at net.minecraft.src.AnvilChunkLoader.checkedReadChunkFromNBT(AnvilChunkLoader.java:83)
+   at net.minecraft.src.AnvilChunkLoader.loadChunk(AnvilChunkLoader.java:63)
+   at net.minecraft.src.ChunkProviderServer.safeLoadChunk(ChunkProviderServer.java:157)
+   at net.minecraft.src.ChunkProviderServer.loadChunk(ChunkProviderServer.java:94)
+   at net.minecraft.server.MinecraftServer.initialWorldChunkLoad(MinecraftServer.java:324)
+   at net.minecraft.src.IntegratedServer.loadAllWorlds(IntegratedServer.java:86)
+   at net.minecraft.src.IntegratedServer.startServer(IntegratedServer.java:102)
+   at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:465)
+   at net.minecraft.src.ThreadMinecraftServer.run(ThreadMinecraftServer.java:18)
+Caused by: java.lang.NullPointerException
+   at net.minecraft.src.MMM_TextureManager.getStringToIndex(MMM_TextureManager.java:713)
+   at net.minecraft.src.LMM_EntityLittleMaid.readEntityFromNBT(LMM_EntityLittleMaid.java:1018)
+   at net.minecraft.src.Entity.readFromNBT(Entity.java:1528)
+   ... 11 more
+
+
+
+
+
+
 
 DONE:ストライキで砂糖ドカ食い
 
