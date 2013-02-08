@@ -16,7 +16,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	
 	public LMM_EntityLittleMaidAvatar(World par1World, Minecraft pminecraft, LMM_EntityLittleMaid par2EntityLittleMaid) {
 		super(par1World);
-
+		
 		// ‰Šúİ’è
 		avatar = par2EntityLittleMaid;
 		mc = pminecraft;
@@ -61,6 +61,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 //		posX = avatar.posX;
 		EntityPlayer lep = avatar.getMaidMasterEntity();
 		entityId = avatar.entityId;
+		
 		if (lep != null) {
 			capabilities.isCreativeMode = lep.capabilities.isCreativeMode;
 		}
@@ -200,6 +201,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 		yOffset = avatar.yOffset;
 		renderYawOffset = avatar.renderYawOffset;
 		prevRenderYawOffset = avatar.prevRenderYawOffset;
+		rotationYawHead = avatar.rotationYawHead;
 		attackTime = avatar.attackTime;
 	}
 

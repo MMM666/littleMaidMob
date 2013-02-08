@@ -165,6 +165,7 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 	protected void renderSpecials(LMM_EntityLittleMaid entitylittlemaid, float f) {
 		// ハードポイントの描画
 		modelMain.renderItems(entitylittlemaid, this);
+		renderArrowsStuckInEntity(entitylittlemaid, f);
 	}
 
 	@Override

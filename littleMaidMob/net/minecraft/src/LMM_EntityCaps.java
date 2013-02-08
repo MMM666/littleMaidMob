@@ -116,7 +116,7 @@ public class LMM_EntityCaps implements MMM_IModelCaps {
 //		case caps_render:
 //		case caps_Arms:
 		case caps_HeadMount:
-			return owner.maidInventory.armorInventory[3];
+			return owner.maidInventory.getStackInSlot(17);
 //		case caps_HardPoint:
 		case caps_stabiliser:
 			return owner.maidStabilizer;
