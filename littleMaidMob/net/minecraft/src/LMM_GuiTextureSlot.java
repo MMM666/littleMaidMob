@@ -18,6 +18,7 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 	public boolean mode;
 	public int texsel[] = new int[2];
 	public int color;
+	protected int selectColor;
 	private ItemStack armors[] = new ItemStack[] {
 			new ItemStack(Item.bootsLeather),
 			new ItemStack(Item.legsLeather),
@@ -30,7 +31,8 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 		super(pOwner.mc, pOwner.width, pOwner.height, 16, pOwner.height - 64, 36);
 		owner = pOwner;
 		maid = new LMM_EntityLittleMaid(pOwner.mc.theWorld);
-		color = owner.owner.entitylittlemaid.maidColor;
+		color = owner.theMaid.maidColor;
+		selectColor = -1;
 		
 		texsel[0] = -1;
 		texsel[1] = -1;
@@ -44,10 +46,10 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 			if (lbox.hasArmor()) {
 				indexArmor.add(li);
 			}
-			if (lbox.packegeName.equals(owner.owner.entitylittlemaid.textureName)) {
+			if (lbox.packegeName.equals(owner.theMaid.textureName)) {
 				texsel[0] = indexTexture.size() - 1;
 			}
-			if (lbox.packegeName.equals(owner.owner.entitylittlemaid.textureArmorName)) {
+			if (lbox.packegeName.equals(owner.theMaid.textureArmorName)) {
 				texsel[1] = indexArmor.size() - 1;
 			}
 		}
@@ -61,13 +63,21 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 
 	@Override
 	protected void elementClicked(int var1, boolean var2) {
-		if (mode || getSelectedBox(var1).hasColor(color)) {
+		if (mode) {
 			selected = var1;
-			if (mode) {
-				texsel[1] = var1;
-			} else {
+			texsel[1] = var1;
+		} else {
+			MMM_TextureBox lbox = getSelectedBox(var1);
+			if (lbox.hasColor(selectColor) && (owner.canSelectColor & (1 << selectColor)) > 0) {
+				selected = var1;
 				texsel[0] = var1;
+				owner.selectColor = selectColor;
+			} else if (lbox.hasColor(color)) {
+				selected = var1;
+				texsel[0] = var1;
+				owner.selectColor = color;
 			}
+			
 		}
 	}
 
@@ -87,8 +97,20 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 		GL11.glPushMatrix();
 		
 		if (!mode) {
-			int lx = var2 + 15 + 12 * color;
-			owner.drawRect(lx, var3, lx + 11, var3 + 36, 0x88882222);
+			for (int li = 0; li < 16; li++) {
+				int lx = var2 + 15 + 12 * li;
+				selectColor = (mouseX - (var2 + 15)) / 12;
+				if ((selectColor < 0) && (selectColor > 15)) {
+					selectColor = -1;
+				}
+				if (color == li) {
+					owner.drawRect(lx, var3, lx + 11, var3 + 36, 0x88882222);
+				} else if (owner.selectColor == li) {
+					owner.drawRect(lx, var3, lx + 11, var3 + 36, 0x88226622);
+				} else if ((owner.canSelectColor & (1 << li)) > 0) {
+					owner.drawRect(lx, var3, lx + 11, var3 + 36, 0x88222288);
+				}
+			}
 		}
 		
 		MMM_TextureBox lbox;
@@ -166,6 +188,7 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 	}
 
 	public void setMode(boolean pFlag) {
+		func_77208_b(slotHeight * -getSize());
 		if (pFlag) {
 			selected = texsel[1];
 			mode = true;
@@ -181,6 +204,7 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 			maid.maidInventory.armorInventory[2] = null;
 			maid.maidInventory.armorInventory[3] = null;
 		}
+		func_77208_b(slotHeight * selected);
 	}
 
 }

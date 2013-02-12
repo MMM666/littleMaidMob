@@ -9,13 +9,19 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 
 	private String screenTitle = "Texture Select";
 	private boolean lastDebug;
-	protected LMM_GuiInventory owner;
+	protected GuiScreen owner;
 	protected LMM_GuiTextureSlot selectPanel;
 	protected GuiButton modeButton[] = new GuiButton[2];
+	protected LMM_EntityLittleMaid theMaid;
+	public int canSelectColor;
+	public int selectColor;
 
 
-	public LMM_GuiTextureSelect(LMM_GuiInventory pOwner) {
+	public LMM_GuiTextureSelect(GuiScreen pOwner, LMM_EntityLittleMaid pEntity, int pColor) {
 		owner = pOwner;
+		theMaid = pEntity;
+		canSelectColor = pColor;
+		selectColor = pEntity.maidColor;
 		lastDebug = mod_LMM_littleMaidMob.DebugMessage;
 		mod_LMM_littleMaidMob.DebugMessage = false;
 	}
@@ -80,7 +86,7 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 			selectPanel.maid.textureModel1 = lbox.models[1];
 			selectPanel.maid.textureModel2 = lbox.models[2];
 		} else {
-			selectPanel.maid.maidColor = selectPanel.color;
+			selectPanel.maid.maidColor = selectColor;
 			LMM_Client.setTextureValue(selectPanel.maid);
 		}
 		RenderManager.instance.renderEntityWithPosYaw(selectPanel.maid, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
@@ -109,17 +115,38 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 			selectPanel.setMode(true);
 			break;
 		case 200:
+			mod_LMM_littleMaidMob.DebugMessage = lastDebug;
+			boolean lflag = false;
+			theMaid.maidColor = selectColor;
 			if (selectPanel.texsel[0] > -1) {
-				owner.entitylittlemaid.textureName = selectPanel.getSelectedBox(false).packegeName;
-				LMM_Client.setTextureValue(owner.entitylittlemaid);
+				theMaid.textureName = selectPanel.getSelectedBox(false).packegeName;
 			}
 			if (selectPanel.texsel[1] > -1) {
-				owner.entitylittlemaid.textureArmorName = selectPanel.getSelectedBox(true).packegeName;
-				LMM_Client.setArmorTextureValue(owner.entitylittlemaid);
+				theMaid.textureArmorName = selectPanel.getSelectedBox(true).packegeName;
 			}
+			LMM_Client.setTextureValue(theMaid);
+			if (selectColor != selectPanel.color) {
+				// 色情報の設定
+				theMaid.maidColor = selectPanel.color | 0x010000 | (selectColor << 8);
+				// サーバーへ染料の使用を通知
+				byte ldata[] = new byte[2];
+				ldata[0] = LMM_Net.LMN_Server_DecDyePowder;
+				ldata[1] = (byte)selectColor;
+				LMM_Net.sendToServer(ldata);
+			}
+			System.out.println(String.format("select: %d(%s), %d(%s)",
+					selectPanel.texsel[0], theMaid.textureName,
+					selectPanel.texsel[1], theMaid.textureArmorName));
+			theMaid.sendTextureToServer();
 			mc.displayGuiScreen(owner);
 			break;
 		}
+	}
+
+	@Override
+	protected void mouseClicked(int par1, int par2, int par3) {
+		super.mouseClicked(par1, par2, par3);
+		
 	}
 
 }

@@ -282,7 +282,17 @@ public class LMM_GuiInventory extends GuiContainer {
 			LMM_Client.setTextureValue(entitylittlemaid);
 			break;
 		case 200:
-			mc.displayGuiScreen(new LMM_GuiTextureSelect(this));
+			int ldye = 0;
+			if (mc.thePlayer.capabilities.isCreativeMode) {
+				ldye = 0xffff;
+			} else {
+				for (ItemStack lis : mc.thePlayer.inventory.mainInventory) {
+					if (lis != null && lis.itemID == Item.dyePowder.itemID) {
+						ldye |= (1 << (15 - lis.getItemDamage()));
+					}
+				}
+			}
+			mc.displayGuiScreen(new LMM_GuiTextureSelect(this, entitylittlemaid, ldye));
 		}
 	}
 

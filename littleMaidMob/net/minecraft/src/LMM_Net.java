@@ -10,6 +10,7 @@ public class LMM_Net {
 	public static final byte LMN_Server_UpdateSlots		= (byte)0x80;
 	public static final byte LMN_Server_SetTexture		= (byte)0x81;
 	public static final byte LMN_Client_SwingArm		= (byte)0x81;
+	public static final byte LMN_Server_DecDyePowder	= (byte)0x02;
 	public static final byte LMN_Client_UpdateTexture	= (byte)0x83;
 	public static final byte LMN_Server_SetIFFValue		= (byte)0x04;
 	public static final byte LMN_Client_SetIFFValue		= (byte)0x04;
@@ -117,9 +118,26 @@ public class LMM_Net {
 			
 		case LMN_Server_SetTexture:
 			// テクスチャ番号をクライアントから受け取る
-			int lindex = MMM_Helper.getShort(var2.data, 5);
-			int larmor = MMM_Helper.getShort(var2.data, 7);
-			lemaid.setTextureIndex(lindex, larmor);
+			int lindex1 = MMM_Helper.getShort(var2.data, 5);
+			int larmor1 = MMM_Helper.getShort(var2.data, 7);
+			int lcolor1 = var2.data[9];
+			lemaid.setTextureIndex(lindex1, larmor1);
+			lemaid.setMaidColor(lcolor1);
+			break;
+		case LMN_Server_DecDyePowder:
+			// カラー番号をクライアントから受け取る
+			// インベントリから染料を減らす。
+			int lcolor2 = var2.data[1];
+			if (!var1.playerEntity.capabilities.isCreativeMode) {
+				for (int li = 0; li < var1.playerEntity.inventory.mainInventory.length; li++) {
+					ItemStack lis = var1.playerEntity.inventory.mainInventory[li];
+					if (lis != null && lis.itemID == Item.dyePowder.itemID) {
+						if (lis.getItemDamage() == (15 - lcolor2)) {
+							MMM_Helper.decPlayerInventory(var1.playerEntity, li, 1);
+						}
+					}
+				}
+			}
 			break;
 			
 		case LMN_Server_SetIFFValue:

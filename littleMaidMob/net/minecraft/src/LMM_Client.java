@@ -43,7 +43,7 @@ public class LMM_Client {
 	// テクスチャ、モデル、色
 	public static void setTextureValue(LMM_EntityLittleMaid pEntity) {
 		if (pEntity.textureName == null) return;
-		int i = pEntity.maidColor;
+		int i = pEntity.maidColor & 0x00ff;
 		if (!pEntity.maidContract) i += MMM_TextureManager.tx_wild;
 		
 		pEntity.texture = MMM_TextureManager.getTextureName(pEntity.textureName, i);
@@ -93,9 +93,9 @@ public class LMM_Client {
 	public static void setNextTexturePackege(LMM_EntityLittleMaid pEntity, int pTargetTexture) {
 		if (pTargetTexture == 0) {
 			if (pEntity.maidContract)
-				pEntity.textureName = MMM_TextureManager.getNextPackege(pEntity.textureName, pEntity.maidColor);
+				pEntity.textureName = MMM_TextureManager.getNextPackege(pEntity.textureName, (pEntity.maidColor & 0x00ff));
 			else
-				pEntity.textureName = MMM_TextureManager.getNextPackege(pEntity.textureName, pEntity.maidColor + MMM_TextureManager.tx_wild);
+				pEntity.textureName = MMM_TextureManager.getNextPackege(pEntity.textureName, (pEntity.maidColor & 0x00ff) + MMM_TextureManager.tx_wild);
 			if (pEntity.textureName == null) {
 				// 指定色が無い場合は標準モデルに
 				pEntity.textureName = pEntity.textureArmorName = "default";
@@ -116,9 +116,9 @@ public class LMM_Client {
 	public static void setPrevTexturePackege(LMM_EntityLittleMaid pEntity, int pTargetTexture) {
 		if (pTargetTexture == 0) {
 			if (pEntity.maidContract)
-				pEntity.textureName = MMM_TextureManager.getPrevPackege(pEntity.textureName,pEntity. maidColor);
+				pEntity.textureName = MMM_TextureManager.getPrevPackege(pEntity.textureName, (pEntity.maidColor & 0x00ff));
 			else
-				pEntity.textureName = MMM_TextureManager.getPrevPackege(pEntity.textureName, pEntity.maidColor + MMM_TextureManager.tx_wild);
+				pEntity.textureName = MMM_TextureManager.getPrevPackege(pEntity.textureName, (pEntity.maidColor & 0x00ff) + MMM_TextureManager.tx_wild);
 			pEntity.textureArmorName = pEntity.textureName;
 			if (!MMM_TextureManager.getTextureBox(pEntity.textureArmorName).hasArmor())
 				pTargetTexture = 1;

@@ -57,7 +57,12 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 		llist.add(String.format("Dir YawB=%f/ %f/ %f", owner.rotationYaw, owner.prevRotationYaw, owner.newRotationYaw));
 		llist.add(String.format("Dir YawR=%f/ %f", owner.renderYawOffset, owner.prevRenderYawOffset));
 		llist.add(String.format("Dir YawH=%f/ %f", owner.rotationYawHead, owner.prevRotationYawHead));
-
+		int li = owner.dataWatcher.getWatchableObjectInt(LMM_EntityLittleMaid.dataWatch_Texture);
+		llist.add(String.format("Texture=%s(%x/ %x), %s(%x / %x)",
+				MMM_TextureManager.getIndexToString(owner.textureIndex), owner.textureIndex, li & 0xffff,
+				MMM_TextureManager.getIndexToString(owner.textureArmorIndex), owner.textureArmorIndex, (li >>> 16)
+				));
+		
 		ld = (double)llist.size() * 0.25D - 0.5D;
 		for (String ls : llist) {
 			prenderlittlemaid.renderLivingLabel(owner, ls, px, py + ld, pz, 64);
