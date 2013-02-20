@@ -90,12 +90,15 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 			} else {
 				UniqueEntityId = MMM_Helper.getNextEntityID();
 			}
-			UniqueEntityId = (byte)UniqueEntityId;
+//			UniqueEntityId = (byte)UniqueEntityId;
 			if (UniqueEntityId == -1) {
 				Debug("You can't added LittleMaidMob.(OutOfEntityID)");
 				return;
 			} else {
 				Debug("UsingEntityID: " + UniqueEntityId);
+			}
+			if (!MMM_Helper.isForge) {
+				UniqueEntityId = (byte)UniqueEntityId;
 			}
 		}
 		defaultTexture = defaultTexture.trim();

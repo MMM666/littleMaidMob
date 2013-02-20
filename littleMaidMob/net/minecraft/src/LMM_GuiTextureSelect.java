@@ -15,13 +15,15 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 	protected LMM_EntityLittleMaid theMaid;
 	public int canSelectColor;
 	public int selectColor;
+	protected boolean toServer;
 
 
-	public LMM_GuiTextureSelect(GuiScreen pOwner, LMM_EntityLittleMaid pEntity, int pColor) {
+	public LMM_GuiTextureSelect(GuiScreen pOwner, LMM_EntityLittleMaid pEntity, int pColor, boolean pToServer) {
 		owner = pOwner;
 		theMaid = pEntity;
 		canSelectColor = pColor;
 		selectColor = pEntity.maidColor;
+		toServer = pToServer;
 		lastDebug = mod_LMM_littleMaidMob.DebugMessage;
 		mod_LMM_littleMaidMob.DebugMessage = false;
 	}
@@ -68,7 +70,7 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 		GL11.glTranslatef(width / 2 - 115F, height - 5F, 100F);
 		GL11.glScalef(60F, -60F, 60F);
 		selectPanel.maid.textureName = lbox.packegeName;
-		selectPanel.maid.maidContract = true;
+//		selectPanel.maid.maidContract = true;
 		selectPanel.maid.renderYawOffset = -25F;
 		selectPanel.maid.rotationYawHead = -10F;
 		if (selectPanel.mode) {
@@ -125,19 +127,24 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 				theMaid.textureArmorName = selectPanel.getSelectedBox(true).packegeName;
 			}
 			LMM_Client.setTextureValue(theMaid);
-			if (selectColor != selectPanel.color) {
-				// 色情報の設定
-				theMaid.maidColor = selectPanel.color | 0x010000 | (selectColor << 8);
-				// サーバーへ染料の使用を通知
-				byte ldata[] = new byte[2];
-				ldata[0] = LMM_Net.LMN_Server_DecDyePowder;
-				ldata[1] = (byte)selectColor;
-				LMM_Net.sendToServer(ldata);
+			if (toServer) {
+				if (selectColor != selectPanel.color) {
+					// 色情報の設定
+					theMaid.maidColor = selectPanel.color | 0x010000 | (selectColor << 8);
+					// サーバーへ染料の使用を通知
+					byte ldata[] = new byte[2];
+					ldata[0] = LMM_Net.LMN_Server_DecDyePowder;
+					ldata[1] = (byte)selectColor;
+					LMM_Net.sendToServer(ldata);
+				}
+				theMaid.sendTextureToServer();
+			} else {
+				theMaid.textureIndex = MMM_TextureManager.getStringToIndex(theMaid.textureName);
+				theMaid.textureArmorIndex = MMM_TextureManager.getStringToIndex(theMaid.textureArmorName);
 			}
 			System.out.println(String.format("select: %d(%s), %d(%s)",
 					selectPanel.texsel[0], theMaid.textureName,
 					selectPanel.texsel[1], theMaid.textureArmorName));
-			theMaid.sendTextureToServer();
 			mc.displayGuiScreen(owner);
 			break;
 		}

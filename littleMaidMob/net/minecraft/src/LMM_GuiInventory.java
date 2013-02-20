@@ -292,7 +292,7 @@ public class LMM_GuiInventory extends GuiContainer {
 					}
 				}
 			}
-			mc.displayGuiScreen(new LMM_GuiTextureSelect(this, entitylittlemaid, ldye));
+			mc.displayGuiScreen(new LMM_GuiTextureSelect(this, entitylittlemaid, ldye, true));
 		}
 	}
 

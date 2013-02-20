@@ -25,6 +25,7 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 			new ItemStack(Item.plateLeather),
 			new ItemStack(Item.helmetLeather)
 	};
+	private boolean isContract;
 
 
 	public LMM_GuiTextureSlot(LMM_GuiTextureSelect pOwner) {
@@ -38,10 +39,18 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 		texsel[1] = -1;
 		indexTexture = new ArrayList<Integer>();
 		indexArmor = new ArrayList<Integer>();
+		isContract = owner.theMaid.maidContract;
+		maid.maidContract = isContract;
 		for (int li = 0; li < MMM_TextureManager.textures.size(); li++) {
 			MMM_TextureBox lbox = MMM_TextureManager.textures.get(li);
-			if (lbox.getContractColorBits() > 0) {
-				indexTexture.add(li);
+			if (isContract) {
+				if (lbox.getContractColorBits() > 0) {
+					indexTexture.add(li);
+				}
+			} else {
+				if (lbox.getWildColorBits() > 0) {
+					indexTexture.add(li);
+				}
 			}
 			if (lbox.hasArmor()) {
 				indexArmor.add(li);
@@ -124,7 +133,7 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 		GL11.glTranslatef(var2 + 8F, var3 + 25F, 50F);
 		GL11.glScalef(12F, -12F, 12F);
 		maid.textureName = lbox.packegeName;
-		maid.maidContract = true;
+//		maid.maidContract = true;
 		maid.renderYawOffset = 30F;
 		maid.rotationYawHead = 15F;
 //		RenderHelper.enableStandardItemLighting();
@@ -164,8 +173,9 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 			// テクスチャ表示
 			for (int li = 0; li < 16; li++) {
 				GL11.glTranslatef(1F, 0, 0);
-				if (lbox.hasColor(li)) {
+				if (lbox.hasColor(li, isContract)) {
 					maid.maidColor = li;
+					maid.maidContract = isContract;
 					LMM_Client.setTextureValue(maid);
 					RenderManager.instance.renderEntityWithPosYaw(maid, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
 				}
