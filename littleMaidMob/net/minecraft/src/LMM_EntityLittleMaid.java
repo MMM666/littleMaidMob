@@ -2898,19 +2898,19 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     public void setGotcha(int pEntityID) {
         dataWatcher.updateObject(dataWatch_Gotcha, Integer.valueOf(pEntityID));
     }
-    
-    /**
-     * 弓構えを更新
-     */
-    public void updateAimebow() {
-    	boolean lflag = (maidAvatar != null && maidAvatar.isUsingItemLittleMaid()) || mstatAimeBow;
-    	setMaidFlags(lflag, dataWatch_Flags_Aimebow);
-    }
-    
-    public boolean isAimebow() {
-    	return (dataWatcher.getWatchableObjectInt(dataWatch_Flags) & dataWatch_Flags_Aimebow) > 0;
-    }
-    
+
+	/**
+	 * 弓構えを更新
+	 */
+	public void updateAimebow() {
+		boolean lflag = (maidAvatar != null && maidAvatar.isUsingItemLittleMaid()) || mstatAimeBow;
+		setMaidFlags(lflag, dataWatch_Flags_Aimebow);
+	}
+
+	public boolean isAimebow() {
+		return (dataWatcher.getWatchableObjectInt(dataWatch_Flags) & dataWatch_Flags_Aimebow) > 0;
+	}
+
 
 	/**
 	 * 各種フラグのアップデート

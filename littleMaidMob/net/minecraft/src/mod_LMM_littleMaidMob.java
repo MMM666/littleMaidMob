@@ -68,7 +68,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 	
 	@Override
 	public String getVersion() {
-		return "1.4.7-4";
+		return "1.4.7-5";
 	}
 
 	@Override
