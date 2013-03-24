@@ -68,7 +68,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 	
 	@Override
 	public String getVersion() {
-		return "1.5.0-1";
+		return "1.5.1-1";
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@Override
 	public void load() {
-		UniqueEntityId = UniqueEntityId == 0 ? MMM_Helper.getNextEntityID() : UniqueEntityId;
+		UniqueEntityId = UniqueEntityId == 0 ? MMM_Helper.getNextEntityID(true) : UniqueEntityId;
 		defaultTexture = defaultTexture.trim();
 		containerID = 222;
 		ModLoader.registerContainerID(this, containerID);

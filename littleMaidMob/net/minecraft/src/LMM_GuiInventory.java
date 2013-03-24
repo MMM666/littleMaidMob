@@ -111,7 +111,7 @@ public class LMM_GuiInventory extends GuiContainer {
 		if (s == null) {
 			s = "/gui/littlemaidinventory.png";
 		}
-		mc.renderEngine.func_98187_b(s);
+		mc.renderEngine.bindTexture(s);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		int lj = guiLeft;
 		int lk = guiTop;
@@ -121,7 +121,7 @@ public class LMM_GuiInventory extends GuiContainer {
 		displayDebuffEffects();
 		
 		// LP/AP
-		mc.renderEngine.func_98187_b("/gui/icons.png");
+		mc.renderEngine.bindTexture("/gui/icons.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		
 		boolean flag1 = (entitylittlemaid.hurtResistantTime / 3) % 2 == 1;
@@ -317,7 +317,7 @@ public class LMM_GuiInventory extends GuiContainer {
 			PotionEffect potioneffect = (PotionEffect) iterator.next();
 			Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			mc.renderEngine.func_98187_b("/gui/inventory.png");
+			mc.renderEngine.bindTexture("/gui/inventory.png");
 			drawTexturedModalRect(lx, ly, 0, ySizebk, 140, 32);
 			if (potion.hasStatusIcon()) {
 				int i1 = potion.getStatusIconIndex();

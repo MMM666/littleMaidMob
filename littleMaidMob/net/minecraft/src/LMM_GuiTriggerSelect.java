@@ -221,7 +221,7 @@ public class LMM_GuiTriggerSelect extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.func_98187_b("/gui/littlemaidtrigger.png");
+		mc.renderEngine.bindTexture("/gui/littlemaidtrigger.png");
 		int l = guiLeft;
 		int i1 = guiTop;
 		drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);

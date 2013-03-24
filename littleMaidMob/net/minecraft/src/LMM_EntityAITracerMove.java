@@ -136,7 +136,7 @@ public class LMM_EntityAITracerMove extends EntityAIBase implements LMM_IEntityA
 	 * 指定座標のブロックは探しているものか？
 	 */
 	protected boolean checkBlock(int px, int py, int pz) {
-		return world.isBlockIndirectlyProvidingPowerTo(px, py, pz, 0) > 0 && (world.getBlockMaterial(px, py + 1, pz) == Material.air);
+		return world.getBlockPowerInput(px, py, pz) > 0 && (world.getBlockMaterial(px, py + 1, pz) == Material.air);
 	}
 
 	/**
