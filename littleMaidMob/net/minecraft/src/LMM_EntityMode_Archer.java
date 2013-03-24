@@ -148,7 +148,7 @@ public class LMM_EntityMode_Archer extends LMM_EntityModeBase {
 					int lz = (int)owner.posZ;
 					if (lworld.getBlockId(lx, ly, lz) == 0 || lworld.getBlockMaterial(lx, ly, lz).getCanBurn()) {
 						lworld.playSoundEffect((double)lx + 0.5D, (double)ly + 0.5D, (double)lz + 0.5D, "fire.ignite", 1.0F, owner.rand.nextFloat() * 0.4F + 0.8F);
-						lworld.setBlockWithNotify(lx, ly, lz, Block.fire.blockID);
+						lworld.setBlockAndMetadataWithNotify(lx, ly, lz, Block.fire.blockID, 0, 2);
 					}
 				}
 			}

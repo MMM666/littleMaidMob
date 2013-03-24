@@ -41,7 +41,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 		ModLoader.addLocalization("littleMaidMob.mode.Escorter", "ja_JP", "è]é“");
 		ModLoader.addLocalization("littleMaidMob.mode.F-Escorter", "Freedom");
 		ModLoader.addLocalization("littleMaidMob.mode.D-Escorter", "D-Escorter");
-		ModLoader.addLocalization("littleMaidMob.mode.T-Escorter", "Taracer");
+		ModLoader.addLocalization("littleMaidMob.mode.T-Escorter", "Tracer");
 	}
 
 	@Override

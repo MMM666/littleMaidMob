@@ -209,7 +209,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 	}
 
 	@Override
-	public boolean isContinuous() {
+	public boolean isInterruptible() {
 		return true;
 	}
 

@@ -1053,7 +1053,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	@Override
-	public int getItemIcon(ItemStack par1ItemStack, int par2) {
+	public Icon getItemIcon(ItemStack par1ItemStack, int par2) {
 		// アイテムの表示
 		if (maidAvatar != null) {
 			return maidAvatar.getItemIcon(par1ItemStack, par2);

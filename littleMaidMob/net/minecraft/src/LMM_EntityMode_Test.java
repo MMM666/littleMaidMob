@@ -157,7 +157,7 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 	}
 
 	@Override
-	public boolean isUsernameIndex(int var1) {
+	public boolean isUsernameIndex(String[] var1, int var2) {
 		return false;
 	}
 

@@ -43,11 +43,11 @@ public class LMM_GuiInventory extends GuiContainer {
 		if (!entitylittlemaid.getActivePotionEffects().isEmpty()) {
 			guiLeft = 160 + (width - xSize - 200) / 2;
 		}
-		controlList.add(txbutton[0] = new GuiButtonNextPage(100, guiLeft + 25, guiTop + 7, false));
-		controlList.add(txbutton[1] = new GuiButtonNextPage(101, guiLeft + 55, guiTop + 7, true));
-		controlList.add(txbutton[2] = new GuiButtonNextPage(110, guiLeft + 25, guiTop + 47, false));
-		controlList.add(txbutton[3] = new GuiButtonNextPage(111, guiLeft + 55, guiTop + 47, true));
-		controlList.add(selectbutton = new GuiButton(200, guiLeft + 25, guiTop + 25, 53, 17, "select"));
+		buttonList.add(txbutton[0] = new GuiButtonNextPage(100, guiLeft + 25, guiTop + 7, false));
+		buttonList.add(txbutton[1] = new GuiButtonNextPage(101, guiLeft + 55, guiTop + 7, true));
+		buttonList.add(txbutton[2] = new GuiButtonNextPage(110, guiLeft + 25, guiTop + 47, false));
+		buttonList.add(txbutton[3] = new GuiButtonNextPage(111, guiLeft + 55, guiTop + 47, true));
+		buttonList.add(selectbutton = new GuiButton(200, guiLeft + 25, guiTop + 25, 53, 17, "select"));
 	}
 
 	@Override
@@ -111,9 +111,8 @@ public class LMM_GuiInventory extends GuiContainer {
 		if (s == null) {
 			s = "/gui/littlemaidinventory.png";
 		}
-		int li = mc.renderEngine.getTexture(s);
+		mc.renderEngine.func_98187_b(s);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(li);
 		int lj = guiLeft;
 		int lk = guiTop;
 		drawTexturedModalRect(lj, lk, 0, 0, xSize, ySize);
@@ -122,9 +121,8 @@ public class LMM_GuiInventory extends GuiContainer {
 		displayDebuffEffects();
 		
 		// LP/AP
-		li = mc.renderEngine.getTexture("/gui/icons.png");
+		mc.renderEngine.func_98187_b("/gui/icons.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(li);
 		
 		boolean flag1 = (entitylittlemaid.hurtResistantTime / 3) % 2 == 1;
 		if (entitylittlemaid.hurtResistantTime < 10) {
@@ -305,43 +303,39 @@ public class LMM_GuiInventory extends GuiContainer {
 
 	private void displayDebuffEffects() {
 		// ポーションエフェクトの表示
-		int i = guiLeft - 124;
-		int j = guiTop;
-		int k = mc.renderEngine.getTexture("/gui/inventory.png");
+		int lx = guiLeft - 124;
+		int ly = guiTop;
 		Collection collection = entitylittlemaid.getActivePotionEffects();
 		if (collection.isEmpty()) {
 			return;
 		}
-		int l = 33;
+		int lh = 33;
 		if (collection.size() > 5) {
-			l = 132 / (collection.size() - 1);
+			lh = 132 / (collection.size() - 1);
 		}
 		for (Iterator iterator = entitylittlemaid.getActivePotionEffects().iterator(); iterator.hasNext();) {
 			PotionEffect potioneffect = (PotionEffect) iterator.next();
 			Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			mc.renderEngine.bindTexture(k);
-			drawTexturedModalRect(i, j, 0, ySizebk, 140, 32);
+			mc.renderEngine.func_98187_b("/gui/inventory.png");
+			drawTexturedModalRect(lx, ly, 0, ySizebk, 140, 32);
 			if (potion.hasStatusIcon()) {
 				int i1 = potion.getStatusIconIndex();
-				drawTexturedModalRect(i + 6, j + 7, 0 + (i1 % 8) * 18, ySizebk
-						+ 32 + (i1 / 8) * 18, 18, 18);
+				drawTexturedModalRect(lx + 6, ly + 7, 0 + (i1 % 8) * 18,
+						ySizebk + 32 + (i1 / 8) * 18, 18, 18);
 			}
-			String s = StatCollector.translateToLocal(potion.getName());
+			String ls = StatCollector.translateToLocal(potion.getName());
 			if (potioneffect.getAmplifier() > 0) {
-				s = (new StringBuilder())
-						.append(s)
-						.append(" ")
+				ls = (new StringBuilder()).append(ls).append(" ")
 						.append(StatCollector.translateToLocal((new StringBuilder())
 								.append("potion.potency.")
 								.append(potioneffect.getAmplifier())
 								.toString())).toString();
 			}
-			fontRenderer.drawStringWithShadow(s, i + 10 + 18, j + 6, 0xffffff);
+			fontRenderer.drawStringWithShadow(ls, lx + 10 + 18, ly + 6, 0xffffff);
 			String s1 = Potion.getDurationString(potioneffect);
-			fontRenderer.drawStringWithShadow(s1, i + 10 + 18, j + 6 + 10,
-					0x7f7f7f);
-			j += l;
+			fontRenderer.drawStringWithShadow(s1, lx + 10 + 18, ly + 6 + 10, 0x7f7f7f);
+			ly += lh;
 		}
 	}
 

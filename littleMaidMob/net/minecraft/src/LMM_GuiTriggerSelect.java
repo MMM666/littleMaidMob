@@ -9,8 +9,8 @@ public class LMM_GuiTriggerSelect extends GuiContainer {
 
 	protected float scrolleWeaponset;
 	protected float scrolleContainer;
-	private static InventoryBasic inventory1 = new InventoryBasic("tmpsel", 40);
-	private static InventoryBasic inventory2 = new InventoryBasic("tmpwep", 32);
+	private static InventoryBasic inventory1 = new InventoryBasic("tmpsel", false, 40);
+	private static InventoryBasic inventory2 = new InventoryBasic("tmpwep", false, 32);
 	private int lastX;
 	private int lastY;
 	private boolean ismousePress;
@@ -36,9 +36,9 @@ public class LMM_GuiTriggerSelect extends GuiContainer {
 		guiButton[0] = new GuiButton(100, guiLeft + 7, guiTop + 193, 20, 20, "<");
 		guiButton[1] = new GuiButton(101, guiLeft + 35, guiTop + 193, 106, 20, LMM_TriggerSelect.selector.get(0));
 		guiButton[2] = new GuiButton(102, guiLeft + 149, guiTop + 193, 20, 20, ">");
-		controlList.add(guiButton[0]);
-		controlList.add(guiButton[1]);
-		controlList.add(guiButton[2]);
+		buttonList.add(guiButton[0]);
+		buttonList.add(guiButton[1]);
+		buttonList.add(guiButton[2]);
 		guiButton[1].enabled = false;
 		selectPage = 0;
 	}
@@ -221,8 +221,7 @@ public class LMM_GuiTriggerSelect extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		int k = mc.renderEngine.getTexture("/gui/littlemaidtrigger.png");
-		mc.renderEngine.bindTexture(k);
+		mc.renderEngine.func_98187_b("/gui/littlemaidtrigger.png");
 		int l = guiLeft;
 		int i1 = guiTop;
 		drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);

@@ -135,6 +135,15 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
 
 	public void dropAllItems(boolean detonator) {
 		// インベントリをブチマケロ！
+		Explosion lexp = null;
+		if (detonator) {
+			// Mobによる破壊の是非
+			lexp = new Explosion(entityLittleMaid.worldObj, entityLittleMaid,
+					entityLittleMaid.posX, entityLittleMaid.posY, entityLittleMaid.posZ, 3F);
+			lexp.isFlaming = false;
+			lexp.isSmoking = entityLittleMaid.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
+		}
+		
 		armorInventory[3] = null;
 		for (int i = 0; i < getSizeInventory(); i++) {
 			ItemStack it = getStackInSlot(i);
@@ -150,13 +159,17 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
 								MathHelper.floor_double(entityLittleMaid.posY)
 								+ entityLittleMaid.rand.nextInt(7) - 3,
 								MathHelper.floor_double(entityLittleMaid.posZ)
-								+ entityLittleMaid.rand.nextInt(7) - 3);
+								+ entityLittleMaid.rand.nextInt(7) - 3, lexp);
 					}
 				} else {
 					entityLittleMaid.entityDropItem(it, 0F);
 				}
 			}
 			setInventorySlotContents(i, null);
+		}
+		if (detonator) {
+			lexp.doExplosionA();
+			lexp.doExplosionB(true);
 		}
 	}
 

@@ -50,8 +50,8 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 	@MLProp(info="used Achievement index.(0 = Disable)")
 	public static int AchievementID = 222000;
 
-	@MLProp(info="UniqueEntityId(-1 is AutoAssigned.)", max=255)
-	public static int UniqueEntityId = -1;
+	@MLProp(info="UniqueEntityId(0 is AutoAssigned.)", max=255)
+	public static int UniqueEntityId = 30;
 	@MLProp(info="FilePath mode.")
 	public static boolean useMinecraftPath = false;
 
@@ -68,7 +68,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 	
 	@Override
 	public String getVersion() {
-		return "1.4.7-5";
+		return "1.5.0-1";
 	}
 
 	@Override
@@ -84,23 +84,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@Override
 	public void load() {
-		if (UniqueEntityId == -1) {
-			if (MMM_Helper.isForge) {
-				UniqueEntityId = ModLoader.getUniqueEntityId();
-			} else {
-				UniqueEntityId = MMM_Helper.getNextEntityID();
-			}
-//			UniqueEntityId = (byte)UniqueEntityId;
-			if (UniqueEntityId == -1) {
-				Debug("You can't added LittleMaidMob.(OutOfEntityID)");
-				return;
-			} else {
-				Debug("UsingEntityID: " + UniqueEntityId);
-			}
-			if (!MMM_Helper.isForge) {
-				UniqueEntityId = (byte)UniqueEntityId;
-			}
-		}
+		UniqueEntityId = UniqueEntityId == 0 ? MMM_Helper.getNextEntityID() : UniqueEntityId;
 		defaultTexture = defaultTexture.trim();
 		containerID = 222;
 		ModLoader.registerContainerID(this, containerID);

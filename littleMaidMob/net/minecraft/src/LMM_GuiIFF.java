@@ -51,9 +51,9 @@ public class LMM_GuiIFF extends MMM_GuiMobSelect {
 
 		// controlList.add(new GuiButton(200, width / 2 - 100, height / 6 + 168,
 		// 200, 20, stringtranslate.translateKey("gui.done")));
-		controlList.add(new GuiButton(200, width / 2 - 130, height - 40, 120, 20,
+		buttonList.add(new GuiButton(200, width / 2 - 130, height - 40, 120, 20,
 				stringtranslate.translateKey("gui.done")));
-		controlList.add(new GuiButton(201, width / 2 + 10, height - 40, 120, 20,
+		buttonList.add(new GuiButton(201, width / 2 + 10, height - 40, 120, 20,
 				"Trigger Select"));
 	}
 
@@ -83,26 +83,28 @@ public class LMM_GuiIFF extends MMM_GuiMobSelect {
 	}
 
 	@Override
-	public void clickSlot(int pIndex) {
-		String s = entityMap.keySet().toArray()[pIndex].toString();
-		int tt = LMM_IFF.getIFF(null, s);
-		tt++;
-		if (tt > 2) {
-			tt = 0;
+	public void clickSlot(int pIndex, boolean pDoubleClick, String pName, EntityLiving pEntity) {
+		if (pDoubleClick) {
+			String s = entityMap.keySet().toArray()[pIndex].toString();
+			int tt = LMM_IFF.getIFF(null, s);
+			tt++;
+			if (tt > 2) {
+				tt = 0;
+			}
+			
+			// LMM_GuiIFF.IFFMap.put(s, tt);
+			// if (mc.getIntegratedServer() == null) {
+			if (!mc.isIntegratedServerRunning()) {
+				// サーバーへ変更値を送る。
+				byte[] ldata = new byte[s.length() + 2];
+				ldata[0] = LMM_Net.LMN_Server_SetIFFValue;
+				ldata[1] = (byte) tt;
+				LMM_Net.sendToServer(ldata);
+			} else {
+				LMM_IFF.setIFFValue(null, s, tt);
+			}
+			mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
 		}
-		
-		// LMM_GuiIFF.IFFMap.put(s, tt);
-		// if (mc.getIntegratedServer() == null) {
-		if (!mc.isIntegratedServerRunning()) {
-			// サーバーへ変更値を送る。
-			byte[] ldata = new byte[s.length() + 2];
-			ldata[0] = LMM_Net.LMN_Server_SetIFFValue;
-			ldata[1] = (byte) tt;
-			LMM_Net.sendToServer(ldata);
-		} else {
-			LMM_IFF.setIFFValue(null, s, tt);
-		}
-		mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
 	}
 
 	@Override

@@ -31,10 +31,10 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 	@Override
 	public void initGui() {
 		selectPanel = new LMM_GuiTextureSlot(this);
-		selectPanel.registerScrollButtons(controlList, 3, 4);
-		controlList.add(modeButton[0] = new GuiButton(100, width / 2 - 55, height - 55, 80, 20, "Texture"));
-		controlList.add(modeButton[1] = new GuiButton(101, width / 2 + 30, height - 55, 80, 20, "Armor"));
-		controlList.add(new GuiButton(200, width / 2 - 10, height - 30, 120, 20, "Select"));
+		selectPanel.registerScrollButtons(buttonList, 3, 4);
+		buttonList.add(modeButton[0] = new GuiButton(100, width / 2 - 55, height - 55, 80, 20, "Texture"));
+		buttonList.add(modeButton[1] = new GuiButton(101, width / 2 + 30, height - 55, 80, 20, "Armor"));
+		buttonList.add(new GuiButton(200, width / 2 - 10, height - 30, 120, 20, "Select"));
 		modeButton[0].enabled = false;
 	}
 
