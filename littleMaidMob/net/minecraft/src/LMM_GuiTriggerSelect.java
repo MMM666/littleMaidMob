@@ -87,7 +87,8 @@ public class LMM_GuiTriggerSelect extends GuiContainer {
 
 	@Override
 	protected void handleMouseClick(Slot slot, int i, int j, int flag) {
-
+		boolean var5 = flag == 1;
+		flag = i == -999 && flag == 0 ? 4 : flag;
 		if (slot != null) {
 			if (slot.inventory == inventory1 && flag == 0) {
 				InventoryPlayer inventoryplayer = mc.thePlayer.inventory;
@@ -109,8 +110,8 @@ public class LMM_GuiTriggerSelect extends GuiContainer {
 			} else {
 				inventorySlots.slotClick(slot.slotNumber, j, flag, mc.thePlayer);
 				ItemStack itemstack = inventorySlots.getSlot(slot.slotNumber).getStack();
-				mc.playerController.sendSlotPacket(itemstack,
-								(slot.slotNumber - inventorySlots.inventorySlots.size()) + 9 + 36);
+//				mc.playerController.sendSlotPacket(itemstack,
+//								(slot.slotNumber - inventorySlots.inventorySlots.size()) + 9 + 36);
 			}
 		} else {
 			// SlotˆÈŠO‚Ì‚Æ‚±‚ë‚ÍŽÌ‚Ä‚é

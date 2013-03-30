@@ -115,18 +115,16 @@ public class LMM_ContainerTriggerSelect extends ContainerCreative {
 	}
 
 	@Override
-	protected boolean mergeItemStack(ItemStack itemstack, int i, int j,
-			boolean flag) {
+	protected boolean mergeItemStack(ItemStack itemstack, int i, int j, boolean flag) {
 		// itemstack以外は無効
 		boolean flag1 = false;
 		int k = 0;
-
+		
 		// 同じのがあったときは追加しない
 		while (itemstack.stackSize > 0 && k < weaponSelect.size()) {
 			ItemStack itemstack1 = weaponSelect.get(k);
 			if (itemstack1 != null) {
-				if (itemstack1.itemID == itemstack.itemID
-						&& (!itemstack.getHasSubtypes() || itemstack.getItemDamage() == itemstack1.getItemDamage())) {
+				if (itemstack1.isItemEqual(itemstack)) {
 					// 同一アイテムである
 					flag1 = true;
 					break;
@@ -151,7 +149,7 @@ public class LMM_ContainerTriggerSelect extends ContainerCreative {
 				f = 1.0F;
 			setWeaponlist(f);
 		}
-
+		
 		return flag1;
 	}
 
@@ -188,5 +186,16 @@ public class LMM_ContainerTriggerSelect extends ContainerCreative {
 	public List getItemList() {
 		return weaponSelectList;
 	}
+
+	@Override
+	public boolean func_94530_a(ItemStack par1ItemStack, Slot par2Slot) {
+		return false;
+	}
+
+	@Override
+	public boolean func_94531_b(Slot par1Slot) {
+		return false;
+	}
+
 
 }
