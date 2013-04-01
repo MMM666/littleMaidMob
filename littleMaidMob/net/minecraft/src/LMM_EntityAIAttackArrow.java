@@ -140,7 +140,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 								// 構え
 								if (!fMaid.weaponFullAuto || fsh) {
 									// フルオート兵装の場合は射線確認
-									int at = ((helmid == Item.helmetSteel.itemID) || (helmid == Item.helmetDiamond.itemID)) ? 26 : 16;
+									int at = ((helmid == Item.helmetIron.itemID) || (helmid == Item.helmetDiamond.itemID)) ? 26 : 16;
 									if (swingState.attackTime < at) {
 										fMaid.setSwing(at, LMM_EnumSound.sighting);
 										litemstack = litemstack.useItemRightClick(worldObj, fAvatar);

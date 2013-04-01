@@ -610,7 +610,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 */
     	if (mod_LMM_littleMaidMob.Dominant) {
     		// ドミナント
-    		return this.worldObj.checkIfAABBIsClear(this.boundingBox) 
+    		return this.worldObj.checkNoEntityCollision(this.boundingBox) 
     				&& this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() 
     				&& !this.worldObj.isAnyLiquid(this.boundingBox)
     				&& this.getBlockPathWeight(lx, ly, lz) >= 0.0F;

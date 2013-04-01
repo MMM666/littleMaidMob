@@ -190,7 +190,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 				(double) px + lw, ly + (double) theMaid.height, (double) pz + lw);
 		
 		return theWorld.getBlockMaterial(px, py - 1, pz).isSolid()
-				&& theWorld.getAllCollidingBoundingBoxes(boundingBox).isEmpty();
+				&& theWorld.getCollidingBlockBounds(boundingBox).isEmpty();
 	}
 
 	@Override
