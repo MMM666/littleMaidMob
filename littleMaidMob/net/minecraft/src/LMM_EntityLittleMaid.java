@@ -2290,7 +2290,11 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 							else if (itemstack1.itemID == Item.saddle.itemID) {
 								// Œ¨ŽÔ
 								if (!worldObj.isRemote) {
-									this.mountEntity(par1EntityPlayer);
+									if (ridingEntity == par1EntityPlayer) {
+										this.mountEntity(null);
+									} else {
+										this.mountEntity(par1EntityPlayer);
+									}
 									return true;
 								}
 							}
