@@ -44,7 +44,7 @@ public class LMM_EntityAICollectItem extends EntityAIBase {
 							return false;
 						}
 					}
-					theMaid.playLittleMaidSound(LMM_EnumSound.findTarget_I, false);
+					theMaid.playSound(LMM_EnumSound.findTarget_I, false);
 					targetItem = ei;
 					return true;
 				}

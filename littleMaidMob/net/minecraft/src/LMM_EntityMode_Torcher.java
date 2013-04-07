@@ -128,10 +128,11 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
 	public boolean checkBlock(int pMode, int px, int py, int pz) {
 		int v = getBlockLighting(px, py, pz);
 		if (v < 8 && canBlockBeSeen(px, py - 1, pz, true, true, false)) {
-			return owner.getNavigator().tryMoveToXYZ(px, py, pz, owner.getAIMoveSpeed());
+			if (owner.getNavigator().tryMoveToXYZ(px, py, pz, owner.getAIMoveSpeed()) ) {
+				owner.playSound(LMM_EnumSound.findTarget_D, false);
+				return true;
+			}
 		}
-		
-		
 		return false;
 	}
 

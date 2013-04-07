@@ -31,11 +31,20 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 		EntityLiving entityliving = fMaid.getAttackTarget();
 		
 		if (!fEnable || entityliving == null || entityliving.isDead) {
+			fMaid.setAttackTarget(null);
+			fMaid.setTarget(null);
+			fMaid.getNavigator().clearPathEntity();
 			return false;
 		} else {
 			fTarget = entityliving;
 			return true;
 		}
+	}
+
+	@Override
+	public void startExecuting() {
+		super.startExecuting();
+		fMaid.playSound(fMaid.isBloodsuck() ? LMM_EnumSound.findTarget_B : LMM_EnumSound.findTarget_N, false);
 	}
 
 	@Override
@@ -50,7 +59,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 
 	@Override
 	public void updateTask() {
-		double lrange = 100D;
+		double lrange = 225D;
 		double ldist = fMaid.getDistanceSqToEntity(fTarget);
 		boolean lsee = fMaid.getEntitySenses().canSee(fTarget);
 	

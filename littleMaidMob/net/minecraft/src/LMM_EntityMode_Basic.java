@@ -421,7 +421,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 					owner.maidInventory.setInventorySlotContents(maidSearchCount, null);
 				}
 				if (f) {
-					owner.worldObj.playSoundAtEntity(owner, "random.pop", 0.5F, (owner.rand.nextFloat() - owner.rand.nextFloat()) * 0.2F + 1.0F);
+					owner.playSound("random.pop");
 					owner.setSwing(2, LMM_EnumSound.Null);
 				}
 			}

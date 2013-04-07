@@ -11,21 +11,21 @@ public class LMM_ContainerInventory extends Container {
 		littlemaidInventory = iinventory1;
 		littlemaidInventory.openChest();
 		
-		for (int j = 0; j < numRows; j++) {
-			for (int i1 = 0; i1 < 9; i1++) {
-				addSlotToContainer(new Slot(iinventory1, i1 + j * 9, 8 + i1 * 18, 76 + j * 18));
+		for (int ly = 0; ly < numRows; ly++) {
+			for (int lx = 0; lx < 9; lx++) {
+				addSlotToContainer(new Slot(iinventory1, lx + ly * 9, 8 + lx * 18, 76 + ly * 18));
 			}
 		}
 		
-		int i = (numRows - 4) * 18 + 59;
-		for (int k = 0; k < 3; k++) {
-			for (int j1 = 0; j1 < 9; j1++) {
-				addSlotToContainer(new Slot(iinventory, j1 + k * 9 + 9, 8 + j1 * 18, 103 + k * 18 + i));
+		int lyoffset = (numRows - 4) * 18 + 59;
+		for (int ly = 0; ly < 3; ly++) {
+			for (int lx = 0; lx < 9; lx++) {
+				addSlotToContainer(new Slot(iinventory, lx + ly * 9 + 9, 8 + lx * 18, 103 + ly * 18 + lyoffset));
 			}
 		}
 		
-		for (int l = 0; l < 9; l++) {
-			addSlotToContainer(new Slot(iinventory, l, 8 + l * 18, 161 + i));
+		for (int lx = 0; lx < 9; lx++) {
+			addSlotToContainer(new Slot(iinventory, lx, 8 + lx * 18, 161 + lyoffset));
 		}
 		
 		for (int j = 0; j < 3; j++) {
@@ -46,41 +46,34 @@ public class LMM_ContainerInventory extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i) {
-        ItemStack itemstack = null;
-        Slot slot = (Slot)inventorySlots.get(i);
-        if(slot != null && slot.getHasStack())
-        {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
-            int j = numRows * 9;
-            if(i < j)
-            {
-                mergeItemStack(itemstack1, j, j + 36, true);
-            } else
-            if(i >= j && i < j + 36)
-            {
-            	mergeItemStack(itemstack1, 0, j, false);
-            } else {
-            	mergeItemStack(itemstack1, 0, j + 36, false);
-            }
-            if(itemstack1.stackSize == 0)
-            {
-                slot.putStack(null);
-            } else
-            {
-                slot.onSlotChanged();
-            }
-            if(itemstack1.stackSize != itemstack.stackSize)
-            {
-            	slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
-            } else
-            {
-                return null;
-            }
-        }
-        return itemstack;
-    }
+	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int pIndex) {
+		ItemStack litemstack = null;
+		Slot slot = (Slot)inventorySlots.get(pIndex);
+		if (slot != null && slot.getHasStack()) {
+			ItemStack itemstack1 = slot.getStack();
+			litemstack = itemstack1.copy();
+			int lline = numRows * 9;
+			if (pIndex < lline) {
+				if (!this.mergeItemStack(itemstack1, lline, lline + 36, true)) {
+					return null;
+				}
+			} else if (pIndex >= lline && pIndex < lline + 36) {
+				if (!this.mergeItemStack(itemstack1, 0, lline, false)) {
+					return null;
+				}
+			} else {
+				if (!this.mergeItemStack(itemstack1, 0, lline + 36, false)) {
+					return null;
+				}
+			}
+			if (itemstack1.stackSize == 0) {
+				slot.putStack(null);
+			} else {
+				slot.onSlotChanged();
+			}
+		}
+		return litemstack;
+	}
 
 	@Override
 	public void onCraftGuiClosed(EntityPlayer par1EntityPlayer) {

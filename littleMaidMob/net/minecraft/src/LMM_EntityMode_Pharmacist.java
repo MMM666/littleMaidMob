@@ -190,7 +190,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 				lflag = true;
 				if (owner.maidInventory.addItemStackToInventory(litemstack2)) {
 					ltile.setInventorySlotContents(3, null);
-					owner.worldObj.playSoundAtEntity(owner, "random.pop", 0.5F, (owner.rand.nextFloat() - owner.rand.nextFloat()) * 0.2F + 1.0F);
+					owner.playSound("random.pop");
 					owner.setSwing(5, LMM_EnumSound.Null);
 				}
 			}
@@ -201,7 +201,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 					litemstack1 = ltile.getStackInSlot(li);
 					if (litemstack1 != null && owner.maidInventory.addItemStackToInventory(litemstack1)) {
 						ltile.setInventorySlotContents(li, null);
-						owner.worldObj.playSoundAtEntity(owner, "random.pop", 0.5F, (owner.rand.nextFloat() - owner.rand.nextFloat()) * 0.2F + 1.0F);
+						owner.playSound("random.pop");
 						owner.setSwing(5, LMM_EnumSound.Null);
 						lflag = true;
 					}
@@ -221,7 +221,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 					if (ltile.getStackInSlot(li) == null) {
 						ltile.setInventorySlotContents(li, litemstack1);
 						owner.maidInventory.setInventoryCurrentSlotContents(null);
-						owner.worldObj.playSoundAtEntity(owner, "random.pop", 0.5F, (owner.rand.nextFloat() - owner.rand.nextFloat()) * 0.2F + 1.0F);
+						owner.playSound("random.pop");
 						owner.setSwing(5, LMM_EnumSound.Null);
 						owner.getNextEquipItem();
 						lflag = true;
@@ -247,7 +247,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 				if (litemstack1 != null && !(litemstack1.getItem() instanceof ItemPotion) && litemstack1.getItem().isPotionIngredient()) {
 					ltile.setInventorySlotContents(3, litemstack1);
 					owner.maidInventory.setInventorySlotContents(maidSearchCount, null);
-					owner.worldObj.playSoundAtEntity(owner, "random.pop", 0.5F, (owner.rand.nextFloat() - owner.rand.nextFloat()) * 0.2F + 1.0F);
+					owner.playSound("random.pop");
 					owner.setSwing(15, LMM_EnumSound.Null);
 					lflag = true;
 				} 

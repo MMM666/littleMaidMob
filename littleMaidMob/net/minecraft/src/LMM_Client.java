@@ -166,7 +166,9 @@ public class LMM_Client {
 		case LMM_Net.LMN_Client_SwingArm : 
 			// ˜rU‚è
 			byte larm = var2.data[5];
-			lemaid.setSwinging(larm);
+			LMM_EnumSound lsound = LMM_EnumSound.getEnumSound(MMM_Helper.getInt(var2.data, 6));
+			lemaid.setSwinging(larm, lsound);
+//			mod_LMM_littleMaidMob.Debug(String.format("SwingSound:%s", lsound.name()));
 			break;
 			
 		case LMM_Net.LMN_Client_UpdateTexture : 
@@ -184,6 +186,13 @@ public class LMM_Client {
 			
 			// TODO:GUI‚Åg—p‚·‚é’l‚ğİ’è‚·‚é‚æ‚¤‚É
 			LMM_IFF.setIFFValue(null, lname, lval);
+			break;
+			
+		case LMM_Net.LMN_Client_PlaySound : 
+			// ‰¹ºÄ¶
+			LMM_EnumSound lsound9 = LMM_EnumSound.getEnumSound(MMM_Helper.getInt(var2.data, 5));
+			lemaid.playLittleMaidSound(lsound9, true);
+//			mod_LMM_littleMaidMob.Debug(String.format("playSound:%s", lsound9.name()));
 			break;
 			
 		}

@@ -170,7 +170,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 			if (litemstack != null) {
 				if (litemstack.stackSize > 0) {
 					if (owner.maidInventory.addItemStackToInventory(litemstack)) {
-						owner.playSoundAtEntity("random.pop");
+						owner.playSound("random.pop");
 						owner.setSwing(5, LMM_EnumSound.cookingOver);
 //                    	if (!pEntityLittleMaid.maidInventory.isItemBurned(pEntityLittleMaid.maidInventory.currentItem)) {
 						owner.getNextEquipItem();
@@ -197,7 +197,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 					if (litemstack.stackSize <= 0) {
 						owner.maidInventory.setInventorySlotContents(li, null);
 					}
-					owner.playSoundAtEntity("random.pop");
+					owner.playSound("random.pop");
 					owner.setSwing(5, LMM_EnumSound.cookingStart);
 					lflag = true;
 				}
@@ -217,7 +217,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 						owner.maidInventory.setInventoryCurrentSlotContents(null);
 					}
 					owner.getNextEquipItem();
-					owner.playSoundAtEntity("random.pop");
+					owner.playSound("random.pop");
 					owner.setSwing(5, LMM_EnumSound.addFuel);
 					lflag = true;
 				} else {
@@ -227,7 +227,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 						// 燃やせるアイテムを持ってないので調理可能品を回収
 						ItemStack litemstack2 = myTile.getStackInSlotOnClosing(0);
 						if (owner.maidInventory.addItemStackToInventory(litemstack2)) {
-							owner.playSoundAtEntity("random.pop");
+							owner.playSound("random.pop");
 							owner.setSwing(5, LMM_EnumSound.Null);
 							owner.getNextEquipItem();
 							lflag = false;
@@ -242,7 +242,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 			if (!lflag && !myTile.isBurning() && myTile.getStackInSlot(1) != null) {
 				ItemStack litemstack2 = myTile.getStackInSlotOnClosing(1);
 				if (owner.maidInventory.addItemStackToInventory(litemstack2)) {
-					owner.playSoundAtEntity("random.pop");
+					owner.playSound("random.pop");
 					owner.setSwing(5, LMM_EnumSound.Null);
 					owner.getNextEquipItem();
 					lflag = owner.maidInventory.isItemBurned(owner.getCurrentEquippedItem());

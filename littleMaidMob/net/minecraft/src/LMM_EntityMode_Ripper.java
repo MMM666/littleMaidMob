@@ -311,7 +311,7 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 		// ‹N”š
 		if (pMode == mmode_Detonator && owner.maidInventory.isItemExplord(owner.getCurrentEquippedItem())) {
 			if (timeSinceIgnited == -1) {
-				owner.worldObj.playSoundAtEntity(owner, "random.fuse", 1.0F, 0.5F);
+				owner.playSound("random.fuse", 1.0F, 0.5F);
 				owner.dataWatcher.updateObject(owner.dataWatch_Free, Integer.valueOf(1));
 			}
 //        	if (owner.entityToAttack == null)

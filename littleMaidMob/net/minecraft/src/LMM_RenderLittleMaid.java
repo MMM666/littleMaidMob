@@ -57,7 +57,7 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		// Ç¢Ç≠Ç¬Ç©èdï°ÇµÇƒÇÈÇÃÇ≈Ç†Ç∆Ç≈ämîF
 		// épê®Ç…ÇÊÇÈçÇÇ≥í≤êÆ
 		double lay = py;
-		if(plittleMaid.isSneaking()) {
+		if (plittleMaid.isSneaking()) {
 			// ÇµÇ·Ç™Ç›
 			lay -= 0.06D;
 		} else if (plittleMaid.isRiding() && plittleMaid.ridingEntity == null) {
@@ -91,6 +91,19 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		// ÇæÇ™ñ≥à”ñ°Çæ
 //		plittleMaid.textureModel0.isChild = plittleMaid.textureModel1.isChild = plittleMaid.textureModel2.isChild = plittleMaid.isChild();
 		
+		if (plittleMaid.worldObj instanceof WorldServer) {
+			Entity le = MMM_Helper.mc.theWorld.getEntityByID(plittleMaid.entityId);
+			if (le instanceof LMM_EntityLittleMaid) {
+				LMM_EntityLittleMaid lel = (LMM_EntityLittleMaid)le;
+				modelMain.modelArmorInner = lel.textureModel0;
+				modelFATT.modelArmorInner = lel.textureModel1;
+				modelFATT.modelArmorOuter = lel.textureModel2;
+				modelFATT.textureOuter = lel.textureArmor2;
+				modelFATT.textureInner = lel.textureArmor1;
+				plittleMaid.texture = lel.texture;
+			}
+		} else {
+		}
 		doRenderLiving(plittleMaid, px, lay, pz, f, f1);
 		
 		

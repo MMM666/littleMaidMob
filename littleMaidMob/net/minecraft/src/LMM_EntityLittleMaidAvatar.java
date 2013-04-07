@@ -297,7 +297,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 		avatar.motionX = motionX;
 		avatar.motionY = motionY;
 		avatar.motionZ = motionZ;
-		if (isSwingInProgress) avatar.setSwinging();
+		if (isSwingInProgress) avatar.setSwinging(LMM_EnumSound.Null);
 		
 	}
 
@@ -318,7 +318,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 		avatar.motionX = motionX;
 		avatar.motionY = motionY;
 		avatar.motionZ = motionZ;
-		if (isSwingInProgress) avatar.setSwinging();
+		if (isSwingInProgress) avatar.setSwinging(LMM_EnumSound.Null);
 	}
 
 	@Override

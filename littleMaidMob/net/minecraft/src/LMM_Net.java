@@ -20,6 +20,7 @@ public class LMM_Net {
 //	public static final byte LMN_Client_SetTextureIndex	= (byte)0x87;
 //	public static final byte LMN_Server_GetTextureStr	= (byte)0x08;
 //	public static final byte LMN_Client_SetTextureStr	= (byte)0x08;
+	public static final byte LMN_Client_PlaySound		= (byte)0x89;
 	
 
 

@@ -55,6 +55,7 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEn
 	public void startExecuting() {
 		theMaid.getNavigator().setPath(pathToTarget, moveSpeed);
 		rerouteTimer = 0;
+		theMaid.playSound(theMaid.isBloodsuck() ? LMM_EnumSound.findTarget_B : LMM_EnumSound.findTarget_N, false);
 	}
 
 	@Override
@@ -64,6 +65,13 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEn
 			lentity = theMaid.getEntityToAttack();
 		}
 		if (lentity == null || entityTarget != lentity) {
+			return false;
+		}
+		
+		if (entityTarget.isDead) {
+			theMaid.setAttackTarget(null);
+			theMaid.setTarget(null);
+			theMaid.getNavigator().clearPathEntity();
 			return false;
 		}
 		

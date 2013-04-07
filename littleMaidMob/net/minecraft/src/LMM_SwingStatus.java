@@ -41,11 +41,6 @@ public class LMM_SwingStatus {
 		// ˜rU‚è
 		int li = pEntity.getSwingSpeedModifier();
 		if (isSwingInProgress) {
-			if (swingProgressInt == 0) {
-				pEntity.playLittleMaidSound(pEntity.maidAttackSound, true);
-			}
-			pEntity.maidAttackSound = LMM_EnumSound.Null;
-			
 			swingProgressInt++;
 			if(swingProgressInt >= li) {
 				swingProgressInt = 0;
@@ -128,6 +123,15 @@ public class LMM_SwingStatus {
 	public void setItemInUse(ItemStack itemstack, int i) {
 		itemInUseCount = i;
 		maxItemUseDuration = itemstack.getMaxItemUseDuration();
+	}
+
+	public boolean setSwinging() {
+		if (!isSwingInProgress || swingProgressInt < 0) {
+			swingProgressInt = -1;
+			isSwingInProgress = true;
+			return true;
+		}
+		return false;
 	}
 
 }

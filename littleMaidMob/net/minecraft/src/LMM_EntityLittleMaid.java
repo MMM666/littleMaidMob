@@ -122,7 +122,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	
 	
 	// 音声
-	protected LMM_EnumSound maidAttackSound;
+//	protected LMM_EnumSound maidAttackSound;
 	protected LMM_EnumSound maidDamegeSound;
 	protected int maidSoundInterval;
 	protected float maidSoundRate;
@@ -167,8 +167,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		isMaidChaseWait = false;
 		mstatTime = 6000;
 		maidOverDriveTime = new MMM_Counter(5, 300, -100);
-		
-		mstatWorkingCount = new MMM_Counter(11, 10, 0);
+		mstatWorkingCount = new MMM_Counter(11, 10, -10);
 		
 		entityIdFactor = (float)(entityId * 70);
 		// 腕振り
@@ -177,7 +176,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		setDominantArm(rand.nextInt(mstatSwingStatus.length));
 		
 		// 再生音声
-		maidAttackSound = LMM_EnumSound.attack;
+//		maidAttackSound = LMM_EnumSound.attack;
 		maidDamegeSound = LMM_EnumSound.hurt;
 		maidSoundInterval = 0;
 		
@@ -387,7 +386,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			return ls;
 		}
 	}
-	
+
 	public String getMaidModeString(int pindex) {
 		// モード名称の獲得
 		String ls = "";
@@ -399,22 +398,22 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		}
 		return ls;
 	}
-	
+
 	public boolean setMaidMode(String pname) {
 		return setMaidMode(pname, false);
 	}
-	
+
 	public boolean setMaidMode(String pname, boolean pplaying) {
 		if (!maidModeIndexList.containsKey(pname)) {
 			return false;
 		}
 		return setMaidMode(maidModeIndexList.get(pname), pplaying);
 	}
-	
+
 	public boolean setMaidMode(int pindex) {
 		return setMaidMode(pindex, false);
 	}
-		
+
 	public boolean setMaidMode(int pindex, boolean pplaying) {
 		// モードに応じてAIを切り替える
 		velocityChanged = true;
@@ -475,22 +474,22 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		try {
 			ArrayList<EntityAITaskEntry> ltasksDoDEST = (ArrayList<EntityAITaskEntry>)ModLoader.getPrivateValue(EntityAITasks.class, pTasksDEST, 0);
 			ArrayList<EntityAITaskEntry> ltasksExeDEST = (ArrayList<EntityAITaskEntry>)ModLoader.getPrivateValue(EntityAITasks.class, pTasksDEST, 1);
-
+			
 			if (pTasksSRC == null) {
 				ltasksDoDEST.clear();
 				ltasksExeDEST.clear();
 			} else {
 				ArrayList<EntityAITaskEntry> ltasksDoSRC = (ArrayList<EntityAITaskEntry>)ModLoader.getPrivateValue(EntityAITasks.class, pTasksSRC, 0);
 				ArrayList<EntityAITaskEntry> ltasksExeSRC = (ArrayList<EntityAITaskEntry>)ModLoader.getPrivateValue(EntityAITasks.class, pTasksSRC, 1);
-
+				
 				Iterator iterator;
 				iterator = ltasksExeDEST.iterator();
-		        while (iterator.hasNext()) {
+				while (iterator.hasNext()) {
 					EntityAITaskEntry ltaskentory = (EntityAITaskEntry)iterator.next();
 					ltaskentory.action.resetTask();
-		        }	
+				}	
 				ltasksExeDEST.clear();
-
+				
 				ltasksDoDEST.clear();
 				ltasksDoDEST.addAll(ltasksDoSRC);
 			}
@@ -498,108 +497,147 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		}
 		
 	}
-	
-	// 適用されているモードクラス
+
+	/**
+	 * 適用されているモードクラス
+	 */
 	public LMM_EntityModeBase getActiveModeClass() {
 		return maidActiveModeClass;
 	}
-	
+
 	public void setActiveModeClass(LMM_EntityModeBase pEntityMode) {
 		maidActiveModeClass = pEntityMode;
 	}
-	
+
 	public boolean isActiveModeClass() {
 		return maidActiveModeClass != null;
 	}
-	
-    // 効果音の設定
-    @Override
-    protected String getHurtSound() {
-      	playLittleMaidSound(maidDamegeSound, true);
-      	return null;
-    }
 
-    @Override
-    protected String getDeathSound() {
-       	playLittleMaidSound(LMM_EnumSound.death, true);
-       	return null;
-    }
-    
-    @Override
-    protected String getLivingSound() {
-    	// 普段の声
-    	LMM_EnumSound so = LMM_EnumSound.Null;
-    	if (health < 10)
-            so = LMM_EnumSound.living_whine;
-    	else if (rand.nextFloat() < maidSoundRate) {
-    		if (mstatTime > 23500 || mstatTime < 1500) {
-                so = LMM_EnumSound.living_morning;
-    		} else if (mstatTime < 12500) {
-    			if (isMaidContract()) {
-        	        BiomeGenBase biomegenbase = worldObj.getBiomeGenForCoords(MathHelper.floor_double(posX + 0.5D), MathHelper.floor_double(posZ + 0.5D));
-        	        float ltemp = biomegenbase.getFloatTemperature();
-        	        if (ltemp <= 0.15F) {
-        	        	so = LMM_EnumSound.living_cold;
-        	        } else if (ltemp > 1.0F) {
-        	        	so = LMM_EnumSound.living_hot;
-        	        } else {
-                        so = LMM_EnumSound.living_daytime;
-        	        }
-        	        if (worldObj.isRaining()) {
-        	        	if (biomegenbase.canSpawnLightningBolt()) {
-            	        	so = LMM_EnumSound.living_rain;
-        	        	} else if (biomegenbase.getEnableSnow()) {
-            	        	so = LMM_EnumSound.living_snow;
-        	        	}
-        	        }
-    			} else {
-                    so = LMM_EnumSound.living_daytime;
-    			}
-        	} else {
-                so = LMM_EnumSound.living_night;
-        	}
-    	}
-    		
-    	playLittleMaidSound(so, false);
-    	return null;
-    }
+	// 効果音の設定
+	@Override
+	protected String getHurtSound() {
+		playSound(maidDamegeSound, true);
+		return null;
+	}
 
-    
-    public void playSoundAtEntity(String pname) {
-    	// 簡易音声再生
-    	worldObj.playSoundAtEntity(this, pname, 0.5F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-    }
+	@Override
+	protected String getDeathSound() {
+		playSound(LMM_EnumSound.death, true);
+		return null;
+	}
 
+	@Override
+	protected String getLivingSound() {
+		// 普段の声
+		LMM_EnumSound so = LMM_EnumSound.Null;
+		if (health < 10)
+			so = LMM_EnumSound.living_whine;
+		else if (rand.nextFloat() < maidSoundRate) {
+			if (mstatTime > 23500 || mstatTime < 1500) {
+				so = LMM_EnumSound.living_morning;
+			} else if (mstatTime < 12500) {
+				if (isMaidContract()) {
+					BiomeGenBase biomegenbase = worldObj.getBiomeGenForCoords(MathHelper.floor_double(posX + 0.5D), MathHelper.floor_double(posZ + 0.5D));
+					float ltemp = biomegenbase.getFloatTemperature();
+					if (ltemp <= 0.15F) {
+						so = LMM_EnumSound.living_cold;
+					} else if (ltemp > 1.0F) {
+						so = LMM_EnumSound.living_hot;
+					} else {
+						so = LMM_EnumSound.living_daytime;
+					}
+					if (worldObj.isRaining()) {
+						if (biomegenbase.canSpawnLightningBolt()) {
+							so = LMM_EnumSound.living_rain;
+						} else if (biomegenbase.getEnableSnow()) {
+							so = LMM_EnumSound.living_snow;
+						}
+					}
+				} else {
+					so = LMM_EnumSound.living_daytime;
+				}
+			} else {
+				so = LMM_EnumSound.living_night;
+			}
+		}
+		
+		playLittleMaidSound(so, false);
+		return null;
+	}
+
+	public void playSound(String pname) {
+		// 簡易音声再生
+		playSound(pname, 0.5F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+	}
+
+	/**
+	 * ネットワーク対応音声再生
+	 */
+	public void playSound(LMM_EnumSound enumsound, boolean force) {
+		if ((maidSoundInterval > 0 && !force) || enumsound == LMM_EnumSound.Null) return;
+		maidSoundInterval = 20;
+		mod_LMM_littleMaidMob.Debug(String.format("id:%d-%s, seps:%d-%s", entityId, worldObj.isRemote ? "Client" : "Server",  enumsound.index, enumsound.name()));
+		if (worldObj.isRemote) {
+			// Client
+//			String lsound = LMM_SoundManager.getSoundValue(enumsound, textureName, maidColor & 0x00ff);
+//			float lpitch = mod_LMM_littleMaidMob.VoiceDistortion ? (rand.nextFloat() * 0.2F) + 0.95F : 1.0F;
+//			worldObj.playSound(posX, posY, posZ, lsound, getSoundVolume(), lpitch, false);
+		} else {
+			// Server
+			byte[] lbuf = new byte[] {
+					LMM_Net.LMN_Client_PlaySound,
+					0, 0, 0, 0,
+					0, 0, 0, 0
+			};
+			MMM_Helper.setInt(lbuf, 5, enumsound.index);
+			LMM_Net.sendToAllEClient(this, lbuf);
+		}
+	}
+
+	/**
+	 * 音声再生用。
+	 * 通常の再生ではネットワーク越しになるのでその対策。
+	 */
 	public void playLittleMaidSound(LMM_EnumSound enumsound, boolean force) {
 		// 音声の再生
 		if ((maidSoundInterval > 0 && !force) || enumsound == LMM_EnumSound.Null) return;
 		maidSoundInterval = 20;
-		
-		String s = LMM_SoundManager.getSoundValue(enumsound, textureName, maidColor & 0x00ff);
-//    	mod_littleMaidMob.Debug(String.format("id:%d, se:%d-%s", entityId, enumsound.index, enumsound.name()));
-		if (mod_LMM_littleMaidMob.VoiceDistortion) {
-			worldObj.playSoundAtEntity(this, s, getSoundVolume(), (rand.nextFloat() * 0.2F) + 0.95F);
-		} else {
-			worldObj.playSoundAtEntity(this, s, getSoundVolume(), 1.0F);
+		if (worldObj.isRemote) {
+			// Client
+			String s = LMM_SoundManager.getSoundValue(enumsound, textureName, maidColor & 0x00ff);
+			mod_LMM_littleMaidMob.Debug(String.format("id:%d, se:%d-%s", entityId, enumsound.index, enumsound.name()));
+			float lpitch = mod_LMM_littleMaidMob.VoiceDistortion ? (rand.nextFloat() * 0.2F) + 0.95F : 1.0F;
+			worldObj.playSound(posX, posY, posZ, s, getSoundVolume(), lpitch, false);
 		}
 	}
 
-    @Override
-    protected boolean canDespawn() {
-    	// デスポーン判定
-    	return mod_LMM_littleMaidMob.canDespawn || super.canDespawn();
-    }
-    
-    @Override
-    public boolean getCanSpawnHere() {
-    	// スポーン可能か？
-    	if (mod_LMM_littleMaidMob.spawnLimit <= getMaidCount()) {
-    		mod_LMM_littleMaidMob.Debug("Spawn Limit.");
-    		return false;
-    	}
-    	int lx = MathHelper.floor_double(this.posX);
-        int ly = MathHelper.floor_double(this.boundingBox.minY);
-        int lz = MathHelper.floor_double(this.posZ);
+	@Override
+	public void onKillEntity(EntityLiving par1EntityLiving) {
+		super.onKillEntity(par1EntityLiving);
+		if (isBloodsuck()) {
+			playSound(LMM_EnumSound.laughter, false);
+		} else {
+			setTarget(null);
+			setAttackTarget(null);
+		}
+	}
+
+	@Override
+	protected boolean canDespawn() {
+		// デスポーン判定
+		return mod_LMM_littleMaidMob.canDespawn || super.canDespawn();
+	}
+
+	@Override
+	public boolean getCanSpawnHere() {
+		// スポーン可能か？
+		if (mod_LMM_littleMaidMob.spawnLimit <= getMaidCount()) {
+			mod_LMM_littleMaidMob.Debug("Spawn Limit.");
+			return false;
+		}
+		int lx = MathHelper.floor_double(this.posX);
+		int ly = MathHelper.floor_double(this.boundingBox.minY);
+		int lz = MathHelper.floor_double(this.posZ);
 /*
 	// TODO:サーバー側で判定できないので意味なし
     	if (worldObj == null || textureModel == null  
@@ -608,27 +646,27 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     		return false;
     	}
 */
-    	if (mod_LMM_littleMaidMob.Dominant) {
-    		// ドミナント
-    		return this.worldObj.checkNoEntityCollision(this.boundingBox) 
-    				&& this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() 
-    				&& !this.worldObj.isAnyLiquid(this.boundingBox)
-    				&& this.getBlockPathWeight(lx, ly, lz) >= 0.0F;
-    	} else {
-        	return super.getCanSpawnHere();
-    	}
-    }
-    
-    @Override
-    public void setDead() {
-        if (mstatgotcha != null) {
-            EntityItem entityitem = new EntityItem(worldObj, mstatgotcha.posX, mstatgotcha.posY, mstatgotcha.posZ, new ItemStack(Item.silk));
-            worldObj.spawnEntityInWorld(entityitem);
-            mstatgotcha = null;
-        }
-        
-    	super.setDead();
-    }
+		if (mod_LMM_littleMaidMob.Dominant) {
+			// ドミナント
+			return this.worldObj.checkNoEntityCollision(this.boundingBox) 
+					&& this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() 
+					&& !this.worldObj.isAnyLiquid(this.boundingBox)
+					&& this.getBlockPathWeight(lx, ly, lz) >= 0.0F;
+		} else {
+			return super.getCanSpawnHere();
+		}
+	}
+
+	@Override
+	public void setDead() {
+		if (mstatgotcha != null) {
+			// 首紐をドロップ
+			EntityItem entityitem = new EntityItem(worldObj, mstatgotcha.posX, mstatgotcha.posY, mstatgotcha.posZ, new ItemStack(Item.silk));
+			worldObj.spawnEntityInWorld(entityitem);
+			mstatgotcha = null;
+		}
+		super.setDead();
+	}
 
 	/**
 	 * 読み込み領域内のメイドさんの数
@@ -654,80 +692,80 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		// 最大HP
 		return 20;
 	}
-	
-    // エフェクト表示
-    protected void showParticleFX(String s) {
-    	showParticleFX(s, 1D, 1D, 1D);
-    }
-    
-    protected void showParticleFX(String s, double d, double d1, double d2) {
-    	showParticleFX(s, d, d1, d2, 0D, 0D, 0D);
-    }
 
-    protected void showParticleFX(String s, double d, double d1, double d2, double d3, double d4, double d5 ) {
-        for (int i = 0; i < 7; i++) {
-            double d6 = rand.nextGaussian() * d + d3;
-            double d7 = rand.nextGaussian() * d1 + d4;
-            double d8 = rand.nextGaussian() * d2 + d5;
-            worldObj.spawnParticle(s, (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + 0.5D + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, d6, d7, d8);
-        }
-    }
+	// エフェクト表示
+	protected void showParticleFX(String s) {
+		showParticleFX(s, 1D, 1D, 1D);
+	}
+
+	protected void showParticleFX(String s, double d, double d1, double d2) {
+		showParticleFX(s, d, d1, d2, 0D, 0D, 0D);
+	}
+
+	protected void showParticleFX(String s, double d, double d1, double d2, double d3, double d4, double d5 ) {
+		for (int i = 0; i < 7; i++) {
+			double d6 = rand.nextGaussian() * d + d3;
+			double d7 = rand.nextGaussian() * d1 + d4;
+			double d8 = rand.nextGaussian() * d2 + d5;
+			worldObj.spawnParticle(s, (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + 0.5D + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, d6, d7, d8);
+		}
+	}
 
 	@Override
 	public void handleHealthUpdate(byte par1) {
-        // worldObj.setEntityState(this, (byte))で指定されたアクションを実行
+		// worldObj.setEntityState(this, (byte))で指定されたアクションを実行
 		switch (par1) {
 		case 10:
 			// 不機嫌
-    		showParticleFX("smoke", 0.02D, 0.02D, 0.02D);
+			showParticleFX("smoke", 0.02D, 0.02D, 0.02D);
 			break;
 		case 11:
 			// ゴキゲン
-	    	double a = getContractLimitDays() / 7D;
-	        double d6 = a * 0.3D;
-	        double d7 = a;
-	        double d8 = a * 0.3D;
-	        worldObj.spawnParticle("note", posX, posY + height + 0.1D, posZ, d6, d7, d8);
+			double a = getContractLimitDays() / 7D;
+			double d6 = a * 0.3D;
+			double d7 = a;
+			double d8 = a * 0.3D;
+			worldObj.spawnParticle("note", posX, posY + height + 0.1D, posZ, d6, d7, d8);
 			break;
 		case 12:
 			// 自由行動
-    		showParticleFX("reddust", 0.5D, 0.5D, 0.5D, 1.0D, 1.0D, 1.0D);
-    		break;
+			showParticleFX("reddust", 0.5D, 0.5D, 0.5D, 1.0D, 1.0D, 1.0D);
+			break;
 		case 13:
 			// 不自由行動
-    		showParticleFX("smoke", 0.02D, 0.02D, 0.02D);
-    		break;
+			showParticleFX("smoke", 0.02D, 0.02D, 0.02D);
+			break;
 		case 14:
 			// トレーサー
-       		showParticleFX("explode", 0.3D, 0.3D, 0.3D, 0.0D, 0.0D, 0.0D);
-       		break;
+			showParticleFX("explode", 0.3D, 0.3D, 0.3D, 0.0D, 0.0D, 0.0D);
+			break;
 			
 		default:
 			super.handleHealthUpdate(par1);
 		}
 	}
-	
 
-    public int colorMultiplier(float pLight, float pPartialTicks) {
-    	// 発光処理用
-    	int lbase = 0;
-    	if (maidOverDriveTime.isEnable()) {
-            int i;
-        	if (maidOverDriveTime.getValue() < 100) {
-            	i = maidOverDriveTime.getValue() % 100;
-        	} else {
-        		i = 100;
-        	}
-        	lbase = i << 24 | 0x00df0f0f;
-        }
-        
-    	if (isActiveModeClass()) {
-    		lbase = lbase | getActiveModeClass().colorMultiplier(pLight, pPartialTicks);
-    	}
-    	
-        return lbase;
-    }
-    
+
+	public int colorMultiplier(float pLight, float pPartialTicks) {
+		// 発光処理用
+		int lbase = 0;
+		if (maidOverDriveTime.isDelay()) {
+			int i;
+			if (maidOverDriveTime.isEnable()) {
+				i = 100;
+			} else {
+				i = 100 + maidOverDriveTime.getValue();
+			}
+			lbase = i << 24 | 0x00df0f0f;
+		}
+		
+		if (isActiveModeClass()) {
+			lbase = lbase | getActiveModeClass().colorMultiplier(pLight, pPartialTicks);
+		}
+		
+		return lbase;
+	}
+
 	
 	// AI関連
 	@Override
@@ -1131,7 +1169,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			if (((rotationYawHead - renderYawOffset) % 360F) < -90F) {
 				rotationYawHead = renderYawOffset - 90F;
 			}
-
+			
 			double dx = Math.sin(((double)lep.renderYawOffset * Math.PI) / 180D) * 0.35D;
 			double dz = Math.cos(((double)lep.renderYawOffset * Math.PI) / 180D) * 0.35D;
 			setPosition(lep.posX + dx, posY, lep.posZ - dz);
@@ -1210,59 +1248,59 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	protected void damageEntity(DamageSource par1DamageSource, int par2) {
-    	// ダメージソースに応じて音声変更
-    	if (par1DamageSource == DamageSource.fall) {
-    		maidDamegeSound = LMM_EnumSound.hurt_fall;
-    	}
-        if(!par1DamageSource.isUnblockable() && isBlocking()) {
-        	// ブロッキング
-            mod_LMM_littleMaidMob.Debug(String.format("Blocking success ID:%d, %d" , this.entityId, par2));
-        	maidDamegeSound = LMM_EnumSound.hurt_guard;        		
-        }
-        
-        // 被ダメ
-        maidAvatar.health = health;
+		// ダメージソースに応じて音声変更
+		if (par1DamageSource == DamageSource.fall) {
+			maidDamegeSound = LMM_EnumSound.hurt_fall;
+		}
+		if(!par1DamageSource.isUnblockable() && isBlocking()) {
+			// ブロッキング
+			mod_LMM_littleMaidMob.Debug(String.format("Blocking success ID:%d, %d" , this.entityId, par2));
+			maidDamegeSound = LMM_EnumSound.hurt_guard;
+		}
+		
+		// 被ダメ
+		maidAvatar.health = health;
 		if (par2 > 0 && getActiveModeClass() != null && !getActiveModeClass().damageEntity(maidMode, par1DamageSource, par2)) {
-	        maidAvatar.damageEntity(par1DamageSource, par2);
-	        
-	        // ダメージを受けると待機を解除
-	        setMaidWait(false);
+			maidAvatar.damageEntity(par1DamageSource, par2);
+			
+			// ダメージを受けると待機を解除
+			setMaidWait(false);
 		}
 		
 		if (health == maidAvatar.health && maidDamegeSound == LMM_EnumSound.hurt) {
-        	maidDamegeSound = LMM_EnumSound.hurt_nodamege;
+			maidDamegeSound = LMM_EnumSound.hurt_nodamege;
 		}
-        mod_LMM_littleMaidMob.Debug(String.format("GetDamage ID:%d, %s, %d/ %d" , this.entityId, par1DamageSource.damageType, health - maidAvatar.health, par2));
+		mod_LMM_littleMaidMob.Debug(String.format("GetDamage ID:%d, %s, %d/ %d" , this.entityId, par1DamageSource.damageType, health - maidAvatar.health, par2));
 		health = maidAvatar.health;
 //		super.damageEntity(par1DamageSource, par2);
 	}
 
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, int par2) {
-    	Entity entity = par1DamageSource.getEntity();
-    	
-    	// ダメージソースを特定して音声の設定
-    	maidDamegeSound = LMM_EnumSound.hurt;
-    	if (par1DamageSource == DamageSource.inFire || par1DamageSource == DamageSource.onFire || par1DamageSource == DamageSource.lava) {
-    		maidDamegeSound = LMM_EnumSound.hurt_fire;
-    	} 
-    	else if (par1DamageSource instanceof EntityDamageSourceIndirect) {
-    		// これしかないのか…？
+		Entity entity = par1DamageSource.getEntity();
+		
+		// ダメージソースを特定して音声の設定
+		maidDamegeSound = LMM_EnumSound.hurt;
+		if (par1DamageSource == DamageSource.inFire || par1DamageSource == DamageSource.onFire || par1DamageSource == DamageSource.lava) {
+			maidDamegeSound = LMM_EnumSound.hurt_fire;
+		} 
+		else if (par1DamageSource instanceof EntityDamageSourceIndirect) {
+			// これしかないのか…？
 			Entity et = par1DamageSource.getSourceOfDamage();
-        	if (et instanceof EntitySnowball) {
-        		maidDamegeSound = LMM_EnumSound.hurt_snow;
-            	// ダメージ０なのでここで鳴らす
+			if (et instanceof EntitySnowball) {
+				maidDamegeSound = LMM_EnumSound.hurt_snow;
+				// ダメージ０なのでここで鳴らす
 //            	playLittleMaidSound(damageSound, true);
-        	}
-    	}
+			}
+		}
 
-    	setMaidWait(false);
-        setMaidWaitCount(0);
-        if (par2 > 0) {
-        	// 遊びは終わりだ！
-        	setPlayingRole(0);
-        	getNextEquipItem();
-        }
+		setMaidWait(false);
+		setMaidWaitCount(0);
+		if (par2 > 0) {
+			// 遊びは終わりだ！
+			setPlayingRole(0);
+			getNextEquipItem();
+		}
 /*        
 //		if (entity != null && entity instanceof EntityLittleMaid && ((EntityLittleMaid)entity).playingRole != mpr_NULL) {
 		if (entity != null && maidDamegeSound == LMM_EnumSound.hurt_snow) {
@@ -1275,37 +1313,38 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 */		
 		// ゲーム難易度によるダメージの補正
 		if(isMaidContract() && (entity instanceof EntityLiving) || (entity instanceof EntityArrow)) {
-            if(worldObj.difficultySetting == 0) {
-                par2 = 0;
-            }
-            if(worldObj.difficultySetting == 1 && par2 > 0) {
-                par2 = par2 / 2 + 1;
-            }
-            if(worldObj.difficultySetting == 3) {
-                par2 = (par2 * 3) / 2;
-            }
-        }
-/*		
-        if(par2 == 0 && maidMode != mmode_Detonator) {
-        	// ノーダメージ
-        	if (maidDamegeSound == LMM_EnumSound.hurt) {
-        		maidDamegeSound = LMM_EnumSound.hurt_nodamege;
-        	}
-        	playLittleMaidSound(maidDamegeSound, true);
-            return false;
-        }
-*/        
-        if(super.attackEntityFrom(par1DamageSource, par2)) {
-        	//契約者の名前チェックはマルチ用
-            if (isMaidContract() && entity != null) {
-            	if (getIFF(entity) && !isPlaying()) {
-            		fleeingTick = 0;
-                    return true;
-                }
-        	} else if (maidInventory.getCurrentItem() == null) {
-                return true;
-        	}
-            fleeingTick = 0;
+			if(worldObj.difficultySetting == 0) {
+				par2 = 0;
+			}
+			if(worldObj.difficultySetting == 1 && par2 > 0) {
+				par2 = par2 / 2 + 1;
+			}
+			if(worldObj.difficultySetting == 3) {
+				par2 = (par2 * 3) / 2;
+			}
+		}
+		
+//		if (par2 == 0 && maidMode != mmode_Detonator) {
+		if (par2 == 0) {
+			// ノーダメージ
+			if (maidDamegeSound == LMM_EnumSound.hurt) {
+				maidDamegeSound = LMM_EnumSound.hurt_nodamege;
+			}
+			playSound(maidDamegeSound, true);
+			return false;
+		}
+		
+		if(super.attackEntityFrom(par1DamageSource, par2)) {
+			//契約者の名前チェックはマルチ用
+			if (isMaidContract() && entity != null) {
+				if (getIFF(entity) && !isPlaying()) {
+					fleeingTick = 0;
+					return true;
+				}
+			} else if (maidInventory.getCurrentItem() == null) {
+				return true;
+			}
+			fleeingTick = 0;
 //            entityToAttack = entity;
             /*
             if (entity != null) {
@@ -1316,12 +1355,12 @@ public class LMM_EntityLittleMaid extends EntityTameable {
     			maidInventory.currentItem = maidInventory.getInventorySlotContainItemPotion(true, 0, ((EntityLiving)entity).isEntityUndead() & isMaskedMaid);
     		}
     		*/
-            return true; 
-        } else {
-            return false;
-        }
-
-        
+			return true; 
+		} else {
+			return false;
+		}
+		
+		
 //		return maidAvatar.attackEntityFrom(par1DamageSource, par2);
 	}
 
@@ -1331,20 +1370,20 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	public void usePotionTotarget(EntityLiving entityliving) {
 		ItemStack itemstack = maidInventory.getCurrentItem();
 		if (itemstack != null && itemstack.getItem() instanceof ItemPotion) {
-        	// ポーション効果の発動
-        	itemstack.stackSize--;
-            List list = ((ItemPotion)itemstack.getItem()).getEffects(itemstack);
-            if (list != null) {
-                PotionEffect potioneffect;
-                for (Iterator iterator = list.iterator(); iterator.hasNext(); entityliving.addPotionEffect(new PotionEffect(potioneffect))) {
-                	potioneffect = (PotionEffect)iterator.next();
-                }
-            }
-            if(itemstack.stackSize <= 0) {
-            	maidInventory.setInventoryCurrentSlotContents(new ItemStack(Item.glassBottle));
-            } else {
-                maidInventory.addItemStackToInventory(new ItemStack(Item.glassBottle));
-            }
+			// ポーション効果の発動
+			itemstack.stackSize--;
+			List list = ((ItemPotion)itemstack.getItem()).getEffects(itemstack);
+			if (list != null) {
+				PotionEffect potioneffect;
+				for (Iterator iterator = list.iterator(); iterator.hasNext(); entityliving.addPotionEffect(new PotionEffect(potioneffect))) {
+					potioneffect = (PotionEffect)iterator.next();
+				}
+			}
+			if(itemstack.stackSize <= 0) {
+				maidInventory.setInventoryCurrentSlotContents(new ItemStack(Item.glassBottle));
+			} else {
+				maidInventory.addItemStackToInventory(new ItemStack(Item.glassBottle));
+			}
 		}
 	}
 
@@ -1484,7 +1523,6 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	@Override
 	public void onLivingUpdate() {
-		
 		// 飛び道具用
 		weaponFullAuto = false;
 		weaponReload = false;
@@ -1558,7 +1596,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 						}
 						
 						if (lsound != LMM_EnumSound.Null) {
-							playLittleMaidSound(lsound, true);
+							playSound(lsound, true);
 							setLooksWithInterest(true);
 						}
 					} else {
@@ -1572,12 +1610,12 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			}
 			
 			// TNT-D System
-			if (maidOverDriveTime.isEnable()) {
+			maidOverDriveTime.onUpdate();
+			if (maidOverDriveTime.isDelay()) {
 				for (int li = 0; li < mstatSwingStatus.length; li++) {
 					mstatSwingStatus[li].attackTime--;
 				}
-				maidOverDriveTime.onUpdate();
-				if (maidOverDriveTime.isDelay()) {
+				if (maidOverDriveTime.isEnable()) {
 					worldObj.spawnParticle("reddust", (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + 0.5D + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, 1.2D, 0.4D, 0.4D);
 				}
 				if (!worldObj.isRemote) {
@@ -1640,7 +1678,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			}
 		}
 		
-
+		
 		// 主の確認など
 		mstatMasterEntity = getMaidMasterEntity();
 		if (mstatMasterEntity != null) {
@@ -1677,6 +1715,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			// Overdrive
 			lf = maidOverDriveTime.isEnable();
 			if (getMaidFlags(dataWatch_Flags_OverDrive) != lf) {
+				if (lf) {
+					playSound(LMM_EnumSound.TNT_D, true);
+				}
 				setMaidFlags(lf, dataWatch_Flags_OverDrive);
 			}
 			// Working!
@@ -1693,7 +1734,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		// 移動速度の設定
 		// TODO:AI周りの移動速度を何とかしないと意味ない。
 		moveSpeed = (maidContract & !maidFreedom) ? moveSpeed_Max : moveSpeed_Nomal;
-
+		
 		
 		
 		super.onUpdate();
@@ -1703,7 +1744,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		swingProgress = maidAvatar.swingProgress = lmss1.swingProgress;
 		swingProgressInt = maidAvatar.swingProgressInt = lmss1.swingProgressInt;
 		isSwingInProgress = maidAvatar.isSwingInProgress = lmss1.isSwingInProgress;
-
+		
 		// Aveterの毎時処理
 		if (maidAvatar != null) {
 			maidAvatar.getValue();
@@ -1758,7 +1799,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		if (!worldObj.isRemote) {
 			// サーバー側処理
 			// インベントリの更新
-			if (!mstatOpenInventory) {
+//			if (!mstatOpenInventory) {
 				for (int li = 0 ;li < maidInventory.getSizeInventory(); li++) {
 					boolean lchange = false;
 					int lselect = 0xff;
@@ -1773,9 +1814,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 					if (lchange || maidInventory.isChanged(li)) {
 						((WorldServer)worldObj).getEntityTracker().sendPacketToAllPlayersTrackingEntity(this, new Packet5PlayerInventory(this.entityId, (li | lselect << 8) + 5, maidInventory.getStackInSlot(li)));
 						maidInventory.resetChanged(li);
-						mod_LMM_littleMaidMob.Debug(String.format("ID:%d - Slot(%x:%d-%d,%d) Update.", entityId, lselect, li, mstatSwingStatus[0].index, mstatSwingStatus[1].index));
+						mod_LMM_littleMaidMob.Debug(String.format("ID:%d-%s - Slot(%x:%d-%d,%d) Update.", entityId, worldObj.isRemote ? "Client" : "Server", lselect, li, mstatSwingStatus[0].index, mstatSwingStatus[1].index));
 					}
-				}
+//				}
 			}
 			// 弓構え
 			mstatAimeBow &= !getSwingStatusDominant().canAttack();
@@ -1840,7 +1881,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			if (d > 64D) {
 				setGotcha(0);
 				mstatgotcha = null;
-				worldObj.playSoundAtEntity(this, "random.drr", 0.5F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+				playSound("random.drr");
 			}
 			if(rand.nextInt(16) == 0) {
 				List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(8D, 8D, 8D));
@@ -1863,7 +1904,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	@Override
 	public void onDeath(DamageSource par1DamageSource) {
 		super.onDeath(par1DamageSource);
-
+		
 		// 死因を表示
 		if (!worldObj.isRemote) {
 			// マスター判定失敗するかも？
@@ -1879,7 +1920,6 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 							ls += ":" + lt;
 						}
 					}
-					
 				}
 				mstatMasterEntity.addChatMessage(String.format("your LittleMaid killed by %s", ls));
 			}
@@ -1889,30 +1929,30 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	// ポーションエフェクト
 	@Override
 	protected void onNewPotionEffect(PotionEffect par1PotionEffect) {
-        super.onNewPotionEffect(par1PotionEffect);
-        if (mstatMasterEntity instanceof EntityPlayerMP) {
-            ((EntityPlayerMP)mstatMasterEntity).playerNetServerHandler.sendPacketToPlayer(new Packet41EntityEffect(this.entityId, par1PotionEffect));
-        }
-    }
+		super.onNewPotionEffect(par1PotionEffect);
+		if (mstatMasterEntity instanceof EntityPlayerMP) {
+			((EntityPlayerMP)mstatMasterEntity).playerNetServerHandler.sendPacketToPlayer(new Packet41EntityEffect(this.entityId, par1PotionEffect));
+		}
+	}
 
 	@Override
-    protected void onChangedPotionEffect(PotionEffect par1PotionEffect) {
-        super.onChangedPotionEffect(par1PotionEffect);
-        if (mstatMasterEntity instanceof EntityPlayerMP) {
-        	((EntityPlayerMP)mstatMasterEntity).playerNetServerHandler.sendPacketToPlayer(new Packet41EntityEffect(this.entityId, par1PotionEffect));
-        }
-    }
+	protected void onChangedPotionEffect(PotionEffect par1PotionEffect) {
+		super.onChangedPotionEffect(par1PotionEffect);
+		if (mstatMasterEntity instanceof EntityPlayerMP) {
+			((EntityPlayerMP)mstatMasterEntity).playerNetServerHandler.sendPacketToPlayer(new Packet41EntityEffect(this.entityId, par1PotionEffect));
+		}
+	}
 
 	@Override
-    protected void onFinishedPotionEffect(PotionEffect par1PotionEffect) {
-        super.onFinishedPotionEffect(par1PotionEffect);
-        if (mstatMasterEntity instanceof EntityPlayerMP) {
-        	((EntityPlayerMP)mstatMasterEntity).playerNetServerHandler.sendPacketToPlayer(new Packet42RemoveEntityEffect(this.entityId, par1PotionEffect));
-        }
-    }
+	protected void onFinishedPotionEffect(PotionEffect par1PotionEffect) {
+		super.onFinishedPotionEffect(par1PotionEffect);
+		if (mstatMasterEntity instanceof EntityPlayerMP) {
+			((EntityPlayerMP)mstatMasterEntity).playerNetServerHandler.sendPacketToPlayer(new Packet42RemoveEntityEffect(this.entityId, par1PotionEffect));
+		}
+	}
 
-	
-	
+
+
 	/**
 	 *  インベントリが変更されました。
 	 */
@@ -1961,8 +2001,8 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	public void setEquipItem(int pIndex) {
 		setEquipItem(maidDominantArm, pIndex);
 	}
-	
-	
+
+
 	/**
 	 * 対応型射撃武器のリロード判定
 	 */
@@ -1979,7 +2019,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		}
 		catch (Exception e) {
 		}
-
+		
 		try {
 			Method me = is.getItem().getClass().getMethod("isWeaponFullAuto", ItemStack.class);
 			weaponFullAuto = (Boolean)me.invoke(is.getItem(), is);
@@ -2131,20 +2171,20 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		return mstatPlanter;
 	}
 
-    /**
-     * ポーション等による腕振りモーションの速度補正
-     */
-    public int getSwingSpeedModifier() {
-        if (isPotionActive(Potion.digSpeed)) {
-            return 6 - (1 + getActivePotionEffect(Potion.digSpeed).getAmplifier()) * 1;
-        }
-
-        if (isPotionActive(Potion.digSlowdown)) {
-            return 6 + (1 + getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2;
-        } else {
-            return 6;
-        }
-    }
+	/**
+	 * ポーション等による腕振りモーションの速度補正
+	 */
+	public int getSwingSpeedModifier() {
+		if (isPotionActive(Potion.digSpeed)) {
+			return 6 - (1 + getActivePotionEffect(Potion.digSpeed).getAmplifier()) * 1;
+		}
+		
+		if (isPotionActive(Potion.digSlowdown)) {
+			return 6 + (1 + getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2;
+		} else {
+			return 6;
+		}
+	}
 
 	/**
 	 * 手持ちアイテムの破壊
@@ -2153,45 +2193,6 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		maidInventory.setInventoryCurrentSlotContents(null);
 	}
 
-	/**
-	 * プレーヤのインベントリからアイテムを減らす
-	 */
-	/*
-	protected ItemStack decPlayerInventory(EntityPlayer par1EntityPlayer, int par2Index, int par3DecCount) {
-		if (par1EntityPlayer == null) {
-			return null;
-		}
-		
-		if (par2Index == -1) {
-			par2Index = par1EntityPlayer.inventory.currentItem;
-		}
-		ItemStack itemstack1 = par1EntityPlayer.inventory.getStackInSlot(par2Index);
-		if (itemstack1 == null) {
-			return null;
-		}
-		
-		if (!par1EntityPlayer.capabilities.isCreativeMode) {
-			// クリエイティブだと減らない
-			itemstack1.stackSize -= par3DecCount;
-		}
-		
-		if (itemstack1.getItem() instanceof ItemPotion) {
-			if(itemstack1.stackSize <= 0) {
-				par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, new ItemStack(Item.glassBottle, par3DecCount));
-				return null;
-			} else {
-				par1EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Item.glassBottle, par3DecCount));
-			}
-		} else {
-			if (itemstack1.stackSize <= 0) {
-				par1EntityPlayer.inventory.setInventorySlotContents(par2Index, null);
-				return null;
-			}
-		}
-		
-		return itemstack1;
-	}
-*/
 	/**
 	 * メイドインベントリを開く
 	 * @param pEntityPlayer
@@ -2222,7 +2223,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 				setGotcha(par1EntityPlayer.entityId);
 				mstatgotcha = par1EntityPlayer;
 				MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
-				worldObj.playSoundAtEntity(this, "random.pop", 0.5F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+				playSound("random.pop");
 				return true;
 			} 
 			
@@ -2300,6 +2301,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 							}
 							else if (itemstack1.itemID == Item.gunpowder.itemID) {
 								// test TNT-D
+//								playSound(LMM_EnumSound.eatGunpowder, false);
 								maidOverDriveTime.setValue(itemstack1.stackSize * 10);
 								MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, itemstack1.stackSize);
 								return true;
@@ -2368,7 +2370,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 								setMaidWait(false);
 								setMaidMode("Escorter");
 								worldObj.setEntityState(this, (byte)11);
-								playLittleMaidSound(LMM_EnumSound.Recontract, true);
+								playSound(LMM_EnumSound.Recontract, true);
 								return true;
 							}
 						}
@@ -2589,33 +2591,31 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 	public void setSwing(int pattacktime, LMM_EnumSound enumsound, int pArm) {
 		mstatSwingStatus[pArm].attackTime = pattacktime;
-		maidAttackSound = enumsound;
+//		maidAttackSound = enumsound;
 //        soundInterval = 0;// いるか？
 		if (!weaponFullAuto) {
-			setSwinging(pArm);
-//        	mstatSwingStatus[pArm].isSwinging = maidAvatar.isSwinging = true;
+			setSwinging(pArm, enumsound);
 		}
 		if (worldObj instanceof WorldServer) {
 			byte[] lba = new byte[] {
 				LMM_Net.LMN_Client_SwingArm,
 				0, 0, 0, 0,
-				(byte)pArm
+				(byte)pArm,
+				0, 0, 0, 0
 			};
-//			lba[0] = LMM_Net.LMN_Client_SwingArm;
-//			lba[5] = (byte)pArm;
+			MMM_Helper.setInt(lba, 6, enumsound.index);
 			LMM_Net.sendToAllEClient(this, lba);
 		}
 	}
 
-	public void setSwinging() {
-		setSwinging(maidDominantArm);
+	public void setSwinging(LMM_EnumSound pSound) {
+		setSwinging(maidDominantArm, pSound);
 	}
-	public void setSwinging(int pArm) {
-		LMM_SwingStatus lswing = mstatSwingStatus[pArm];
-		if (!lswing.isSwingInProgress || lswing.swingProgressInt < 0) {
-//		if (!lswing.isSwingInProgress || lswing.swingProgressInt >= this.getArmSwingAnimationEnd() / 2 || lswing.swingProgressInt < 0) {
-			lswing.swingProgressInt = maidAvatar.swingProgressInt = -1;
-			lswing.isSwingInProgress = maidAvatar.isSwingInProgress = true;
+	public void setSwinging(int pArm, LMM_EnumSound pSound) {
+		if (mstatSwingStatus[pArm].setSwinging()) {
+			playLittleMaidSound(pSound, true);
+			maidAvatar.swingProgressInt = -1;
+			maidAvatar.isSwingInProgress = true;
 		}
 	}
 
@@ -2626,16 +2626,16 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		return mstatSwingStatus[pArm].isSwingInProgress;
 	}
 
-    /**
-     * 利き腕のリロードタイム
-     */
-    public LMM_SwingStatus getSwingStatusDominant() {
-    	return mstatSwingStatus[maidDominantArm];
-    }
+	/**
+	 * 利き腕のリロードタイム
+	 */
+	public LMM_SwingStatus getSwingStatusDominant() {
+		return mstatSwingStatus[maidDominantArm];
+	}
 
-    public LMM_SwingStatus getSwingStatus(int pindex) {
-    	return mstatSwingStatus[pindex];
-    }
+	public LMM_SwingStatus getSwingStatus(int pindex) {
+		return mstatSwingStatus[pindex];
+	}
 
 
 	// 今宵のメイドは血に飢えておる
@@ -2671,7 +2671,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		int h = hurtResistantTime;
 		heal(1);
 		hurtResistantTime = h;
-		worldObj.playSoundAtEntity(this, "random.pop", 0.5F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+		playSound("random.pop");
 		mod_LMM_littleMaidMob.Debug(("eat Suger." + worldObj.isRemote));
 		
 		if (recontract) {
@@ -2704,34 +2704,32 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		return mstatWorkingCount.isEnable();
 	}
 
-    /**
-     * 仕事が終了しても余韻を含めて返す
-     */
-    public boolean isWorkingDelay() {
-    	return mstatWorkingCount.isDelay();
-    }
-    
-    /**
-     * トレーサーモードの設定
-     */
-    public void setTracer(boolean pFlag) {
-    	maidTracer = pFlag;
-    	setMaidFlags(pFlag, dataWatch_Flags_Tracer);
-    	if (maidTracer) {
-    		setFreedom(true);
-    	}
-    	aiTracer.setEnable(pFlag);
-    	
-    	
-    }
-    
-    /**
-     * トレーサーモードであるか？
-     */
-    public boolean isTracer() {
-    	return maidTracer;
-    }
-    
+	/**
+	 * 仕事が終了しても余韻を含めて返す
+	 */
+	public boolean isWorkingDelay() {
+		return mstatWorkingCount.isDelay();
+	}
+
+	/**
+	 * トレーサーモードの設定
+	 */
+	public void setTracer(boolean pFlag) {
+		maidTracer = pFlag;
+		setMaidFlags(pFlag, dataWatch_Flags_Tracer);
+		if (maidTracer) {
+			setFreedom(true);
+		}
+		aiTracer.setEnable(pFlag);
+	}
+
+	/**
+	 * トレーサーモードであるか？
+	 */
+	public boolean isTracer() {
+		return maidTracer;
+	}
+
 
 	// お遊びモード
 	public void setPlayingRole(int pValue) {
@@ -2879,29 +2877,29 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		return false;
 	}
 
-    /**
-     * 紐の持ち主
-     */
-    public void updateGotcha() {
-    	int lid = dataWatcher.getWatchableObjectInt(dataWatch_Gotcha);
-    	if (lid == 0) {
-    		mstatgotcha = null;
-    		return;
-    	}
-    	if (mstatgotcha != null && mstatgotcha.entityId == lid) {
-    		return;
-    	}
-    	for (int li = 0; li < worldObj.loadedEntityList.size(); li++) {
-        	if (((Entity)worldObj.loadedEntityList.get(li)).entityId == lid) {
-        		mstatgotcha = (Entity)worldObj.loadedEntityList.get(li);
-        		break;
-        	}
-    	}
-    }
-    
-    public void setGotcha(int pEntityID) {
-        dataWatcher.updateObject(dataWatch_Gotcha, Integer.valueOf(pEntityID));
-    }
+	/**
+	 * 紐の持ち主
+	 */
+	public void updateGotcha() {
+		int lid = dataWatcher.getWatchableObjectInt(dataWatch_Gotcha);
+		if (lid == 0) {
+			mstatgotcha = null;
+			return;
+		}
+		if (mstatgotcha != null && mstatgotcha.entityId == lid) {
+			return;
+		}
+		for (int li = 0; li < worldObj.loadedEntityList.size(); li++) {
+			if (((Entity)worldObj.loadedEntityList.get(li)).entityId == lid) {
+				mstatgotcha = (Entity)worldObj.loadedEntityList.get(li);
+				break;
+			}
+		}
+	}
+
+	public void setGotcha(int pEntityID) {
+		dataWatcher.updateObject(dataWatch_Gotcha, Integer.valueOf(pEntityID));
+	}
 
 	/**
 	 * 弓構えを更新
@@ -2979,6 +2977,14 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	public void setHomeArea(int par1, int par2, int par3, int par4) {
 		homeWorld = dimension;
 		super.setHomeArea(par1, par2, par3, par4);
+	}
+
+	@Override
+	public void setPositionAndRotation2(double par1, double par3, double par5,
+			float par7, float par8, int par9) {
+		// TODO Auto-generated method stub
+		super.setPositionAndRotation2(par1, par3, par5, par7, par8, par9);
+//		mod_LMM_littleMaidMob.Debug(String.format("rot2: %f, %f", par7, par8));
 	}
 
 }
