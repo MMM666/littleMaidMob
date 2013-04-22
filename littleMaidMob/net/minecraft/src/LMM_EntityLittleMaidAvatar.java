@@ -160,6 +160,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 
 	@Override
 	public void onKillEntity(EntityLiving entityliving) {
+		avatar.onKillEntity(entityliving);
 	}
 
 	@Override

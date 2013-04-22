@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand {
 
-	public static boolean isEnable = true;
+	public static boolean isEnable = false;
 	
 	
 	/**

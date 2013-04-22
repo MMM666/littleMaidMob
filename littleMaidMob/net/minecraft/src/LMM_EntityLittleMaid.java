@@ -37,14 +37,13 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	protected static final int dataWatch_Flags_LooksSugar				= 0x00000400;
 	protected static final int dataWatch_Flags_Bloodsuck				= 0x00000800;
 	protected static final int dataWatch_Flags_OverDrive				= 0x00001000;
-	
-	
 	protected static final int dataWatch_Gotcha		= 23;
 	protected static final int dataWatch_Free		= 31;
 	
 	protected static final int dataFlags_ForceUpdateInventory	= 0x80000000;
 	
 	
+	// 変数減らしたいなぁ
 //    protected long maidContractLimit;		// 契約失効日
 	protected int maidContractLimit;		// 契約期間
 	protected long maidAnniversary;			// 契約日UIDとして使用
@@ -55,18 +54,18 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	public String textureArmorName;
 	public int textureIndex;
 	public int textureArmorIndex;
-	public int prevTextureIndex;
-	public int prevTextureArmorIndex;
+//	public int prevTextureIndex;
+//	public int prevTextureArmorIndex;
 	public MMM_ModelBiped textureModel0;
 	public MMM_ModelBiped textureModel1;
 	public MMM_ModelBiped textureModel2;
 	public Map<String, MMM_EquippedStabilizer> maidStabilizer = new HashMap<String, MMM_EquippedStabilizer>();
-
+	
 	
 	public LMM_InventoryLittleMaid maidInventory;
 	public LMM_EntityLittleMaidAvatar maidAvatar;
 	public LMM_EntityCaps maidCaps;	// Client側のみ
-
+	
 	public List<LMM_EntityModeBase> maidEntityModeList;
 	public Map<Integer, EntityAITasks[]> maidModeList;
 	public Map<String, Integer> maidModeIndexList;
@@ -81,17 +80,15 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	// 動的な状態
 	protected EntityPlayer mstatMasterEntity;	// 主
 	protected double mstatMasterDistanceSq;		// 主との距離、計算軽量化用
-	protected Entity mstatgotcha;			// ワイヤード用
-//    protected TileEntity mstatTile;
+	protected Entity mstatgotcha;				// ワイヤード用
 	protected boolean mstatBloodsuck;
 	protected boolean mstatClockMaid;
 	// マスク判定
-//    protected boolean mstatMaskedMaid;
 	protected int mstatMaskSelect;
 	// 追加の頭部装備
 	protected boolean mstatCamouflage;
 	protected boolean mstatPlanter;
-	protected boolean isMaidChaseWait;
+//	protected boolean isMaidChaseWait;
 	protected int mstatWaitCount;
 	protected int mstatTime;
 	protected MMM_Counter maidOverDriveTime;
@@ -99,8 +96,8 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	protected boolean mstatLookSuger;
 	protected MMM_Counter mstatWorkingCount;
 	protected int mstatPlayingRole;
+	protected int mstatWorkingInt;
 	protected String mstatModeName;
-//    protected int timeSinceIgnited;
 	protected boolean mstatOpenInventory;
 	// 腕振り
 	public LMM_SwingStatus mstatSwingStatus[]; 
@@ -148,7 +145,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	public LMM_EntityAIWander aiWander;
 	public LMM_EntityAIJumpToMaster aiJumpTo;
 	public LMM_EntityAIFindBlock aiFindBlock;
-	public LMM_EntityAITracerMove aiTracer; 
+	public LMM_EntityAITracerMove aiTracer;
 	public EntityAISwimming aiSwiming;
 	public EntityAIPanic aiPanic;
 	// ActiveModeClass
@@ -164,7 +161,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			maidAvatar = new LMM_EntityLittleMaidAvatar(par1World, MMM_Helper.mc, this);
 		}
 		mstatOpenInventory = false;
-		isMaidChaseWait = false;
+//		isMaidChaseWait = false;
 		mstatTime = 6000;
 		maidOverDriveTime = new MMM_Counter(5, 300, -100);
 		mstatWorkingCount = new MMM_Counter(11, 10, -10);
@@ -212,14 +209,6 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			maidColor = MMM_TextureManager.getRandomWildColor(textureIndex, rand);
 			mod_LMM_littleMaidMob.Debug(String.format("init-ID:%d, %s:%d", entityId, textureName, maidColor));
 //			MMM_Helper.mc.thePlayer.addChatMessage(String.format("init-ID:%d, %s(%d):%d", entityId, textureName, textureIndex, maidColor));
-			/*
-			if (maidColor == -1) {
-				// 指定色が無い場合は標準モデルに
-				textureName = textureArmorName = "default";
-				maidColor = 12;
-				textureIndex = textureArmorIndex = 0;
-			}
-			*/
 			setTextureIndex(textureIndex, textureArmorIndex);
 			setMaidColor(maidColor);
 		} else {
@@ -262,8 +251,6 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		
 		// 独自分
 		// 18:HP
-//		mod_LMM_littleMaidMob.Debug(String.format("Client: %b, Spawn HP:%d", worldObj.isRemote, getHealth()));
-//        dataWatcher.addObject(dataWatch_Health, new Integer(getHealth()));
 		dataWatcher.addObject(dataWatch_Health, new Integer(getMaxHealth()));
 		// 19:maidMode(16Bit:LSB)、maidColor(8Bit:<<16)、maidDominantArm(8Bit:<<24);
 		dataWatcher.addObject(dataWatch_ColorMode, new Integer((maidMode & 0xffff) | ((maidColor & 0xff) << 16) | ((maidDominantArm & 0xff) << 24)));
@@ -414,6 +401,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		return setMaidMode(pindex, false);
 	}
 
+	
 	public boolean setMaidMode(int pindex, boolean pplaying) {
 		// モードに応じてAIを切り替える
 		velocityChanged = true;
@@ -423,16 +411,11 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		if (pplaying) {
 			
 		} else {
-			mstatModeName = getMaidModeString(pindex);
-			maidMode = pindex;
-			if (!worldObj.isRemote) {
-				dataWatcher.updateObject(dataWatch_ColorMode,
-						(maidMode & 0xffff) | ((maidColor & 0xff) << 16) | ((maidDominantArm & 0xff) << 24));
-			}
+			mstatWorkingInt = pindex;
 		}
-//		for (int li = 0; li < mstatSwingStatus.length; li++) {
-//			setEquipItem(li, -1);
-//		}
+		mstatModeName = getMaidModeString(pindex);
+		maidMode = pindex;
+		setMaidColorMode();
 		EntityAITasks[] ltasks = maidModeList.get(pindex);
 		
 		// AIを根底から書き換える
@@ -448,6 +431,8 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		}
 
 		// モード切替に応じた処理系を確保
+		setSitting(false);
+		setSneaking(false);
 		setActiveModeClass(null);
 		aiJumpTo.setEnable(true);
 //		aiFollow.setEnable(true);
@@ -576,7 +561,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	public void playSound(LMM_EnumSound enumsound, boolean force) {
 		if ((maidSoundInterval > 0 && !force) || enumsound == LMM_EnumSound.Null) return;
 		maidSoundInterval = 20;
-		mod_LMM_littleMaidMob.Debug(String.format("id:%d-%s, seps:%d-%s", entityId, worldObj.isRemote ? "Client" : "Server",  enumsound.index, enumsound.name()));
+		mod_LMM_littleMaidMob.Debug(String.format("id:%d-%s, seps:%04x-%s", entityId, worldObj.isRemote ? "Client" : "Server",  enumsound.index, enumsound.name()));
 		if (worldObj.isRemote) {
 			// Client
 //			String lsound = LMM_SoundManager.getSoundValue(enumsound, textureName, maidColor & 0x00ff);
@@ -605,7 +590,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		if (worldObj.isRemote) {
 			// Client
 			String s = LMM_SoundManager.getSoundValue(enumsound, textureName, maidColor & 0x00ff);
-			mod_LMM_littleMaidMob.Debug(String.format("id:%d, se:%d-%s", entityId, enumsound.index, enumsound.name()));
+			mod_LMM_littleMaidMob.Debug(String.format("id:%d, se:%04x-%s", entityId, enumsound.index, enumsound.name()));
 			float lpitch = mod_LMM_littleMaidMob.VoiceDistortion ? (rand.nextFloat() * 0.2F) + 0.95F : 1.0F;
 			worldObj.playSound(posX, posY, posZ, s, getSoundVolume(), lpitch, false);
 		}
@@ -615,7 +600,8 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	public void onKillEntity(EntityLiving par1EntityLiving) {
 		super.onKillEntity(par1EntityLiving);
 		if (isBloodsuck()) {
-			playSound(LMM_EnumSound.laughter, false);
+//			mod_LMM_littleMaidMob.Debug("nice Kill.");
+			playSound(LMM_EnumSound.laughter, true);
 		} else {
 			setTarget(null);
 			setAttackTarget(null);
@@ -766,7 +752,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		return lbase;
 	}
 
-	
+
 	// AI関連
 	@Override
 	protected boolean isAIEnabled() {
@@ -865,7 +851,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		super.writeEntityToNBT(par1nbtTagCompound);
 		
 		par1nbtTagCompound.setTag("Inventory", maidInventory.writeToNBT(new NBTTagList()));
-		par1nbtTagCompound.setString("Mode", mstatModeName);
+		par1nbtTagCompound.setString("Mode", getMaidModeString(mstatWorkingInt));
 		par1nbtTagCompound.setBoolean("Wait", isMaidWait());
 		par1nbtTagCompound.setBoolean("Freedom", isFreedom());
 		par1nbtTagCompound.setBoolean("Tracer", isTracer());
@@ -1283,17 +1269,12 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		maidDamegeSound = LMM_EnumSound.hurt;
 		if (par1DamageSource == DamageSource.inFire || par1DamageSource == DamageSource.onFire || par1DamageSource == DamageSource.lava) {
 			maidDamegeSound = LMM_EnumSound.hurt_fire;
-		} 
-		else if (par1DamageSource instanceof EntityDamageSourceIndirect) {
-			// これしかないのか…？
-			Entity et = par1DamageSource.getSourceOfDamage();
-			if (et instanceof EntitySnowball) {
-				maidDamegeSound = LMM_EnumSound.hurt_snow;
-				// ダメージ０なのでここで鳴らす
-//            	playLittleMaidSound(damageSound, true);
-			}
 		}
-
+		for (LMM_EntityModeBase lm : maidEntityModeList) {
+			int li = lm.attackEntityFrom(par1DamageSource, par2);
+			if (li > 0) return li == 1 ? false : true;
+		}
+		
 		setMaidWait(false);
 		setMaidWaitCount(0);
 		if (par2 > 0) {
@@ -1301,16 +1282,6 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			setPlayingRole(0);
 			getNextEquipItem();
 		}
-/*        
-//		if (entity != null && entity instanceof EntityLittleMaid && ((EntityLittleMaid)entity).playingRole != mpr_NULL) {
-		if (entity != null && maidDamegeSound == LMM_EnumSound.hurt_snow) {
-			// お遊び判定用、雪玉かどうか判定
-    		if (!isMaidContract() || isMaidFreedom()) {
-    			playingRole = mpr_QuickShooter;
-    			mod_littleMaidMob.Debug("playingMode Enable.");
-    		}
-		}
-*/		
 		// ゲーム難易度によるダメージの補正
 		if(isMaidContract() && (entity instanceof EntityLiving) || (entity instanceof EntityArrow)) {
 			if(worldObj.difficultySetting == 0) {
@@ -2733,7 +2704,15 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	// お遊びモード
 	public void setPlayingRole(int pValue) {
-		mstatPlayingRole = pValue;
+		if (mstatPlayingRole != pValue) {
+			mstatPlayingRole = pValue;
+			if (pValue == 0) {
+				setAttackTarget(null);
+				setMaidMode(mstatWorkingInt , true);
+			} else {
+				setMaidMode(0x00ff, true);
+			}
+		}
 	}
 
 	public int getPlayingRole() {
@@ -2863,6 +2842,11 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 	public void setMaidColor(int index) {
 		maidColor = index & 0xff;
+		setMaidColorMode();
+	}
+
+	protected void setMaidColorMode() {
+		if (worldObj == null || worldObj.isRemote) return;
 		dataWatcher.updateObject(dataWatch_ColorMode,
 				(maidMode & 0xffff) | ((maidColor & 0xff) << 16) | ((maidDominantArm & 0xff) << 24));
 	}
@@ -2958,7 +2942,7 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 			lss.index = lss.lastIndex = -1;
 		}
 		maidDominantArm = pindex;
-		dataWatcher.updateObject(dataWatch_ColorMode, (maidMode & 0xffff) | ((maidColor & 0xff) << 16) | ((maidDominantArm & 0xff) << 24));
+		setMaidColorMode();
 		mod_LMM_littleMaidMob.Debug("Change Dominant.");
 	}
 

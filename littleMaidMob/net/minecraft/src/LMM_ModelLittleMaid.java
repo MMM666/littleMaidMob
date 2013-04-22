@@ -171,7 +171,8 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 	@Override
 	public void setLivingAnimations(EntityLiving entityliving, float f, float f1, float renderPartialTicks) {
 		if (modelCaps != null) {
-			float angle = modelCaps.getCapsValueFloat(caps_interestedAngle, (Float)renderPartialTicks);
+//			float angle = modelCaps.getCapsValueFloat(caps_interestedAngle, (Float)renderPartialTicks);
+			float angle = MMM_ModelCapsHelper.getCapsValueFloat(modelCaps, caps_interestedAngle, (Float)renderPartialTicks);
 			bipedHead.rotateAngleZ = angle;
 		}
 	}
@@ -395,8 +396,10 @@ public class LMM_ModelLittleMaid extends MMM_ModelBiped {
 				lflag = false;
 			}
 			// ì™ïîëïè¸ïi
-			boolean lplanter = modelCaps.getCapsValueBoolean(caps_isPlanter);
-			if (modelCaps.getCapsValueBoolean(caps_isCamouflage) || lplanter) {
+//			boolean lplanter = modelCaps.getCapsValueBoolean(caps_isPlanter);
+			boolean lplanter = MMM_ModelCapsHelper.getCapsValueBoolean(modelCaps, caps_isPlanter);
+//			if (modelCaps.getCapsValueBoolean(caps_isCamouflage) || lplanter) {
+			if (MMM_ModelCapsHelper.getCapsValueBoolean(modelCaps, caps_isCamouflage) || lplanter) {
 				HeadMount.loadMatrix();
 				if (lplanter) {
 					GL11.glTranslatef(0F, -0.56F, 0F);

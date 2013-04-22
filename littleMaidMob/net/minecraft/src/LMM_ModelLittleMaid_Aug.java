@@ -100,7 +100,8 @@ public class LMM_ModelLittleMaid_Aug extends LMM_ModelLittleMaid_SR2 {
 
 		float f3 = (float)entityliving.ticksExisted + renderPartialTicks + entityIdFactor;
 		float f4;
-		if (modelCaps != null && modelCaps.getCapsValueBoolean(caps_isLookSuger)) {
+//		if (modelCaps != null && modelCaps.getCapsValueBoolean(caps_isLookSuger)) {
+		if (modelCaps != null && MMM_ModelCapsHelper.getCapsValueBoolean(modelCaps, caps_isLookSuger)) {
 			f3 *= 8.0F;
 			f4 = -0.2F;
 		} else {

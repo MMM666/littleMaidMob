@@ -59,16 +59,11 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 	public static int containerID;
 
 
-	public static void Debug(String s) {
+	public static void Debug(String pText, Object... pVals) {
 		// デバッグメッセージ
 		if (DebugMessage) {
-			System.out.println((new StringBuilder()).append("littleMaidMob-").append(s).toString());
+			System.out.println(String.format("littleMaidMob-" + pText, pVals));
 		}
-	}
-	
-	@Override
-	public String getVersion() {
-		return "1.5.1-2";
 	}
 
 	@Override
@@ -83,7 +78,15 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 	}
 
 	@Override
+	public String getVersion() {
+		return "1.5.1-3";
+	}
+
+	@Override
 	public void load() {
+		// MMMLibのRevisionチェック
+		MMM_Helper.checkRevision("4");
+		
 		UniqueEntityId = UniqueEntityId == 0 ? MMM_Helper.getNextEntityID(true) : UniqueEntityId;
 		defaultTexture = defaultTexture.trim();
 		containerID = 222;

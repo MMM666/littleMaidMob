@@ -59,7 +59,8 @@ public class LMM_ModelLittleMaid_SR2 extends LMM_ModelLittleMaid {
 		super.setRotationAngles(f, f1, ticksExisted, pheadYaw, pheadPitch, f5, pEntity);
 		
 		if (aimedBow && modelCaps != null) {
-			if (modelCaps.getCapsValueInt(caps_dominantArm) == 0) {
+//			if (modelCaps.getCapsValueInt(caps_dominantArm) == 0) {
+			if (MMM_ModelCapsHelper.getCapsValueInt(modelCaps, caps_dominantArm) == 0) {
 				eyeL.setVisible(true);
 			} else {
 				eyeR.setVisible(true);

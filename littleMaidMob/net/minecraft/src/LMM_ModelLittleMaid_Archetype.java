@@ -178,7 +178,8 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
 			float f1, float renderPartialTicks) {
 		super.setLivingAnimations(entityliving, f, f1, renderPartialTicks);
 		if (modelCaps != null) {
-			float f3 = modelCaps.getCapsValueFloat(caps_interestedAngle, renderPartialTicks);
+//			float f3 = modelCaps.getCapsValueFloat(caps_interestedAngle, renderPartialTicks);
+			float f3 = MMM_ModelCapsHelper.getCapsValueFloat(modelCaps, caps_interestedAngle, renderPartialTicks);
 			bipedHead.rotateAngleZ = f3;
 			bipedHeadwear.rotateAngleZ = f3;
 			bipedEars.rotateAngleZ = f3;
@@ -345,7 +346,8 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
 		if (modelCaps != null) {
 			ItemStack[] litemstacks = (ItemStack[])modelCaps.getCapsValue(caps_Items);
 			EnumAction[] lactions = (EnumAction[])modelCaps.getCapsValue(caps_Actions);
-			int ldominant = modelCaps.getCapsValueInt(caps_dominantArm);
+//			int ldominant = modelCaps.getCapsValueInt(caps_dominantArm);
+			int ldominant = MMM_ModelCapsHelper.getCapsValueInt(modelCaps, caps_dominantArm);
 			if (litemstacks != null) {
 				// R
 				Arms[0].loadMatrix().renderItems(pEntity, pRender, false, lactions[ldominant] ,litemstacks[ldominant]);
@@ -354,8 +356,10 @@ public class LMM_ModelLittleMaid_Archetype extends LMM_ModelLittleMaid {
 				lflag = false;
 			}
 			// ì™ïîëïè¸ïi
-			boolean lplanter = modelCaps.getCapsValueBoolean(caps_isPlanter);
-			if (modelCaps.getCapsValueBoolean(caps_isCamouflage) || lplanter) {
+//			boolean lplanter = modelCaps.getCapsValueBoolean(caps_isPlanter);
+			boolean lplanter = MMM_ModelCapsHelper.getCapsValueBoolean(modelCaps, caps_isPlanter);
+//			if (modelCaps.getCapsValueBoolean(caps_isCamouflage) || lplanter) {
+			if (MMM_ModelCapsHelper.getCapsValueBoolean(modelCaps, caps_isCamouflage) || lplanter) {
 				HeadMount.loadMatrix();
 				if (lplanter) {
 					GL11.glTranslatef(0F, -0.56F, 0F);

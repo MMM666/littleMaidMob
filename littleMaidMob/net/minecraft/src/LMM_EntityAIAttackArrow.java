@@ -166,6 +166,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 								if (fsh) {
 									litemstack = litemstack.useItemRightClick(worldObj, fAvatar);
 									// 意図的にショートスパンで音が鳴るようにしてある
+									fMaid.mstatAimeBow = false;
 									fMaid.setSwing(10, (litemstack.stackSize == itemcount) ? LMM_EnumSound.shoot_burst : LMM_EnumSound.Null);
 									mod_LMM_littleMaidMob.Debug(String.format("id:%d throw weapon.", fMaid.entityId));
 								} else {
