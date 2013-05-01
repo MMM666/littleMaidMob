@@ -165,7 +165,8 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 	@Override
 	protected void renderModel(EntityLiving par1EntityLiving, float par2,
 			float par3, float par4, float par5, float par6, float par7) {
-		if (!par1EntityLiving.getHasActivePotion()) {
+		if (!par1EntityLiving.isInvisible()) {
+			
 			this.loadDownloadableImageTexture(par1EntityLiving.skinUrl, par1EntityLiving.getTexture());
 			modelMain.setArmorRendering(true);
 		} else {

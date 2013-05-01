@@ -26,7 +26,7 @@ public class LMM_SoundManager {
 	public static Map<Integer, Map<String, Map<Integer, String>>> soundsTexture = new HashMap<Integer, Map<String,Map<Integer,String>>>();
 	public static float soundRateDefault;
 	public static Map<String, Map<Integer, Float>> soundRateTexture = new HashMap<String,Map<Integer,Float>>();
-	
+
 
 	public static void setSoundRate(int soundindex, String value, String target) {
 		// 文字列を解析して値を設定
@@ -85,7 +85,7 @@ public class LMM_SoundManager {
 			}
 		}
 	}
-	
+
 	public static float getSoundRate(String texturename, int colorvalue){
 		if (texturename == null || texturename.length() == 0) texturename = ";";
 		Map<Integer, Float> mif = soundRateTexture.get(texturename);
@@ -131,7 +131,7 @@ public class LMM_SoundManager {
 			setSoundValue(soundindex, tvalue);
 		}
 	}
-	
+
 	public static void setSoundValue(int soundindex, String value) {
 		// 文字列を解析して値を設定
 		String arg[] = value.split(",");
@@ -165,7 +165,7 @@ public class LMM_SoundManager {
 			}
 		}
 	}
-	
+
 	public static String getSoundValue(LMM_EnumSound enumsound, String texturename, int colorvalue){
 		if (enumsound == LMM_EnumSound.Null) return null;
 		
@@ -173,7 +173,7 @@ public class LMM_SoundManager {
 		if (msi == null) {
 			return soundsDefault.get(enumsound.index);
 		}
-
+		
 		if (texturename == null || texturename.length() == 0) texturename = ";";
 		Map<Integer, String> mst = msi.get(texturename);
 		if (mst == null) {
@@ -195,21 +195,25 @@ public class LMM_SoundManager {
 
 	public static void rebuildSoundPack() {
 		// 特殊文字を値に変換
-		
 		// Default
+		Map<Integer, String> lmap = new HashMap<Integer, String>();
 		for (Entry<Integer, String> lt : soundsDefault.entrySet()) {
 			int li = lt.getKey();
 			if (lt.getValue().equals("^")) {
 				String ls = soundsDefault.get(li & -16);
 				if (ls != null && (li & 0x0f) != 0 && !ls.equals("^")) {
-					soundsDefault.put(li, ls);
+					lmap.put(li, ls);
+//					soundsDefault.put(li, ls);
 					mod_LMM_littleMaidMob.Debug(String.format("soundsDefault[%d] = [%d]", li, li & -16));
 				} else {
-					soundsDefault.remove(li);
+//					soundsDefault.remove(li);
 					mod_LMM_littleMaidMob.Debug(String.format("soundsDefault[%d] removed.", li));
 				}
+			} else {
+				lmap.put(li, lt.getValue());
 			}
 		}
+		soundsDefault = lmap;
 		
 		// Texture
 		for (Entry<Integer, Map<String, Map<Integer, String>>> mim : soundsTexture.entrySet()) {
@@ -237,79 +241,79 @@ public class LMM_SoundManager {
 							mod_LMM_littleMaidMob.Debug(String.format("soundsTexture[%d, %s, %d] removed.", mim.getKey(), msm.getKey(), mis.getKey()));
 						}
 					}
-				}				
-			}			
+				}
+			}
 		}
 	}
-	
+
 	public static void decodeSoundPack(File file, boolean isdefault) {
 		// サウンドパックを解析して音声を設定
 		try {
 			List<LMM_EnumSound> list1 = new ArrayList<LMM_EnumSound>();
 			list1.addAll(Arrays.asList(LMM_EnumSound.values()));
 			list1.remove(LMM_EnumSound.Null);
-	    	BufferedReader breader = new BufferedReader(new FileReader(file));
-	    	boolean loadsoundrate = false;
-	    	String str;
-	    	String packname = file.getName();
-	    	packname = packname.substring(0, packname.lastIndexOf("."));
-	    	while ((str = breader.readLine()) != null) {
-	    		str = str.trim();
-	    		if (str.isEmpty() || str.startsWith("#")) continue;
-	    		int i = str.indexOf('=');
-	    		if (i > -1) {
-	    			String name = str.substring(0, i).trim();
-	    			String value = str.substring(i + 1).trim();
-	    			int index = -1;
-	    			if (name.startsWith("se_")) {
-	    				String ss = name.substring(3);
-	    				try {
-		    				index = LMM_EnumSound.valueOf(ss).index;
-		    				list1.remove(LMM_EnumSound.valueOf(ss));
-	    				}
-	    				catch (Exception exception) {
-	    					mod_LMM_littleMaidMob.Debug(String.format("unknown sound parameter:%s.cfg - %s", packname, ss));
-	    				}
-	    			} else if (name.equals("LivingVoiceRate")) {
-	    				if (isdefault) {
-	    					setSoundRate(index, value, null);
-	    				} else {
-	    					setSoundRate(index, value, packname);
-	    				}
-	    				loadsoundrate = true;
-	    			}
-	    			if (index > -1) {
-	    				if (isdefault) {
-		    				setSoundValue(index, value);
-	    				} else {
-		    				setSoundValue(index, value, packname);
-	    				}
+			BufferedReader breader = new BufferedReader(new FileReader(file));
+			boolean loadsoundrate = false;
+			String str;
+			String packname = file.getName();
+			packname = packname.substring(0, packname.lastIndexOf("."));
+			while ((str = breader.readLine()) != null) {
+				str = str.trim();
+				if (str.isEmpty() || str.startsWith("#")) continue;
+				int i = str.indexOf('=');
+				if (i > -1) {
+					String name = str.substring(0, i).trim();
+					String value = str.substring(i + 1).trim();
+					int index = -1;
+					if (name.startsWith("se_")) {
+						String ss = name.substring(3);
+						try {
+							index = LMM_EnumSound.valueOf(ss).index;
+							list1.remove(LMM_EnumSound.valueOf(ss));
+						}
+						catch (Exception exception) {
+							mod_LMM_littleMaidMob.Debug(String.format("unknown sound parameter:%s.cfg - %s", packname, ss));
+						}
+					} else if (name.equals("LivingVoiceRate")) {
+						if (isdefault) {
+							setSoundRate(index, value, null);
+						} else {
+							setSoundRate(index, value, packname);
+						}
+						loadsoundrate = true;
+					}
+					if (index > -1) {
+						if (isdefault) {
+							setSoundValue(index, value);
+						} else {
+							setSoundValue(index, value, packname);
+						}
 //		    			mod_littleMaidMob.Debug(String.format("%s(%d) = %s", name, index, value));
-	    			}
-	    		}
-	    	}
-	    	breader.close();
-	    	
-	    	// 無かった項目をcfgへ追加
-	    	if (!list1.isEmpty()) {
-		    	BufferedWriter bwriter = new BufferedWriter(new FileWriter(file, true));
-	    		for (int i = 0; i < list1.size(); i++) {
-	    			writeBuffer(bwriter, list1.get(i));
-	    		}
-	    		bwriter.close();
-	    	}
-	    	if (!loadsoundrate) {
-		    	BufferedWriter bwriter = new BufferedWriter(new FileWriter(file, true));
-		    	writeBufferSoundRate(bwriter, 1.0F);
-		    	bwriter.close();
-	    	}
-	    	
+					}
+				}
+			}
+			breader.close();
+			
+			// 無かった項目をcfgへ追加
+			if (!list1.isEmpty()) {
+				BufferedWriter bwriter = new BufferedWriter(new FileWriter(file, true));
+				for (int i = 0; i < list1.size(); i++) {
+					writeBuffer(bwriter, list1.get(i));
+				}
+				bwriter.close();
+			}
+			if (!loadsoundrate) {
+				BufferedWriter bwriter = new BufferedWriter(new FileWriter(file, true));
+				writeBufferSoundRate(bwriter, 1.0F);
+				bwriter.close();
+			}
+			
 		}
 		catch (Exception exception) {
 			mod_LMM_littleMaidMob.Debug("decodeSound Exception.");
 		}
 	}
-	
+
 	public static void loadSoundPack() {
 //		File sounddir = Minecraft.getAppDir("minecraft/resources/mod/sound/littleMaidMob"); 
 //		File sounddir = new File(Minecraft.getMinecraftDir(), "/resources/mod/sound/littleMaidMob");
@@ -329,7 +333,6 @@ public class LMM_SoundManager {
 		}
 		
 		rebuildSoundPack();
-		
 	}
 
 	public static boolean loadDefaultSoundPack() {
@@ -347,7 +350,6 @@ public class LMM_SoundManager {
 		}
 	}
 
-	
 	public static boolean createDefaultSoundPack(File file1) {
 		// サウンドのデフォルト値を設定
 		for (LMM_EnumSound eslm : LMM_EnumSound.values()) {
