@@ -354,8 +354,7 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
 	}
 
 	public static boolean isItemSmelting(ItemStack pItemstack) {
-		return (pItemstack != null &&
-				FurnaceRecipes.smelting().getSmeltingResult(pItemstack.itemID) != null);
+		return (pItemstack != null && MMM_Helper.getSmeltingResult(pItemstack) != null);
 	}
 
 	public boolean isItemExplord(int index) {
