@@ -12,10 +12,11 @@ public class LMM_Client {
 
 	public static void init() {
 		// デフォルトモデルの設定
-		MMM_TextureManager.defaultModel = new MMM_ModelBiped[] {
-				new LMM_ModelLittleMaid(0.0F),
-				new LMM_ModelLittleMaid(0.1F),
-				new LMM_ModelLittleMaid(0.5F)
+		MMM_ModelMultiBase lmodel = new MMM_ModelLittleMaid(0.0F);
+		MMM_TextureManager.defaultModel = new MMM_ModelMultiBase[] {
+				lmodel,
+				new MMM_ModelLittleMaid(0.1F),
+				new MMM_ModelLittleMaid(0.5F)
 		};
 	}
 
@@ -63,7 +64,7 @@ public class LMM_Client {
 		pEntity.setPosition(pEntity.posX, pEntity.posY, pEntity.posZ);
 		mod_LMM_littleMaidMob.Debug(String.format("ID:%d, TextureModel:%s", pEntity.entityId, ltb.modelName));
 		// モデルの初期化
-		pEntity.textureModel0.changeModel(pEntity);
+		pEntity.textureModel0.changeModel(pEntity.maidCaps);
 		// スタビの付け替え
 		for (Entry<String, MMM_EquippedStabilizer> le : pEntity.maidStabilizer.entrySet()) {
 			if (le.getValue() != null) {

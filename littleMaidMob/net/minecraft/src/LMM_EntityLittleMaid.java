@@ -56,9 +56,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	public int textureArmorIndex;
 //	public int prevTextureIndex;
 //	public int prevTextureArmorIndex;
-	public MMM_ModelBiped textureModel0;
-	public MMM_ModelBiped textureModel1;
-	public MMM_ModelBiped textureModel2;
+	public MMM_ModelMultiBase textureModel0;
+	public MMM_ModelMultiBase textureModel1;
+	public MMM_ModelMultiBase textureModel2;
 	public Map<String, MMM_EquippedStabilizer> maidStabilizer = new HashMap<String, MMM_EquippedStabilizer>();
 	
 	

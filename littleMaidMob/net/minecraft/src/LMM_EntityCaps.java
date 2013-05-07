@@ -49,6 +49,8 @@ public class LMM_EntityCaps implements MMM_IModelCaps {
 		caps.put("Grounds", caps_Grounds);
 		caps.put("Inventory", caps_Inventory);
 		caps.put("interestedAngle", caps_interestedAngle);
+		caps.put("Entity", caps_Entity);
+		caps.put("health", caps_health);
 	}
 
 	public LMM_EntityCaps(LMM_EntityLittleMaid pOwner) {
@@ -65,6 +67,10 @@ public class LMM_EntityCaps implements MMM_IModelCaps {
 		int li = 0;
 		
 		switch (pIndex) {
+		case caps_Entity:
+			return owner;
+		case caps_health:
+			return owner.getHealth();
 		case caps_isBloodsuck:
 			return owner.isBloodsuck();
 		case caps_isFreedom:
@@ -148,42 +154,8 @@ public class LMM_EntityCaps implements MMM_IModelCaps {
 	}
 
 	@Override
-	public Object getCapsValue(String pCapsName, Object ...pArg) {
-		return getCapsValue(caps.get(pCapsName), pArg);
-	}
-
-	@Override
-	public int getCapsValueInt(int pIndex, Object ...pArg) {
-		Integer li = (Integer)getCapsValue(pIndex, pArg);
-		return li == null ? 0 : li;
-	}
-
-	@Override
-	public float getCapsValueFloat(int pIndex, Object ...pArg) {
-		Float lf = (Float)getCapsValue(pIndex, pArg);
-		return lf == null ? 0F : lf;
-	}
-
-	@Override
-	public double getCapsValueDouble(int pIndex, Object ...pArg) {
-		Double ld = (Double)getCapsValue(pIndex, pArg);
-		return ld == null ? 0D : ld;
-	}
-
-	@Override
-	public boolean getCapsValueBoolean(int pIndex, Object ...pArg) {
-		Boolean lb = (Boolean)getCapsValue(pIndex, pArg);
-		return lb == null ? false : lb;
-	}
-
-	@Override
 	public boolean setCapsValue(int pIndex, Object... pArg) {
 		return false;
-	}
-
-	@Override
-	public boolean setCapsValue(String pCapsName, Object... pArg) {
-		return setCapsValue(caps.get(pCapsName), pArg);
 	}
 
 }
