@@ -21,7 +21,7 @@ public class LMM_TriggerSelect {
 		if (pUsername == null) {
 			return defaultTrigger;
 		}
-		if (MMM_Helper.isClient && MMM_Helper.mc.isIntegratedServerRunning()) {
+		if (MMM_Helper.isLocalPlay()) {
 			// シングル実行時は名称ブランクに。
 			pUsername = "";
 		}
@@ -83,10 +83,12 @@ public class LMM_TriggerSelect {
 		if (!selector.contains(pSelector)) {
 			return false;
 		}
+		if (MMM_Helper.isLocalPlay()) {
+			return getuserTriggerList(null, pSelector).contains(pItemStack.itemID);
+		}
 		if (!usersTrigger.containsKey(pUsername)) {
 			return false;
 		}
-		
 		return getuserTriggerList(pUsername, pSelector).contains(pItemStack.itemID);
 	}
 

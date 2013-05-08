@@ -11,7 +11,8 @@ import java.util.List;
 public abstract class LMM_EntityModeBase {
 
 	public final LMM_EntityLittleMaid owner;
-	
+
+
 	/**
 	 * 初期化
 	 */
@@ -233,5 +234,33 @@ public abstract class LMM_EntityModeBase {
 		owner.getNavigator().clearPathEntity();
 	}
 
+	/**
+	 * do1:当たり判定のチェック
+	 * do2:常時ブロク判定、透過判定も当たり判定も無視。
+	 */
+	protected boolean canBlockBeSeen(int pX, int pY, int pZ, boolean toTop, boolean do1, boolean do2) {
+		// ブロックの可視判定
+		World worldObj = owner.worldObj;
+		Block lblock = Block.blocksList[worldObj.getBlockId(pX, pY, pZ)];
+		if (lblock == null) {
+			mod_LMM_littleMaidMob.Debug("block-null: %d, %d, %d", pX, pY, pZ);
+			return false;
+		}
+		lblock.setBlockBoundsBasedOnState(worldObj, pX, pY, pZ);
+		
+		Vec3 vec3do = Vec3.createVectorHelper(owner.posX, owner.posY + owner.getEyeHeight(), owner.posZ);
+		Vec3 vec3dt = Vec3.createVectorHelper((double)pX + 0.5D, (double)pY + ((lblock.maxY + lblock.minY) * (toTop ? 0.9D : 0.5D)), (double)pZ + 0.5D);
+		MovingObjectPosition movingobjectposition = worldObj.rayTraceBlocks_do_do(vec3do, vec3dt, do1, do2);
+		
+		if (movingobjectposition != null && movingobjectposition.typeOfHit == EnumMovingObjectType.TILE) {
+			// 接触ブロックが指定したものならば
+			if (movingobjectposition.blockX == pX && 
+					movingobjectposition.blockY == pY &&
+					movingobjectposition.blockZ == pZ) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

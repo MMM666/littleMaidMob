@@ -99,31 +99,6 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
 		return 32;
 	}
 
-	/**
-	 * do1:当たり判定のチェック
-	 * do2:常時ブロク判定、透過判定も当たり判定も無視。
-	 */
-	protected boolean canBlockBeSeen(int x, int y, int z, boolean toTop, boolean do1, boolean do2) {
-		// ブロックの可視判定
-		World worldObj = owner.worldObj;
-		Block lblock = Block.blocksList[worldObj.getBlockId(x, y, z)];
-		lblock.setBlockBoundsBasedOnState(worldObj, x, y, z);
-		
-		Vec3 vec3d = Vec3.createVectorHelper(owner.posX, owner.posY + owner.getEyeHeight(), owner.posZ);
-		Vec3 vec3d1 = Vec3.createVectorHelper((double)x + 0.5D, (double)y + ((lblock.maxY + lblock.minY) * (toTop ? 0.9D : 0.5D)), (double)z + 0.5D);
-		MovingObjectPosition movingobjectposition = worldObj.rayTraceBlocks_do_do(vec3d, vec3d1, do1, do2);
-		
-		if (movingobjectposition != null && movingobjectposition.typeOfHit == EnumMovingObjectType.TILE) {
-			// 接触ブロックが指定したものならば
-			if (movingobjectposition.blockX == x && 
-					movingobjectposition.blockY == y &&
-					movingobjectposition.blockZ == z) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	@Override
 	public boolean checkBlock(int pMode, int px, int py, int pz) {
 		int v = getBlockLighting(px, py, pz);
@@ -138,6 +113,7 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
 
 	@Override
 	public boolean executeBlock(int pMode, int px, int py, int pz) {
+		/*
 		ItemStack lis = owner.getCurrentEquippedItem();
 		if (lis == null) return false;
 		
@@ -154,7 +130,64 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
 				owner.getNextEquipItem();
 			}
 		}
+		*/
 		return false;
+	}
+
+	@Override
+	public void updateAITick(int pMode) {
+		// トーチの設置
+		if (pMode == mmode_Torcher && owner.getNextEquipItem()) {
+			ItemStack lis = owner.getCurrentEquippedItem();
+			int lic = lis.stackSize;
+			Item lii = lis.getItem();
+			World lworld = owner.worldObj;
+			
+			// 周囲を検索
+			int lxx = MathHelper.floor_double(owner.posX);
+			int lyy = MathHelper.floor_double(owner.posY);
+			int lzz = MathHelper.floor_double(owner.posZ);
+			int lym = MathHelper.floor_float(owner.height) + 1;
+//			mod_LMM_littleMaidMob.Debug("torch-s: %d, %d, %d", lxx, lyy, lzz);
+			int ll = 8;
+			int ltx = lxx, lty = lyy, ltz = lzz;
+			int lil[] = {lyy, lyy - 1, lyy + 1};
+			owner.maidAvatar.getValue();
+			for (int x = -1; x < 2; x++) {
+				for (int z = -1; z < 2; z++) {
+					for (int lyi : lil) {
+						int lv = lworld.getBlockLightValue(lxx + x, lyi, lzz + z);
+						if (ll > lv && lii instanceof ItemBlock &&
+								((ItemBlock)lii).canPlaceItemBlockOnSide(lworld, lxx + x, lyi - 1, lzz + z, 1, owner.maidAvatar, lis)
+								&& canBlockBeSeen(lxx + x, lyi - 1, lzz + z, true, false, true)) {
+//						if (ll > lv && lworld.getBlockMaterial(lxx + x, lyi - 1, lzz + z).isSolid()
+//								&& (lworld.getBlockMaterial(lxx + x, lyi, lzz + z) == Material.air
+//								|| lworld.getBlockId(lxx + x, lyi, lzz + z) == Block.snow.blockID)
+//								&& canBlockBeSeen(lxx + x, lyi - 1, lzz + z, true, false, true)) {
+							ll = lv;
+							ltx = lxx + x;
+							lty = lyi - 1;
+							ltz = lzz + z;
+//							mod_LMM_littleMaidMob.Debug("torch: %d, %d, %d: %d", ltx, lty, ltz, lv);
+						}
+					}
+				}
+			}
+			
+			if (ll < 8 && lis.tryPlaceItemIntoWorld(owner.maidAvatar, owner.worldObj, ltx, lty, ltz, 1, 0.5F, 1.0F, 0.5F)) {
+//				mod_LMM_littleMaidMob.Debug("torch-inst: %d, %d, %d: %d", ltx, lty, ltz, ll);
+				owner.setSwing(10, LMM_EnumSound.installation);
+				owner.getNavigator().clearPathEntity();
+				if (owner.maidAvatar.capabilities.isCreativeMode) {
+					lis.stackSize = lic;
+				}
+				if (lis.stackSize <= 0) {
+					owner.maidInventory.setInventoryCurrentSlotContents(null);
+					owner.getNextEquipItem();
+				}
+			}
+
+		}
 	}
 
 }

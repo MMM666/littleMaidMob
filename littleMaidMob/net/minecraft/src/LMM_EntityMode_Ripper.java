@@ -215,10 +215,13 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 		}
 		
 		if (owner.getSwingStatusDominant().canAttack()) {
+			ItemStack lis = owner.getCurrentEquippedItem();
 			if (pEntity instanceof EntityCreeper) {
 				// TODO:カットオフ
 				// なんでPrivateにかえたし
 				try {
+					lis.damageItem((Integer)ModLoader.getPrivateValue(EntityCreeper.class,
+							(EntityCreeper)pEntity, 1), owner.maidAvatar);
 					ModLoader.setPrivateValue(EntityCreeper.class, (EntityCreeper)pEntity, 1, 0);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -227,14 +230,15 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 				owner.setSwing(20, LMM_EnumSound.attack_bloodsuck);
 			} else if (pEntity instanceof EntityTNTPrimed) {
 				pEntity.setDead();
+				lis.damageItem(1, owner.maidAvatar);
 				owner.setSwing(20, LMM_EnumSound.attack_bloodsuck);
 			} else {
 				owner.maidAvatar.interactWith(pEntity);
-				if (owner.getCurrentEquippedItem().stackSize <= 0) {
-					owner.maidInventory.setInventoryCurrentSlotContents(null);
-					owner.getNextEquipItem();
-				}
 				owner.setSwing(20, LMM_EnumSound.attack);
+			}
+			if (lis.stackSize <= 0) {
+				owner.maidInventory.setInventoryCurrentSlotContents(null);
+				owner.getNextEquipItem();
 			}
 		}
 		

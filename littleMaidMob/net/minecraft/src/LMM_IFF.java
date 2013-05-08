@@ -15,6 +15,7 @@ import net.minecraft.server.MinecraftServer;
 
 /**
  * IFFを管理するためのクラス、ほぼマルチ用。
+ * username : null=ローカルプレイ時、Defaultを使う
  */
 public class LMM_IFF {
 
@@ -22,7 +23,13 @@ public class LMM_IFF {
 	public static final int iff_Unknown = 1;
 	public static final int iff_Friendry = 2;
 
+	/**
+	 * ローカル用、若しくはマルチのデフォルト設定
+	 */
 	public static Map<String, Integer> DefaultIFF = new TreeMap<String, Integer>();
+	/**
+	 * ユーザ毎のIFF
+	 */
 	public static Map<String, Map<String, Integer>> UserIFF = new HashMap<String, Map<String, Integer>>();
 
 	/**
@@ -32,10 +39,10 @@ public class LMM_IFF {
 		if (pUsername == null) {
 			return DefaultIFF;
 		}
-		if (MMM_Helper.isClient && MMM_Helper.mc.isIntegratedServerRunning()) {
+		if (MMM_Helper.isLocalPlay()) {
 			pUsername = "";
 		}
-
+		
 		if (!UserIFF.containsKey(pUsername)) {
 			// IFFがないので作成
 			if (pUsername.isEmpty()) {
@@ -249,8 +256,7 @@ public class LMM_IFF {
 				String t[] = s.split("=");
 				if (t.length > 1) {
 					if (t[0].startsWith("triggerWeapon")) {
-						LMM_TriggerSelect.appendTriggerItem(pUsername,
-								t[0].substring(13), t[1]);
+						LMM_TriggerSelect.appendTriggerItem(pUsername, t[0].substring(13), t[1]);
 						continue;
 					}
 					int i = Integer.valueOf(t[1]);

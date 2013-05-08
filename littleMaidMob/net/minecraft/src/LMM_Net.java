@@ -94,14 +94,14 @@ public class LMM_Net {
 
 	// 受信パケットの処理
 	
-	public static void serverCustomPayload(NetServerHandler var1, Packet250CustomPayload var2) {
+	public static void serverCustomPayload(NetServerHandler pNetHandler, Packet250CustomPayload pPayload) {
 		// サーバ側の動作
-		byte lmode = var2.data[0];
+		byte lmode = pPayload.data[0];
 		int leid = 0;
 		LMM_EntityLittleMaid lemaid = null;
 		if ((lmode & 0x80) != 0) {
-			leid = MMM_Helper.getInt(var2.data, 1);
-			lemaid = getLittleMaid(var2.data, 1, var1.playerEntity.worldObj);
+			leid = MMM_Helper.getInt(pPayload.data, 1);
+			lemaid = getLittleMaid(pPayload.data, 1, pNetHandler.playerEntity.worldObj);
 			if (lemaid == null) return;
 		}
 		mod_LMM_littleMaidMob.Debug(String.format("LMM|Upd Srv Call[%2x:%d].", lmode, leid));
@@ -119,22 +119,22 @@ public class LMM_Net {
 			
 		case LMN_Server_SetTexture:
 			// テクスチャ番号をクライアントから受け取る
-			int lindex1 = MMM_Helper.getShort(var2.data, 5);
-			int larmor1 = MMM_Helper.getShort(var2.data, 7);
-			int lcolor1 = var2.data[9];
+			int lindex1 = MMM_Helper.getShort(pPayload.data, 5);
+			int larmor1 = MMM_Helper.getShort(pPayload.data, 7);
+			int lcolor1 = pPayload.data[9];
 			lemaid.setTextureIndex(lindex1, larmor1);
 			lemaid.setMaidColor(lcolor1);
 			break;
 		case LMN_Server_DecDyePowder:
 			// カラー番号をクライアントから受け取る
 			// インベントリから染料を減らす。
-			int lcolor2 = var2.data[1];
-			if (!var1.playerEntity.capabilities.isCreativeMode) {
-				for (int li = 0; li < var1.playerEntity.inventory.mainInventory.length; li++) {
-					ItemStack lis = var1.playerEntity.inventory.mainInventory[li];
+			int lcolor2 = pPayload.data[1];
+			if (!pNetHandler.playerEntity.capabilities.isCreativeMode) {
+				for (int li = 0; li < pNetHandler.playerEntity.inventory.mainInventory.length; li++) {
+					ItemStack lis = pNetHandler.playerEntity.inventory.mainInventory[li];
 					if (lis != null && lis.itemID == Item.dyePowder.itemID) {
 						if (lis.getItemDamage() == (15 - lcolor2)) {
-							MMM_Helper.decPlayerInventory(var1.playerEntity, li, 1);
+							MMM_Helper.decPlayerInventory(pNetHandler.playerEntity, li, 1);
 						}
 					}
 				}
@@ -143,16 +143,16 @@ public class LMM_Net {
 			
 		case LMN_Server_SetIFFValue:
 			// IFFの設定値を受信
-			int lval = var2.data[1];
+			int lval = pPayload.data[1];
 			String lname = "";
-			for (int li = 6; li < var2.data.length; li++) {
-				lname += (char)var2.data[li];
+			for (int li = 6; li < pPayload.data.length; li++) {
+				lname += (char)pPayload.data[li];
 			}
-			LMM_IFF.setIFFValue(var1.playerEntity.username, lname, lval);
+			LMM_IFF.setIFFValue(pNetHandler.playerEntity.username, lname, lval);
 			break;
 		case LMN_Server_SaveIFF:
 			// IFFファイルの保存
-			LMM_IFF.saveIFF(var1.playerEntity.username);
+			LMM_IFF.saveIFF(pNetHandler.playerEntity.username);
 			break;
 		case LMN_Server_GetIFFValue:
 			// IFFGUI open
@@ -160,12 +160,11 @@ public class LMM_Net {
 				ldata = new byte[le.getKey().length() + 2];
 				ldata[0] = LMN_Client_SetIFFValue;
 				ldata[1] = (byte)le.getValue().intValue();
-				LMM_Net.sendToClient(var1, ldata);
+				LMM_Net.sendToClient(pNetHandler, ldata);
 			}
 			break;
 			
 		}
 	}
 
-	
 }
