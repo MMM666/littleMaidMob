@@ -77,7 +77,7 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 //		if (modelMain.modelArmorInner == null) {
 //			modelMain.modelArmorInner = MMM_TextureManager.defaultModel[0];
 //		}
-		modelMain.setModelCaps(plittleMaid.maidCaps);
+		modelMain.setEntityCaps(plittleMaid.maidCaps);
 		
 		modelMain.setCapsValue(MMM_IModelCaps.caps_heldItemLeft, (Integer)0);
 		modelMain.setCapsValue(MMM_IModelCaps.caps_heldItemRight, (Integer)0);

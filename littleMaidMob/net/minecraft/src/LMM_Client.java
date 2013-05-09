@@ -60,6 +60,7 @@ public class LMM_Client {
 		MMM_TextureBox ltb = MMM_TextureManager.getTextureBox(pEntity.textureName);
 		pEntity.textureModel0 = ltb.models[0];
 		// êgí∑ïœçXóp
+		pEntity.setSize(-1F, 0F);
 		pEntity.setSize(pEntity.textureModel0.getWidth(), pEntity.textureModel0.getHeight());
 		pEntity.setPosition(pEntity.posX, pEntity.posY, pEntity.posZ);
 		mod_LMM_littleMaidMob.Debug(String.format("ID:%d, TextureModel:%s", pEntity.entityId, ltb.modelName));

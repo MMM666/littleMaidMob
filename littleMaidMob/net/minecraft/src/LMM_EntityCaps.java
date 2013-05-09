@@ -47,6 +47,7 @@ public class LMM_EntityCaps implements MMM_IModelCaps {
 		caps.put("Items", caps_Items);
 		caps.put("Actions", caps_Actions);
 		caps.put("Grounds", caps_Grounds);
+		caps.put("Ground", caps_Ground);
 		caps.put("Inventory", caps_Inventory);
 		caps.put("interestedAngle", caps_interestedAngle);
 		caps.put("Entity", caps_Entity);
@@ -144,6 +145,12 @@ public class LMM_EntityCaps implements MMM_IModelCaps {
 				lgrounds[li++] = ls.onGround;
 			}
 			return lgrounds;
+		case caps_Ground:
+			// float (int pIndex, int pDefVal)
+			if (owner.mstatSwingStatus.length < (Integer)pArg[0]) {
+				return pArg[1];
+			}
+			return owner.mstatSwingStatus[(Integer)pArg[0]].onGround;
 		case caps_Inventory:
 			return owner.maidInventory;
 		case caps_interestedAngle:

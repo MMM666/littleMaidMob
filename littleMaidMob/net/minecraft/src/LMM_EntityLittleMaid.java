@@ -2768,8 +2768,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		// サイズの変更
 		MMM_TextureBoxServer lbs = MMM_TextureManager.getIndexToBox(pindex);
 		if (lbs != null) {
+			setSize(-1F, 0F);
 			setSize(lbs.modelWidth, lbs.modelHeight);
-			mod_LMM_littleMaidMob.Debug(String.format("changeSize-ID:%d: %f, %f", entityId, lbs.modelWidth, lbs.modelHeight));
+			mod_LMM_littleMaidMob.Debug("changeSize-ID:%d: %f, %f, %b", entityId, lbs.modelWidth, lbs.modelHeight, worldObj.isRemote);
 		}
 	}
 
