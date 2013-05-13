@@ -56,8 +56,8 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 		llist.add(String.format("Limit: %b[%b]", owner.isMaidContract(), owner.isMaidContractEX()));
 		int li = owner.dataWatcher.getWatchableObjectInt(LMM_EntityLittleMaid.dataWatch_Texture);
 		llist.add(String.format("Texture=%s(%x/ %x), %s(%x / %x)",
-				MMM_TextureManager.getIndexToString(owner.textureIndex), owner.textureIndex, li & 0xffff,
-				MMM_TextureManager.getIndexToString(owner.textureArmorIndex), owner.textureArmorIndex, (li >>> 16)
+				MMM_TextureManager.getTextureBoxServerIndex(owner.textureIndex).packegeName, owner.textureIndex, li & 0xffff,
+				MMM_TextureManager.getTextureBoxServerIndex(owner.textureArmorIndex).packegeName, owner.textureArmorIndex, (li >>> 16)
 				));
 		
 		ld = (double)llist.size() * 0.25D - 0.5D;
@@ -122,8 +122,9 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 			case 2:
 				// textureIndex
 				var1.sendChatToPlayer("textureIndex:");
-				for (Entry<Integer, MMM_TextureBoxServer> le : MMM_TextureManager.textureServer.entrySet()) {
-					var1.sendChatToPlayer(String.format("%4d : %04x : %s", le.getKey(), le.getValue().wildColor, le.getValue().textureName));
+				for (int li = 0; li < MMM_TextureManager.textureServer.size(); li++) {
+					MMM_TextureBoxServer lb = MMM_TextureManager.getTextureBoxServer(li);
+					var1.sendChatToPlayer(String.format("%4d : %04x : %s", li, lb.wildColor, lb.textureName));
 				}
 				break;
 			case 3:

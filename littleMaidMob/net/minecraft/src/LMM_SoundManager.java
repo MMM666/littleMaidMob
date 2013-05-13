@@ -197,10 +197,11 @@ public class LMM_SoundManager {
 		// “ÁŽê•¶Žš‚ð’l‚É•ÏŠ·
 		// Default
 		Map<Integer, String> lmap = new HashMap<Integer, String>();
+		lmap.putAll(soundsDefault);
 		for (Entry<Integer, String> lt : soundsDefault.entrySet()) {
 			int li = lt.getKey();
 			if (lt.getValue().equals("^")) {
-				String ls = soundsDefault.get(li & -16);
+				String ls = lmap.get(li & -16);
 				if (ls != null && (li & 0x0f) != 0 && !ls.equals("^")) {
 					lmap.put(li, ls);
 //					soundsDefault.put(li, ls);

@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.PostConstruct;
 import javax.swing.text.MaskFormatter;
  
-public class LMM_EntityLittleMaid extends EntityTameable {
+public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITextureEntity {
 
 //	public static Minecraft mcGame;
 
@@ -192,33 +193,15 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		
 		
 		// 形態形成場
-		if (worldObj != null && !worldObj.isRemote) {
-			// テクスチャーをランダムで選択
-			if (mod_LMM_littleMaidMob.defaultTexture.isEmpty()) {
-				textureName = textureArmorName = MMM_TextureManager.getRandomTexture(rand);
-			} else {
-				textureName = textureArmorName = mod_LMM_littleMaidMob.defaultTexture;
-			}
-			textureIndex = textureArmorIndex = MMM_TextureManager.getStringToIndex(textureName);
-			if (textureIndex == -1) {
-				// ここは必要なくなった？
-				textureName = textureArmorName = "default";
-				textureIndex = textureArmorIndex = MMM_TextureManager.getStringToIndex(textureName);
-			}
-			// 野生のメイド色をランダムで指定
-			maidColor = MMM_TextureManager.getRandomWildColor(textureIndex, rand);
-			mod_LMM_littleMaidMob.Debug(String.format("init-ID:%d, %s:%d", entityId, textureName, maidColor));
-//			MMM_Helper.mc.thePlayer.addChatMessage(String.format("init-ID:%d, %s(%d):%d", entityId, textureName, textureIndex, maidColor));
-			setTextureIndex(textureIndex, textureArmorIndex);
-			setMaidColor(maidColor);
-		} else {
-			textureName = textureArmorName = "default";
-			maidColor = 12;
-			textureIndex = textureArmorIndex = 0;
+		textureName = textureArmorName = "default";
+		maidColor = 12;
+		textureIndex = textureArmorIndex = 0;
+		if (MMM_Helper.isClient) {
 			LMM_Client.setTextureValue(this);
-			// モデルレンダリング用のフラグ獲得用ヘルパー関数
-			maidCaps = new LMM_EntityCaps(this);
 		}
+		// モデルレンダリング用のフラグ獲得用ヘルパー関数
+		maidCaps = new LMM_EntityCaps(this);
+		
 		maidSoundRate = LMM_SoundManager.getSoundRate(textureName, maidColor);
 		
 		
@@ -235,6 +218,30 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		if (worldObj != null) {
 			setMaidMode("Wild");
 		}
+	}
+
+	@Override
+	public void initCreature() {
+		super.initCreature();
+		// テクスチャーをランダムで選択
+		if (mod_LMM_littleMaidMob.defaultTexture.isEmpty()) {
+			textureName = textureArmorName = MMM_TextureManager.getRandomTexture(rand);
+		} else {
+			textureName = textureArmorName = mod_LMM_littleMaidMob.defaultTexture;
+		}
+		textureIndex = textureArmorIndex = MMM_TextureManager.getIndexTextureBoxServer(this, textureName);
+		if (textureIndex == -1) {
+			// ここは必要なくなった？
+			textureName = textureArmorName = "default";
+			textureIndex = textureArmorIndex = MMM_TextureManager.getIndexTextureBoxServer(this, textureName);
+		}
+		// 野生のメイド色をランダムで指定
+		maidColor = MMM_TextureManager.getRandomWildColor(textureIndex, rand);
+		mod_LMM_littleMaidMob.Debug(String.format("init-ID:%d, %s:%d", entityId, textureName, maidColor));
+//		MMM_Helper.mc.thePlayer.addChatMessage(String.format("init-ID:%d, %s(%d):%d", entityId, textureName, textureIndex, maidColor));
+		setTexturePackIndex(maidColor, new int[] {textureIndex, textureArmorIndex});
+//		setMaidColor(maidColor);
+
 	}
 
 	@Override
@@ -1045,9 +1052,9 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		// TODO: ColorBitsをどうするべ？
 //		textureIndex = MMM_TextureManager.setStringToIndex(textureName, -1);
 //		textureArmorIndex = MMM_TextureManager.setStringToIndex(textureArmorName, -1);
-		textureIndex = MMM_TextureManager.getStringToIndex(textureName);
-		textureArmorIndex = MMM_TextureManager.getStringToIndex(textureArmorName);
-		setTextureIndex(textureIndex, textureArmorIndex);
+		textureIndex = MMM_TextureManager.getIndexTextureBoxServer(this, textureName);
+		textureArmorIndex = MMM_TextureManager.getIndexTextureBoxServer(this, textureArmorName);
+		setTexturePackIndex(maidColor, new int[] {textureIndex, textureArmorIndex});
 		onInventoryChanged();
 		
 		// ドッペル対策
@@ -2755,54 +2762,13 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 
 
 	/**
-	 * テクスチャインデックスを設定する。
-	 * サーバー側で使用される関数、クライアントで呼んでも意味なし。
-	 */
-	public void setTextureIndex(int pindex, int parmorindex) {
-		textureIndex = pindex;
-		textureArmorIndex = parmorindex;
-		dataWatcher.updateObject(dataWatch_Texture, (Integer.valueOf(pindex) & 0xffff) | ((Integer.valueOf(parmorindex) & 0xffff) << 16));
-		// TODO:この以下はホントはいらんけども修正めんどいので。
-		textureName = MMM_TextureManager.getIndexToString(pindex);
-		textureArmorName = MMM_TextureManager.getIndexToString(parmorindex);
-		// サイズの変更
-		MMM_TextureBoxServer lbs = MMM_TextureManager.getIndexToBox(pindex);
-		if (lbs != null) {
-			setSize(-1F, 0F);
-			setSize(lbs.modelWidth, lbs.modelHeight);
-			mod_LMM_littleMaidMob.Debug("changeSize-ID:%d: %f, %f, %b", entityId, lbs.modelWidth, lbs.modelHeight, worldObj.isRemote);
-		}
-	}
-
-	/**
 	 * サーバーへテクスチャパックのインデックスを送る。
 	 * クライアント側の処理
 	 */
 	protected boolean sendTextureToServer() {
 		// 16bitあればテクスチャパックの数にたりんべ
-		textureIndex = MMM_TextureManager.getStringToIndex(textureName);
-		textureArmorIndex = MMM_TextureManager.getStringToIndex(textureArmorName);
-		
-		if (textureIndex > -1 && textureArmorIndex > -1) {
-			// サーバーへテクスチャ情報を送信
-			int lcolor = maidColor >>> 8;
-			if ((lcolor & 0xff00) > 0) {
-				lcolor &= 0x00ff;
-			} else {
-				lcolor = maidColor & 0x00ff;
-			}
-			byte ldata[] = new byte[10];
-			ldata[0] = LMM_Net.LMN_Server_SetTexture;
-			ldata[9] = (byte)lcolor;
-			MMM_Helper.setShort(ldata, 5, textureIndex);
-			MMM_Helper.setShort(ldata, 7, textureArmorIndex);
-			LMM_Net.sendToEServer(this, ldata);
-			mod_LMM_littleMaidMob.Debug(String.format("SetTexture: %d/ %d (%x)", textureIndex, textureArmorIndex, lcolor));
-			
-			return true;
-		}
-		mod_LMM_littleMaidMob.Debug(String.format("SetTextureFail: %d", entityId));
-		return false;
+		MMM_TextureManager.postSetTexturePack(this, maidColor, new String[] {textureName, textureArmorName});
+		return true;
 	}
 
 
@@ -2816,24 +2782,15 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 		int larmor = (ltexture >>> 16) & 0xffff;
 		ltexture &= 0xffff;
 		if (textureIndex > -1 && ltexture != textureIndex) {
-			lbox = MMM_TextureManager.getIndexToBox(ltexture);
-			if (lbox != null && lbox.textureName != null) {
-				mod_LMM_littleMaidMob.Debug(String.format("%d:texture %d -> %d : %s", entityId, textureIndex, ltexture, lbox.textureName));
-				textureIndex = ltexture;
-				textureName = lbox.textureName;
-				lflag = true;
-			}
+			lflag = true;
 		}
 		if (textureArmorIndex > -1 && larmor != textureArmorIndex) {
-			lbox = MMM_TextureManager.getIndexToBox(larmor);
-			if (lbox != null && lbox.textureName != null) {
-				mod_LMM_littleMaidMob.Debug(String.format("%d:armor %d -> %d : %s", entityId, textureArmorIndex, larmor, lbox.textureName));
-				textureArmorIndex = larmor;
-				textureArmorName = lbox.textureName;
-				lflag = true;
-			}
+			lflag = true;
 		}
 		
+		if (lflag) {
+			MMM_TextureManager.postGetTexturePack(this, new int[] {textureIndex, textureArmorIndex});
+		}
 		return lflag;
 	}
 
@@ -2965,11 +2922,28 @@ public class LMM_EntityLittleMaid extends EntityTameable {
 	}
 
 	@Override
-	public void setPositionAndRotation2(double par1, double par3, double par5,
-			float par7, float par8, int par9) {
+	public void setTexturePackIndex(int pColor, int[] pIndex) {
+		// Server
+		textureIndex = pIndex[0];
+		textureArmorIndex = pIndex[1];
+		dataWatcher.updateObject(dataWatch_Texture, (Integer.valueOf(textureIndex) & 0xffff) | ((Integer.valueOf(textureArmorIndex) & 0xffff) << 16));
+		// TODO:この以下はホントはいらんけども修正めんどいので。
+		textureName = MMM_TextureManager.getTextureBoxServer(textureIndex).textureName;
+		textureArmorName = MMM_TextureManager.getTextureBoxServer(textureArmorIndex).textureName;
+		// サイズの変更
+		MMM_TextureBoxServer lbs = MMM_TextureManager.getTextureBoxServer(textureIndex);
+		if (lbs != null) {
+			setSize(-1F, 0F);
+			setSize(lbs.modelWidth, lbs.modelHeight);
+			mod_LMM_littleMaidMob.Debug("changeSize-ID:%d: %f, %f, %b", entityId, lbs.modelWidth, lbs.modelHeight, worldObj.isRemote);
+		}
+		setMaidColor(pColor);
+	}
+
+	@Override
+	public void setTexturePackName(MMM_TextureBox[] pTextureBox) {
 		// TODO Auto-generated method stub
-		super.setPositionAndRotation2(par1, par3, par5, par7, par8, par9);
-//		mod_LMM_littleMaidMob.Debug(String.format("rot2: %f, %f", par7, par8));
+		
 	}
 
 }

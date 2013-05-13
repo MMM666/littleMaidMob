@@ -8,7 +8,7 @@ public class LMM_Net {
 	 * 動作用定数、8bit目を立てるとEntity要求
 	 */
 	public static final byte LMN_Server_UpdateSlots		= (byte)0x80;
-	public static final byte LMN_Server_SetTexture		= (byte)0x81;
+//	public static final byte LMN_Server_SetTexture		= (byte)0x81;
 	public static final byte LMN_Client_SwingArm		= (byte)0x81;
 	public static final byte LMN_Server_DecDyePowder	= (byte)0x02;
 	public static final byte LMN_Client_UpdateTexture	= (byte)0x83;
@@ -117,14 +117,14 @@ public class LMM_Net {
 			}
 			break;
 			
-		case LMN_Server_SetTexture:
-			// テクスチャ番号をクライアントから受け取る
-			int lindex1 = MMM_Helper.getShort(pPayload.data, 5);
-			int larmor1 = MMM_Helper.getShort(pPayload.data, 7);
-			int lcolor1 = pPayload.data[9];
-			lemaid.setTextureIndex(lindex1, larmor1);
-			lemaid.setMaidColor(lcolor1);
-			break;
+//		case LMN_Server_SetTexture:
+//			// テクスチャ番号をクライアントから受け取る
+//			int lindex1 = MMM_Helper.getShort(pPayload.data, 5);
+//			int larmor1 = MMM_Helper.getShort(pPayload.data, 7);
+//			int lcolor1 = pPayload.data[9];
+//			lemaid.setTextureIndex(lindex1, larmor1);
+//			lemaid.setMaidColor(lcolor1);
+//			break;
 		case LMN_Server_DecDyePowder:
 			// カラー番号をクライアントから受け取る
 			// インベントリから染料を減らす。

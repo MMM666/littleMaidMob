@@ -66,13 +66,14 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		}
 		
 //		plittleMaid.textureModel0.render = this;
-		modelMain.setRender(this);
 		modelMain.modelArmorInner = plittleMaid.textureModel0;
+		modelMain.setRender(this);
 		modelMain.isAlphablend = true;
 		modelFATT.modelArmorInner = plittleMaid.textureModel1;
 		modelFATT.modelArmorOuter = plittleMaid.textureModel2;
 		modelFATT.textureOuter = plittleMaid.textureArmor2;
 		modelFATT.textureInner = plittleMaid.textureArmor1;
+//		modelFATT.setRender(this);
 		modelFATT.isAlphablend = true;
 //		if (modelMain.modelArmorInner == null) {
 //			modelMain.modelArmorInner = MMM_TextureManager.defaultModel[0];
@@ -88,6 +89,7 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		modelMain.setCapsValue(MMM_IModelCaps.caps_isWait, plittleMaid.isMaidWait());
 		modelMain.setCapsValue(MMM_IModelCaps.caps_isChild, plittleMaid.isChild());
 		modelMain.setCapsValue(MMM_IModelCaps.caps_entityIdFactor, plittleMaid.entityIdFactor);
+		modelMain.setCapsValue(MMM_IModelCaps.caps_ticksExisted, plittleMaid.ticksExisted);
 		// ‚¾‚ª–³ˆÓ–¡‚¾
 //		plittleMaid.textureModel0.isChild = plittleMaid.textureModel1.isChild = plittleMaid.textureModel2.isChild = plittleMaid.isChild();
 		

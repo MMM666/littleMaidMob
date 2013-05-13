@@ -139,8 +139,8 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 				}
 				theMaid.sendTextureToServer();
 			} else {
-				theMaid.textureIndex = MMM_TextureManager.getStringToIndex(theMaid.textureName);
-				theMaid.textureArmorIndex = MMM_TextureManager.getStringToIndex(theMaid.textureArmorName);
+				theMaid.textureIndex = MMM_TextureManager.getIndexTextureBoxServer(theMaid, theMaid.textureName);
+				theMaid.textureArmorIndex = MMM_TextureManager.getIndexTextureBoxServer(theMaid, theMaid.textureArmorName);
 			}
 			System.out.println(String.format("select: %d(%s), %d(%s)",
 					selectPanel.texsel[0], theMaid.textureName,
