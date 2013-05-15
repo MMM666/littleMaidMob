@@ -1119,6 +1119,18 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	}
 
 	@Override
+	public double getMountedYOffset() {
+		// TODO:Ç±Ç±ÇÕóví≤êÆ
+		if (riddenByEntity instanceof EntityChicken) {
+			return height + 0.03D;
+		}
+		if (riddenByEntity instanceof EntitySquid) {
+			return height - 0.2D;
+		}
+		return super.getMountedYOffset() + 0.35D;
+	}
+
+	@Override
 	public double getYOffset() {
 		if(ridingEntity instanceof EntityPlayer) {
 			// épê®êßå‰
@@ -2945,5 +2957,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

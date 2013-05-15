@@ -12,12 +12,12 @@ public class LMM_Client {
 
 	public static void init() {
 		// デフォルトモデルの設定
-		MMM_ModelMultiBase lmodel = new MMM_ModelLittleMaid(0.0F);
-		MMM_TextureManager.defaultModel = new MMM_ModelMultiBase[] {
-				lmodel,
-				new MMM_ModelLittleMaid(0.1F),
-				new MMM_ModelLittleMaid(0.5F)
-		};
+//		MMM_ModelMultiBase lmodel = new MMM_ModelLittleMaid_Orign(0.0F);
+//		MMM_TextureManager.defaultModel = new MMM_ModelMultiBase[] {
+//				lmodel,
+//				new MMM_ModelLittleMaid_Orign(0.1F),
+//				new MMM_ModelLittleMaid_Orign(0.5F)
+//		};
 	}
 
 	public static void addRenderer(Map map) {
