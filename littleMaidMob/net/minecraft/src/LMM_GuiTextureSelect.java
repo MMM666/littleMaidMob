@@ -69,27 +69,28 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 		MMM_TextureBox lbox = selectPanel.getSelectedBox();
 		GL11.glTranslatef(width / 2 - 115F, height - 5F, 100F);
 		GL11.glScalef(60F, -60F, 60F);
-		selectPanel.maid.textureName = lbox.packegeName;
 //		selectPanel.maid.maidContract = true;
 		selectPanel.maid.renderYawOffset = -25F;
 		selectPanel.maid.rotationYawHead = -10F;
 		if (selectPanel.mode) {
-			selectPanel.maid.textureModel0 = null;
+			selectPanel.maid.textureBox[0] = selectPanel.blankBox;
+			selectPanel.maid.textureBox[1] = lbox;
 			Map<Integer, String> lmap = lbox.armors.get("default");
 			selectPanel.maid.textureArmor1[0] = selectPanel.maid.textureArmor1[1] = 
 					selectPanel.maid.textureArmor1[2] = selectPanel.maid.textureArmor1[3] =
 					(new StringBuilder()).append(lbox.textureDir[1])
-					.append(lbox.packegeName.replace('.', '/'))
+					.append(lbox.fileName.replace('.', '/'))
 					.append(lmap.get(0x0040))
 					.toString();
 			selectPanel.maid.textureArmor2[0] = selectPanel.maid.textureArmor2[1] = 
 					selectPanel.maid.textureArmor2[2] = selectPanel.maid.textureArmor2[3] =
-					(new StringBuilder()).append(lbox.textureDir[1]).append(lbox.packegeName.replace('.', '/')).append(lmap.get(0x0050)).toString();
-			selectPanel.maid.textureModel1 = lbox.models[1];
-			selectPanel.maid.textureModel2 = lbox.models[2];
+					(new StringBuilder()).append(lbox.textureDir[1]).append(lbox.fileName.replace('.', '/')).append(lmap.get(0x0050)).toString();
+			selectPanel.maid.textureBox[1] = lbox;
 		} else {
+			selectPanel.maid.textureBox[0] = lbox;
+			selectPanel.maid.textureBox[1] = selectPanel.blankBox;
 			selectPanel.maid.maidColor = selectColor;
-			LMM_Client.setTextureValue(selectPanel.maid);
+			selectPanel.maid.texture = lbox.getTextureName(selectColor + (selectPanel.isContract ? 0 : MMM_TextureManager.tx_wild));
 		}
 		RenderManager.instance.renderEntityWithPosYaw(selectPanel.maid, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
 		for (int li = 0; li < 16; li++) {
@@ -121,16 +122,16 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 			boolean lflag = false;
 			theMaid.maidColor = selectColor;
 			if (selectPanel.texsel[0] > -1) {
-				theMaid.textureName = selectPanel.getSelectedBox(false).packegeName;
+				theMaid.textureBox[0] = selectPanel.getSelectedBox(false);
 			}
 			if (selectPanel.texsel[1] > -1) {
-				theMaid.textureArmorName = selectPanel.getSelectedBox(true).packegeName;
+				theMaid.textureBox[1] = selectPanel.getSelectedBox(true);
 			}
-			LMM_Client.setTextureValue(theMaid);
+//			theMaid.setTextureNames();
 			if (toServer) {
 				if (selectColor != selectPanel.color) {
 					// 色情報の設定
-					theMaid.maidColor = selectPanel.color | 0x010000 | (selectColor << 8);
+//					theMaid.maidColor = selectPanel.color | 0x010000 | (selectColor << 8);
 					// サーバーへ染料の使用を通知
 					byte ldata[] = new byte[2];
 					ldata[0] = LMM_Net.LMN_Server_DecDyePowder;
@@ -139,12 +140,12 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 				}
 				theMaid.sendTextureToServer();
 			} else {
-				theMaid.textureIndex = MMM_TextureManager.getIndexTextureBoxServer(theMaid, theMaid.textureName);
-				theMaid.textureArmorIndex = MMM_TextureManager.getIndexTextureBoxServer(theMaid, theMaid.textureArmorName);
+				theMaid.textureIndex[0] = MMM_TextureManager.getIndexTextureBoxServer(theMaid, theMaid.textureBox[0].textureName);
+				theMaid.textureIndex[1] = MMM_TextureManager.getIndexTextureBoxServer(theMaid, theMaid.textureBox[1].textureName);
 			}
 			System.out.println(String.format("select: %d(%s), %d(%s)",
-					selectPanel.texsel[0], theMaid.textureName,
-					selectPanel.texsel[1], theMaid.textureArmorName));
+					selectPanel.texsel[0], theMaid.textureBox[0].textureName,
+					selectPanel.texsel[1], theMaid.textureBox[1].textureName));
 			mc.displayGuiScreen(owner);
 			break;
 		}

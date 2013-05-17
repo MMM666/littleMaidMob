@@ -143,6 +143,9 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@Override
 	public void modsLoaded() {
+		// デフォルトモデルの設定
+		MMM_TextureManager.setDefaultTexture(LMM_EntityLittleMaid.class, MMM_TextureManager.getTextureBox("default_Orign"));
+		
 		if (UniqueEntityId == -1) return;
 		// Dominant
 		if(spawnWeight > 0) {

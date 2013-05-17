@@ -21,6 +21,7 @@ public class LMM_GuiInventory extends GuiContainer {
 	
 	public GuiButtonNextPage txbutton[] = new GuiButtonNextPage[4];
 	public GuiButton selectbutton;
+	public boolean isChangeTexture;
 
 	// Method
 	public LMM_GuiInventory(EntityPlayer pPlayer, LMM_EntityLittleMaid elmaid) {
@@ -32,6 +33,7 @@ public class LMM_GuiInventory extends GuiContainer {
 		updateCounter = 0;
 		ySizebk = ySize;
 		ySize = 207;
+		isChangeTexture = true;
 
 		entitylittlemaid = elmaid;
 		// entitylittlemaid.setOpenInventory(true);
@@ -107,7 +109,7 @@ public class LMM_GuiInventory extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		// ”wŒi
-		String s = MMM_TextureManager.getTextureName(entitylittlemaid.textureName, MMM_TextureManager.tx_gui);
+		String s = ((MMM_TextureBox)entitylittlemaid.textureBox[0]).getTextureName(MMM_TextureManager.tx_gui);
 		if (s == null) {
 			s = "/gui/littlemaidinventory.png";
 		}
@@ -202,9 +204,9 @@ public class LMM_GuiInventory extends GuiContainer {
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			
-			if (entitylittlemaid.textureName != null) {
-				int ltw1 = fontRenderer.getStringWidth(entitylittlemaid.textureName);
-				int ltw2 = fontRenderer.getStringWidth(entitylittlemaid.textureArmorName);
+			if (entitylittlemaid.textureBox[0] != null) {
+				int ltw1 = fontRenderer.getStringWidth(entitylittlemaid.textureBox[0].textureName);
+				int ltw2 = fontRenderer.getStringWidth(entitylittlemaid.textureBox[1].textureName);
 				int ltwmax = (ltw1 > ltw2) ? ltw1 : ltw2;
 				int lbx = 52 - ltwmax / 2;
 				int lby = 68;
@@ -212,11 +214,11 @@ public class LMM_GuiInventory extends GuiContainer {
 				lcolor = jj < 20 ? 0xc0882222 : 0xc0000000;
 				drawGradientRect(lbx - 3, lby - 4, lbx + ltwmax + 3, lby + 8, lcolor, lcolor);
 				fontRenderer.drawStringWithShadow(
-						entitylittlemaid.textureName, 52 - ltw1 / 2, lby - 2, -1);
+						entitylittlemaid.textureBox[0].textureName, 52 - ltw1 / 2, lby - 2, -1);
 				lcolor = jj > 46 ? 0xc0882222 : 0xc0000000;
 				drawGradientRect(lbx - 3, lby + 8, lbx + ltwmax + 3, lby + 16 + 4, lcolor, lcolor);
 				fontRenderer.drawStringWithShadow(
-						entitylittlemaid.textureArmorName, 52 - ltw2 / 2, lby + 10, -1);
+						entitylittlemaid.textureBox[1].textureName, 52 - ltw2 / 2, lby + 10, -1);
 			}
 			
 			GL11.glPopMatrix();
@@ -264,20 +266,20 @@ public class LMM_GuiInventory extends GuiContainer {
 	protected void actionPerformed(GuiButton par1GuiButton) {
 		switch (par1GuiButton.id) {
 		case 100:
-			LMM_Client.setNextTexturePackege(entitylittlemaid, 0);
-			LMM_Client.setTextureValue(entitylittlemaid);
+			entitylittlemaid.setNextTexturePackege(0);
+			entitylittlemaid.setTextureNames();
 			break;
 		case 101:
-			LMM_Client.setPrevTexturePackege(entitylittlemaid, 0);
-			LMM_Client.setTextureValue(entitylittlemaid);
+			entitylittlemaid.setPrevTexturePackege(0);
+			entitylittlemaid.setTextureNames();
 			break;
 		case 110:
-			LMM_Client.setNextTexturePackege(entitylittlemaid, 1);
-			LMM_Client.setTextureValue(entitylittlemaid);
+			entitylittlemaid.setNextTexturePackege(1);
+			entitylittlemaid.setTextureNames();
 			break;
 		case 111:
-			LMM_Client.setPrevTexturePackege(entitylittlemaid, 1);
-			LMM_Client.setTextureValue(entitylittlemaid);
+			entitylittlemaid.setPrevTexturePackege(1);
+			entitylittlemaid.setTextureNames();
 			break;
 		case 200:
 			int ldye = 0;
@@ -290,6 +292,7 @@ public class LMM_GuiInventory extends GuiContainer {
 					}
 				}
 			}
+			isChangeTexture = false;
 			mc.displayGuiScreen(new LMM_GuiTextureSelect(this, entitylittlemaid, ldye, true));
 		}
 	}
@@ -298,7 +301,9 @@ public class LMM_GuiInventory extends GuiContainer {
 	public void onGuiClosed() {
 		super.onGuiClosed();
 		// entitylittlemaid.onGuiClosed();
-		entitylittlemaid.sendTextureToServer();
+		if (isChangeTexture) {
+			entitylittlemaid.sendTextureToServer();
+		}
 	}
 
 	private void displayDebuffEffects() {

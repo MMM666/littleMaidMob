@@ -11,7 +11,7 @@ public class LMM_Net {
 //	public static final byte LMN_Server_SetTexture		= (byte)0x81;
 	public static final byte LMN_Client_SwingArm		= (byte)0x81;
 	public static final byte LMN_Server_DecDyePowder	= (byte)0x02;
-	public static final byte LMN_Client_UpdateTexture	= (byte)0x83;
+//	public static final byte LMN_Client_UpdateTexture	= (byte)0x83;
 	public static final byte LMN_Server_SetIFFValue		= (byte)0x04;
 	public static final byte LMN_Client_SetIFFValue		= (byte)0x04;
 	public static final byte LMN_Server_SaveIFF			= (byte)0x05;

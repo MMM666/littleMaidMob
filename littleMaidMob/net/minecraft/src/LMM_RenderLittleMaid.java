@@ -10,16 +10,16 @@ import org.lwjgl.opengl.GL12;
 public class LMM_RenderLittleMaid extends RenderLiving {
 
 	// Feilds
-	protected MMM_ModelDuo modelMain;
-	protected MMM_ModelDuo modelFATT;
+	protected MMM_ModelBaseDuo modelMain;
+	protected MMM_ModelBaseDuo modelFATT;
 
 
 	// Method
 	public LMM_RenderLittleMaid(float f) {
 		super(null, f);
-		modelFATT = new MMM_ModelDuo(this);
+		modelFATT = new MMM_ModelBaseDuo(this);
 		modelFATT.isModelAlphablend = mod_LMM_littleMaidMob.AlphaBlend;
-		modelMain = new MMM_ModelDuo(this);
+		modelMain = new MMM_ModelBaseDuo(this);
 		modelMain.isModelAlphablend = mod_LMM_littleMaidMob.AlphaBlend;
 		modelMain.capsLink = modelFATT;
 		mainModel = modelMain;
@@ -65,20 +65,30 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 			lay -= 0.25D;
 		}
 		
-//		plittleMaid.textureModel0.render = this;
-		modelMain.modelArmorInner = plittleMaid.textureModel0;
+		if (plittleMaid.worldObj instanceof WorldServer) {
+			// RSHUD-ACV用
+			Entity le = MMM_Helper.mc.theWorld.getEntityByID(plittleMaid.entityId);
+			if (le instanceof LMM_EntityLittleMaid) {
+				LMM_EntityLittleMaid lel = (LMM_EntityLittleMaid)le;
+				modelMain.modelInner = ((MMM_TextureBox)lel.textureBox[0]).models[0];
+				modelFATT.modelInner = ((MMM_TextureBox)lel.textureBox[1]).models[1];
+				modelFATT.modelOuter = ((MMM_TextureBox)lel.textureBox[1]).models[2];
+				modelFATT.textureInner = lel.textureArmor1;
+				modelFATT.textureOuter = lel.textureArmor2;
+				plittleMaid.texture = lel.texture;
+			}
+		} else {
+			modelMain.modelInner = ((MMM_TextureBox)plittleMaid.textureBox[0]).models[0];
+			modelFATT.modelInner = ((MMM_TextureBox)plittleMaid.textureBox[1]).models[1];
+			modelFATT.modelOuter = ((MMM_TextureBox)plittleMaid.textureBox[1]).models[2];
+			modelFATT.textureInner = plittleMaid.textureArmor1;
+			modelFATT.textureOuter = plittleMaid.textureArmor2;
+		}
+
 		modelMain.setRender(this);
-		modelMain.isAlphablend = true;
-		modelFATT.modelArmorInner = plittleMaid.textureModel1;
-		modelFATT.modelArmorOuter = plittleMaid.textureModel2;
-		modelFATT.textureOuter = plittleMaid.textureArmor2;
-		modelFATT.textureInner = plittleMaid.textureArmor1;
-//		modelFATT.setRender(this);
-		modelFATT.isAlphablend = true;
-//		if (modelMain.modelArmorInner == null) {
-//			modelMain.modelArmorInner = MMM_TextureManager.defaultModel[0];
-//		}
 		modelMain.setEntityCaps(plittleMaid.maidCaps);
+		modelMain.isAlphablend = true;
+		modelFATT.isAlphablend = true;
 		
 		modelMain.setCapsValue(MMM_IModelCaps.caps_heldItemLeft, (Integer)0);
 		modelMain.setCapsValue(MMM_IModelCaps.caps_heldItemRight, (Integer)0);
@@ -93,19 +103,6 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		// だが無意味だ
 //		plittleMaid.textureModel0.isChild = plittleMaid.textureModel1.isChild = plittleMaid.textureModel2.isChild = plittleMaid.isChild();
 		
-		if (plittleMaid.worldObj instanceof WorldServer) {
-			Entity le = MMM_Helper.mc.theWorld.getEntityByID(plittleMaid.entityId);
-			if (le instanceof LMM_EntityLittleMaid) {
-				LMM_EntityLittleMaid lel = (LMM_EntityLittleMaid)le;
-				modelMain.modelArmorInner = lel.textureModel0;
-				modelFATT.modelArmorInner = lel.textureModel1;
-				modelFATT.modelArmorOuter = lel.textureModel2;
-				modelFATT.textureOuter = lel.textureArmor2;
-				modelFATT.textureInner = lel.textureArmor1;
-				plittleMaid.texture = lel.texture;
-			}
-		} else {
-		}
 		doRenderLiving(plittleMaid, px, lay, pz, f, f1);
 		
 		
@@ -169,13 +166,13 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 			float par3, float par4, float par5, float par6, float par7) {
 		if (!par1EntityLiving.isInvisible()) {
 			
-			this.loadDownloadableImageTexture(par1EntityLiving.skinUrl, par1EntityLiving.getTexture());
+			loadDownloadableImageTexture(par1EntityLiving.skinUrl, par1EntityLiving.getTexture());
 			modelMain.setArmorRendering(true);
 		} else {
 			modelMain.setArmorRendering(false);
 		}
 		// アイテムのレンダリング位置を獲得するためrenderを呼ぶ必要がある
-		this.mainModel.render(par1EntityLiving, par2, par3, par4, par5, par6, par7);
+		mainModel.render(par1EntityLiving, par2, par3, par4, par5, par6, par7);
 	}
 
 	protected void renderSpecials(LMM_EntityLittleMaid entitylittlemaid, float f) {

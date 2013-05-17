@@ -13,8 +13,8 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 	public LMM_GuiTextureSelect owner;
 	protected int selected;
 	protected LMM_EntityLittleMaid maid;
-	protected List<Integer> indexTexture;
-	protected List<Integer> indexArmor;
+	protected List<MMM_TextureBox> indexTexture;
+	protected List<MMM_TextureBox> indexArmor;
 	public boolean mode;
 	public int texsel[] = new int[2];
 	public int color;
@@ -25,7 +25,8 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 			new ItemStack(Item.plateLeather),
 			new ItemStack(Item.helmetLeather)
 	};
-	private boolean isContract;
+	protected boolean isContract;
+	protected static MMM_TextureBox blankBox;
 
 
 	public LMM_GuiTextureSlot(LMM_GuiTextureSelect pOwner) {
@@ -34,31 +35,33 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 		maid = new LMM_EntityLittleMaid(pOwner.mc.theWorld);
 		color = owner.theMaid.maidColor;
 		selectColor = -1;
+		blankBox = new MMM_TextureBox();
+		blankBox.models = new MMM_ModelMultiBase[] {null, null, null};
 		
 		texsel[0] = -1;
 		texsel[1] = -1;
-		indexTexture = new ArrayList<Integer>();
-		indexArmor = new ArrayList<Integer>();
+		indexTexture = new ArrayList<MMM_TextureBox>();
+		indexArmor = new ArrayList<MMM_TextureBox>();
 		isContract = owner.theMaid.maidContract;
 		maid.maidContract = isContract;
 		for (int li = 0; li < MMM_TextureManager.textures.size(); li++) {
 			MMM_TextureBox lbox = MMM_TextureManager.textures.get(li);
 			if (isContract) {
 				if (lbox.getContractColorBits() > 0) {
-					indexTexture.add(li);
+					indexTexture.add(lbox);
 				}
 			} else {
 				if (lbox.getWildColorBits() > 0) {
-					indexTexture.add(li);
+					indexTexture.add(lbox);
 				}
 			}
 			if (lbox.hasArmor()) {
-				indexArmor.add(li);
+				indexArmor.add(lbox);
 			}
-			if (lbox.packegeName.equals(owner.theMaid.textureName)) {
+			if (lbox == owner.theMaid.textureBox[0]) {
 				texsel[0] = indexTexture.size() - 1;
 			}
-			if (lbox.packegeName.equals(owner.theMaid.textureArmorName)) {
+			if (lbox == owner.theMaid.textureBox[1]) {
 				texsel[1] = indexArmor.size() - 1;
 			}
 		}
@@ -124,34 +127,33 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 		
 		MMM_TextureBox lbox;
 		if (mode) {
-			lbox = MMM_TextureManager.textures.get(indexArmor.get(var1));
+			lbox = indexArmor.get(var1);
+			maid.textureBox[0] = blankBox;
+			maid.textureBox[1] = lbox;
 		} else {
-			lbox = MMM_TextureManager.textures.get(indexTexture.get(var1));
+			lbox = indexTexture.get(var1);
+			maid.textureBox[0] = lbox;
+			maid.textureBox[1] = blankBox;
 		}
 		GL11.glDisable(GL11.GL_BLEND);
-		owner.fontRenderer.drawStringWithShadow(lbox.packegeName, var2 + 16, var3 + 25, -1);
+		owner.fontRenderer.drawStringWithShadow(lbox.textureName, var2 + 16, var3 + 25, -1);
 		GL11.glTranslatef(var2 + 8F, var3 + 25F, 50F);
 		GL11.glScalef(12F, -12F, 12F);
-		maid.textureName = lbox.packegeName;
-//		maid.maidContract = true;
 		maid.renderYawOffset = 30F;
 		maid.rotationYawHead = 15F;
-//		RenderHelper.enableStandardItemLighting();
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
 		if (mode) {
 			// アーマー
 			GL11.glTranslatef(1F, 0, 0);
-			maid.textureModel0 = null;
 			Map<Integer, String> lmap = lbox.armors.get("default");
 			if (lmap != null) {
 				maid.textureArmor1[0] = maid.textureArmor1[1] = 
 						maid.textureArmor1[2] = maid.textureArmor1[3] =
-						(new StringBuilder()).append(lbox.textureDir[1]).append(lbox.packegeName.replace('.', '/')).append(lmap.get(0x0040)).toString();
+						(new StringBuilder()).append(lbox.textureDir[1]).append(lbox.fileName.replace('.', '/')).append(lmap.get(0x0040)).toString();
 				maid.textureArmor2[0] = maid.textureArmor2[1] = 
 						maid.textureArmor2[2] = maid.textureArmor2[3] =
-						(new StringBuilder()).append(lbox.textureDir[1]).append(lbox.packegeName.replace('.', '/')).append(lmap.get(0x0050)).toString();
-				maid.textureModel1 = lbox.models[1];
-				maid.textureModel2 = lbox.models[2];
+						(new StringBuilder()).append(lbox.textureDir[1]).append(lbox.fileName.replace('.', '/')).append(lmap.get(0x0050)).toString();
+				maid.textureBox[1] = lbox;
 				RenderManager.instance.renderEntityWithPosYaw(maid, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
 			}
 			for (String ls : MMM_TextureManager.armorFilenamePrefix) {
@@ -159,12 +161,10 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 				lmap = lbox.armors.get(ls);
 				if (lmap != null) {
 					maid.textureArmor1[0] = maid.textureArmor1[1] = 
-							maid.textureArmor1[2] = maid.textureArmor1[3] = lmap.get(0x0040);
+							maid.textureArmor1[2] = maid.textureArmor1[3] = lmap.get(MMM_TextureManager.tx_armor1);
 					maid.textureArmor2[0] = maid.textureArmor2[1] = 
-							maid.textureArmor2[2] = maid.textureArmor2[3] = lmap.get(0x0050);
-					maid.textureModel1 = lbox.models[1];
-					maid.textureModel2 = lbox.models[2];
-//					LMM_Client.setArmorTextureValue(maid);
+							maid.textureArmor2[2] = maid.textureArmor2[3] = lmap.get(MMM_TextureManager.tx_armor2);
+					maid.textureBox[1] = lbox;
 					RenderManager.instance.renderEntityWithPosYaw(maid, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
 				}
 			}
@@ -176,7 +176,7 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 				if (lbox.hasColor(li, isContract)) {
 					maid.maidColor = li;
 					maid.maidContract = isContract;
-					LMM_Client.setTextureValue(maid);
+					maid.texture = lbox.getTextureName(li + (isContract ? 0 : MMM_TextureManager.tx_wild));
 					RenderManager.instance.renderEntityWithPosYaw(maid, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
 				}
 			}
@@ -190,11 +190,11 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 	}
 
 	public MMM_TextureBox getSelectedBox(int pIndex) {
-		return MMM_TextureManager.textures.get(mode ? indexArmor.get(pIndex) : indexTexture.get(pIndex));
+		return mode ? indexArmor.get(pIndex) : indexTexture.get(pIndex);
 	}
 
 	public MMM_TextureBox getSelectedBox(boolean pMode) {
-		return MMM_TextureManager.textures.get(pMode ? indexArmor.get(texsel[1]) : indexTexture.get(texsel[0]));
+		return pMode ? indexArmor.get(texsel[1]) : indexTexture.get(texsel[0]);
 	}
 
 	public void setMode(boolean pFlag) {

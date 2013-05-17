@@ -37,7 +37,7 @@ public class LMM_EntityCaps implements MMM_IModelCaps {
 		caps.put("height", caps_height);
 		caps.put("width", caps_width);
 		caps.put("YOffset", caps_YOffset);
-//		caps.put("mountedYOffset", caps_mountedYOffset);
+		caps.put("mountedYOffset", caps_mountedYOffset);
 		caps.put("dominantArm", caps_dominantArm);
 //		caps.put("render", caps_render);
 //		caps.put("Arms", caps_Arms);
@@ -111,11 +111,13 @@ public class LMM_EntityCaps implements MMM_IModelCaps {
 		case caps_entityIdFactor:
 			return owner.entityIdFactor;
 		case caps_height:
-			return owner.textureModel0 == null ? null : owner.textureModel0.getHeight();
+			return owner.textureBox[0] == null ? null : owner.textureBox[0].getHeight();
 		case caps_width:
-			return owner.textureModel0 == null ? null : owner.textureModel0.getWidth();
+			return owner.textureBox[0] == null ? null : owner.textureBox[0].getWidth();
 		case caps_YOffset:
-			return owner.textureModel0 == null ? null : owner.textureModel0.getyOffset();
+			return owner.textureBox[0] == null ? null : owner.textureBox[0].getYOffset();
+		case caps_mountedYOffset:
+			return owner.textureBox[0] == null ? null : owner.textureBox[0].getMountedYOffset();
 		case caps_dominantArm:
 			return owner.maidDominantArm;
 //		case caps_mountedYOffset:

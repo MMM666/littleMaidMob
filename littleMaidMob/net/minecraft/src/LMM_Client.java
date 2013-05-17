@@ -11,13 +11,6 @@ import java.util.Map.Entry;
 public class LMM_Client {
 
 	public static void init() {
-		// デフォルトモデルの設定
-//		MMM_ModelMultiBase lmodel = new MMM_ModelLittleMaid_Orign(0.0F);
-//		MMM_TextureManager.defaultModel = new MMM_ModelMultiBase[] {
-//				lmodel,
-//				new MMM_ModelLittleMaid_Orign(0.1F),
-//				new MMM_ModelLittleMaid_Orign(0.5F)
-//		};
 	}
 
 	public static void addRenderer(Map map) {
@@ -39,96 +32,6 @@ public class LMM_Client {
 	public static void OpenIFF(LMM_EntityLittleMaid pLittleMaid, EntityPlayer pPlayer) {
 		ModLoader.openGUI(pPlayer, new LMM_GuiIFF(pLittleMaid.worldObj, pLittleMaid));
 		
-	}
-
-	// テクスチャ、モデル、色
-	public static void setTextureValue(LMM_EntityLittleMaid pEntity) {
-		if (pEntity.textureName == null) return;
-		int i = pEntity.maidColor & 0x00ff;
-		if (!pEntity.maidContract) i += MMM_TextureManager.tx_wild;
-		
-		pEntity.texture = MMM_TextureManager.getTextureName(pEntity.textureName, i);
-//		mod_littleMaidMob.Debug(String.format("id:%d, tex:%s", entityId, texture));
-		if (pEntity.texture == null) {
-			mod_LMM_littleMaidMob.Debug("tex-null");
-			setNextTexturePackege(pEntity, 0);
-			i = pEntity.maidColor;
-			if (!pEntity.maidContract) i += MMM_TextureManager.tx_wild;
-			pEntity.texture = MMM_TextureManager.getTextureName(pEntity.textureName, i);
-		}
-		// モデルの設定
-		MMM_TextureBox ltb = MMM_TextureManager.getTextureBox(pEntity.textureName);
-		pEntity.textureModel0 = ltb.models[0];
-		// 身長変更用
-		pEntity.setSize(-1F, 0F);
-		pEntity.setSize(pEntity.textureModel0.getWidth(), pEntity.textureModel0.getHeight());
-		pEntity.setPosition(pEntity.posX, pEntity.posY, pEntity.posZ);
-		mod_LMM_littleMaidMob.Debug(String.format("ID:%d, TextureModel:%s", pEntity.entityId, ltb.modelName));
-		// モデルの初期化
-		pEntity.textureModel0.changeModel(pEntity.maidCaps);
-		// スタビの付け替え
-		for (Entry<String, MMM_EquippedStabilizer> le : pEntity.maidStabilizer.entrySet()) {
-			if (le.getValue() != null) {
-				le.getValue().updateEquippedPoint(pEntity.textureModel0);
-			}
-		}
-		// アーマー
-		setArmorTextureValue(pEntity);
-		pEntity.maidSoundRate = LMM_SoundManager.getSoundRate(pEntity.textureName, pEntity.maidColor);
-	}
-
-	public static void setArmorTextureValue(LMM_EntityLittleMaid pEntity) {
-		if (pEntity.textureArmorName == null) return;
-		// アーマーモデル
-		MMM_TextureBox ltb = MMM_TextureManager.getTextureBox(pEntity.textureArmorName);
-		pEntity.textureModel1 = ltb.models[1];
-		pEntity.textureModel2 = ltb.models[2];
-//		mod_LMM_littleMaidMob.Debug(String.format("Model:%s / %s", pEntity.textureModel0.getClass().getSimpleName(), pEntity.textureModel1.getClass().getSimpleName()));
-
-		for (int i = 0; i < 4; i++) {
-			ItemStack is = pEntity.maidInventory.armorItemInSlot(i);
-			pEntity.textureArmor1[i] = MMM_TextureManager.getArmorTextureName(pEntity.textureArmorName, MMM_TextureManager.tx_armor1, is);
-			pEntity.textureArmor2[i] = MMM_TextureManager.getArmorTextureName(pEntity.textureArmorName, MMM_TextureManager.tx_armor2, is);
-		}
-	}
-
-	public static void setNextTexturePackege(LMM_EntityLittleMaid pEntity, int pTargetTexture) {
-		if (pTargetTexture == 0) {
-			if (pEntity.maidContract)
-				pEntity.textureName = MMM_TextureManager.getNextPackege(pEntity.textureName, (pEntity.maidColor & 0x00ff));
-			else
-				pEntity.textureName = MMM_TextureManager.getNextPackege(pEntity.textureName, (pEntity.maidColor & 0x00ff) + MMM_TextureManager.tx_wild);
-			if (pEntity.textureName == null) {
-				// 指定色が無い場合は標準モデルに
-				pEntity.textureName = pEntity.textureArmorName = "default";
-				pEntity.maidColor = 12;
-			} else {
-				pEntity.textureArmorName = pEntity.textureName;
-			}
-			if (!MMM_TextureManager.getTextureBox(pEntity.textureArmorName).hasArmor()) {
-				pTargetTexture = 1;
-			}
-		}
-		if (pTargetTexture == 1) {
-			pEntity.textureArmorName = MMM_TextureManager.getNextArmorPackege(pEntity.textureArmorName);
-		}
-//		pEntity.sendTextureToServer();
-	}
-
-	public static void setPrevTexturePackege(LMM_EntityLittleMaid pEntity, int pTargetTexture) {
-		if (pTargetTexture == 0) {
-			if (pEntity.maidContract)
-				pEntity.textureName = MMM_TextureManager.getPrevPackege(pEntity.textureName, (pEntity.maidColor & 0x00ff));
-			else
-				pEntity.textureName = MMM_TextureManager.getPrevPackege(pEntity.textureName, (pEntity.maidColor & 0x00ff) + MMM_TextureManager.tx_wild);
-			pEntity.textureArmorName = pEntity.textureName;
-			if (!MMM_TextureManager.getTextureBox(pEntity.textureArmorName).hasArmor())
-				pTargetTexture = 1;
-		}
-		if (pTargetTexture == 1) {
-			pEntity.textureArmorName = MMM_TextureManager.getPrevArmorPackege(pEntity.textureArmorName);
-		}
-//		pEntity.sendTextureToServer();
 	}
 
 // Avatarr
@@ -173,10 +76,10 @@ public class LMM_Client {
 //			mod_LMM_littleMaidMob.Debug(String.format("SwingSound:%s", lsound.name()));
 			break;
 			
-		case LMM_Net.LMN_Client_UpdateTexture : 
-			// お着替え
-			LMM_Client.setTextureValue(lemaid);
-			break;
+//		case LMM_Net.LMN_Client_UpdateTexture : 
+//			// お着替え
+//			LMM_Client.setTextureValue(lemaid);
+//			break;
 			
 		case LMM_Net.LMN_Client_SetIFFValue:
 			// IFFの設定値を受信
