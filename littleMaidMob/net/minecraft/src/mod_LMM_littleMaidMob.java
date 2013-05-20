@@ -87,11 +87,12 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		// MMMLibのRevisionチェック
 		MMM_Helper.checkRevision("2");
 		
-		UniqueEntityId = UniqueEntityId == 0 ? MMM_Helper.getNextEntityID(true) : UniqueEntityId;
+//		UniqueEntityId = UniqueEntityId == 0 ? MMM_Helper.getNextEntityID(true) : UniqueEntityId;
 		defaultTexture = defaultTexture.trim();
 		containerID = 222;
 		ModLoader.registerContainerID(this, containerID);
-		ModLoader.registerEntityID(LMM_EntityLittleMaid.class, "LittleMaid", UniqueEntityId, 0xefffef, 0x9f5f5f);
+		MMM_Helper.registerEntity(LMM_EntityLittleMaid.class, "LittleMaid", UniqueEntityId, this, 80, 3, true);
+//		ModLoader.registerEntityID(LMM_EntityLittleMaid.class, "LittleMaid", UniqueEntityId, 0xefffef, 0x9f5f5f);
 //        ModLoader.addEntityTracker(this, LMM_EntityLittleMaid.class, var2, var3, var4, var5);
 		ModLoader.addLocalization("entity.LittleMaid.name", "LittleMaid");
 		ModLoader.addLocalization("entity.LittleMaid.name", "ja_JP", "リトルメイド");

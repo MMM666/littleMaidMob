@@ -75,17 +75,12 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 		if (selectPanel.mode) {
 			selectPanel.maid.textureBox[0] = selectPanel.blankBox;
 			selectPanel.maid.textureBox[1] = lbox;
-			Map<Integer, String> lmap = lbox.armors.get("default");
 			selectPanel.maid.textureArmor1[0] = selectPanel.maid.textureArmor1[1] = 
 					selectPanel.maid.textureArmor1[2] = selectPanel.maid.textureArmor1[3] =
-					(new StringBuilder()).append(lbox.textureDir[1])
-					.append(lbox.fileName.replace('.', '/'))
-					.append(lmap.get(0x0040))
-					.toString();
+							lbox.getArmorTextureName(true, "default", 0);
 			selectPanel.maid.textureArmor2[0] = selectPanel.maid.textureArmor2[1] = 
 					selectPanel.maid.textureArmor2[2] = selectPanel.maid.textureArmor2[3] =
-					(new StringBuilder()).append(lbox.textureDir[1]).append(lbox.fileName.replace('.', '/')).append(lmap.get(0x0050)).toString();
-			selectPanel.maid.textureBox[1] = lbox;
+							lbox.getArmorTextureName(false, "default", 0);
 		} else {
 			selectPanel.maid.textureBox[0] = lbox;
 			selectPanel.maid.textureBox[1] = selectPanel.blankBox;
@@ -142,10 +137,11 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 			} else {
 				theMaid.textureIndex[0] = MMM_TextureManager.getIndexTextureBoxServer(theMaid, theMaid.textureBox[0].textureName);
 				theMaid.textureIndex[1] = MMM_TextureManager.getIndexTextureBoxServer(theMaid, theMaid.textureBox[1].textureName);
+				theMaid.setTextureNames();
 			}
-			System.out.println(String.format("select: %d(%s), %d(%s)",
-					selectPanel.texsel[0], theMaid.textureBox[0].textureName,
-					selectPanel.texsel[1], theMaid.textureBox[1].textureName));
+			System.out.println(String.format("select: %d(%d/%s), %d(%d/%s)",
+					selectPanel.texsel[0], theMaid.textureIndex[0], theMaid.textureBox[0].textureName,
+					selectPanel.texsel[1], theMaid.textureIndex[1], theMaid.textureBox[1].textureName));
 			mc.displayGuiScreen(owner);
 			break;
 		}

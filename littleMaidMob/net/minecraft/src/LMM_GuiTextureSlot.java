@@ -135,6 +135,7 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 			maid.textureBox[0] = lbox;
 			maid.textureBox[1] = blankBox;
 		}
+		MMM_TextureManager.checkTextureBoxServer(lbox);
 		GL11.glDisable(GL11.GL_BLEND);
 		owner.fontRenderer.drawStringWithShadow(lbox.textureName, var2 + 16, var3 + 25, -1);
 		GL11.glTranslatef(var2 + 8F, var3 + 25F, 50F);
@@ -149,26 +150,22 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 			if (lmap != null) {
 				maid.textureArmor1[0] = maid.textureArmor1[1] = 
 						maid.textureArmor1[2] = maid.textureArmor1[3] =
-						(new StringBuilder()).append(lbox.textureDir[1]).append(lbox.fileName.replace('.', '/')).append(lmap.get(0x0040)).toString();
+								lbox.getArmorTextureName(true, "default", 0);
 				maid.textureArmor2[0] = maid.textureArmor2[1] = 
 						maid.textureArmor2[2] = maid.textureArmor2[3] =
-						(new StringBuilder()).append(lbox.textureDir[1]).append(lbox.fileName.replace('.', '/')).append(lmap.get(0x0050)).toString();
-				maid.textureBox[1] = lbox;
+								lbox.getArmorTextureName(false, "default", 0);
 				RenderManager.instance.renderEntityWithPosYaw(maid, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
 			}
 			for (String ls : MMM_TextureManager.armorFilenamePrefix) {
 				GL11.glTranslatef(1F, 0, 0);
-				lmap = lbox.armors.get(ls);
-				if (lmap != null) {
+				if (lbox.armors.containsKey(ls)) {
 					maid.textureArmor1[0] = maid.textureArmor1[1] = 
-							maid.textureArmor1[2] = maid.textureArmor1[3] = lmap.get(MMM_TextureManager.tx_armor1);
+							maid.textureArmor1[2] = maid.textureArmor1[3] = lbox.getArmorTextureName(true, ls, 0);
 					maid.textureArmor2[0] = maid.textureArmor2[1] = 
-							maid.textureArmor2[2] = maid.textureArmor2[3] = lmap.get(MMM_TextureManager.tx_armor2);
-					maid.textureBox[1] = lbox;
+							maid.textureArmor2[2] = maid.textureArmor2[3] = lbox.getArmorTextureName(false, ls, 0);
 					RenderManager.instance.renderEntityWithPosYaw(maid, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
 				}
 			}
-			
 		} else {
 			// テクスチャ表示
 			for (int li = 0; li < 16; li++) {

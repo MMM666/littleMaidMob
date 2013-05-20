@@ -19,6 +19,7 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		super(null, f);
 		modelFATT = new MMM_ModelBaseDuo(this);
 		modelFATT.isModelAlphablend = mod_LMM_littleMaidMob.AlphaBlend;
+		modelFATT.isRendering = true;
 		modelMain = new MMM_ModelBaseDuo(this);
 		modelMain.isModelAlphablend = mod_LMM_littleMaidMob.AlphaBlend;
 		modelMain.capsLink = modelFATT;
@@ -57,13 +58,13 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		// いくつか重複してるのであとで確認
 		// 姿勢による高さ調整
 		double lay = py;
-		if (plittleMaid.isSneaking()) {
-			// しゃがみ
-			lay -= 0.06D;
-		} else if (plittleMaid.isRiding() && plittleMaid.ridingEntity == null) {
-			// 座り込み
-			lay -= 0.25D;
-		}
+//		if (plittleMaid.isSneaking()) {
+//			// しゃがみ
+//			lay -= 0.06D;
+//		} else if (plittleMaid.isRiding() && plittleMaid.ridingEntity == null) {
+//			// 座り込み
+//			lay -= 0.25D;
+//		}
 		
 		if (plittleMaid.worldObj instanceof WorldServer) {
 			// RSHUD-ACV用

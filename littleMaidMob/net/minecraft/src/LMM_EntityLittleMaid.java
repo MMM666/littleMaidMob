@@ -193,12 +193,14 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		
 		
 		// 形態形成場
-		textureBox[0] = textureBox[1] = MMM_TextureManager.getTextureBox("default_Orign");
+		MMM_TextureBox ltb[] = new MMM_TextureBox[2];
 		maidColor = 12;
+		ltb[0] = ltb[1] = MMM_TextureManager.getDefaultTexture(this);
+		setTexturePackName(ltb);
+//		maidSoundRate = LMM_SoundManager.getSoundRate(textureBox[0].textureName, maidColor);
 		// モデルレンダリング用のフラグ獲得用ヘルパー関数
 		maidCaps = new LMM_EntityCaps(this);
 		
-		maidSoundRate = LMM_SoundManager.getSoundRate(textureBox[0].textureName, maidColor);
 		
 		
 		// EntityModeの追加
@@ -211,9 +213,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		initModeList();
 		mstatModeName = "";
 		maidMode = 65535;
-		if (worldObj != null) {
-			setMaidMode("Wild");
-		}
 	}
 
 	@Override
@@ -232,6 +231,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		maidColor = textureBox[0].getRandomWildColor(rand);
 		mod_LMM_littleMaidMob.Debug("init-ID:%d, %s:%d", entityId, textureBox[0].textureName, maidColor);
 		setTexturePackIndex(maidColor, textureIndex);
+		setMaidMode("Wild");
 	}
 
 	@Override
@@ -2918,8 +2918,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		textureBox[0] = MMM_TextureManager.getTextureBoxServer(textureIndex[0]);
 		textureBox[1] = MMM_TextureManager.getTextureBoxServer(textureIndex[1]);
 		// サイズの変更
-		setSize(-1F, 0F);
 		setSize(textureBox[0].modelWidth, textureBox[0].modelHeight);
+		func_98054_a(false);
 		mod_LMM_littleMaidMob.Debug("changeSize-ID:%d: %f, %f, %b", entityId, width, height, worldObj.isRemote);
 		setMaidColor(pColor);
 	}
@@ -2931,8 +2931,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		textureBox[1] = pTextureBox[1];
 		setTextureNames();
 		// 身長変更用
-		setSize(-1F, 0F);
 		setSize(textureBox[0].getWidth(), textureBox[0].getHeight());
+		func_98054_a(false);
 		setPosition(posX, posY, posZ);
 		mod_LMM_littleMaidMob.Debug("ID:%d, TextureModel:%s", entityId, textureBox[0].textureName);
 		// モデルの初期化
