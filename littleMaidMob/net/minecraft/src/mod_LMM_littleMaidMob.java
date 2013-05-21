@@ -91,7 +91,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		defaultTexture = defaultTexture.trim();
 		containerID = 222;
 		ModLoader.registerContainerID(this, containerID);
-		MMM_Helper.registerEntity(LMM_EntityLittleMaid.class, "LittleMaid", UniqueEntityId, this, 80, 3, true);
+		MMM_Helper.registerEntity(LMM_EntityLittleMaid.class, "LittleMaid", UniqueEntityId, this, 80, 3, true, 0xefffef, 0x9f5f5f);
 //		ModLoader.registerEntityID(LMM_EntityLittleMaid.class, "LittleMaid", UniqueEntityId, 0xefffef, 0x9f5f5f);
 //        ModLoader.addEntityTracker(this, LMM_EntityLittleMaid.class, var2, var3, var4, var5);
 		ModLoader.addLocalization("entity.LittleMaid.name", "LittleMaid");

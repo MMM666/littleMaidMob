@@ -159,7 +159,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		// 初期設定
 		maidInventory = new LMM_InventoryLittleMaid(this);
 		if (par1World != null ) {
-			maidAvatar = new LMM_EntityLittleMaidAvatar(par1World, MMM_Helper.mc, this);
+			maidAvatar = new LMM_EntityLittleMaidAvatar(par1World, this);
 		}
 		mstatOpenInventory = false;
 //		isMaidChaseWait = false;
@@ -196,6 +196,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		MMM_TextureBox ltb[] = new MMM_TextureBox[2];
 		maidColor = 12;
 		ltb[0] = ltb[1] = MMM_TextureManager.getDefaultTexture(this);
+		mod_LMM_littleMaidMob.Debug("ltb[0]%s", ltb[0] == null ? "NULL" : ltb[0].textureName);
 		setTexturePackName(ltb);
 //		maidSoundRate = LMM_SoundManager.getSoundRate(textureBox[0].textureName, maidColor);
 		// モデルレンダリング用のフラグ獲得用ヘルパー関数
@@ -558,7 +559,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	public void playSound(LMM_EnumSound enumsound, boolean force) {
 		if ((maidSoundInterval > 0 && !force) || enumsound == LMM_EnumSound.Null) return;
 		maidSoundInterval = 20;
-		mod_LMM_littleMaidMob.Debug(String.format("id:%d-%s, seps:%04x-%s", entityId, worldObj.isRemote ? "Client" : "Server",  enumsound.index, enumsound.name()));
 		if (worldObj.isRemote) {
 			// Client
 //			String lsound = LMM_SoundManager.getSoundValue(enumsound, textureName, maidColor & 0x00ff);
@@ -566,6 +566,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 //			worldObj.playSound(posX, posY, posZ, lsound, getSoundVolume(), lpitch, false);
 		} else {
 			// Server
+			mod_LMM_littleMaidMob.Debug(String.format("id:%d-%s, seps:%04x-%s", entityId, worldObj.isRemote ? "Client" : "Server",  enumsound.index, enumsound.name()));
 			byte[] lbuf = new byte[] {
 					LMM_Net.LMN_Client_PlaySound,
 					0, 0, 0, 0,
@@ -587,7 +588,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		if (worldObj.isRemote) {
 			// Client
 			String s = LMM_SoundManager.getSoundValue(enumsound, textureBox[0].textureName, maidColor & 0x00ff);
-			mod_LMM_littleMaidMob.Debug(String.format("id:%d, se:%04x-%s", entityId, enumsound.index, enumsound.name()));
+			mod_LMM_littleMaidMob.Debug(String.format("id:%d, se:%04x-%s (%s)", entityId, enumsound.index, enumsound.name(), s));
 			float lpitch = mod_LMM_littleMaidMob.VoiceDistortion ? (rand.nextFloat() * 0.2F) + 0.95F : 1.0F;
 			worldObj.playSound(posX, posY, posZ, s, getSoundVolume(), lpitch, false);
 		}
@@ -2953,7 +2954,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	 * Client用
 	 */
 	public void setTextureNames() {
-		if (!worldObj.isRemote) return;
+		if (!(textureBox[0] instanceof MMM_TextureBox) && !(textureBox[1] instanceof MMM_TextureBox)) return;
 		int lc = (maidColor & 0x00ff) + (isMaidContract() ? 0 : MMM_TextureManager.tx_wild);
 		if (((MMM_TextureBox)textureBox[0]).hasColor(lc)) {
 			texture = ((MMM_TextureBox)textureBox[0]).getTextureName(lc);

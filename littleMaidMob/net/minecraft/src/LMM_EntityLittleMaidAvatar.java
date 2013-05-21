@@ -1,10 +1,8 @@
 package net.minecraft.src;
 
-import net.minecraft.client.Minecraft;
 
 public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 
-	public Minecraft mc;
 	public LMM_EntityLittleMaid avatar;
 	public boolean isItemTrigger;
 	public boolean isItemReload;
@@ -14,12 +12,11 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	private double appendZ;
 
 	
-	public LMM_EntityLittleMaidAvatar(World par1World, Minecraft pminecraft, LMM_EntityLittleMaid par2EntityLittleMaid) {
+	public LMM_EntityLittleMaidAvatar(World par1World, LMM_EntityLittleMaid par2EntityLittleMaid) {
 		super(par1World);
 		
 		// ‰Šúİ’è
 		avatar = par2EntityLittleMaid;
-		mc = pminecraft;
 		
 		inventory = avatar.maidInventory;
 		inventory.player = this;

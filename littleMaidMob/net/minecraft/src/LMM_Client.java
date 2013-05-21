@@ -40,16 +40,16 @@ public class LMM_Client {
 		// アイテム回収のエフェクト
 		// TODO:こっちを使うか？
 //        mc.effectRenderer.addEffect(new EntityPickupFX(mc.theWorld, entity, avatar, -0.5F));
-		pAvatar.mc.effectRenderer.addEffect(new EntityPickupFX(pAvatar.mc.theWorld, entity, pAvatar.avatar, 0.1F));
+		MMM_Helper.mc.effectRenderer.addEffect(new EntityPickupFX(MMM_Helper.mc.theWorld, entity, pAvatar.avatar, 0.1F));
 	}
 
 	public static void onCriticalHit(LMM_EntityLittleMaidAvatar pAvatar, Entity par1Entity) {
-		pAvatar.mc.effectRenderer.addEffect(new EntityCrit2FX(pAvatar.mc.theWorld, par1Entity));
+		MMM_Helper.mc.effectRenderer.addEffect(new EntityCrit2FX(MMM_Helper.mc.theWorld, par1Entity));
 	}
 
 	public static void onEnchantmentCritical(LMM_EntityLittleMaidAvatar pAvatar, Entity par1Entity) {
-		EntityCrit2FX entitycrit2fx = new EntityCrit2FX(pAvatar.mc.theWorld, par1Entity, "magicCrit");
-		pAvatar.mc.effectRenderer.addEffect(entitycrit2fx);
+		EntityCrit2FX entitycrit2fx = new EntityCrit2FX(MMM_Helper.mc.theWorld, par1Entity, "magicCrit");
+		MMM_Helper.mc.effectRenderer.addEffect(entitycrit2fx);
 	}
 
 	
@@ -97,7 +97,7 @@ public class LMM_Client {
 			// 音声再生
 			LMM_EnumSound lsound9 = LMM_EnumSound.getEnumSound(MMM_Helper.getInt(var2.data, 5));
 			lemaid.playLittleMaidSound(lsound9, true);
-//			mod_LMM_littleMaidMob.Debug(String.format("playSound:%s", lsound9.name()));
+			mod_LMM_littleMaidMob.Debug(String.format("playSound:%s", lsound9.name()));
 			break;
 			
 		}
