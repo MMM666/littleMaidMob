@@ -10,9 +10,11 @@ public class LMM_SwingStatus {
 	public int swingProgressInt;
 	public float onGround;
 	public int attackTime;
-	public int usingCount;
+//	public int usingCount;
 	public int itemInUseCount;
-	public int maxItemUseDuration;
+	protected ItemStack itemInUse;
+
+
 
 	public LMM_SwingStatus() {
 		index = lastIndex = -1;
@@ -20,6 +22,8 @@ public class LMM_SwingStatus {
 		swingProgress = prevSwingProgress = 0.0F;
 		onGround = 0F;
 		attackTime = 0;
+		itemInUseCount = 0;
+		itemInUse = null;
 	}
 
 	/**
@@ -54,6 +58,27 @@ public class LMM_SwingStatus {
 		if (itemInUseCount > 0) {
 			itemInUseCount--;
 		}
+		
+		if (isUsingItem()) {
+			ItemStack itemstack = pEntity.maidInventory.getStackInSlot(index);
+			Entity lrentity = pEntity.worldObj.isRemote ? null : pEntity;
+			
+			if (itemstack != itemInUse) {
+				clearItemInUse(lrentity);
+			} else {
+				int itemInUseCount = getItemInUseCount();
+				if (itemInUseCount <= 25 && itemInUseCount % 4 == 0) {
+//	TODO:				updateItemUse(itemstack, 5);
+				}
+				itemInUseCount--;
+				clearItemInUse(lrentity);
+				setItemInUse(itemstack, itemInUseCount, lrentity);
+				if (itemInUseCount == 0 && lrentity != null) {
+//	TODO:				onItemUseFinish();
+				}
+			}
+		}
+		
 	}
 
 	/**
@@ -79,6 +104,11 @@ public class LMM_SwingStatus {
 		return attackTime <= 0;
 	}
 
+
+
+// 腕振り関係
+
+
 	public float getSwingProgress(float ltime) {
 		float lf = swingProgress - prevSwingProgress;
 		
@@ -88,6 +118,16 @@ public class LMM_SwingStatus {
 		
 		return onGround = prevSwingProgress + lf * ltime;
 	}
+
+	public boolean setSwinging() {
+		if (!isSwingInProgress || swingProgressInt < 0) {
+			swingProgressInt = -1;
+			isSwingInProgress = true;
+			return true;
+		}
+		return false;
+	}
+
 
 	/**
 	 * 変更があるかどうかを返し、フラグをクリアする。
@@ -100,38 +140,65 @@ public class LMM_SwingStatus {
 
 // アイテムの使用に関わる関数群
 
+	public ItemStack getItemInUse() {
+		return itemInUse;
+	}
+
 	public int getItemInUseCount() {
 		return itemInUseCount;
 	}
 
 	public boolean isUsingItem() {
-		return itemInUseCount > 0;
+		return itemInUse != null;
 	}
 
 	public int getItemInUseDuration() {
-		return isUsingItem() ? maxItemUseDuration - itemInUseCount : 0;
+		return isUsingItem() ? itemInUse.getMaxItemUseDuration() - itemInUseCount : 0;
 	}
 
-	public void clearItemInUse() {
+	/**
+	 * 
+	 * @param pEntity
+	 * サーバーの時はEntityを設定する。
+	 */
+	public void stopUsingItem(Entity pEntity) {
+		clearItemInUse(pEntity);
+	}
+
+	/**
+	 * 
+	 * @param pEntity
+	 * サーバーの時はEntityを設定する。
+	 */
+	public void clearItemInUse(Entity pEntity) {
+		itemInUse = null;
 		itemInUseCount = 0;
-	}
-
-	public void stopUsingItem() {
-		clearItemInUse();
-	}
-
-	public void setItemInUse(ItemStack itemstack, int i) {
-		itemInUseCount = i;
-		maxItemUseDuration = itemstack.getMaxItemUseDuration();
-	}
-
-	public boolean setSwinging() {
-		if (!isSwingInProgress || swingProgressInt < 0) {
-			swingProgressInt = -1;
-			isSwingInProgress = true;
-			return true;
+		
+		if (pEntity != null) {
+			pEntity.setEating(false);
 		}
-		return false;
+	}
+
+	public boolean isBlocking() {
+		return isUsingItem() && Item.itemsList[this.itemInUse.itemID].getItemUseAction(itemInUse) == EnumAction.block;
+	}
+
+	/**
+	 * 
+	 * @param par1ItemStack
+	 * @param par2
+	 * @param pEntity
+	 * サーバーの時はEntityを設定する。
+	 */
+	public void setItemInUse(ItemStack par1ItemStack, int par2, Entity pEntity) {
+		if (par1ItemStack != itemInUse) {
+			itemInUse = par1ItemStack;
+			itemInUseCount = par2;
+			
+			if (pEntity != null) {
+				pEntity.setEating(true);
+			}
+		}
 	}
 
 }
