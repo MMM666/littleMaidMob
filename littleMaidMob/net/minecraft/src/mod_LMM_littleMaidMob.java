@@ -85,7 +85,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 	@Override
 	public void load() {
 		// MMMLibのRevisionチェック
-		MMM_Helper.checkRevision("2");
+		MMM_Helper.checkRevision("3");
 		
 //		UniqueEntityId = UniqueEntityId == 0 ? MMM_Helper.getNextEntityID(true) : UniqueEntityId;
 		defaultTexture = defaultTexture.trim();
