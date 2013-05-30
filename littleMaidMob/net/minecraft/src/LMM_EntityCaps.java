@@ -52,6 +52,8 @@ public class LMM_EntityCaps implements MMM_IModelCaps {
 		caps.put("interestedAngle", caps_interestedAngle);
 		caps.put("Entity", caps_Entity);
 		caps.put("health", caps_health);
+		caps.put("currentArmor", caps_currentArmor);
+		caps.put("currentEquippedItem", caps_currentEquippedItem);
 	}
 
 	public LMM_EntityCaps(LMM_EntityLittleMaid pOwner) {
@@ -157,6 +159,10 @@ public class LMM_EntityCaps implements MMM_IModelCaps {
 			return owner.maidInventory;
 		case caps_interestedAngle:
 			return owner.getInterestedAngle((Float)pArg[0]);
+		case caps_currentArmor:
+			return owner.getCurrentArmor((Integer)pArg[0]);
+		case caps_currentEquippedItem:
+			return owner.getCurrentEquippedItem();
 		}
 		
 		return null;
