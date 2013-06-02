@@ -55,10 +55,6 @@ public class LMM_SwingStatus {
 		}
 		swingProgress = (float)swingProgressInt / (float)li;
 		
-		if (itemInUseCount > 0) {
-			itemInUseCount--;
-		}
-		
 		if (isUsingItem()) {
 			ItemStack itemstack = pEntity.maidInventory.getStackInSlot(index);
 			Entity lrentity = pEntity.worldObj.isRemote ? null : pEntity;
@@ -66,19 +62,15 @@ public class LMM_SwingStatus {
 			if (itemstack != itemInUse) {
 				clearItemInUse(lrentity);
 			} else {
-				int itemInUseCount = getItemInUseCount();
 				if (itemInUseCount <= 25 && itemInUseCount % 4 == 0) {
+					// 食べかすとか
 //	TODO:				updateItemUse(itemstack, 5);
 				}
-				itemInUseCount--;
-				clearItemInUse(lrentity);
-				setItemInUse(itemstack, itemInUseCount, lrentity);
-				if (itemInUseCount == 0 && lrentity != null) {
+				if (--itemInUseCount == 0 && lrentity != null) {
 //	TODO:				onItemUseFinish();
 				}
 			}
 		}
-		
 	}
 
 	/**
@@ -162,6 +154,10 @@ public class LMM_SwingStatus {
 	 * サーバーの時はEntityを設定する。
 	 */
 	public void stopUsingItem(Entity pEntity) {
+		if (itemInUse != null && pEntity instanceof EntityPlayer) {
+			itemInUse.onPlayerStoppedUsing(pEntity.worldObj, (EntityPlayer)pEntity, itemInUseCount);
+		}
+		
 		clearItemInUse(pEntity);
 	}
 

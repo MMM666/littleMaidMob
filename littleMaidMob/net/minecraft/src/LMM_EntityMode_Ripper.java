@@ -221,7 +221,8 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 				// ‚È‚ñ‚ÅPrivate‚É‚©‚¦‚½‚µ
 				try {
 					lis.damageItem((Integer)ModLoader.getPrivateValue(EntityCreeper.class,
-							(EntityCreeper)pEntity, 1), owner.maidAvatar);
+							(EntityCreeper)pEntity, 1), owner);
+//							(EntityCreeper)pEntity, 1), owner.maidAvatar);
 					ModLoader.setPrivateValue(EntityCreeper.class, (EntityCreeper)pEntity, 1, 0);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -230,7 +231,8 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 				owner.setSwing(20, LMM_EnumSound.attack_bloodsuck);
 			} else if (pEntity instanceof EntityTNTPrimed) {
 				pEntity.setDead();
-				lis.damageItem(1, owner.maidAvatar);
+				lis.damageItem(1, owner);
+//				lis.damageItem(1, owner.maidAvatar);
 				owner.setSwing(20, LMM_EnumSound.attack_bloodsuck);
 			} else {
 				owner.maidAvatar.interactWith(pEntity);

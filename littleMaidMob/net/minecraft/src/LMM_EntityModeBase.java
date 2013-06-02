@@ -57,12 +57,14 @@ public abstract class LMM_EntityModeBase {
 
 	/**
 	 * サーバー側のみの毎時処理。
+	 * AI処理の後の方に呼ばれる。
 	 */
 	public void updateAITick(int pMode) {
 	}
 
 	/**
 	 * 毎時処理。
+	 * 他の処理の前に呼ばれる
 	 */
 	public void onUpdate(int pMode) {
 	}

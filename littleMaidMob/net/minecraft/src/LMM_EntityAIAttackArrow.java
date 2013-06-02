@@ -88,7 +88,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 				if (masterEntity != null) {
 					// 主とのベクトル
 					double amx = masterEntity.posX - fMaid.posX;
-					double amy = masterEntity.posY - fMaid.posY - 2D;
+					double amy = masterEntity.posY - fMaid.posY;//-2D
 					double amz = masterEntity.posZ - fMaid.posZ;
 					
 					// この値が０～１ならターゲットとの間に主がいる
@@ -96,11 +96,11 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 					
 					// 射線ベクトルと主との垂直ベクトル
 					double mix = (fMaid.posX + il * atx) - masterEntity.posX;
-					double miy = (fMaid.posY + il * aty) - masterEntity.posY + 2D;
+					double miy = (fMaid.posY + il * aty) - masterEntity.posY;// + 2D;
 					double miz = (fMaid.posZ + il * atz) - masterEntity.posZ;
 					// 射線から主との距離
 					milsq = mix * mix + miy * miy + miz * miz;
-//                	mod_littleMaidMob.Debug(String.format("il:%f, milsq:%f", il, milsq));
+					mod_LMM_littleMaidMob.Debug("il:%f, milsq:%f", il, milsq);
 				}
 				
 				
@@ -120,7 +120,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 						for(int l = 0; l < list.size(); l++) {
 							Entity entity1 = (Entity)list.get(l);
 							// 自分や味方以外に中るなら撃つ
-							if (entity1 == fMaid || entity1 == fTarget || !entity1.canBeCollidedWith() || !fMaid.getIFF(entity1)) { 
+							if (entity1 == masterEntity || entity1 == fMaid || entity1 == fTarget || !entity1.canBeCollidedWith() || !fMaid.getIFF(entity1)) { 
 								continue;
 							}
 							float f5 = 0.3F;
@@ -130,14 +130,14 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 								continue;
 							}
 							fsh = false;
-							mod_LMM_littleMaidMob.Debug(String.format("ID:%d-friendly fire to ID:%d.", fMaid.entityId, entity1.entityId));
+							mod_LMM_littleMaidMob.Debug("ID:%d-friendly fire to ID:%d.", fMaid.entityId, entity1.entityId);
 						}
 					}
 					fsh &= (milsq > 3D || il < 0D);
 //            		mod_littleMaidMob.Debug(String.format("id:%d at:%d", entityId, attackTime));
 					if (((fMaid.weaponFullAuto && !fsh) || (fsh && fMaid.getSwingStatusDominant().canAttack())) && fAvatar.isItemTrigger) {
 						// シュート
-						mod_LMM_littleMaidMob.Debug(String.format("id:%d shoot.", fMaid.entityId));
+						mod_LMM_littleMaidMob.Debug("id:%d shoot.", fMaid.entityId);
 						fAvatar.stopUsingItem();
 						fMaid.setSwing(30, LMM_EnumSound.shoot);
 					} else {
@@ -153,7 +153,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 									if (swingState.attackTime < at) {
 										fMaid.setSwing(at, LMM_EnumSound.sighting);
 										litemstack = litemstack.useItemRightClick(worldObj, fAvatar);
-										mod_LMM_littleMaidMob.Debug(String.format("id:%d redygun.", fMaid.entityId));
+										mod_LMM_littleMaidMob.Debug("id:%d redygun.", fMaid.entityId);
 									}
 								} else {
 									mod_LMM_littleMaidMob.Debug(String.format("ID:%d-friendly fire FullAuto.", fMaid.entityId));

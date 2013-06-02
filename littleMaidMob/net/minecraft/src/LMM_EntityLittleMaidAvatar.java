@@ -4,8 +4,11 @@ package net.minecraft.src;
 public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 
 	public LMM_EntityLittleMaid avatar;
+	/** いらん？ **/
 	public boolean isItemTrigger;
+	/** いらん？ **/
 	public boolean isItemReload;
+	/** いらん？ **/
 	private boolean isItemPreReload;
 	private double appendX;
 	private double appendY;
@@ -52,6 +55,16 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 		return false;
 	}
 
+	@Override
+	public void triggerAchievement(StatBase par1StatBase) {
+		// アチーブメント殺し
+	}
+
+	@Override
+	public void addStat(StatBase par1StatBase, int par2) {}
+
+	@Override
+	public void addScore(int par1) {}
 
 	@Override
 	public void onUpdate() {
@@ -63,35 +76,11 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 			capabilities.isCreativeMode = lep.capabilities.isCreativeMode;
 		}
 		
-		if (isUsingItem()) {
-			ItemStack itemstack = inventory.getCurrentItem();
-			
-			if (itemstack != getItemInUse()) {
-				clearItemInUse();
-			} else {
-				int itemInUseCount = getItemInUseCount();
-				if (itemInUseCount <= 25 && itemInUseCount % 4 == 0) {
-					updateItemUse(itemstack, 5);
-				}
-				itemInUseCount--;
-				super.clearItemInUse();
-				setItemInUse(itemstack, itemInUseCount);
-				if (itemInUseCount == 0 && !worldObj.isRemote) {
-					onItemUseFinish();
-				}
-			}
-		}
-		
 		if (xpCooldown > 0) {
 			xpCooldown--;
 		}
 		avatar.experienceValue = experienceTotal;
 		
-	}
-
-	@Override
-	public void triggerAchievement(StatBase par1StatBase) {
-		// アチーブメント殺し
 	}
 
 	@Override
@@ -146,12 +135,15 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 
 	@Override
 	protected void alertWolves(EntityLiving par1EntityLiving, boolean par2) {
+		// ここを設定しちゃうと通常ではぬるぽ落ちする
 	}
 
 	@Override
 	public void destroyCurrentEquippedItem() {
 		// アイテムが壊れたので次の装備を選択
-		super.destroyCurrentEquippedItem();
+		// TODO:但し、Forge等でプレーヤーイベントを設定しているものだとぬるぽ落ちするので、何らかの対策が必要。
+//		super.destroyCurrentEquippedItem();
+		inventory.setInventorySlotContents(inventory.currentItem, (ItemStack)null);
 		avatar.getNextEquipItem();
 	}
 
@@ -160,30 +152,115 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 		avatar.onKillEntity(entityliving);
 	}
 
-	@Override
-	public void clearItemInUse() {
-		super.clearItemInUse();
-		isItemTrigger = false;
-		isItemReload = isItemPreReload = false;
-		avatar.getSwingStatusDominant().clearItemInUse();
+	protected Entity getEntityServer() {
+		return worldObj.isRemote ? null : this;
 	}
 
-	@Override
-	public void stopUsingItem() {
-		super.stopUsingItem();
-		avatar.getSwingStatusDominant().stopUsingItem();
+	// Item使用関連
+
+	public int getItemInUseDuration(int pIndex) {
+		return avatar.getSwingStatus(pIndex).getItemInUseDuration();
 	}
-	
+	@Deprecated
 	@Override
-	public void setItemInUse(ItemStack itemstack, int i) {
-		super.setItemInUse(itemstack, i);
-		isItemTrigger = true;
-		isItemReload = isItemPreReload;
-		avatar.getSwingStatusDominant().setItemInUse(itemstack, i);
+	public int getItemInUseDuration() {
+		return getItemInUseDuration(avatar.maidDominantArm);
 	}
 
+	public ItemStack getItemInUse(int pIndex) {
+		return avatar.getSwingStatus(pIndex).getItemInUse();
+	}
+	@Deprecated
+	@Override
+	public ItemStack getItemInUse() {
+		return getItemInUse(avatar.maidDominantArm);
+	}
+
+	public int getItemInUseCount(int pIndex) {
+		return avatar.getSwingStatus(pIndex).getItemInUseCount();
+	}
+	@Deprecated
+	@Override
+	public int getItemInUseCount() {
+		return getItemInUseCount(avatar.maidDominantArm);
+	}
+
+	public boolean isUsingItem(int pIndex) {
+		return avatar.getSwingStatus(pIndex).isUsingItem();
+	}
+	@Deprecated
+	@Override
+	public boolean isUsingItem() {
+		return isUsingItem(avatar.maidDominantArm);
+	}
 	public boolean isUsingItemLittleMaid() {
 		return super.isUsingItem() | isItemTrigger;
+	}
+
+	public void clearItemInUse(int pIndex) {
+		avatar.getSwingStatus(pIndex).clearItemInUse(getEntityServer());
+	}
+	@Deprecated
+	@Override
+	public void clearItemInUse() {
+//		super.clearItemInUse();
+		isItemTrigger = false;
+		isItemReload = isItemPreReload = false;
+		clearItemInUse(avatar.maidDominantArm);
+	}
+
+	public void stopUsingItem(int pIndex) {
+		avatar.getSwingStatus(pIndex).stopUsingItem(getEntityServer());
+	}
+	@Deprecated
+	@Override
+	public void stopUsingItem() {
+//		super.stopUsingItem();
+		isItemTrigger = false;
+		isItemReload = isItemPreReload = false;
+		stopUsingItem(avatar.maidDominantArm);
+	}
+
+	public void setItemInUse(int pIndex, ItemStack itemstack, int i) {
+		avatar.getSwingStatus(pIndex).setItemInUse(itemstack, i, getEntityServer());
+	}
+	@Deprecated
+	@Override
+	public void setItemInUse(ItemStack itemstack, int i) {
+//		super.setItemInUse(itemstack, i);
+		isItemTrigger = true;
+		isItemReload = isItemPreReload;
+		setItemInUse(avatar.maidDominantArm, itemstack, i);
+	}
+
+	@Override
+	public void setEating(boolean par1) {
+		avatar.setEating(par1);
+	}
+
+	@Override
+	public void setAir(int par1) {
+		avatar.setAir(par1);
+	}
+
+	@Override
+	public void setFire(int par1) {
+		avatar.setFire(par1);
+	}
+
+	@Override
+	protected void setFlag(int par1, boolean par2) {
+		avatar.setFlag(par1, par2);
+	}
+
+	@Override
+	public void setEntityHealth(int par1) {
+		avatar.setEntityHealth(par1);
+	}
+
+	@Override
+	public boolean isBlocking() {
+		return avatar.isBlocking();
 	}
 
 	public void getValue() {
@@ -202,7 +279,6 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 		rotationYawHead = avatar.rotationYawHead;
 		attackTime = avatar.attackTime;
 	}
-
 
 	public void getValueVector(double atx, double aty, double atz, double atl) {
 		// EntityLittleMaidから値をコピー

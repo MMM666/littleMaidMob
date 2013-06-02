@@ -1207,7 +1207,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	// ダメージコントロール
 	@Override
 	public boolean isBlocking() {
-		return maidAvatar.isBlocking();
+		return getSwingStatusDominant().isBlocking();
+//		return maidAvatar.isBlocking();
 	}
 
 	@Override
@@ -1492,14 +1493,10 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 
 	@Override
 	public void onLivingUpdate() {
-		// 飛び道具用
-		weaponFullAuto = false;
-		weaponReload = false;
-		
+		// 回復判定
 		if (health > 0) {
 			if (!worldObj.isRemote) {
 				if (getSwingStatusDominant().canAttack()) {
-					// 回復判定
 					if (!isBloodsuck()) {
 						// 通常時は回復優先
 						if (health < getMaxHealth()) {
@@ -1647,6 +1644,9 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			}
 		}
 		
+		// 飛び道具用
+		weaponFullAuto = false;
+		weaponReload = false;
 		
 		// 主の確認など
 		mstatMasterEntity = getMaidMasterEntity();
@@ -1700,6 +1700,10 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		// TODO:AI周りの移動速度を何とかしないと意味ない。
 		moveSpeed = (maidContract & !maidFreedom) ? moveSpeed_Max : moveSpeed_Nomal;
 		
+		// 独自処理用毎時処理
+		for (LMM_EntityModeBase leb : maidEntityModeList) {
+			leb.onUpdate(maidMode);
+		}
 		
 		
 		super.onUpdate();
@@ -1715,10 +1719,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			maidAvatar.getValue();
 			maidAvatar.onUpdate();
 //			maidAvatar.setValue();
-		}
-		// 独自処理
-		for (LMM_EntityModeBase leb : maidEntityModeList) {
-			leb.onUpdate(maidMode);
 		}
 		
 		// カウンタ系
