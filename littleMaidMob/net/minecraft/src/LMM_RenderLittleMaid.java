@@ -7,64 +7,47 @@ import javax.jws.Oneway;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public class LMM_RenderLittleMaid extends RenderLiving {
+public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 
 	// Feilds
-	protected MMM_ModelBaseDuo modelMain;
-	protected MMM_ModelBaseDuo modelFATT;
 
 
 	// Method
 	public LMM_RenderLittleMaid(float f) {
-		super(null, f);
-		modelFATT = new MMM_ModelBaseDuo(this);
-		modelFATT.isModelAlphablend = mod_LMM_littleMaidMob.AlphaBlend;
-		modelFATT.isRendering = true;
-		modelMain = new MMM_ModelBaseDuo(this);
-		modelMain.isModelAlphablend = mod_LMM_littleMaidMob.AlphaBlend;
-		modelMain.capsLink = modelFATT;
-		mainModel = modelMain;
-		setRenderPassModel(modelFATT);
+		super(f);
 	}
 
-	protected int setArmorModelEx(LMM_EntityLittleMaid entitylmaid, int i, float f) {
-		// アーマーの表示設定
-		modelFATT.renderParts = i;
-		ItemStack is = entitylmaid.maidInventory.armorItemInSlot(i);
-		if (is != null && is.stackSize > 0) {
-//			mod_littleMaidMob.Debug(String.format("en:%d-%d", i, ret));
-			modelFATT.showArmorParts(i);
-			return is.isItemEnchanted() ? 15 : 1;
-		}
+	@Override
+	public void setModelValues(EntityLiving par1EntityLiving, double par2,
+			double par4, double par6, float par8, float par9, MMM_IModelCaps pEntityCaps) {
+		LMM_EntityLittleMaid lmaid = (LMM_EntityLittleMaid)par1EntityLiving;
 		
-		return -1;
-	}
-
-	@Override
-	protected int shouldRenderPass(EntityLiving entityliving, int i, float f) {
-		//littlemaidEX
-		return setArmorModelEx((LMM_EntityLittleMaid)entityliving, i, f);
-	}
-
-	@Override
-	protected void preRenderCallback(EntityLiving entityliving, float f) {
-		Float lscale = (Float)modelMain.getCapsValue(MMM_IModelCaps.caps_ScaleFactor);
-		if (lscale != null) {
-			GL11.glScalef(lscale, lscale, lscale);
-		}
+		modelMain.setRender(this);
+		modelMain.setEntityCaps(pEntityCaps);
+		modelMain.isAlphablend = true;
+		modelFATT.isAlphablend = true;
+		
+		modelMain.setCapsValue(MMM_IModelCaps.caps_heldItemLeft, (Integer)0);
+		modelMain.setCapsValue(MMM_IModelCaps.caps_heldItemRight, (Integer)0);
+//		modelMain.setCapsValue(MMM_IModelCaps.caps_onGround, renderSwingProgress(lmaid, par9));
+		modelMain.setCapsValue(MMM_IModelCaps.caps_onGround,
+				lmaid.mstatSwingStatus[0].getSwingProgress(par9),
+				lmaid.mstatSwingStatus[1].getSwingProgress(par9));
+		modelMain.setCapsValue(MMM_IModelCaps.caps_isRiding, lmaid.isRiding());
+		modelMain.setCapsValue(MMM_IModelCaps.caps_isSneak, lmaid.isSneaking());
+		modelMain.setCapsValue(MMM_IModelCaps.caps_aimedBow, lmaid.isAimebow());
+		modelMain.setCapsValue(MMM_IModelCaps.caps_isWait, lmaid.isMaidWait());
+		modelMain.setCapsValue(MMM_IModelCaps.caps_isChild, lmaid.isChild());
+		modelMain.setCapsValue(MMM_IModelCaps.caps_entityIdFactor, lmaid.entityIdFactor);
+		modelMain.setCapsValue(MMM_IModelCaps.caps_ticksExisted, lmaid.ticksExisted);
+		modelMain.setCapsValue(MMM_IModelCaps.caps_dominantArm, lmaid.maidDominantArm);
+		// だが無意味だ
+//		plittleMaid.textureModel0.isChild = plittleMaid.textureModel1.isChild = plittleMaid.textureModel2.isChild = plittleMaid.isChild();
 	}
 
 	public void doRenderLitlleMaid(LMM_EntityLittleMaid plittleMaid, double px, double py, double pz, float f, float f1) {
 		// いくつか重複してるのであとで確認
 		// 姿勢による高さ調整
-		double lay = py;
-//		if (plittleMaid.isSneaking()) {
-//			// しゃがみ
-//			lay -= 0.06D;
-//		} else if (plittleMaid.isRiding() && plittleMaid.ridingEntity == null) {
-//			// 座り込み
-//			lay -= 0.25D;
-//		}
 		
 		if (plittleMaid.worldObj instanceof WorldServer) {
 			// RSHUD-ACV用
@@ -85,26 +68,10 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 			modelFATT.textureInner = plittleMaid.textureArmor1;
 			modelFATT.textureOuter = plittleMaid.textureArmor2;
 		}
-
-		modelMain.setRender(this);
-		modelMain.setEntityCaps(plittleMaid.maidCaps);
-		modelMain.isAlphablend = true;
-		modelFATT.isAlphablend = true;
 		
-		modelMain.setCapsValue(MMM_IModelCaps.caps_heldItemLeft, (Integer)0);
-		modelMain.setCapsValue(MMM_IModelCaps.caps_heldItemRight, (Integer)0);
-		modelMain.setCapsValue(MMM_IModelCaps.caps_onGround, renderSwingProgress(plittleMaid, f1));
-		modelMain.setCapsValue(MMM_IModelCaps.caps_isRiding, plittleMaid.isRiding());
-		modelMain.setCapsValue(MMM_IModelCaps.caps_isSneak, plittleMaid.isSneaking());
-		modelMain.setCapsValue(MMM_IModelCaps.caps_aimedBow, plittleMaid.isAimebow());
-		modelMain.setCapsValue(MMM_IModelCaps.caps_isWait, plittleMaid.isMaidWait());
-		modelMain.setCapsValue(MMM_IModelCaps.caps_isChild, plittleMaid.isChild());
-		modelMain.setCapsValue(MMM_IModelCaps.caps_entityIdFactor, plittleMaid.entityIdFactor);
-		modelMain.setCapsValue(MMM_IModelCaps.caps_ticksExisted, plittleMaid.ticksExisted);
-		// だが無意味だ
-//		plittleMaid.textureModel0.isChild = plittleMaid.textureModel1.isChild = plittleMaid.textureModel2.isChild = plittleMaid.isChild();
 		
-		doRenderLiving(plittleMaid, px, lay, pz, f, f1);
+//		doRenderLiving(plittleMaid, px, py, pz, f, f1);
+		renderModelMulti(plittleMaid, px, py, pz, f, f1, plittleMaid.maidCaps);
 		
 		
 		// ひも
@@ -176,28 +143,14 @@ public class LMM_RenderLittleMaid extends RenderLiving {
 		mainModel.render(par1EntityLiving, par2, par3, par4, par5, par6, par7);
 	}
 
-	protected void renderSpecials(LMM_EntityLittleMaid entitylittlemaid, float f) {
-		// ハードポイントの描画
-		modelMain.renderItems(entitylittlemaid, this);
-		renderArrowsStuckInEntity(entitylittlemaid, f);
-	}
-
-	@Override
-	protected void renderEquippedItems(EntityLiving entityliving, float f) {
-		renderSpecials((LMM_EntityLittleMaid)entityliving, f);
-	}
-
 	@Override
 	protected void passSpecialRender(EntityLiving par1EntityLiving, double par2, double par4, double par6) {
 		super.passSpecialRender(par1EntityLiving, par2, par4, par6);
 		
-		if (par1EntityLiving instanceof LMM_EntityLittleMaid) {
-			LMM_EntityLittleMaid llmm = (LMM_EntityLittleMaid)par1EntityLiving;
-	
-			// 追加分
-			for (int li = 0; li < llmm.maidEntityModeList.size(); li++) {
-				llmm.maidEntityModeList.get(li).showSpecial(this, par2, par4, par6);
-			}
+		LMM_EntityLittleMaid llmm = (LMM_EntityLittleMaid)par1EntityLiving;
+		// 追加分
+		for (int li = 0; li < llmm.maidEntityModeList.size(); li++) {
+			llmm.maidEntityModeList.get(li).showSpecial(this, par2, par4, par6);
 		}
 	}
 

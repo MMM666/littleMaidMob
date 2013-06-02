@@ -103,6 +103,8 @@ public class LMM_Client {
 		}
 	}
 
-
+	public static void setAchievement() {
+		MMM_Helper.mc.statFileWriter.readStat(mod_LMM_littleMaidMob.ac_Contract, 1);
+	}
 
 }

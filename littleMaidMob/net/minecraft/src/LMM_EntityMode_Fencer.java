@@ -25,8 +25,12 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 		// ìoò^ÉÇÅ[ÉhÇÃñºèÃí«â¡
 		ModLoader.addLocalization("littleMaidMob.mode.Fencer", "Fencer");
 		ModLoader.addLocalization("littleMaidMob.mode.Fencer", "ja_JP", "åÏâqåïém");
+		ModLoader.addLocalization("littleMaidMob.mode.F-Fencer", "F-Fencer");
+		ModLoader.addLocalization("littleMaidMob.mode.-FFencer", "ja_JP", "é©óRåïém");
 		ModLoader.addLocalization("littleMaidMob.mode.Bloodsucker", "Bloodsucker");
 		ModLoader.addLocalization("littleMaidMob.mode.Bloodsucker", "ja_JP", "ååÇ…ãQÇ¶ÇΩñªìy");
+		ModLoader.addLocalization("littleMaidMob.mode.F-Bloodsucker", "F-Bloodsucker");
+		ModLoader.addLocalization("littleMaidMob.mode.F-Bloodsucker", "ja_JP", "í ñÇñªìy");
 		LMM_TriggerSelect.appendTriggerItem(null, "Sword", "");
 		LMM_TriggerSelect.appendTriggerItem(null, "Axe", "");
 	}

@@ -79,13 +79,13 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.5.2-1";
+		return "1.5.2-2";
 	}
 
 	@Override
 	public void load() {
 		// MMMLibのRevisionチェック
-		MMM_Helper.checkRevision("2");
+		MMM_Helper.checkRevision("3");
 		
 //		UniqueEntityId = UniqueEntityId == 0 ? MMM_Helper.getNextEntityID(true) : UniqueEntityId;
 		defaultTexture = defaultTexture.trim();
@@ -112,11 +112,31 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		if (MMM_Helper.isClient) {
 			// アチ実験用
 			if (AchievementID != 0) {
-				ac_Contract = new Achievement(AchievementID, "littleMaid", 1, -4, Item.cake, AchievementList.bakeCake).registerAchievement();
-//                ModLoader.AddAchievementDesc(ac_Contract, "(21)", "Capture the LittleMaid!");
-				ModLoader.addAchievementDesc(ac_Contract, "Enlightenment!", "Capture the LittleMaid!");
-				ModLoader.addLocalization("achievement.littleMaid", "ja_JP", "悟り。");
-				ModLoader.addLocalization("achievement.littleMaid.desc", "ja_JP", "メイドさんを入手しました。");
+				while (true) {
+					// アチーブを獲得した状態で未登録だと、UNKNOWNのアチーブが登録されているので削除する。
+					int laid = 5242880 + AchievementID;
+					StatBase lsb = StatList.getOneShotStat(laid);
+					boolean lflag = false;
+					if (lsb != null) {
+						if (lsb instanceof StatPlaceholder) {
+							StatList.oneShotStats.remove(Integer.valueOf(laid));
+							Debug("Replace Achievement: %d(%d)", AchievementID, laid);
+							lflag = true;
+						} else {
+							Debug("Already Achievement: %d(%d) - %s(%s)", AchievementID, laid, lsb.statGuid, lsb.getClass().getSimpleName());
+							break;
+						}
+					}
+					ac_Contract = new Achievement(AchievementID, "littleMaid", 1, -4, Item.cake, AchievementList.bakeCake).registerAchievement();
+//	                ModLoader.AddAchievementDesc(ac_Contract, "(21)", "Capture the LittleMaid!");
+					ModLoader.addAchievementDesc(ac_Contract, "Enlightenment!", "Capture the LittleMaid!");
+					ModLoader.addLocalization("achievement.littleMaid", "ja_JP", "悟り。");
+					ModLoader.addLocalization("achievement.littleMaid.desc", "ja_JP", "メイドさんを入手しました。");
+					if (lflag) {
+						LMM_Client.setAchievement();
+					}
+					break;
+				}
 			}
 			
 			// 名称変換テーブル
