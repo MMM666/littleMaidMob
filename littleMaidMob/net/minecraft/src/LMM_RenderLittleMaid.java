@@ -24,6 +24,7 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 		
 		modelMain.setRender(this);
 		modelMain.setEntityCaps(pEntityCaps);
+		modelMain.showAllParts();
 		modelMain.isAlphablend = true;
 		modelFATT.isAlphablend = true;
 		
@@ -51,16 +52,23 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 		
 		if (plittleMaid.worldObj instanceof WorldServer) {
 			// RSHUD-ACV—p
-			Entity le = MMM_Helper.mc.theWorld.getEntityByID(plittleMaid.entityId);
-			if (le instanceof LMM_EntityLittleMaid) {
-				LMM_EntityLittleMaid lel = (LMM_EntityLittleMaid)le;
-				modelMain.modelInner = ((MMM_TextureBox)lel.textureBox[0]).models[0];
-				modelFATT.modelInner = ((MMM_TextureBox)lel.textureBox[1]).models[1];
-				modelFATT.modelOuter = ((MMM_TextureBox)lel.textureBox[1]).models[2];
-				modelFATT.textureInner = lel.textureArmor1;
-				modelFATT.textureOuter = lel.textureArmor2;
-				plittleMaid.texture = lel.texture;
-			}
+			MMM_TextureBox ltbox0, ltbox1;
+			ltbox0 = MMM_TextureManager.instance.getTextureBox(plittleMaid.textureBox[0]);
+			ltbox1 = MMM_TextureManager.instance.getTextureBox(plittleMaid.textureBox[1]);
+			modelMain.modelInner = ltbox0.models[0];
+			modelFATT.modelInner = ltbox1.models[1];
+			modelFATT.modelOuter = ltbox1.models[2];
+			plittleMaid.texture = ltbox0.getTextureName(plittleMaid.maidColor);
+			plittleMaid.textureArmor1[0] = ltbox1.getArmorTextureName(true, plittleMaid.getCurrentArmor(0));
+			plittleMaid.textureArmor1[1] = ltbox1.getArmorTextureName(true, plittleMaid.getCurrentArmor(1));
+			plittleMaid.textureArmor1[2] = ltbox1.getArmorTextureName(true, plittleMaid.getCurrentArmor(2));
+			plittleMaid.textureArmor1[3] = ltbox1.getArmorTextureName(true, plittleMaid.getCurrentArmor(3));
+			plittleMaid.textureArmor2[0] = ltbox1.getArmorTextureName(false, plittleMaid.getCurrentArmor(0));
+			plittleMaid.textureArmor2[1] = ltbox1.getArmorTextureName(false, plittleMaid.getCurrentArmor(1));
+			plittleMaid.textureArmor2[2] = ltbox1.getArmorTextureName(false, plittleMaid.getCurrentArmor(2));
+			plittleMaid.textureArmor2[3] = ltbox1.getArmorTextureName(false, plittleMaid.getCurrentArmor(3));
+			modelFATT.textureInner = plittleMaid.textureArmor1;
+			modelFATT.textureOuter = plittleMaid.textureArmor2;
 		} else {
 			modelMain.modelInner = ((MMM_TextureBox)plittleMaid.textureBox[0]).models[0];
 			modelFATT.modelInner = ((MMM_TextureBox)plittleMaid.textureBox[1]).models[1];
@@ -68,7 +76,6 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 			modelFATT.textureInner = plittleMaid.textureArmor1;
 			modelFATT.textureOuter = plittleMaid.textureArmor2;
 		}
-		
 		
 //		doRenderLiving(plittleMaid, px, py, pz, f, f1);
 		renderModelMulti(plittleMaid, px, py, pz, f, f1, plittleMaid.maidCaps);

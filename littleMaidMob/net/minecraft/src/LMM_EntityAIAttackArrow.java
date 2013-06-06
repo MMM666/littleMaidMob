@@ -33,7 +33,10 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 		if (!fEnable || entityliving == null || entityliving.isDead) {
 			fMaid.setAttackTarget(null);
 			fMaid.setTarget(null);
-			fMaid.getNavigator().clearPathEntity();
+			if (entityliving != null) {
+				fMaid.getNavigator().clearPathEntity();
+			}
+			fTarget = null;
 			return false;
 		} else {
 			fTarget = entityliving;
@@ -49,7 +52,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 
 	@Override
 	public boolean continueExecuting() {
-		return shouldExecute() || !fMaid.getNavigator().noPath();
+		return shouldExecute() || (fTarget != null && !fMaid.getNavigator().noPath());
 	}
 
 	@Override
@@ -103,7 +106,6 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 //					mod_LMM_littleMaidMob.Debug("il:%f, milsq:%f", il, milsq);
 				}
 				
-				
 				if (litemstack != null && !(litemstack.getItem() instanceof ItemFood) && !fMaid.weaponReload) {
 					int lastentityid = worldObj.loadedEntityList.size();
 					int itemcount = litemstack.stackSize;
@@ -114,23 +116,11 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 					int helmid = !fMaid.isMaskedMaid() ? 0 : fInventory.armorInventory[3].getItem().itemID;
 					if (helmid == Item.helmetDiamond.itemID || helmid == Item.helmetGold.itemID) {
 						// 射線軸の確認
-						List list = worldObj.getEntitiesWithinAABBExcludingEntity(fMaid, fMaid.boundingBox.expand(16D, 16D, 16D));
-						Vec3 vec3d = Vec3.createVectorHelper(fMaid.posX, fMaid.posY, fMaid.posZ);
-						Vec3 vec3d1 = Vec3.createVectorHelper(fTarget.posX, fTarget.posY, fTarget.posZ);
-						for(int l = 0; l < list.size(); l++) {
-							Entity entity1 = (Entity)list.get(l);
-							// 自分や味方以外に中るなら撃つ
-							if (entity1 == masterEntity || entity1 == fMaid || entity1 == fTarget || !entity1.canBeCollidedWith() || !fMaid.getIFF(entity1)) { 
-								continue;
-							}
-							float f5 = 0.3F;
-							AxisAlignedBB axisalignedbb1 = entity1.boundingBox.expand(f5, f5, f5);
-							MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(vec3d, vec3d1);
-							if(movingobjectposition1 == null) {
-								continue;
-							}
+						double tpr = Math.sqrt(atl);
+						Entity lentity = MMM_Helper.getRayTraceEntity(fMaid.maidAvatar, tpr, 1.0F, 1.0F);
+						if (lentity != null && fMaid.getIFF(lentity)) {
 							fsh = false;
-							mod_LMM_littleMaidMob.Debug("ID:%d-friendly fire to ID:%d.", fMaid.entityId, entity1.entityId);
+//							mod_LMM_littleMaidMob.Debug("ID:%d-friendly fire to ID:%d.", fMaid.entityId, lentity.entityId);
 						}
 					}
 					fsh &= (milsq > 3D || il < 0D);
@@ -154,14 +144,14 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 					}
 					else if (lsee & ldist < 100) {
 						fMaid.getNavigator().clearPathEntity();
-						mod_LMM_littleMaidMob.Debug("Shooting Range.");
-
+//						mod_LMM_littleMaidMob.Debug("Shooting Range.");
 					}
-
+					
 					fsh &= lsee;
 //            		mod_littleMaidMob.Debug(String.format("id:%d at:%d", entityId, attackTime));
 					if (((fMaid.weaponFullAuto && !fsh) || (fsh && fMaid.getSwingStatusDominant().canAttack())) && fAvatar.isItemTrigger) {
 						// シュート
+						// フルオート武器は射撃停止
 						mod_LMM_littleMaidMob.Debug("id:%d shoot.", fMaid.entityId);
 						fAvatar.stopUsingItem();
 						fMaid.setSwing(30, LMM_EnumSound.shoot);

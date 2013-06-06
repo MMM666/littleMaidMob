@@ -44,7 +44,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 	public boolean changeMode(EntityPlayer pentityplayer) {
 		ItemStack litemstack = owner.maidInventory.getStackInSlot(0);
 		if (litemstack != null) {
-			if (litemstack.getItem() instanceof ItemPotion && !litemstack.hasEffect()) {
+			if (litemstack.getItem() instanceof ItemPotion && !litemstack.isItemEnchanted()) {
 				owner.setMaidMode("Pharmacist");
 				return true;
 			}
@@ -77,7 +77,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 				litemstack = owner.maidInventory.getStackInSlot(li);
 				if (litemstack != null) {
 					// 対象は水ポーション
-					if (litemstack.getItem() instanceof ItemPotion && !litemstack.hasEffect()) {
+					if (litemstack.getItem() instanceof ItemPotion && !litemstack.isItemEnchanted()) {
 						return li;
 					}
 				}
@@ -127,7 +127,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 		}
 		
 		// 世界のメイドから
-		for (Object lo : owner.worldObj.getLoadedEntityList()) {
+		for (Object lo : owner.worldObj.loadedEntityList) {
 			if (lo == owner) continue;
 			if (lo instanceof LMM_EntityLittleMaid) {
 				LMM_EntityLittleMaid lem = (LMM_EntityLittleMaid)lo;
@@ -144,14 +144,16 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 		}
 
 		if (mySerch != null) {
-			double lleng = ltile.getDistanceFrom(owner.posX, owner.posY, owner.posZ);
+//			double lleng = ltile.getDistanceFrom(owner.posX, owner.posY, owner.posZ);
+			double lleng = owner.getDistance(ltile.xCoord + 0.5D, ltile.yCoord + 0.5D, ltile.zCoord + 0.5D);
 			if (lleng < myleng) {
 				mySerch = (TileEntityBrewingStand)ltile;
 				myleng = lleng;
 			}
 		} else {
 			mySerch = (TileEntityBrewingStand)ltile;
-			myleng = mySerch.getDistanceFrom(owner.posX, owner.posY, owner.posZ);
+//			myleng = mySerch.getDistanceFrom(owner.posX, owner.posY, owner.posZ);
+			myleng = owner.getDistance(mySerch.xCoord + 0.5D, mySerch.yCoord + 0.5D, mySerch.zCoord + 0.5D);
 		}
 		return false;
 	}
@@ -214,7 +216,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 			}
 			
 			litemstack1 = owner.maidInventory.getCurrentItem();
-			if (!lflag && (litemstack1 != null && litemstack1.getItem() instanceof ItemPotion && !litemstack1.hasEffect())) {
+			if (!lflag && (litemstack1 != null && litemstack1.getItem() instanceof ItemPotion && !litemstack1.isItemEnchanted())) {
 				// 水瓶をげっとれでぃ
 				int li = 0;
 				for (li = 0; li < 3 && !lflag; li++) {
@@ -229,7 +231,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 				}
 			}
 			if (!lflag && (ltile.getStackInSlot(0) != null || ltile.getStackInSlot(1) != null || ltile.getStackInSlot(2) != null)
-					&& (owner.maidInventory.currentItem == -1 || (litemstack1 != null && litemstack1.getItem() instanceof ItemPotion && !litemstack1.hasEffect()))) {
+					&& (owner.maidInventory.currentItem == -1 || (litemstack1 != null && litemstack1.getItem() instanceof ItemPotion && !litemstack1.isItemEnchanted()))) {
 				// ポーション以外を検索
 				for (maidSearchCount = 0; maidSearchCount < owner.maidInventory.mainInventory.length; maidSearchCount++) {
 					litemstack1 = owner.maidInventory.getStackInSlot(maidSearchCount);
@@ -251,7 +253,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 					owner.setSwing(15, LMM_EnumSound.Null);
 					lflag = true;
 				} 
-				else if (litemstack1 == null || (litemstack1.getItem() instanceof ItemPotion && litemstack1.hasEffect()) || !litemstack1.getItem().isPotionIngredient()) {
+				else if (litemstack1 == null || (litemstack1.getItem() instanceof ItemPotion && litemstack1.isItemEnchanted()) || !litemstack1.getItem().isPotionIngredient()) {
 					// 対象外アイテムを発見した時に終了
 					maidSearchCount = owner.maidInventory.mainInventory.length;
 					lflag = false;

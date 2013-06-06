@@ -23,6 +23,7 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 		ModLoader.addLocalization("littleMaidMob.mode.Healer", "Healer");
 		ModLoader.addLocalization("littleMaidMob.mode.F-Healer", "F-Healer");
 		ModLoader.addLocalization("littleMaidMob.mode.T-Healer", "T-Healer");
+		ModLoader.addLocalization("littleMaidMob.mode.D-Healer", "D-Healer");
 	}
 	
 	@Override
@@ -38,19 +39,19 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 		owner.addMaidMode(ltasks, "Healer", mmode_Healer);
 
 	}
-	
+
 	@Override
 	public boolean changeMode(EntityPlayer pentityplayer) {
 		ItemStack litemstack = owner.maidInventory.getStackInSlot(0);
 		if (litemstack != null) {
-			if (litemstack.getItem() instanceof ItemFood || (litemstack.getItem() instanceof ItemPotion && litemstack.hasEffect())) {
+			if (litemstack.getItem() instanceof ItemFood || (litemstack.getItem() instanceof ItemPotion && litemstack.isItemEnchanted())) {
 				owner.setMaidMode("Healer");
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean setMode(int pMode) {
 		switch (pMode) {
@@ -71,20 +72,20 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
     			ItemStack is = owner.maidInventory.getStackInSlot(i);
     			if (is == null) continue;
 				// 対象は食料かポーション
-				if (is.getItem() instanceof ItemFood || (is.getItem() instanceof ItemPotion && is.hasEffect())) {
-    	    		return i;
+				if (is.getItem() instanceof ItemFood || (is.getItem() instanceof ItemPotion && is.isItemEnchanted())) {
+					return i;
     			}
     		}
     		break;
 		}
 		return -1;
 	}
-	
+
 	@Override
 	public boolean checkItemStack(ItemStack pItemStack) {
 		return pItemStack.getItem() instanceof ItemFood || pItemStack.getItem() instanceof ItemPotion;
 	}
-	
+
 	@Override
 	public void updateAITick(int pMode) {
 		if (pMode == mmode_Healer) {

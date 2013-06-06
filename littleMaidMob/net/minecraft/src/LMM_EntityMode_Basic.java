@@ -157,7 +157,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 		}
 		
 		// ê¢äEÇÃÉÅÉCÉhÇ©ÇÁ
-		for (Object lo : owner.worldObj.getLoadedEntityList()) {
+		for (Object lo : owner.worldObj.loadedEntityList) {
 			if (lo instanceof LMM_EntityLittleMaid) {
 				LMM_EntityLittleMaid lem = (LMM_EntityLittleMaid)lo;
 //				if (lem.isUsingTile(ltile)) {
@@ -287,7 +287,11 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 		if (!owner.isMaidWaitEx()) {
 			double distance;
 			if (myTile instanceof TileEntity) {
-				distance = ((TileEntity)myTile).getDistanceFrom(owner.posX, owner.posY, owner.posZ);
+//				distance = ((TileEntity)myTile).getDistanceFrom(owner.posX, owner.posY, owner.posZ);
+				distance = owner.getDistance(
+						((TileEntity) myTile).xCoord,
+						((TileEntity) myTile).yCoord,
+						((TileEntity) myTile).zCoord);
 				if (distance == lastdistance) {
 					// à⁄ìÆÇ™å≈Ç‹ÇÁÇ»Ç¢ÇÊÇ§Ç…óêêîâ¡ë¨
 					mod_LMM_littleMaidMob.Debug("Assert.");

@@ -60,9 +60,9 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 					return false;
 				}
 			}
-			mod_LMM_littleMaidMob.Debug(String.format(
+			mod_LMM_littleMaidMob.Debug(
 					"ID:%d(%s) Jump To Master.",
-					theMaid.entityId, theMaid.worldObj.isRemote ? "C" : "W"));
+					theMaid.entityId, theMaid.worldObj.isRemote ? "C" : "W");
 			return true;
 		}
 		return false;
@@ -87,13 +87,13 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 								(double) k,
 								(double) (j + i1) - MathHelper.cos(theOwner.rotationYaw * 0.01745329252F) * 2.0D);
 						if (dd > 8D) {
-							theMaid.setTarget(null);
-							theMaid.setRevengeTarget(null);
-							theMaid.setAttackTarget(null);
+//							theMaid.setTarget(null);
+//							theMaid.setRevengeTarget(null);
+//							theMaid.setAttackTarget(null);
+//							theMaid.getNavigator().clearPathEntity();
 							theMaid.setLocationAndAngles(
 									(float) (i + l) + 0.5F, k, (float) (j + i1) + 0.5F,
 									theMaid.rotationYaw, theMaid.rotationPitch);
-							theMaid.getNavigator().clearPathEntity();
 							return;
 						}
 					}
@@ -168,14 +168,18 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 						theMaid.entityId, theMaid.worldObj.isRemote ? "C" : "W"));
 			}
 			
-			theMaid.setTarget(null);
-			theMaid.setAttackTarget(null);
-			theMaid.getNavigator().clearPathEntity();
+//			theMaid.setTarget(null);
+//			theMaid.setAttackTarget(null);
+//			theMaid.getNavigator().clearPathEntity();
 			theMaid.setLocationAndAngles((double) lx + 05D, (double) ly, (double) lz + 0.5D,
 					theMaid.rotationYaw, theMaid.rotationPitch);
 			
 		}
 		
+		theMaid.setTarget(null);
+		theMaid.setAttackTarget(null);
+		theMaid.setRevengeTarget(null);
+		theMaid.getNavigator().clearPathEntity();
 		mod_LMM_littleMaidMob.Debug(String.format("ID:%d(%s) Jump Fail.",
 				theMaid.entityId, theMaid.worldObj.isRemote ? "C" : "W"));
 	}

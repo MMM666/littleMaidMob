@@ -258,13 +258,28 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	}
 
 	@Override
+	public boolean isEating() {
+		return avatar.isEating();
+	}
+
+	@Override
 	public void setAir(int par1) {
 		avatar.setAir(par1);
 	}
 
 	@Override
+	public int getAir() {
+		return avatar.getAir();
+	}
+
+	@Override
 	public void setFire(int par1) {
 		avatar.setFire(par1);
+	}
+
+	@Override
+	public boolean isBurning() {
+		return avatar.isBurning();
 	}
 
 	@Override
@@ -281,6 +296,11 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	@Override
 	public boolean isBlocking() {
 		return avatar.isBlocking();
+	}
+
+	@Override
+	public void playSound(String par1Str, float par2, float par3) {
+		avatar.playSound(par1Str, par2, par3);
 	}
 
 	public void getValue() {

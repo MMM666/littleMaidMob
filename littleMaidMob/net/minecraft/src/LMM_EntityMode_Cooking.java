@@ -115,7 +115,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 		}
 		
 		// ê¢äEÇÃÉÅÉCÉhÇ©ÇÁ
-		for (Object lo : owner.worldObj.getLoadedEntityList()) {
+		for (Object lo : owner.worldObj.loadedEntityList) {
 			if (lo == owner) continue;
 			if (lo instanceof LMM_EntityLittleMaid) {
 				LMM_EntityLittleMaid lem = (LMM_EntityLittleMaid)lo;
@@ -135,14 +135,16 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 		}
 		
 		if (mySerch != null) {
-			double lleng = ltile.getDistanceFrom(owner.posX, owner.posY, owner.posZ);
+//			double lleng = ltile.getDistanceFrom(owner.posX, owner.posY, owner.posZ);
+			double lleng = owner.getDistance(ltile.xCoord + 0.5D, ltile.yCoord + 0.5D, ltile.zCoord + 0.5D);
 			if (lleng < myleng) {
 				mySerch = (TileEntityFurnace)ltile;
 				myleng = lleng;
 			}
 		} else {
 			mySerch = (TileEntityFurnace)ltile;
-			myleng = mySerch.getDistanceFrom(owner.posX, owner.posY, owner.posZ);
+//			myleng = mySerch.getDistanceFrom(owner.posX, owner.posY, owner.posZ);
+			myleng = owner.getDistance(mySerch.xCoord + 0.5D, mySerch.yCoord + 0.5D, mySerch.zCoord + 0.5D);
 		}
 		
 //		owner.setSneaking(false);

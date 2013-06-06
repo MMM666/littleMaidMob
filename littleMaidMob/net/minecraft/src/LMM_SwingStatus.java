@@ -64,10 +64,10 @@ public class LMM_SwingStatus {
 			} else {
 				if (itemInUseCount <= 25 && itemInUseCount % 4 == 0) {
 					// H‚×‚©‚·‚Æ‚©
-//	TODO:				updateItemUse(itemstack, 5);
+					updateItemUse(pEntity, 5);
 				}
-				if (--itemInUseCount == 0 && lrentity != null) {
-//	TODO:				onItemUseFinish();
+				if (--itemInUseCount <= 0 && lrentity != null) {
+					onItemUseFinish(pEntity.maidAvatar);
 				}
 			}
 		}
@@ -194,6 +194,45 @@ public class LMM_SwingStatus {
 			if (pEntity != null) {
 				pEntity.setEating(true);
 			}
+		}
+	}
+
+	protected void updateItemUse(Entity pEntity, int par2) {
+		if (itemInUse.getItemUseAction() == EnumAction.drink) {
+			pEntity.playSound("random.drink", 0.5F, pEntity.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+		}
+		
+		if (itemInUse.getItemUseAction() == EnumAction.eat) {
+			for (int var3 = 0; var3 < par2; ++var3) {
+				Vec3 var4 = pEntity.worldObj.getWorldVec3Pool().getVecFromPool(((double)pEntity.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+				var4.rotateAroundX(-pEntity.rotationPitch * (float)Math.PI / 180.0F);
+				var4.rotateAroundY(-pEntity.rotationYaw * (float)Math.PI / 180.0F);
+				Vec3 var5 = pEntity.worldObj.getWorldVec3Pool().getVecFromPool(((double)pEntity.rand.nextFloat() - 0.5D) * 0.3D, (double)(-pEntity.rand.nextFloat()) * 0.6D - 0.3D, 0.6D);
+				var5.rotateAroundX(-pEntity.rotationPitch * (float)Math.PI / 180.0F);
+				var5.rotateAroundY(-pEntity.rotationYaw * (float)Math.PI / 180.0F);
+				var5 = var5.addVector(pEntity.posX, pEntity.posY + (double)pEntity.getEyeHeight(), pEntity.posZ);
+				pEntity.worldObj.spawnParticle("iconcrack_" + itemInUse.getItem().itemID, var5.xCoord, var5.yCoord, var5.zCoord, var4.xCoord, var4.yCoord + 0.05D, var4.zCoord);
+			}
+			
+			pEntity.playSound("random.eat", 0.5F + 0.5F * (float)pEntity.rand.nextInt(2), (pEntity.rand.nextFloat() - pEntity.rand.nextFloat()) * 0.2F + 1.0F);
+		}
+	}
+
+	protected void onItemUseFinish(EntityPlayer pEntityPlayer) {
+		if (this.itemInUse != null) {
+			this.updateItemUse(pEntityPlayer, 16);
+			int var1 = this.itemInUse.stackSize;
+			ItemStack var2 = itemInUse.onFoodEaten(pEntityPlayer.worldObj, pEntityPlayer);
+			
+			if (var2 != this.itemInUse || var2 != null && var2.stackSize != var1) {
+				if (var2.stackSize == 0) {
+					pEntityPlayer.inventory.setInventorySlotContents(index, null);
+				} else {
+					pEntityPlayer.inventory.setInventorySlotContents(index, var2);
+				}
+			}
+			
+			clearItemInUse(pEntityPlayer);
 		}
 	}
 
