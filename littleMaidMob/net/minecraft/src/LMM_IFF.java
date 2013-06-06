@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.TreeMap;
 
 import net.minecraft.server.MinecraftServer;
@@ -74,15 +75,13 @@ public class LMM_IFF {
 					break;
 				case 1:
 					// é©ï™ÇÃå_ñÒé“
-					pName = (new StringBuilder()).append(pName)
-							.append(":Contract").toString();
+					pName = (new StringBuilder()).append(pName).append(":Contract").toString();
 					((LMM_EntityLittleMaid) pEntity).setMaidContract(true);
 					liff = LMM_IFF.iff_Friendry;
 					break;
 				case 2:
 					// ëºêlÇÃå_ñÒé“
-					pName = (new StringBuilder()).append(pName)
-							.append(":Others").toString();
+					pName = (new StringBuilder()).append(pName).append(":Others").toString();
 					((LMM_EntityLittleMaid) pEntity).setMaidContract(true);
 					liff = LMM_IFF.iff_Friendry;
 					break;
@@ -94,8 +93,7 @@ public class LMM_IFF {
 					break;
 				case 1:
 					// é©ï™ÇÃâ∆í{
-					pName = (new StringBuilder()).append(pName).append(":Taim")
-							.toString();
+					pName = (new StringBuilder()).append(pName).append(":Taim").toString();
 					((EntityTameable) pEntity).setTamed(true);
 					liff = LMM_IFF.iff_Friendry;
 					break;
@@ -109,9 +107,7 @@ public class LMM_IFF {
 				}
 				if (pIndex != 0) {
 					if (pEntity instanceof EntityOcelot) {
-						((EntityOcelot) pEntity)
-								.setTameSkin(1 + pEntity.worldObj.rand
-										.nextInt(3));
+						((EntityOcelot) pEntity).setTameSkin(1 + (new Random()).nextInt(3));
 					}
 				}
 			}
@@ -129,7 +125,7 @@ public class LMM_IFF {
 				DefaultIFF.put(pName, liff);
 			}
 		}
-
+		
 		return liff;
 	}
 
@@ -140,12 +136,36 @@ public class LMM_IFF {
 		if (entityname == null) {
 			return mod_LMM_littleMaidMob.Aggressive ? iff_Enemy : iff_Friendry;
 		}
-		int t = iff_Enemy;
+		int lt = iff_Enemy;
 		Map<String, Integer> lmap = getUserIFF(pUsername);
 		if (lmap.containsKey(entityname)) {
-			t = lmap.get(entityname);
+			lt = lmap.get(entityname);
+		} else if (lmap != DefaultIFF && DefaultIFF.containsKey(entityname)) {
+			lt = DefaultIFF.get(entityname);
+			lmap.put(entityname, lt);
+		} else {
+			int li = entityname.indexOf(":");
+			String ls;
+			if (li > -1) {
+				ls = entityname.substring(0, li);
+			} else {
+				ls = entityname;
+			}
+			Entity lentity = EntityList.createEntityByName(ls, null);
+			li = 0;
+			if (entityname.indexOf(":Contract") > -1) {
+				li = 1;
+			} else 
+			if (entityname.indexOf(":Taim") > -1) {
+				li = 1;
+			} else
+			if (entityname.indexOf(":Others") > -1) {
+				li = 2;
+			}
+			lt = checkEntityStatic(ls, lentity, li, null);
+			lmap.put(entityname, lt);
 		}
-		return t;
+		return lt;
 	}
 
 	/**
@@ -166,31 +186,25 @@ public class LMM_IFF {
 		int li = 0;
 		if (entity instanceof LMM_EntityLittleMaid) {
 			if (((LMM_EntityLittleMaid) entity).isMaidContract()) {
-				if (((LMM_EntityLittleMaid) entity).getMaidMaster()
-						.contentEquals(pUsername)) {
+				if (((LMM_EntityLittleMaid) entity).getMaidMaster().contentEquals(pUsername)) {
 					// é©ï™ÇÃ
-					lcname = (new StringBuilder()).append(lename)
-							.append(":Contract").toString();
+					lcname = (new StringBuilder()).append(lename).append(":Contract").toString();
 					li = 1;
 				} else {
 					// ëºêlÇÃ
-					lcname = (new StringBuilder()).append(lename)
-							.append(":Others").toString();
+					lcname = (new StringBuilder()).append(lename).append(":Others").toString();
 					li = 2;
 				}
 			}
 		} else if (entity instanceof EntityTameable) {
 			if (((EntityTameable) entity).isTamed()) {
-				if (((EntityTameable) entity).getOwnerName().contentEquals(
-						pUsername)) {
+				if (((EntityTameable) entity).getOwnerName().contentEquals(pUsername)) {
 					// é©ï™ÇÃ
-					lcname = (new StringBuilder()).append(lename)
-							.append(":Taim").toString();
+					lcname = (new StringBuilder()).append(lename).append(":Taim").toString();
 					li = 1;
 				} else {
 					// ëºêlÇÃ
-					lcname = (new StringBuilder()).append(lename)
-							.append(":Others").toString();
+					lcname = (new StringBuilder()).append(lename).append(":Others").toString();
 					li = 2;
 				}
 			}
@@ -209,8 +223,7 @@ public class LMM_IFF {
 			File lfile = MinecraftServer.getServer().getFile("");
 			for (File lf : lfile.listFiles()) {
 				if (lf.getName().endsWith("littleMaidMob.iff")) {
-					String ls = lf.getName().substring(17,
-							lf.getName().length() - 20);
+					String ls = lf.getName().substring(17, lf.getName().length() - 20);
 					mod_LMM_littleMaidMob.Debug(ls);
 					loadIFF(ls);
 				}
@@ -230,7 +243,7 @@ public class LMM_IFF {
 			if (pUsername.isEmpty()) {
 				lfilename = "config/littleMaidMob.iff";
 			} else {
-				lfilename = "config/".concat(pUsername).concat("_littleMaidMob.iff");
+				lfilename = "config/littleMaidMob_".concat(pUsername).concat(".iff");
 			}
 			lfile = MinecraftServer.getServer().getFile(lfilename);
 		}
@@ -280,8 +293,7 @@ public class LMM_IFF {
 		Map<String, Integer> lmap = getUserIFF(pUsername);
 		
 		try {
-			if (!lmap.isEmpty() && (lfile.exists() || lfile.createNewFile())
-					&& lfile.canWrite()) {
+			if ((lfile.exists() || lfile.createNewFile()) && lfile.canWrite()) {
 				FileWriter fw = new FileWriter(lfile);
 				BufferedWriter bw = new BufferedWriter(fw);
 				

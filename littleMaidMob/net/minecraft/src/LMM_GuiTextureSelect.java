@@ -129,14 +129,14 @@ public class LMM_GuiTextureSelect extends GuiScreen {
 //					theMaid.maidColor = selectPanel.color | 0x010000 | (selectColor << 8);
 					// サーバーへ染料の使用を通知
 					byte ldata[] = new byte[2];
-					ldata[0] = LMM_Net.LMN_Server_DecDyePowder;
+					ldata[0] = LMM_Statics.LMN_Server_DecDyePowder;
 					ldata[1] = (byte)selectColor;
 					LMM_Net.sendToServer(ldata);
 				}
 				theMaid.sendTextureToServer();
 			} else {
-				theMaid.textureIndex[0] = MMM_TextureManager.getIndexTextureBoxServerIndex((MMM_TextureBox)theMaid.textureBox[0]);
-				theMaid.textureIndex[1] = MMM_TextureManager.getIndexTextureBoxServerIndex((MMM_TextureBox)theMaid.textureBox[1]);
+				theMaid.textureIndex[0] = MMM_TextureManager.instance.getIndexTextureBoxServerIndex((MMM_TextureBox)theMaid.textureBox[0]);
+				theMaid.textureIndex[1] = MMM_TextureManager.instance.getIndexTextureBoxServerIndex((MMM_TextureBox)theMaid.textureBox[1]);
 				theMaid.setTextureNames();
 			}
 			System.out.println(String.format("select: %d(%d/%s), %d(%d/%s)",

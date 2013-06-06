@@ -46,6 +46,8 @@ public class LMM_EntityAINearestAttackableTarget extends EntityAINearestAttackab
 	public boolean shouldExecute() {
 		if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0) {
 			return false;
+//		} else if (theMaid.getAttackTarget() != null) {
+//			return true;
 		} else {
 			List var5 = this.taskOwner.worldObj.getEntitiesWithinAABB(this.targetClass, this.taskOwner.boundingBox.expand((double)this.targetDistance, 4.0D, (double)this.targetDistance));
 			if (theMaid.mstatMasterEntity != null && !theMaid.isBloodsuck()) {

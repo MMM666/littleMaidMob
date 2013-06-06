@@ -1,19 +1,29 @@
 package net.minecraft.src;
 
-public class LMM_ContainerInventory extends Container {
+public class LMM_ContainerInventory extends ContainerPlayer {
 	
-	private LMM_InventoryLittleMaid littlemaidInventory;
-	private int numRows;
+	protected LMM_InventoryLittleMaid littlemaidInventory;
+	protected int numRows;
+	protected LMM_EntityLittleMaid owner;
 
 
-	public LMM_ContainerInventory(IInventory iinventory, LMM_InventoryLittleMaid iinventory1) {
-		numRows = iinventory1.getSizeInventory() / 9;
-		littlemaidInventory = iinventory1;
+	public LMM_ContainerInventory(IInventory iinventory, LMM_EntityLittleMaid pEntity) {
+		// >
+		// Forge対策、ContainerPlayer継承でなければ要らない、SlotArmor用
+		super(pEntity.maidInventory, !pEntity.worldObj.isRemote, pEntity.maidAvatar);
+		inventorySlots.clear();
+		inventoryItemStacks.clear();
+		// <
+		
+		LMM_InventoryLittleMaid linventory = pEntity.maidInventory;
+		owner = pEntity;
+		numRows = linventory.getSizeInventory() / 9;
+		littlemaidInventory = linventory;
 		littlemaidInventory.openChest();
 		
 		for (int ly = 0; ly < numRows; ly++) {
 			for (int lx = 0; lx < 9; lx++) {
-				addSlotToContainer(new Slot(iinventory1, lx + ly * 9, 8 + lx * 18, 76 + ly * 18));
+				addSlotToContainer(new Slot(linventory, lx + ly * 9, 8 + lx * 18, 76 + ly * 18));
 			}
 		}
 		
@@ -30,7 +40,7 @@ public class LMM_ContainerInventory extends Container {
 		
 		for (int j = 0; j < 3; j++) {
 			int j1 = j + 1;
-			addSlotToContainer(new SlotArmor(null, iinventory1, iinventory1.getSizeInventory() - 2 - j, 8, 8 + j * 18, j1));
+			addSlotToContainer(new SlotArmor(this, linventory, linventory.getSizeInventory() - 2 - j, 8, 8 + j * 18, j1));
 		}
 	}
 
@@ -77,9 +87,13 @@ public class LMM_ContainerInventory extends Container {
 
 	@Override
 	public void onCraftGuiClosed(EntityPlayer par1EntityPlayer) {
-		// TODO Auto-generated method stub
 		super.onCraftGuiClosed(par1EntityPlayer);
 		littlemaidInventory.closeChest();
+	}
+
+	@Override
+	public boolean func_94530_a(ItemStack par1ItemStack, Slot par2Slot) {
+		return true;
 	}
 
 }

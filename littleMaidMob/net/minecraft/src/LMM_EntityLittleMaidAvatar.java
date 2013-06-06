@@ -130,7 +130,26 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 		if (ll > 0) {
 			mod_LMM_littleMaidMob.Debug(String.format("ID:%d Given Damege:%d", avatar.entityId, ll - ((EntityLiving)par1Entity).health));
 		}
-		
+	}
+
+	@Override
+	public ItemStack getCurrentEquippedItem() {
+		return avatar.getCurrentEquippedItem();
+	}
+
+	@Override
+	public ItemStack getCurrentArmor(int par1) {
+		return avatar.getCurrentArmor(par1);
+	}
+
+	@Override
+	public ItemStack getCurrentItemOrArmor(int par1) {
+		return avatar.getCurrentItemOrArmor(par1);
+	}
+
+	@Override
+	public ItemStack[] getLastActiveItems() {
+		return avatar.getLastActiveItems();
 	}
 
 	@Override
@@ -255,7 +274,8 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 
 	@Override
 	public void setEntityHealth(int par1) {
-		avatar.setEntityHealth(par1);
+		super.setEntityHealth(par1);
+//		avatar.setEntityHealth(par1);
 	}
 
 	@Override

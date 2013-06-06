@@ -25,7 +25,7 @@ public class LMM_GuiInventory extends GuiContainer {
 
 	// Method
 	public LMM_GuiInventory(EntityPlayer pPlayer, LMM_EntityLittleMaid elmaid) {
-		super(new LMM_ContainerInventory(pPlayer.inventory, elmaid.maidInventory));
+		super(new LMM_ContainerInventory(pPlayer.inventory, elmaid));
 		rand = new Random();
 		upperChestInventory = pPlayer.inventory;
 		lowerChestInventory = elmaid.maidInventory;

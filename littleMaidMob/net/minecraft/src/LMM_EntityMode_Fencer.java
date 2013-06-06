@@ -10,7 +10,7 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 	public static final int mmode_Fencer		= 0x0080;
 	public static final int mmode_Bloodsucker	= 0x00c0;
 
-	
+
 	public LMM_EntityMode_Fencer(LMM_EntityLittleMaid pEntity) {
 		super(pEntity);
 	}
@@ -19,18 +19,22 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 	public int priority() {
 		return 3000;
 	}
-	
+
 	@Override
 	public void init() {
 		// ìoò^ÉÇÅ[ÉhÇÃñºèÃí«â¡
 		ModLoader.addLocalization("littleMaidMob.mode.Fencer", "Fencer");
 		ModLoader.addLocalization("littleMaidMob.mode.Fencer", "ja_JP", "åÏâqåïém");
 		ModLoader.addLocalization("littleMaidMob.mode.F-Fencer", "F-Fencer");
-		ModLoader.addLocalization("littleMaidMob.mode.-FFencer", "ja_JP", "é©óRåïém");
+		ModLoader.addLocalization("littleMaidMob.mode.F-Fencer", "ja_JP", "é©óRåïém");
+		ModLoader.addLocalization("littleMaidMob.mode.T-Fencer", "T-Fencer");
+		ModLoader.addLocalization("littleMaidMob.mode.D-Fencer", "D-Fencer");
 		ModLoader.addLocalization("littleMaidMob.mode.Bloodsucker", "Bloodsucker");
 		ModLoader.addLocalization("littleMaidMob.mode.Bloodsucker", "ja_JP", "ååÇ…ãQÇ¶ÇΩñªìy");
 		ModLoader.addLocalization("littleMaidMob.mode.F-Bloodsucker", "F-Bloodsucker");
 		ModLoader.addLocalization("littleMaidMob.mode.F-Bloodsucker", "ja_JP", "í ñÇñªìy");
+		ModLoader.addLocalization("littleMaidMob.mode.T-Bloodsucker", "T-Bloodsucker");
+		ModLoader.addLocalization("littleMaidMob.mode.D-Bloodsucker", "D-Bloodsucker");
 		LMM_TriggerSelect.appendTriggerItem(null, "Sword", "");
 		LMM_TriggerSelect.appendTriggerItem(null, "Axe", "");
 	}
@@ -75,7 +79,7 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean setMode(int pMode) {
 		switch (pMode) {
@@ -91,7 +95,7 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 		
 		return false;
 	}
-	
+
 	@Override
 	public int getNextEquipItem(int pMode) {
 		int li;
@@ -99,19 +103,19 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 		int ld = 0;
 		int lld;
 		ItemStack litemstack;
-
+		
 		// ÉÇÅ[ÉhÇ…âûÇ∂ÇΩéØï îªíËÅAë¨ìxóDêÊ
 		switch (pMode) {
 		case mmode_Fencer : 
 			for (li = 0; li < owner.maidInventory.maxInventorySize; li++) {
 				litemstack = owner.maidInventory.getStackInSlot(li);
 				if (litemstack == null) continue;
-
+				
 				// åï
 				if (litemstack.getItem() instanceof ItemSword || LMM_TriggerSelect.checkWeapon(owner.getMaidMaster(), "Sword", litemstack)) {
 					return li;
 				}
-
+				
 				// çUåÇóÕÇ»çÇÇ¢Ç‡ÇÃÇãLâØÇ∑ÇÈ
 				lld = 1;
 				try {
@@ -134,7 +138,7 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 				if (litemstack.getItem() instanceof ItemAxe || LMM_TriggerSelect.checkWeapon(owner.getMaidMaster(), "Axe", litemstack)) {
 					return li;
 				}
-
+				
 				// çUåÇóÕÇ»çÇÇ¢Ç‡ÇÃÇãLâØÇ∑ÇÈ
 				lld = 1;
 				try {
@@ -149,7 +153,7 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 			}
 			break;
 		}
-
+		
 		return ll;
 	}
 
@@ -158,5 +162,5 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
 		// ëïîıÉAÉCÉeÉÄÇâÒé˚
 		return pItemStack.getItem() instanceof ItemSword || pItemStack.getItem() instanceof ItemAxe;
 	}
-	
+
 }

@@ -1,40 +1,13 @@
 package net.minecraft.src;
 
+import static net.minecraft.src.LMM_Statics.*;
 import java.util.Map.Entry;
 
 public class LMM_Net {
 	
-	/*
-	 * 動作用定数、8bit目を立てるとEntity要求
-	 */
-	public static final byte LMN_Server_UpdateSlots		= (byte)0x80;
-//	public static final byte LMN_Server_SetTexture		= (byte)0x81;
-	public static final byte LMN_Client_SwingArm		= (byte)0x81;
-	public static final byte LMN_Server_DecDyePowder	= (byte)0x02;
-//	public static final byte LMN_Client_UpdateTexture	= (byte)0x83;
-	public static final byte LMN_Server_SetIFFValue		= (byte)0x04;
-	public static final byte LMN_Client_SetIFFValue		= (byte)0x04;
-	public static final byte LMN_Server_SaveIFF			= (byte)0x05;
-	public static final byte LMN_Server_GetIFFValue		= (byte)0x06;
-//	public static final byte LMN_Server_GetTextureIndex	= (byte)0x07;
-//	public static final byte LMN_Client_SetTextureIndex	= (byte)0x87;
-//	public static final byte LMN_Server_GetTextureStr	= (byte)0x08;
-//	public static final byte LMN_Client_SetTextureStr	= (byte)0x08;
-	public static final byte LMN_Client_PlaySound		= (byte)0x89;
-	
 
 
 	
-	
-	/*
-	 * LMMPacetのフォーマット
-	 * (Byte)
-	 * 0	: 識別(1byte)
-	 * 1 - 4: EntityID(4Byte)場合に寄っては省略 
-	 * 5 - 	: Data
-	 * 
-	 */
-			
 	
 	
 	
@@ -79,7 +52,7 @@ public class LMM_Net {
 	public static void saveIFF() {
 		sendToServer(new byte[] {LMN_Server_SaveIFF});
 	}
-	
+
 	/**
 	 * littleMaidのEntityを返す。
 	 */
@@ -106,6 +79,9 @@ public class LMM_Net {
 		}
 		mod_LMM_littleMaidMob.Debug(String.format("LMM|Upd Srv Call[%2x:%d].", lmode, leid));
 		byte[] ldata;
+		int lindex;
+		int lval;
+		String lname;
 		
 		switch (lmode) {
 		case LMN_Server_UpdateSlots : 
@@ -117,14 +93,6 @@ public class LMM_Net {
 			}
 			break;
 			
-//		case LMN_Server_SetTexture:
-//			// テクスチャ番号をクライアントから受け取る
-//			int lindex1 = MMM_Helper.getShort(pPayload.data, 5);
-//			int larmor1 = MMM_Helper.getShort(pPayload.data, 7);
-//			int lcolor1 = pPayload.data[9];
-//			lemaid.setTextureIndex(lindex1, larmor1);
-//			lemaid.setMaidColor(lcolor1);
-//			break;
 		case LMN_Server_DecDyePowder:
 			// カラー番号をクライアントから受け取る
 			// インベントリから染料を減らす。
@@ -143,28 +111,47 @@ public class LMM_Net {
 			
 		case LMN_Server_SetIFFValue:
 			// IFFの設定値を受信
-			int lval = pPayload.data[1];
-			String lname = "";
-			for (int li = 6; li < pPayload.data.length; li++) {
-				lname += (char)pPayload.data[li];
-			}
+			lval = pPayload.data[1];
+			lindex = MMM_Helper.getInt(pPayload.data, 2);
+			lname = MMM_Helper.getStr(pPayload.data, 6);
+			mod_LMM_littleMaidMob.Debug("setIFF-SV user:%s %s(%d)=%d", pNetHandler.playerEntity.username, lname, lindex, lval);
 			LMM_IFF.setIFFValue(pNetHandler.playerEntity.username, lname, lval);
+			sendIFFValue(pNetHandler, lval, lindex);
+			break;
+		case LMN_Server_GetIFFValue:
+			// IFFGUI open
+			lindex = MMM_Helper.getInt(pPayload.data, 1);
+			lname = MMM_Helper.getStr(pPayload.data, 5);
+			lval = LMM_IFF.getIFF(pNetHandler.playerEntity.username, lname);
+			mod_LMM_littleMaidMob.Debug("getIFF-SV user:%s %s(%d)=%d", pNetHandler.playerEntity.username, lname, lindex, lval);
+			sendIFFValue(pNetHandler, lval, lindex);
 			break;
 		case LMN_Server_SaveIFF:
 			// IFFファイルの保存
 			LMM_IFF.saveIFF(pNetHandler.playerEntity.username);
-			break;
-		case LMN_Server_GetIFFValue:
-			// IFFGUI open
-			for (Entry<String, Integer> le : LMM_IFF.DefaultIFF.entrySet()) {
-				ldata = new byte[le.getKey().length() + 2];
-				ldata[0] = LMN_Client_SetIFFValue;
-				ldata[1] = (byte)le.getValue().intValue();
-				LMM_Net.sendToClient(pNetHandler, ldata);
+			if (!MMM_Helper.isClient) {
+				LMM_IFF.saveIFF("");
 			}
 			break;
 			
 		}
+	}
+
+	/**
+	 * クライアントへIFFの設定値を通知する。
+	 * @param pNetHandler
+	 * @param pValue
+	 * @param pIndex
+	 */
+	protected static void sendIFFValue(NetServerHandler pNetHandler, int pValue, int pIndex) {
+		byte ldata[] = new byte[] {
+				LMN_Client_SetIFFValue,
+				0,
+				0, 0, 0, 0
+		};
+		ldata[1] = (byte)pValue;
+		MMM_Helper.setInt(ldata, 2, pIndex);
+		sendToClient(pNetHandler, ldata);
 	}
 
 }

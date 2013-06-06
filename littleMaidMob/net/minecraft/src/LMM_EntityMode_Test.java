@@ -122,22 +122,22 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 			case 2:
 				// textureIndex
 				var1.sendChatToPlayer("textureServer:");
-				for (int li = 0; li < MMM_TextureManager.textureServer.size(); li++) {
-					MMM_TextureBoxServer lb = MMM_TextureManager.getTextureBoxServer(li);
+				for (int li = 0; li < MMM_TextureManager.instance.textureServer.size(); li++) {
+					MMM_TextureBoxServer lb = MMM_TextureManager.instance.getTextureBoxServer(li);
 					var1.sendChatToPlayer(String.format("%4d : %04x : %s", li, lb.wildColor, lb.textureName));
 				}
 				break;
 			case 3:
 				// textures
 				var1.sendChatToPlayer("textures:");
-				for (MMM_TextureBox ltb : MMM_TextureManager.textures) {
+				for (MMM_TextureBox ltb : MMM_TextureManager.instance.textures) {
 					var1.sendChatToPlayer(ltb.textureName);
 				}
 				break;
 			case 4:
 				// textures
 				var1.sendChatToPlayer("textureServerIndex:");
-				for (Entry<MMM_TextureBox, Integer> ltb : MMM_TextureManager.textureServerIndex.entrySet()) {
+				for (Entry<MMM_TextureBox, Integer> ltb : MMM_TextureManager.instance.textureServerIndex.entrySet()) {
 					var1.sendChatToPlayer(String.format("%04x, %s", ltb.getValue(), ltb.getKey().textureName));
 				}
 				break;

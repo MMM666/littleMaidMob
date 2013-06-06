@@ -44,8 +44,8 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 		indexArmor = new ArrayList<MMM_TextureBox>();
 		isContract = owner.theMaid.maidContract;
 		maid.maidContract = isContract;
-		for (int li = 0; li < MMM_TextureManager.textures.size(); li++) {
-			MMM_TextureBox lbox = MMM_TextureManager.textures.get(li);
+		for (int li = 0; li < MMM_TextureManager.instance.getTextureCount(); li++) {
+			MMM_TextureBox lbox = MMM_TextureManager.instance.textures.get(li);
 			if (isContract) {
 				if (lbox.getContractColorBits() > 0) {
 					indexTexture.add(lbox);
@@ -135,7 +135,7 @@ public class LMM_GuiTextureSlot extends GuiSlot {
 			maid.textureBox[0] = lbox;
 			maid.textureBox[1] = blankBox;
 		}
-		MMM_TextureManager.checkTextureBoxServer(lbox);
+		MMM_TextureManager.instance.checkTextureBoxServer(lbox);
 		GL11.glDisable(GL11.GL_BLEND);
 		owner.fontRenderer.drawStringWithShadow(lbox.textureName, var2 + 16, var3 + 25, -1);
 		GL11.glTranslatef(var2 + 8F, var3 + 25F, 50F);

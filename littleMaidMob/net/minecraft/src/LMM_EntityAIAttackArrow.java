@@ -100,7 +100,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 					double miz = (fMaid.posZ + il * atz) - masterEntity.posZ;
 					// 射線から主との距離
 					milsq = mix * mix + miy * miy + miz * miz;
-					mod_LMM_littleMaidMob.Debug("il:%f, milsq:%f", il, milsq);
+//					mod_LMM_littleMaidMob.Debug("il:%f, milsq:%f", il, milsq);
 				}
 				
 				
@@ -134,6 +134,31 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 						}
 					}
 					fsh &= (milsq > 3D || il < 0D);
+					// 横移動
+					if (!fsh) {
+						// 射撃位置を確保する
+						double tpx = fMaid.posX;
+						double tpy = fMaid.posY;
+						double tpz = fMaid.posZ;
+						double tpr = Math.sqrt(atl) * 0.5D;
+						if (fMaid.isBloodsuck()) {
+							// 左回り
+							tpx += (atz / tpr);
+							tpz -= (atx / tpr);
+						} else {
+							// 右回り
+							tpx -= (atz / tpr);
+							tpz += (atx / tpr);
+						}
+						fMaid.getNavigator().tryMoveToXYZ(tpx, tpy, tpz, fMaid.getAIMoveSpeed());
+					}
+					else if (lsee & ldist < 100) {
+						fMaid.getNavigator().clearPathEntity();
+						mod_LMM_littleMaidMob.Debug("Shooting Range.");
+
+					}
+
+					fsh &= lsee;
 //            		mod_littleMaidMob.Debug(String.format("id:%d at:%d", entityId, attackTime));
 					if (((fMaid.weaponFullAuto && !fsh) || (fsh && fMaid.getSwingStatusDominant().canAttack())) && fAvatar.isItemTrigger) {
 						// シュート
@@ -232,29 +257,17 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 							}
 						}
 					}
-					
 				}
-				
 			}
-			
-			
-			//オービットの処理？これ有効か？
-/*
-        	// TODO:多分変なことになってるんで一時停止
-        	if (fMaid.isBloodsuck()) {
-        		// Bloodsuck系は逆周り
-            	fMaid.rotationYaw = (float)((Math.atan2(atz, atx) * 180D) / 3.1415927410125732D) + 100F;
-        	} else {
-            	fMaid.rotationYaw = (float)((Math.atan2(atz, atx) * 180D) / 3.1415927410125732D) - 90F;
-        	}
-*/
 		} else {
 			// 有効射程外
-			fMaid.getNavigator().tryMoveToEntityLiving(fTarget, fMaid.getAIMoveSpeed());
 			if (fMaid.getNavigator().noPath()) {
+				fMaid.getNavigator().tryMoveToEntityLiving(fTarget, fMaid.getAIMoveSpeed());
+			}
+			if (fMaid.getNavigator().noPath()) {
+				mod_LMM_littleMaidMob.Debug("id:%d Target renge out.", fMaid.entityId);
 				fMaid.setAttackTarget(null);
 			}
-			mod_LMM_littleMaidMob.Debug(String.format("id:%d Target renge out.", fMaid.entityId));
 			if (fMaid.weaponFullAuto && fAvatar.isItemTrigger) {
 				fAvatar.stopUsingItem();
 			} else {

@@ -79,13 +79,13 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.5.2-2";
+		return "1.5.2-3";
 	}
 
 	@Override
 	public void load() {
 		// MMMLibのRevisionチェック
-		MMM_Helper.checkRevision("3");
+		MMM_Helper.checkRevision("4");
 		
 //		UniqueEntityId = UniqueEntityId == 0 ? MMM_Helper.getNextEntityID(true) : UniqueEntityId;
 		defaultTexture = defaultTexture.trim();
@@ -165,7 +165,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 	@Override
 	public void modsLoaded() {
 		// デフォルトモデルの設定
-		MMM_TextureManager.setDefaultTexture(LMM_EntityLittleMaid.class, MMM_TextureManager.getTextureBox("default_Orign"));
+		MMM_TextureManager.instance.setDefaultTexture(LMM_EntityLittleMaid.class, MMM_TextureManager.instance.getTextureBox("default_Orign"));
 		
 		if (UniqueEntityId == -1) return;
 		// Dominant
