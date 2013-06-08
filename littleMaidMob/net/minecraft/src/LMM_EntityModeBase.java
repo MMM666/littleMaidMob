@@ -265,4 +265,16 @@ public abstract class LMM_EntityModeBase {
 		return false;
 	}
 
+	/**
+	 * å‚Æ‚Ì‹——£Š´B
+	 * @param pIndex
+	 * 0:minRange;
+	 * 1:maxRange;
+	 * @return
+	 */
+	public double getRangeToMaster(int pIndex) {
+		return pIndex == 0 ? 36D : pIndex == 1 ? 25D : 0D;
+	}
+
+
 }

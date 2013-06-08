@@ -10,6 +10,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 	private TileEntityFurnace mySerch;
 	private double myleng;
 	private boolean isWorking;
+	private int[] loadTile;
 	
 	public LMM_EntityMode_Cooking(LMM_EntityLittleMaid pEntity) {
 		super(pEntity);
@@ -28,6 +29,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 		ModLoader.addLocalization("littleMaidMob.mode.Cooking", "Cooking");
 		ModLoader.addLocalization("littleMaidMob.mode.T-Cooking", "T-Cooking");
 		ModLoader.addLocalization("littleMaidMob.mode.F-Cooking", "F-Cooking");
+		ModLoader.addLocalization("littleMaidMob.mode.F-Cooking", "D-Cooking");
 	}
 
 	@Override
@@ -82,7 +84,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 			}
 			break;
 		}
-
+		
 		return -1;
 	}
 
@@ -93,6 +95,14 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 
 	@Override
 	public boolean isSearchBlock() {
+		if (loadTile != null) {
+			TileEntity ltile = owner.worldObj.getBlockTileEntity(loadTile[0], loadTile[1], loadTile[2]);
+			if (ltile instanceof TileEntityFurnace) {
+				myTile = (TileEntityFurnace)ltile;
+			}
+			loadTile = null;
+			return false;
+		}
 		// 燃焼アイテムを持っている？
 		if (owner.getCurrentEquippedItem() != null && owner.maidInventory.getSmeltingItem() > -1) {
 			mySerch = null;
@@ -171,7 +181,9 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 			litemstack = myTile.getStackInSlot(2);
 			if (litemstack != null) {
 				if (litemstack.stackSize > 0) {
+					li = litemstack.stackSize;
 					if (owner.maidInventory.addItemStackToInventory(litemstack)) {
+						dropExpOrb(litemstack, li - litemstack.stackSize);
 						owner.playSound("random.pop");
 						owner.setSwing(5, LMM_EnumSound.cookingOver);
 //                    	if (!pEntityLittleMaid.maidInventory.isItemBurned(pEntityLittleMaid.maidInventory.currentItem)) {
@@ -280,5 +292,55 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBase {
 	public boolean isUsingTile(TileEntity pTile) {
 		return isWorking && myTile == pTile;
 	}
-	
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound) {
+		if (owner.getMaidModeInt() == mmode_Cooking) {
+			if (par1nbtTagCompound.hasKey("Tiles")) {
+				NBTTagCompound lnbt = par1nbtTagCompound.getCompoundTag("Tiles");
+				int li = 0;
+				int lp[] = lnbt.getIntArray(String.valueOf(li));
+				if (lp.length > 2) {
+					loadTile = lp;
+				}
+			}
+		}
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
+		if (owner.getMaidModeInt() == mmode_Cooking) {
+			if (myTile != null) {
+				NBTTagCompound lnbt = new NBTTagCompound();
+				lnbt.setIntArray(String.valueOf(0), new int[] {myTile.xCoord, myTile.yCoord, myTile.zCoord});
+				par1nbtTagCompound.setCompoundTag("Tiles", lnbt);
+			}
+		}
+	}
+
+	public void dropExpOrb(ItemStack pItemStack, int pCount) {
+		if (!owner.worldObj.isRemote) {
+			float var3 = FurnaceRecipes.smelting().getExperience(pItemStack.itemID);
+			int var4;
+			
+			if (var3 == 0.0F) {
+				pCount = 0;
+			} else if (var3 < 1.0F) {
+				var4 = MathHelper.floor_float((float)pCount * var3);
+				
+				if (var4 < MathHelper.ceiling_float_int((float)pCount * var3) && (float)Math.random() < (float)pCount * var3 - (float)var4) {
+					++var4;
+				}
+				
+				pCount = var4 == 0 ? 1 : var4;
+			}
+			
+			while (pCount > 0) {
+				var4 = EntityXPOrb.getXPSplit(pCount);
+				pCount -= var4;
+				owner.worldObj.spawnEntityInWorld(new EntityXPOrb(owner.worldObj, owner.posX, owner.posY + 0.5D, owner.posZ + 0.5D, var4));
+			}
+		}
+	}
+
 }

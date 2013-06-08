@@ -276,7 +276,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		aiOpenDoor = new EntityAIOpenDoor(this, true);
 		aiCloseDoor = new EntityAIRestrictOpenDoor(this);
 		aiAvoidPlayer = new LMM_EntityAIAvoidPlayer(this, 0.3F, 3);
-		aiFollow = new LMM_EntityAIFollowOwner(this, 0.3F, 6F, 5F);
+		aiFollow = new LMM_EntityAIFollowOwner(this, 0.3F, 36D, 25D);
 		aiAttack = new LMM_EntityAIAttackOnCollide(this, 0.3F, true);
 		aiShooting = new LMM_EntityAIAttackArrow(this);
 		aiCollectItem = new LMM_EntityAICollectItem(this, 0.3F);
@@ -333,7 +333,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		for (LMM_EntityModeBase ieml : maidEntityModeList) {
 			ieml.addEntityMode(ltasks[0], ltasks[1]);
 		}
-
+		
 	
 	}
 
@@ -342,14 +342,14 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		// 移動パスの検索範囲を変更
 		return 20;
 	}
-	
+
 
 	public void addMaidMode(EntityAITasks[] peaiTasks, String pmodeName, int pmodeIndex) {
 		maidModeList.put(pmodeIndex, peaiTasks);
 		maidModeIndexList.put(pmodeName, pmodeIndex);
 	}
-	
-	
+
+
 	public int getMaidModeInt() {
 		return maidMode;
 	}
@@ -367,10 +367,10 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			String ls = getMaidModeString(maidMode);
 			if (maidOverDriveTime.isEnable()) {
 				ls = "D-" + ls;
-			} else 
+			} else
 			if (maidTracer) {
 				ls = "T-" + ls;
-			} else 
+			} else
 			if (maidFreedom) {
 				ls = "F-" + ls;
 			}
@@ -405,7 +405,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		return setMaidMode(pindex, false);
 	}
 
-	
+
 	public boolean setMaidMode(int pindex, boolean pplaying) {
 		// モードに応じてAIを切り替える
 		velocityChanged = true;
@@ -449,6 +449,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			LMM_EntityModeBase iem = maidEntityModeList.get(li); 
 			if (iem.setMode(maidMode)) {
 				setActiveModeClass(iem);
+				aiFollow.minDist = iem.getRangeToMaster(0);
+				aiFollow.maxDist = iem.getRangeToMaster(1);
 				break;
 			}
 		}
@@ -628,14 +630,15 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		int lx = MathHelper.floor_double(this.posX);
 		int ly = MathHelper.floor_double(this.boundingBox.minY);
 		int lz = MathHelper.floor_double(this.posZ);
-/*
-	// TODO:サーバー側で判定できないので意味なし
-    	if (worldObj == null || textureModel == null  
-    			|| !textureModel[0].getCanSpawnHere(worldObj, lx, ly, lz, this)) {
-    		mod_LMM_littleMaidMob.Debug(String.format("%s is can't spawn hear.", textureName));
-    		return false;
-    	}
-*/
+		/*
+		// TODO:サーバー側で判定できないので意味なし?
+		MMM_TextureBox lbox = MMM_TextureManager.instance.getTextureBox(textureBox[0]);
+		if (worldObj == null || textureModel == null  
+				|| !textureBox[0].mo.getCanSpawnHere(worldObj, lx, ly, lz, this)) {
+			mod_LMM_littleMaidMob.Debug(String.format("%s is can't spawn hear.", textureName));
+			return false;
+		}
+		*/
 		if (mod_LMM_littleMaidMob.Dominant) {
 			// ドミナント
 			return this.worldObj.checkNoEntityCollision(this.boundingBox) 
@@ -815,7 +818,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 
 	@Override
 	public boolean canAttackClass(Class par1Class) {
-		// TODO: IFFの設定、クラス毎の判定しかできないので使わない。
+		// IFFの設定、クラス毎の判定しかできないので使わない。
 		return true;
 	}
 
@@ -1356,10 +1359,9 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 				}
 			}
 			if(itemstack.stackSize <= 0) {
-				maidInventory.setInventoryCurrentSlotContents(new ItemStack(Item.glassBottle));
-			} else {
-				maidInventory.addItemStackToInventory(new ItemStack(Item.glassBottle));
+				maidInventory.setInventoryCurrentSlotContents(null);
 			}
+			maidInventory.addItemStackToInventory(new ItemStack(Item.glassBottle));
 		}
 	}
 
@@ -2921,7 +2923,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		textureIndex[0] = pIndex[0];
 		textureIndex[1] = pIndex[1];
 		dataWatcher.updateObject(dataWatch_Texture, (Integer.valueOf(textureIndex[0]) & 0xffff) | ((Integer.valueOf(textureIndex[1]) & 0xffff) << 16));
-		// TODO:この以下はホントはいらんけども修正めんどいので。
 		textureBox[0] = MMM_TextureManager.instance.getTextureBoxServer(textureIndex[0]);
 		textureBox[1] = MMM_TextureManager.instance.getTextureBoxServer(textureIndex[1]);
 		// サイズの変更

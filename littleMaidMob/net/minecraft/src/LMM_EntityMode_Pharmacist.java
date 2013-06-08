@@ -28,6 +28,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 		ModLoader.addLocalization("littleMaidMob.mode.Pharmacist", "Pharmacist");
 		ModLoader.addLocalization("littleMaidMob.mode.T-Pharmacist", "T-Pharmacist");
 		ModLoader.addLocalization("littleMaidMob.mode.F-Pharmacist", "F-Pharmacist");
+		ModLoader.addLocalization("littleMaidMob.mode.F-Pharmacist", "D-Pharmacist");
 	}
 
 	@Override
@@ -36,7 +37,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 		EntityAITasks[] ltasks = new EntityAITasks[2];
 		ltasks[0] = pDefaultMove;
 		ltasks[1] = pDefaultTargeting;
-
+		
 		owner.addMaidMode(ltasks, "Pharmacist", mmode_Pharmacist);
 	}
 
@@ -57,19 +58,19 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 		switch (pMode) {
 		case mmode_Pharmacist :
 			owner.setBloodsuck(false);
-//			owner.aiJumpTo.setEnable(false);
+			owner.aiJumpTo.setEnable(false);
 			owner.aiFollow.setEnable(false);
 			return true;
 		}
 		
 		return false;
 	}
-	
+
 	@Override
 	public int getNextEquipItem(int pMode) {
 		int li;
 		ItemStack litemstack;
-
+		
 		// モードに応じた識別判定、速度優先
 		switch (pMode) {
 		case mmode_Pharmacist : 
@@ -99,7 +100,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 		owner.setSneaking(false);
 		return true;
 	}
-	
+
 	@Override
 	public boolean shouldBlock(int pMode) {
 		// 実行中判定
@@ -283,7 +284,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 		isWorking = true;
 		maidSearchCount = 0;
 	}
-	
+
 	@Override
 	public void resetBlock(int pMode) {
 		isWorking = false;
