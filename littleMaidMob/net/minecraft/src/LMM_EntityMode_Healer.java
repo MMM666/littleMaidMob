@@ -42,7 +42,7 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 	public boolean changeMode(EntityPlayer pentityplayer) {
 		ItemStack litemstack = owner.maidInventory.getStackInSlot(0);
 		if (litemstack != null) {
-			if (litemstack.getItem() instanceof ItemFood || (litemstack.getItem() instanceof ItemPotion && litemstack.isItemEnchanted())) {
+			if (litemstack.getItem() instanceof ItemFood || (litemstack.getItem() instanceof ItemPotion && MMM_Helper.hasEffect(litemstack))) {
 				owner.setMaidMode("Healer");
 				return true;
 			}
@@ -70,7 +70,7 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 				ItemStack is = owner.maidInventory.getStackInSlot(i);
 				if (is == null) continue;
 				// 対象は食料かポーション
-				if (is.getItem() instanceof ItemFood || (is.getItem() instanceof ItemPotion && is.isItemEnchanted())) {
+				if (is.getItem() instanceof ItemFood || (is.getItem() instanceof ItemPotion && MMM_Helper.hasEffect(is))) {
 					return i;
 				}
 			}

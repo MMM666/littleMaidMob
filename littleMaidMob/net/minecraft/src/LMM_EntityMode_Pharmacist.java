@@ -45,7 +45,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 	public boolean changeMode(EntityPlayer pentityplayer) {
 		ItemStack litemstack = owner.maidInventory.getStackInSlot(0);
 		if (litemstack != null) {
-			if (litemstack.getItem() instanceof ItemPotion && !litemstack.isItemEnchanted()) {
+			if (litemstack.getItem() instanceof ItemPotion && !MMM_Helper.hasEffect(litemstack)) {
 				owner.setMaidMode("Pharmacist");
 				return true;
 			}
@@ -78,7 +78,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 				litemstack = owner.maidInventory.getStackInSlot(li);
 				if (litemstack != null) {
 					// 対象は水ポーション
-					if (litemstack.getItem() instanceof ItemPotion && !litemstack.isItemEnchanted()) {
+					if (litemstack.getItem() instanceof ItemPotion && !MMM_Helper.hasEffect(litemstack)) {
 						return li;
 					}
 				}
@@ -217,7 +217,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 			}
 			
 			litemstack1 = owner.maidInventory.getCurrentItem();
-			if (!lflag && (litemstack1 != null && litemstack1.getItem() instanceof ItemPotion && !litemstack1.isItemEnchanted())) {
+			if (!lflag && (litemstack1 != null && litemstack1.getItem() instanceof ItemPotion && !MMM_Helper.hasEffect(litemstack1))) {
 				// 水瓶をげっとれでぃ
 				int li = 0;
 				for (li = 0; li < 3 && !lflag; li++) {
@@ -232,7 +232,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 				}
 			}
 			if (!lflag && (ltile.getStackInSlot(0) != null || ltile.getStackInSlot(1) != null || ltile.getStackInSlot(2) != null)
-					&& (owner.maidInventory.currentItem == -1 || (litemstack1 != null && litemstack1.getItem() instanceof ItemPotion && !litemstack1.isItemEnchanted()))) {
+					&& (owner.maidInventory.currentItem == -1 || (litemstack1 != null && litemstack1.getItem() instanceof ItemPotion && !MMM_Helper.hasEffect(litemstack1)))) {
 				// ポーション以外を検索
 				for (maidSearchCount = 0; maidSearchCount < owner.maidInventory.mainInventory.length; maidSearchCount++) {
 					litemstack1 = owner.maidInventory.getStackInSlot(maidSearchCount);
@@ -254,7 +254,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBase {
 					owner.setSwing(15, LMM_EnumSound.Null);
 					lflag = true;
 				} 
-				else if (litemstack1 == null || (litemstack1.getItem() instanceof ItemPotion && litemstack1.isItemEnchanted()) || !litemstack1.getItem().isPotionIngredient()) {
+				else if (litemstack1 == null || (litemstack1.getItem() instanceof ItemPotion && MMM_Helper.hasEffect(litemstack1)) || !litemstack1.getItem().isPotionIngredient()) {
 					// 対象外アイテムを発見した時に終了
 					maidSearchCount = owner.maidInventory.mainInventory.length;
 					lflag = false;

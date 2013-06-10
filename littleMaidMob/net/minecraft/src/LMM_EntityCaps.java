@@ -8,13 +8,14 @@ import java.util.Map;
  * Entityのデータ読み取り用のクラス
  * 別にEntityにインターフェース付けてもOK
  */
-public class LMM_EntityCaps implements MMM_IModelCaps {
+public class LMM_EntityCaps extends MMM_EntityCaps {
 
 	private LMM_EntityLittleMaid owner;
 	private static Map<String, Integer> caps;
 
 	static {
 		caps = new HashMap<String, Integer>();
+		caps.putAll(getStaticModelCaps());
 		caps.put("isBloodsuck", caps_isBloodsuck);
 		caps.put("isFreedom", caps_isFreedom);
 		caps.put("isTracer", caps_isTracer);
@@ -50,13 +51,14 @@ public class LMM_EntityCaps implements MMM_IModelCaps {
 		caps.put("Ground", caps_Ground);
 		caps.put("Inventory", caps_Inventory);
 		caps.put("interestedAngle", caps_interestedAngle);
-		caps.put("Entity", caps_Entity);
-		caps.put("health", caps_health);
+//		caps.put("Entity", caps_Entity);
+//		caps.put("health", caps_health);
 		caps.put("currentArmor", caps_currentArmor);
 		caps.put("currentEquippedItem", caps_currentEquippedItem);
 	}
 
 	public LMM_EntityCaps(LMM_EntityLittleMaid pOwner) {
+		super(pOwner);
 		owner = pOwner;
 	}
 
@@ -70,8 +72,8 @@ public class LMM_EntityCaps implements MMM_IModelCaps {
 		int li = 0;
 		
 		switch (pIndex) {
-		case caps_Entity:
-			return owner;
+//		case caps_Entity:
+//			return owner;
 		case caps_health:
 			return owner.getHealth();
 		case caps_isBloodsuck:
@@ -165,12 +167,12 @@ public class LMM_EntityCaps implements MMM_IModelCaps {
 			return owner.getCurrentEquippedItem();
 		}
 		
-		return null;
+		return super.getCapsValue(pIndex, pArg);
 	}
 
 	@Override
 	public boolean setCapsValue(int pIndex, Object... pArg) {
-		return false;
+		return super.setCapsValue(pIndex, pArg);
 	}
 
 }
