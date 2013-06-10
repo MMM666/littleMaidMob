@@ -20,7 +20,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 
 	@Override
 	public boolean shouldExecute() {
-		if (!isEnable || !theMaid.isMaidContractEX() || theMaid.isMaidWaitEx()) {
+		if (!isEnable || !theMaid.isContractEX() || theMaid.isMaidWaitEx()) {
 			// Œ_–ñŒÂ‘Ì‚Ì‚Ý‚ª’µ‚Ô
 			return false;
 		}

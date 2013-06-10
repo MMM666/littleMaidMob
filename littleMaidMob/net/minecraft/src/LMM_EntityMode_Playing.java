@@ -288,7 +288,7 @@ public class LMM_EntityMode_Playing extends LMM_EntityModeBase {
 		if (par1DamageSource.getSourceOfDamage() instanceof EntitySnowball) {
 			// Ç®óVÇ—îªíËópÅAê·ã Ç©Ç«Ç§Ç©îªíË
 			owner.maidDamegeSound = LMM_EnumSound.hurt_snow;
-			if (!owner.isMaidContract() || owner.isFreedom()) {
+			if (!owner.isContract() || owner.isFreedom()) {
 				owner.setPlayingRole(mpr_QuickShooter);
 				owner.setMaidWait(false);
 				owner.setMaidWaitCount(0);

@@ -99,9 +99,9 @@ public class LMM_EntityCaps extends MMM_EntityCaps {
 		case caps_isWorkingDelay:
 			return owner.isWorkingDelay();
 		case caps_isContract:
-			return owner.isMaidContract();
+			return owner.isContract();
 		case caps_isContractEX:
-			return owner.isMaidContractEX();
+			return owner.isContractEX();
 		case caps_isRemainsC:
 			return owner.isRemainsContract();
 		case caps_isClock:

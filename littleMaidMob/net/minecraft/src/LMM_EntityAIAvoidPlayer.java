@@ -29,7 +29,7 @@ public class LMM_EntityAIAvoidPlayer extends EntityAIBase implements LMM_IEntity
 
     @Override
     public boolean shouldExecute() {
-    	if (!isEnable || !isActive || !theMaid.isMaidContract()) {
+    	if (!isEnable || !isActive || !theMaid.isContract()) {
     		isActive = false;
     		return false;
     	}

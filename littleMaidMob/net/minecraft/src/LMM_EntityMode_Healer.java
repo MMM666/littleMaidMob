@@ -90,7 +90,7 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 			// ‹ßÚ‚µ‚½å‚ÉH•¨‚ğ“Ë‚Á‚Ş
 			if (owner.getSwingStatusDominant().canAttack()) {
 				// å‚Ì‰ñ•œ
-				if (owner.isMaidContractEX() && owner.mstatMasterDistanceSq < 16D
+				if (owner.isContractEX() && owner.mstatMasterDistanceSq < 16D
 						&& owner.mstatMasterEntity != null && owner.mstatMasterEntity.isEntityAlive()
 						&& owner.mstatMasterEntity instanceof EntityPlayer
 						&& owner.canEntityBeSeen(owner.mstatMasterEntity)) {

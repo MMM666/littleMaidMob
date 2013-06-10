@@ -76,13 +76,13 @@ public class LMM_IFF {
 				case 1:
 					// ©•ª‚ÌŒ_–ñÒ
 					pName = (new StringBuilder()).append(pName).append(":Contract").toString();
-					((LMM_EntityLittleMaid) pEntity).setMaidContract(true);
+					((LMM_EntityLittleMaid) pEntity).setContract(true);
 					liff = LMM_IFF.iff_Friendry;
 					break;
 				case 2:
 					// ‘¼l‚ÌŒ_–ñÒ
 					pName = (new StringBuilder()).append(pName).append(":Others").toString();
-					((LMM_EntityLittleMaid) pEntity).setMaidContract(true);
+					((LMM_EntityLittleMaid) pEntity).setContract(true);
 					liff = LMM_IFF.iff_Friendry;
 					break;
 				}
@@ -185,7 +185,7 @@ public class LMM_IFF {
 		}
 		int li = 0;
 		if (entity instanceof LMM_EntityLittleMaid) {
-			if (((LMM_EntityLittleMaid) entity).isMaidContract()) {
+			if (((LMM_EntityLittleMaid) entity).isContract()) {
 				if (((LMM_EntityLittleMaid) entity).getMaidMaster().contentEquals(pUsername)) {
 					// ©•ª‚Ì
 					lcname = (new StringBuilder()).append(lename).append(":Contract").toString();

@@ -20,7 +20,7 @@ public class LMM_EntityAIBeg extends EntityAIBase {
 
     @Override
     public boolean shouldExecute() {
-    	if (littleMaid.isMaidContract()) {
+    	if (littleMaid.isContract()) {
     		targetPlayer = littleMaid.mstatMasterDistanceSq > effectiveRangeSq ? null : littleMaid.mstatMasterEntity;
     	} else {
             targetPlayer = worldObj.getClosestPlayerToEntity(littleMaid, effectiveRange);
@@ -40,7 +40,7 @@ public class LMM_EntityAIBeg extends EntityAIBase {
             return false;
         }
 
-        if (littleMaid.isMaidContract()) {
+        if (littleMaid.isContract()) {
         	targetRangeSq = littleMaid.mstatMasterDistanceSq;
         } else {
         	targetRangeSq = littleMaid.getDistanceSqToEntity(targetPlayer);
