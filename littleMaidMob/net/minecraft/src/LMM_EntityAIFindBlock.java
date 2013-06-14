@@ -4,42 +4,42 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements LMM_IEntityAI
 
 	protected boolean isEnable;
 	protected LMM_EntityLittleMaid theMaid;
-	protected LMM_EntityModeBase llmode;
-	protected MovingObjectPosition theBlock;
-	protected int tileX;
-	protected int tileY;
-	protected int tileZ;
+	protected LMM_EntityModeBase fmodeBase;
+//	protected MovingObjectPosition theBlock;
+//	protected int tileX;
+//	protected int tileY;
+//	protected int tileZ;
 //	protected boolean isFind;
 	
 	
 	public LMM_EntityAIFindBlock(LMM_EntityLittleMaid pEntityLittleMaid) {
 		theMaid = pEntityLittleMaid;
 		isEnable = true;
-		theBlock = null;
+//		theBlock = null;
 		
 		setMutexBits(3);
 	}
 	
 	@Override
 	public boolean shouldExecute() {
-		llmode = theMaid.getActiveModeClass();
+		fmodeBase = theMaid.getActiveModeClass();
 //		LMM_EntityModeBase llmode = theMaid.getActiveModeClass();
 //		if (!isEnable || theMaid.isWait() || theMaid.getActiveModeClass() == null || !theMaid.getActiveModeClass().isSearchBlock() || theMaid.getCurrentEquippedItem() == null) {
-		if (!isEnable || theMaid.isMaidWait() || llmode == null) {
+		if (!isEnable || theMaid.isMaidWait() || fmodeBase == null) {
 			return false;
 		}
-		if (!llmode.isSearchBlock()) {
-			return llmode.shouldBlock(theMaid.getMaidModeInt());
+		if (!fmodeBase.isSearchBlock()) {
+			return fmodeBase.shouldBlock(theMaid.maidMode);
 		}
 		
 		// ターゲットをサーチ
-		tileX = MathHelper.floor_double(theMaid.posX);
-		tileY = MathHelper.floor_double(theMaid.posY);
-		tileZ = MathHelper.floor_double(theMaid.posZ);
+		int lx = MathHelper.floor_double(theMaid.posX);
+		int ly = MathHelper.floor_double(theMaid.posY);
+		int lz = MathHelper.floor_double(theMaid.posZ);
 		int vt = MathHelper.floor_float(((theMaid.rotationYawHead * 4F) / 360F) + 2.5F) & 3;
-		int xx = tileX;
-		int yy = tileY;
-		int zz = tileZ;
+		int xx = lx;
+		int yy = ly;
+		int zz = lz;
 		
 		// TODO:Dummy
 		MMM_EntityDummy.clearDummyEntity(theMaid);
@@ -50,35 +50,33 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements LMM_IEntityAI
 			for (int a = 0; a < 18; a += 2) {
 				int del = a / 2;
 				if (vt == 0) {
-					xx = tileX - del;
-					zz = tileZ - del;
+					xx = lx - del;
+					zz = lz - del;
 				} 
 				else if (vt == 1) { 
-					xx = tileX + del;
-					zz = tileZ - del;
+					xx = lx + del;
+					zz = lz - del;
 				} 
 				else if (vt == 2) { 
-					xx = tileX + del;
-					zz = tileZ + del;
+					xx = lx + del;
+					zz = lz + del;
 				} 
 				else if (vt == 3) { 
-					xx = tileX - del;
-					zz = tileZ + del;
+					xx = lx - del;
+					zz = lz + del;
 				}
 				// TODO:Dummay
 				if (!flagdammy) {
-					MMM_EntityDummy.setDummyEntity(theMaid, 0x00ff4f4f, xx, tileY, zz);
+					MMM_EntityDummy.setDummyEntity(theMaid, 0x00ff4f4f, xx, ly, zz);
 					flagdammy = true;
 				}
 				int b = 0;
 				do {
 					for (int c = 0; c < 3; c++) {
-						yy = tileY + (c == 2 ? -1 : c);
-						if (llmode.checkBlock(theMaid.getMaidModeInt(), xx, yy, zz)) {
-							if (llmode.outrangeBlock(theMaid.getMaidModeInt(), xx, yy, zz)) {
-								tileX = xx;
-								tileY = yy;
-								tileZ = zz;
+						yy = ly + (c == 2 ? -1 : c);
+						if (fmodeBase.checkBlock(theMaid.maidMode, xx, yy, zz)) {
+							if (fmodeBase.outrangeBlock(theMaid.maidMode, xx, yy, zz)) {
+								theMaid.setTilePos(xx, yy, zz);
 								// TODO:Dummay
 								MMM_EntityDummy.setDummyEntity(theMaid, 0x004fff4f, xx, yy, zz);
 								flagdammy = true;
@@ -88,7 +86,7 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements LMM_IEntityAI
 					}
 					// TODO:Dummay
 					if (!flagdammy) {
-						MMM_EntityDummy.setDummyEntity(theMaid, 0x00ffffcf, xx, tileY, zz);
+						MMM_EntityDummy.setDummyEntity(theMaid, 0x00ffffcf, xx, ly, zz);
 						flagdammy = true;
 					}
 					// TODO:dammy
@@ -111,13 +109,13 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements LMM_IEntityAI
 			}
 			vt = (vt + 1) & 3;
 		}
-		TileEntity ltile = llmode.overlooksBlock(theMaid.getMaidModeInt());
+		TileEntity ltile = fmodeBase.overlooksBlock(theMaid.maidMode);
 		if (ltile != null) {
-			tileX = ltile.xCoord;
-			tileY = ltile.yCoord;
-			tileZ = ltile.zCoord;
+			lx = ltile.xCoord;
+			ly = ltile.yCoord;
+			lz = ltile.zCoord;
 			// TODO:Dummay
-			MMM_EntityDummy.setDummyEntity(theMaid, 0x004fff4f, tileX, tileY, tileZ);
+			MMM_EntityDummy.setDummyEntity(theMaid, 0x004fff4f, lx, ly, lz);
 			flagdammy = true;
 			return true;
 		}
@@ -126,37 +124,38 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements LMM_IEntityAI
 
 	@Override
 	public boolean continueExecuting() {
+		fmodeBase.updateBlock();
 		// 移動中は継続
 		if (!theMaid.getNavigator().noPath()) return true;
 		
-		double ld = theMaid.getDistanceSq(tileX, tileY, tileZ);
+		double ld = theMaid.getDistanceTilePos();
 		if (ld > 100.0D) {
 			// 索敵範囲外
 			theMaid.getActiveModeClass().farrangeBlock();
 			return false;
 		} else if (ld > 5.0D) {
 			// 射程距離外
-			return theMaid.getActiveModeClass().outrangeBlock(theMaid.getMaidModeInt(), tileX, tileY, tileZ);
+			return theMaid.getActiveModeClass().outrangeBlock(theMaid.maidMode);
 		} else {
 			// 射程距離
-			return theMaid.getActiveModeClass().executeBlock(theMaid.getMaidModeInt(), tileX, tileY, tileZ);
+			return theMaid.getActiveModeClass().executeBlock(theMaid.maidMode);
 		}
 	}
 
 	@Override
 	public void startExecuting() {
-		llmode.startBlock(theMaid.getMaidModeInt());
+		fmodeBase.startBlock(theMaid.maidMode);
 	}
 
 	@Override
 	public void resetTask() {
-		llmode.resetBlock(theMaid.getMaidModeInt());
+		fmodeBase.resetBlock(theMaid.maidMode);
 	}
 
 	@Override
 	public void updateTask() {
 		// ターゲットを見つけている
-		theMaid.getLookHelper().setLookPosition(tileX + 0.5D, tileY + 0.5D, tileZ + 0.5D, 10F, theMaid.getVerticalFaceSpeed());
+		theMaid.looksTilePos();
 	}
 
 

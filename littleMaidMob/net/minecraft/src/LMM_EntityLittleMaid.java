@@ -1,7 +1,9 @@
 package net.minecraft.src;
 
+import static net.minecraft.src.LMM_Statics.*;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,37 +15,9 @@ import javax.swing.text.MaskFormatter;
  
 public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITextureEntity {
 
-//	public static Minecraft mcGame;
+	// 定数はStaticsへ移動
 
-	// TODO:定数は要修正
-	private static final float moveSpeed_Nomal		= 0.23F;
-	private static final float moveSpeed_Max		= 0.3F;
-	private static final float moveSpeed_Overdrive	= 1.0F;
 
-	protected static final int dataWatch_Health		= 18;
-	protected static final int dataWatch_ColorMode	= 19;
-	protected static final int dataWatch_Texture	= 20;
-//    protected static final int dataWatch_TexArmar	= 21;
-	protected static final int dataWatch_Flags		= 22;
-	protected static final int dataWatch_Flags_looksWithInterest		= 0x00000001;
-	protected static final int dataWatch_Flags_looksWithInterestAXIS	= 0x00000002;
-	protected static final int dataWatch_Flags_Aimebow					= 0x00000004;
-	protected static final int dataWatch_Flags_Freedom					= 0x00000008;
-	protected static final int dataWatch_Flags_Tracer					= 0x00000010;
-	protected static final int dataWatch_Flags_remainsContract			= 0x00000020;
-	protected static final int dataWatch_Flags_PlayingMode				= 0x00000040;
-	protected static final int dataWatch_Flags_Working					= 0x00000080;
-	protected static final int dataWatch_Flags_Wait						= 0x00000100;
-	protected static final int dataWatch_Flags_WaitEx					= 0x00000200;
-	protected static final int dataWatch_Flags_LooksSugar				= 0x00000400;
-	protected static final int dataWatch_Flags_Bloodsuck				= 0x00000800;
-	protected static final int dataWatch_Flags_OverDrive				= 0x00001000;
-	protected static final int dataWatch_Gotcha		= 23;
-	protected static final int dataWatch_Free		= 31;
-	
-	protected static final int dataFlags_ForceUpdateInventory	= 0x80000000;
-	
-	
 	// 変数減らしたいなぁ
 //    protected long maidContractLimit;		// 契約失効日
 	protected int maidContractLimit;		// 契約期間
@@ -52,13 +26,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	public String textures[] = new String[2];
 	public String textureArmor1[] = new String[4];
 	public String textureArmor2[] = new String[4];
-//	public String textureName;
-//	public String textureArmorName;
-//	public int textureIndex;
-//	public int textureArmorIndex;
-//	public MMM_ModelMultiBase textureModel0;
-//	public MMM_ModelMultiBase textureModel1;
-//	public MMM_ModelMultiBase textureModel2;
 	public MMM_TextureBoxBase textureBox[] = new MMM_TextureBoxBase[2];
 	public int textureIndex[] = new int[2];
 	public Map<String, MMM_EquippedStabilizer> maidStabilizer = new HashMap<String, MMM_EquippedStabilizer>();
@@ -78,6 +45,9 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	public boolean maidWait;
 	public boolean maidContract;
 	public int homeWorld;
+	protected int maidTiles[][] = new int[9][3];
+	public int maidTile[] = new int[3];
+	public TileEntity maidTileEntity;
 	
 	// 動的な状態
 	protected EntityPlayer mstatMasterEntity;	// 主
@@ -196,13 +166,12 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		MMM_TextureBox ltb[] = new MMM_TextureBox[2];
 		maidColor = 12;
 		ltb[0] = ltb[1] = MMM_TextureManager.instance.getDefaultTexture(this);
-		mod_LMM_littleMaidMob.Debug("ltb[0]%s", ltb[0] == null ? "NULL" : ltb[0].textureName);
 		setTexturePackName(ltb);
+//		mod_LMM_littleMaidMob.Debug("ltb[0]%s", ltb[0] == null ? "NULL" : ltb[0].textureName);
 //		maidSoundRate = LMM_SoundManager.getSoundRate(textureBox[0].textureName, maidColor);
+		
 		// モデルレンダリング用のフラグ獲得用ヘルパー関数
 		maidCaps = new LMM_EntityCaps(this);
-		
-		
 		
 		// EntityModeの追加
 		maidEntityModeList = LMM_EntityModeManager.getModeList(this);
@@ -446,6 +415,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		aiAvoidPlayer.setEnable(true);
 //		aiWander.setEnable(maidFreedom);
 		setBloodsuck(false);
+		clearTilePosAll();
 		for (int li = 0; li < maidEntityModeList.size(); li++) {
 			LMM_EntityModeBase iem = maidEntityModeList.get(li); 
 			if (iem.setMode(maidMode)) {
@@ -553,12 +523,15 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			}
 		}
 		
+		mod_LMM_littleMaidMob.Debug("id:%d LivingSound:%s", entityId, worldObj == null ? "null" : worldObj.isRemote ? "Client" : "Server");
 		playLittleMaidSound(so, false);
 		return null;
 	}
 
+	/**
+	 * 簡易音声再生、標準の音声のみ使用すること。
+	 */
 	public void playSound(String pname) {
-		// 簡易音声再生
 		playSound(pname, 0.5F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
 	}
 
@@ -575,7 +548,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 //			worldObj.playSound(posX, posY, posZ, lsound, getSoundVolume(), lpitch, false);
 		} else {
 			// Server
-			mod_LMM_littleMaidMob.Debug(String.format("id:%d-%s, seps:%04x-%s", entityId, worldObj.isRemote ? "Client" : "Server",  enumsound.index, enumsound.name()));
+			mod_LMM_littleMaidMob.Debug("id:%d-%s, seps:%04x-%s", entityId, worldObj.isRemote ? "Client" : "Server",  enumsound.index, enumsound.name());
 			byte[] lbuf = new byte[] {
 					LMM_Statics.LMN_Client_PlaySound,
 					0, 0, 0, 0,
@@ -875,7 +848,14 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		par1nbtTagCompound.setInteger("homeY", getHomePosition().posY);
 		par1nbtTagCompound.setInteger("homeZ", getHomePosition().posZ);
 		par1nbtTagCompound.setInteger("homeWorld", homeWorld);
-		
+		// Tiles
+		NBTTagCompound lnbt = new NBTTagCompound();
+		par1nbtTagCompound.setTag("Tiles", lnbt);
+		for (int li = 0; li < maidTiles.length; li++) {
+			if (maidTiles[li] != null) {
+				lnbt.setIntArray(String.valueOf(li), maidTiles[li]);
+			}
+		}
 		// 追加分
 		for (int li = 0; li < maidEntityModeList.size(); li++) {
 			maidEntityModeList.get(li).writeEntityToNBT(par1nbtTagCompound);
@@ -1033,6 +1013,13 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			int lhz = par1nbtTagCompound.getInteger("homeZ");
 			getHomePosition().set(lhx, lhy, lhz);
 			homeWorld = par1nbtTagCompound.getInteger("homeWorld");
+			
+			// Tiles
+			NBTTagCompound lnbt = par1nbtTagCompound.getCompoundTag("Tiles");
+			for (int li = 0; li < maidTiles.length; li++) {
+				int ltile[] = lnbt.getIntArray(String.valueOf(li));
+				maidTiles[li] = ltile.length > 0 ? ltile : null;
+			}
 			
 			// テスト用
 			if (worldObj.isRemote) {
@@ -2374,7 +2361,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 							setMaidMode("Escorter");
 							setMaidWait(false);
 							setFreedom(false);
-							playLittleMaidSound(LMM_EnumSound.getCake, true);
+							playSound(LMM_EnumSound.getCake, true);
+//							playLittleMaidSound(LMM_EnumSound.getCake, true);
 //    	                    playTameEffect(true);
 							worldObj.setEntityState(this, (byte)7);
 							// 契約記念日と、初期契約期間
@@ -2905,17 +2893,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		mod_LMM_littleMaidMob.Debug("Change Dominant.");
 	}
 
-	/**
-	 * 使っているTileかどうか判定して返す。
-	 */
-	public boolean isUsingTile(TileEntity pTile) {
-		if (isActiveModeClass()) {
-			return getActiveModeClass().isUsingTile(pTile);
-		} else {
-			return false;
-		}
-	}
-
 	@Override
 	public void setHomeArea(int par1, int par2, int par3, int par4) {
 		homeWorld = dimension;
@@ -3063,6 +3040,179 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			return textureArmor2;
 		}
 		return null;
+	}
+
+	// Tile関係
+
+	/**
+	 * 使っているTileかどうか判定して返す。
+	 */
+	public boolean isUsingTile(TileEntity pTile) {
+		if (isActiveModeClass()) {
+			return getActiveModeClass().isUsingTile(pTile);
+		}
+		for (int li = 0; li < maidTiles.length; li++) {
+			if (maidTiles[li] != null &&
+					pTile.xCoord == maidTiles[li][0] &&
+					pTile.yCoord == maidTiles[li][1] &&
+					pTile.zCoord == maidTiles[li][2]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isEqualTile() {
+		return worldObj.getBlockTileEntity(maidTile[0], maidTile[1], maidTile[2]) == maidTileEntity;
+	}
+
+	public boolean isTilePos() {
+		return maidTileEntity != null;
+	}
+	public boolean isTilePos(int pIndex) {
+		if (pIndex < maidTiles.length) {
+			return maidTiles[pIndex] != null;
+		}
+		return false;
+	}
+
+	/**
+	 * ローカル変数にTileの位置を入れる。
+	 */
+	public boolean getTilePos(int pIndex) {
+		if (pIndex < maidTiles.length && maidTiles[pIndex] != null) {
+			maidTile[0] = maidTiles[pIndex][0];
+			maidTile[1] = maidTiles[pIndex][1];
+			maidTile[2] = maidTiles[pIndex][2];
+			return true;
+		}
+		return false;
+	}
+
+	public void setTilePos(int pX, int pY, int pZ) {
+		maidTile[0] = pX;
+		maidTile[1] = pY;
+		maidTile[2] = pZ;
+	}
+	public void setTilePos(TileEntity pEntity) {
+		maidTile[0] = pEntity.xCoord;
+		maidTile[1] = pEntity.yCoord;
+		maidTile[2] = pEntity.zCoord;
+		maidTileEntity = pEntity;
+	}
+	public void setTilePos(int pIndex) {
+		if (pIndex < maidTiles.length) {
+			if (maidTiles[pIndex] == null) {
+				maidTiles[pIndex] = new int[3];
+			}
+			maidTiles[pIndex][0] = maidTile[0];
+			maidTiles[pIndex][1] = maidTile[1];
+			maidTiles[pIndex][2] = maidTile[2];
+		}
+	}
+	public void setTilePos(int pIndex, int pX, int pY, int pZ) {
+		if (pIndex < maidTiles.length) {
+			if (maidTiles[pIndex] == null) {
+				maidTiles[pIndex] = new int[3];
+			}
+			maidTiles[pIndex][0] = pX;
+			maidTiles[pIndex][1] = pY;
+			maidTiles[pIndex][2] = pZ;
+		}
+	}
+
+	public TileEntity getTileEntity() {
+		return maidTileEntity = worldObj.getBlockTileEntity(maidTile[0], maidTile[1], maidTile[2]);
+	}
+	public TileEntity getTileEntity(int pIndex) {
+		if (pIndex < maidTiles.length && maidTiles[pIndex] != null) {
+			TileEntity ltile = worldObj.getBlockTileEntity(
+					maidTiles[pIndex][0], maidTiles[pIndex][1], maidTiles[pIndex][2]);
+			if (ltile == null) {
+				clearTilePos(pIndex);
+			}
+			return ltile;
+		}
+		return null;
+	}
+
+	public void clearTilePos() {
+		maidTileEntity = null;
+	}
+	public void clearTilePos(int pIndex) {
+		if (pIndex < maidTiles.length) {
+			maidTiles[pIndex] = null;
+		}
+	}
+	public void clearTilePosAll() {
+		for (int li = 0; li < maidTiles.length; li++) {
+			maidTiles[li] = null;
+		}
+	}
+
+	public double getDistanceTilePos() {
+		return getDistance(
+				(double)maidTile[0] + 0.5D,
+				(double)maidTile[1] + 0.5D,
+				(double)maidTile[2] + 0.5D);
+	}
+	public double getDistanceTilePosSq() {
+		return getDistanceSq(
+				(double)maidTile[0] + 0.5D,
+				(double)maidTile[1] + 0.5D,
+				(double)maidTile[2] + 0.5D);
+	}
+
+	public double getDistanceTilePos(int pIndex) {
+		if (maidTiles.length > pIndex && maidTiles[pIndex] != null) {
+			return getDistance(
+					(double)maidTiles[pIndex][0] + 0.5D,
+					(double)maidTiles[pIndex][1] + 0.5D,
+					(double)maidTiles[pIndex][2] + 0.5D);
+		}
+		return -1D;
+	}
+	public double getDistanceTilePosSq(int pIndex) {
+		if (maidTiles.length > pIndex && maidTiles[pIndex] != null) {
+			return getDistanceSq(
+					(double)maidTiles[pIndex][0] + 0.5D,
+					(double)maidTiles[pIndex][1] + 0.5D,
+					(double)maidTiles[pIndex][2] + 0.5D);
+		}
+		return -1D;
+	}
+	public double getDistanceTilePos(TileEntity pTile) {
+		if (pTile != null) {
+			return getDistance(
+					(double)pTile.xCoord + 0.5D,
+					(double)pTile.yCoord + 0.5D,
+					(double)pTile.zCoord + 0.5D);
+		}
+		return -1D;
+	}
+	public double getDistanceTilePosSq(TileEntity pTile) {
+		if (pTile != null) {
+			return getDistanceSq(
+					(double)pTile.xCoord + 0.5D,
+					(double)pTile.yCoord + 0.5D,
+					(double)pTile.zCoord + 0.5D);
+		}
+		return -1D;
+	}
+
+	public void looksTilePos() {
+		getLookHelper().setLookPosition(
+				maidTile[0] + 0.5D, maidTile[1] + 0.5D, maidTile[2] + 0.5D,
+				10F, getVerticalFaceSpeed());
+	}
+	public void looksTilePos(int pIndex) {
+		if (maidTiles.length > pIndex && maidTiles[pIndex] != null) {
+			getLookHelper().setLookPosition(
+					maidTiles[pIndex][0] + 0.5D,
+					maidTiles[pIndex][1] + 0.5D,
+					maidTiles[pIndex][2] + 0.5D,
+					10F, getVerticalFaceSpeed());
+		}
 	}
 
 }

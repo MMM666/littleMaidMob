@@ -2,6 +2,53 @@ package net.minecraft.src;
 
 public class LMM_Statics {
 
+	// TODO:定数は要修正
+	protected static final float moveSpeed_Nomal		= 0.23F;
+	protected static final float moveSpeed_Max		= 0.3F;
+	protected static final float moveSpeed_Overdrive	= 1.0F;
+
+	/**
+	 * HPをサーバーからクライアントへ通知するのに使う。
+	 */
+	protected static final int dataWatch_Health		= 18;
+	protected static final int dataWatch_ColorMode	= 19;
+	/**
+	 * MSB|0x0000 0000|LSB
+	 *       |    |本体のテクスチャインデックス
+	 *       |アーマーのテクスチャインデックス
+	 */
+	protected static final int dataWatch_Texture	= 20;
+//    protected static final int dataWatch_TexArmar	= 21;
+	/**
+	 * 各種フラグを一纏めにしたもの。
+	 */
+	protected static final int dataWatch_Flags		= 22;
+	protected static final int dataWatch_Flags_looksWithInterest		= 0x00000001;
+	protected static final int dataWatch_Flags_looksWithInterestAXIS	= 0x00000002;
+	protected static final int dataWatch_Flags_Aimebow					= 0x00000004;
+	protected static final int dataWatch_Flags_Freedom					= 0x00000008;
+	protected static final int dataWatch_Flags_Tracer					= 0x00000010;
+	protected static final int dataWatch_Flags_remainsContract			= 0x00000020;
+	protected static final int dataWatch_Flags_PlayingMode				= 0x00000040;
+	protected static final int dataWatch_Flags_Working					= 0x00000080;
+	protected static final int dataWatch_Flags_Wait						= 0x00000100;
+	protected static final int dataWatch_Flags_WaitEx					= 0x00000200;
+	protected static final int dataWatch_Flags_LooksSugar				= 0x00000400;
+	protected static final int dataWatch_Flags_Bloodsuck				= 0x00000800;
+	protected static final int dataWatch_Flags_OverDrive				= 0x00001000;
+	/**
+	 * 紐の持ち主のEntityID。
+	 */
+	protected static final int dataWatch_Gotcha		= 23;
+	/**
+	 * 自由設定値。
+	 */
+	protected static final int dataWatch_Free		= 31;
+	
+	protected static final int dataFlags_ForceUpdateInventory	= 0x80000000;
+
+// NetWork
+
 	/*
 	 * 動作用定数、8bit目を立てるとEntity要求
 	 */

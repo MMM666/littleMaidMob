@@ -108,9 +108,9 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 		if (pMode == mmode_Detonator && owner.isEntityAlive()) {
 			if (timeSinceIgnited < 0) {
 				if (lastTimeSinceIgnited != timeSinceIgnited) {
-					owner.dataWatcher.updateObject(owner.dataWatch_Free, Integer.valueOf(0));
+					owner.dataWatcher.updateObject(LMM_Statics.dataWatch_Free, Integer.valueOf(0));
 				}
-				else if (owner.dataWatcher.getWatchableObjectInt(owner.dataWatch_Free) == 1) {
+				else if (owner.dataWatcher.getWatchableObjectInt(LMM_Statics.dataWatch_Free) == 1) {
 					lastTimeSinceIgnited = timeSinceIgnited = 0;
 				}
 			}
@@ -318,7 +318,7 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 		if (pMode == mmode_Detonator && owner.maidInventory.isItemExplord(owner.getCurrentEquippedItem())) {
 			if (timeSinceIgnited == -1) {
 				owner.playSound("random.fuse", 1.0F, 0.5F);
-				owner.dataWatcher.updateObject(owner.dataWatch_Free, Integer.valueOf(1));
+				owner.dataWatcher.updateObject(LMM_Statics.dataWatch_Free, Integer.valueOf(1));
 			}
 //        	if (owner.entityToAttack == null)
 			owner.setMaidWait(true);

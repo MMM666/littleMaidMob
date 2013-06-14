@@ -54,7 +54,7 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 		llist.add(String.format("working:%b, sneak:%b, sugar:%b", owner.isWorking(), owner.isSneaking(), owner.isLookSuger()));
 		llist.add(String.format("%s[%s]", owner.getMaidModeString(), owner.maidActiveModeClass == null ? "" : owner.maidActiveModeClass.getClass().getSimpleName()));
 		llist.add(String.format("Limit: %b[%b]", owner.isContract(), owner.isContractEX()));
-		int li = owner.dataWatcher.getWatchableObjectInt(LMM_EntityLittleMaid.dataWatch_Texture);
+		int li = owner.dataWatcher.getWatchableObjectInt(LMM_Statics.dataWatch_Texture);
 		llist.add(String.format("Texture=%s(%x/ %x), %s(%x / %x)",
 				owner.textureBox[0].textureName, owner.textureIndex[0], li & 0xffff,
 				owner.textureBox[1].textureName, owner.textureIndex[1], (li >>> 16)

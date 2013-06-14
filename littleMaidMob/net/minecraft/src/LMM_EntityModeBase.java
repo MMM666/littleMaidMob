@@ -150,13 +150,33 @@ public abstract class LMM_EntityModeBase {
 	}
 
 	/**
+	 * 限界距離を超えた時の処理
+	 */
+	public void farrangeBlock() {
+		owner.getNavigator().clearPathEntity();
+	}
+
+	/**
+	 * 有効射程距離を超えた時の処理
+	 */
+	public boolean outrangeBlock(int pMode, int pX, int pY, int pZ) {
+		return owner.getNavigator().tryMoveToXYZ(pX, pY, pZ, owner.getAIMoveSpeed());
+	}
+	public boolean outrangeBlock(int pMode) {
+		return outrangeBlock(pMode, owner.maidTile[0], owner.maidTile[1], owner.maidTile[2]);
+	}
+
+	/**
 	 * 射程距離に入ったら実行される。
 	 * 戻り値がtrueの時は終了せずに動作継続
 	 */
 	public boolean executeBlock(int pMode, int px, int py, int pz) {
 		return false;
 	}
-	
+	public boolean executeBlock(int pMode) {
+		return executeBlock(pMode, owner.maidTile[0], owner.maidTile[1], owner.maidTile[2]);
+	}
+
 	/**
 	 * AI実行時に呼ばれる。
 	 */
@@ -169,7 +189,13 @@ public abstract class LMM_EntityModeBase {
 	public void resetBlock(int pMode) {
 	}
 
-	
+	/**
+	 * 継続判定を行う時に呼ばれる。
+	 */
+	public void updateBlock() {
+	}
+
+
 	/**
 	 * 独自索敵処理の使用有無
 	 */
@@ -220,20 +246,6 @@ public abstract class LMM_EntityModeBase {
 	 */
 	public List<TileEntity> getTiles() {
 		return null;
-	}
-
-	/**
-	 * 有効射程距離を超えた時の処理
-	 */
-	public boolean outrangeBlock(int pMode, int pX, int pY, int pZ) {
-		return owner.getNavigator().tryMoveToXYZ(pX, pY, pZ, owner.getAIMoveSpeed());
-	}
-
-	/**
-	 * 限界距離を超えた時の処理
-	 */
-	public void farrangeBlock() {
-		owner.getNavigator().clearPathEntity();
 	}
 
 	/**

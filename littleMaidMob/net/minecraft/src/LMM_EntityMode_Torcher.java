@@ -47,6 +47,8 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
 		switch (pMode) {
 		case mmode_Torcher :
 			owner.setBloodsuck(false);
+			owner.aiAttack.setEnable(false);
+			owner.aiShooting.setEnable(false);
 			return true;
 		}
 		

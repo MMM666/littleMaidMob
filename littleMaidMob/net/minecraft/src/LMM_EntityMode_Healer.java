@@ -55,6 +55,8 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 		switch (pMode) {
 		case mmode_Healer :
 			owner.setBloodsuck(false);
+			owner.aiAttack.setEnable(false);
+			owner.aiShooting.setEnable(false);
 			return true;
 		}
 		
