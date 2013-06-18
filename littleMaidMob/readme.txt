@@ -1,4 +1,4 @@
-Little Maid Mob 1.5.2 Rev4
+Little Maid Mob 1.5.2 Rev5
 
 Minecraft Texture・MOD総合.0.0.3の>>92氏のキャラクターで
 ラナさんのモデルデータを差し替えて、調整を行ったものです。
@@ -31,7 +31,7 @@ Minecraft Texture・MOD総合.0.0.3の>>92氏のキャラクターで
 	・%appdata%/.mincraft/config/mod_LMM_littleMaidMob.cfgができるので適当にいじって下さい。
 	というか一度くらいは設定ファイルを開いてみると良いやも知れぬ。
 
-	・%appdata%/.mincraft/mods/littleMaidMob-IFF.iff
+	・%appdata%/.mincraft/config/littleMaidMob-IFF.iff
 	というファイルが作成されますが、これはメイドさんの敵味方識別用のファイルです。
 	また、武器情報もここに記録されます。
 
@@ -59,6 +59,8 @@ Minecraft Texture・MOD総合.0.0.3の>>92氏のキャラクターで
 
 		※アーマーテクスチャについては別添テキストを参照
 
+	また、テクスチャ、マルチモデルの詳細についてはMMMLibにテキストがありますので、そちらを参照してください。
+
 
 
 新要素
@@ -66,12 +68,12 @@ Minecraft Texture・MOD総合.0.0.3の>>92氏のキャラクターで
 
 
 	・ユーザー向け修正
-		ポーションの効果判定がおかしかったのを修正。
+		Cooking、Pharmacistの調整。
+		各モードで攻撃できないモードの反撃も抑制。
 
 	・開発者向け修正
-		一部関数の名称変更。
-		テクスチャ管理の調整。
-		テクスチャ選択GUIをMMMLibへ移動。
+		発光テクスチャを実装。
+		ドキュメントを一部MMMLibへ移動。
 
 
 
@@ -193,14 +195,20 @@ Minecraft Texture・MOD総合.0.0.3の>>92氏のキャラクターで
 
 
 更新履歴
+	20130619.1	1.5.2 Rev5 更新
+				Cooking、Pharmacistの調整。
+				各モードで攻撃できないモードの反撃も抑制。
+				発光テクスチャを実装。
+				ドキュメントを一部MMMLibへ移動。
+				AlphaBlendの設定をMMMLibへ移動。
+
+
+
 	20130611.1	1.5.2 Rev4 更新
 				一部関数の名称変更。
 				テクスチャ管理の調整。
 				テクスチャ選択GUIをMMMLibへ移動。
 				ポーションの効果判定がおかしかったのを修正。
-
-
-
 	20130606.1	1.5.2 Rev3 更新
 				射撃周りの修正。
 				対マルチ用の修正。

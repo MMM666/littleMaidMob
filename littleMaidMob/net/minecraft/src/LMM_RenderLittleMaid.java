@@ -55,10 +55,11 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 			MMM_TextureBox ltbox0, ltbox1;
 			ltbox0 = MMM_TextureManager.instance.getTextureBox(plittleMaid.textureBox[0]);
 			ltbox1 = MMM_TextureManager.instance.getTextureBox(plittleMaid.textureBox[1]);
-			modelMain.modelInner = ltbox0.models[0];
+			modelMain.model = ltbox0.models[0];
 			modelFATT.modelInner = ltbox1.models[1];
 			modelFATT.modelOuter = ltbox1.models[2];
-			plittleMaid.texture = ltbox0.getTextureName(plittleMaid.maidColor);
+			plittleMaid.textures[0] = ltbox0.getTextureName(plittleMaid.maidColor);
+			plittleMaid.textures[1] = ltbox0.getTextureName(plittleMaid.maidColor + MMM_TextureManager.tx_eye);
 			plittleMaid.textureArmor1[0] = ltbox1.getArmorTextureName(true, plittleMaid.getCurrentArmor(0));
 			plittleMaid.textureArmor1[1] = ltbox1.getArmorTextureName(true, plittleMaid.getCurrentArmor(1));
 			plittleMaid.textureArmor1[2] = ltbox1.getArmorTextureName(true, plittleMaid.getCurrentArmor(2));
@@ -70,7 +71,8 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 			modelFATT.textureInner = plittleMaid.textureArmor1;
 			modelFATT.textureOuter = plittleMaid.textureArmor2;
 		} else {
-			modelMain.modelInner = ((MMM_TextureBox)plittleMaid.textureBox[0]).models[0];
+			modelMain.model = ((MMM_TextureBox)plittleMaid.textureBox[0]).models[0];
+			modelMain.textures = plittleMaid.textures;
 			modelFATT.modelInner = ((MMM_TextureBox)plittleMaid.textureBox[1]).models[1];
 			modelFATT.modelOuter = ((MMM_TextureBox)plittleMaid.textureBox[1]).models[2];
 			modelFATT.textureInner = plittleMaid.textureArmor1;
@@ -114,8 +116,8 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 			double d15 = (float)(d7 - d10);
 			double d16 = (float)(d8 - d12);
 			double d17 = (float)(d9 - d14);
-			GL11.glDisable(3553 /*GL_TEXTURE_2D*/);
-			GL11.glDisable(2896 /*GL_LIGHTING*/);
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_LIGHTING);
 			tessellator.startDrawing(3);
 			tessellator.setColorOpaque_I(0);
 			int i = 16;
@@ -126,8 +128,8 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 			}
 			
 			tessellator.draw();
-			GL11.glEnable(2896 /*GL_LIGHTING*/);
-			GL11.glEnable(3553 /*GL_TEXTURE_2D*/);
+			GL11.glEnable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
 		}
 	}
 

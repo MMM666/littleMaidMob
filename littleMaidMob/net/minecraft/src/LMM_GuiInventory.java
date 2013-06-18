@@ -103,7 +103,8 @@ public class LMM_GuiInventory extends GuiContainer {
 		GL11.glPopMatrix();
 		RenderHelper.disableStandardItemLighting();
 		GL11.glDisable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
-		
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F / 1.0F, 240F / 1.0F);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	@Override

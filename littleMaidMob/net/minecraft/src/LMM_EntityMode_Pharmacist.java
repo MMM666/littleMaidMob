@@ -58,6 +58,7 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBlockBase {
 			owner.aiFollow.setEnable(false);
 			owner.aiAttack.setEnable(false);
 			owner.aiShooting.setEnable(false);
+			inventryPos = 0;
 			return true;
 		}
 		
@@ -71,13 +72,16 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBlockBase {
 		
 		// モードに応じた識別判定、速度優先
 		switch (pMode) {
-		case mmode_Pharmacist : 
-			for (li = 0; li < owner.maidInventory.maxInventorySize; li++) {
-				litemstack = owner.maidInventory.getStackInSlot(li);
-				if (litemstack != null) {
-					// 対象は水ポーション
-					if (litemstack.getItem() instanceof ItemPotion && !MMM_Helper.hasEffect(litemstack)) {
-						return li;
+		case mmode_Pharmacist :
+			litemstack = owner.getCurrentEquippedItem();
+			if (!(inventryPos > 0 && litemstack != null && !litemstack.getItem().isPotionIngredient())) {
+				for (li = 0; li < owner.maidInventory.maxInventorySize; li++) {
+					litemstack = owner.maidInventory.getStackInSlot(li);
+					if (litemstack != null) {
+						// 対象は水ポーション
+						if (litemstack.getItem() instanceof ItemPotion && !MMM_Helper.hasEffect(litemstack)) {
+							return li;
+						}
 					}
 				}
 			}
@@ -183,8 +187,8 @@ public class LMM_EntityMode_Pharmacist extends LMM_EntityModeBlockBase {
 					}
 				}
 				if (!lflag) {
-					owner.getNextEquipItem();
 					inventryPos = 0;
+					owner.getNextEquipItem();
 					lflag = true;
 				}
 			}

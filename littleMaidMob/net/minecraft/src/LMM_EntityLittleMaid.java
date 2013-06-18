@@ -2946,7 +2946,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		if (!(textureBox[0] instanceof MMM_TextureBox) && !(textureBox[1] instanceof MMM_TextureBox)) return;
 		int lc = (maidColor & 0x00ff) + (isContract() ? 0 : MMM_TextureManager.tx_wild);
 		if (((MMM_TextureBox)textureBox[0]).hasColor(lc)) {
-			texture = ((MMM_TextureBox)textureBox[0]).getTextureName(lc);
+			textures[0] = ((MMM_TextureBox)textureBox[0]).getTextureName(lc);
+			textures[1] = ((MMM_TextureBox)textureBox[0]).getTextureName(lc + MMM_TextureManager.tx_eye);
 			for (int i = 0; i < 4; i++) {
 				ItemStack is = maidInventory.armorItemInSlot(i);
 				textureArmor1[i] = ((MMM_TextureBox)textureBox[1]).getArmorTextureName(true, is);
@@ -2996,6 +2997,11 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 
 	// textureEntity
 
+
+	@Override
+	public String getTexture() {
+		return textures[0];
+	}
 
 	@Override
 	public void setTextureBox(MMM_TextureBoxBase[] pTextureBox) {

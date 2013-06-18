@@ -42,8 +42,8 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 	public static boolean DeathMessage = true;
 	@MLProp(info="Spawn Anywhere.")
 	public static boolean Dominant = false;
-	@MLProp(info="true: AlphaBlend(request power), false: AlphaTest(more fast)")
-	public static boolean AlphaBlend = true;
+//	@MLProp(info="true: AlphaBlend(request power), false: AlphaTest(more fast)")
+//	public static boolean AlphaBlend = true;
 	@MLProp(info="true: Will be hostile, false: Is a pacifist")
 	public static boolean Aggressive = true;
 
@@ -79,13 +79,13 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.5.2-4";
+		return "1.5.2-5";
 	}
 
 	@Override
 	public void load() {
 		// MMMLibのRevisionチェック
-		MMM_Helper.checkRevision("5");
+		MMM_Helper.checkRevision("6");
 		
 //		UniqueEntityId = UniqueEntityId == 0 ? MMM_Helper.getNextEntityID(true) : UniqueEntityId;
 		defaultTexture = defaultTexture.trim();

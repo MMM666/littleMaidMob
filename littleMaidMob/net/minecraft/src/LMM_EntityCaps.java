@@ -34,6 +34,8 @@ public class LMM_EntityCaps extends MMM_EntityCaps {
 		caps.put("isMasked", caps_isMasked);
 		caps.put("isCamouflage", caps_isCamouflage);
 		caps.put("isPlanter", caps_isPlanter);
+		caps.put("isOverdrive", caps_isOverdrive);
+		caps.put("isOverdriveDelay", caps_isOverdriveDelay);
 		caps.put("entityIdFactor", caps_entityIdFactor);
 		caps.put("height", caps_height);
 		caps.put("width", caps_width);
@@ -112,6 +114,10 @@ public class LMM_EntityCaps extends MMM_EntityCaps {
 			return owner.isCamouflage();
 		case caps_isPlanter:
 			return owner.isPlanter();
+		case caps_isOverdrive:
+			return owner.maidOverDriveTime.isEnable();
+		case caps_isOverdriveDelay:
+			return owner.maidOverDriveTime.isDelay();
 		case caps_entityIdFactor:
 			return owner.entityIdFactor;
 		case caps_height:
