@@ -2169,6 +2169,9 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 
 	@Override
 	public boolean interact(EntityPlayer par1EntityPlayer) {
+		if (par1EntityPlayer.isSneaking()) {
+			return false;
+		}
 		// ナデリ判定
 		if (health > 0 && par1EntityPlayer.riddenByEntity != null && !(par1EntityPlayer.riddenByEntity instanceof LMM_EntityLittleMaid)) {
 			// 載せ替え
@@ -2908,7 +2911,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		textureBox[0] = MMM_TextureManager.instance.getTextureBoxServer(textureIndex[0]);
 		textureBox[1] = MMM_TextureManager.instance.getTextureBoxServer(textureIndex[1]);
 		// サイズの変更
-		setSize(textureBox[0].modelWidth, textureBox[0].modelHeight);
+		setSize(textureBox[0].getWidth(maidCaps), textureBox[0].getHeight(maidCaps));
 		func_98054_a(false);
 		mod_LMM_littleMaidMob.Debug("changeSize-ID:%d: %f, %f, %b", entityId, width, height, worldObj.isRemote);
 		setColor(pColor);
@@ -2921,7 +2924,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		textureBox[1] = pTextureBox[1];
 		setTextureNames();
 		// 身長変更用
-		setSize(textureBox[0].getWidth(), textureBox[0].getHeight());
+		setSize(textureBox[0].getWidth(maidCaps), textureBox[0].getHeight(maidCaps));
 		func_98054_a(false);
 		setPosition(posX, posY, posZ);
 		mod_LMM_littleMaidMob.Debug("ID:%d, TextureModel:%s", entityId, textureBox[0].textureName);

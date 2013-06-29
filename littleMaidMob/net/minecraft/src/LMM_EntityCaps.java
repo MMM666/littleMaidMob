@@ -121,13 +121,13 @@ public class LMM_EntityCaps extends MMM_EntityCaps {
 		case caps_entityIdFactor:
 			return owner.entityIdFactor;
 		case caps_height:
-			return owner.textureBox[0] == null ? null : owner.textureBox[0].getHeight();
+			return owner.textureBox[0] == null ? null : owner.textureBox[0].getHeight(this);
 		case caps_width:
-			return owner.textureBox[0] == null ? null : owner.textureBox[0].getWidth();
+			return owner.textureBox[0] == null ? null : owner.textureBox[0].getWidth(this);
 		case caps_YOffset:
-			return owner.textureBox[0] == null ? null : owner.textureBox[0].getYOffset();
+			return owner.textureBox[0] == null ? null : owner.textureBox[0].getYOffset(this);
 		case caps_mountedYOffset:
-			return owner.textureBox[0] == null ? null : owner.textureBox[0].getMountedYOffset();
+			return owner.textureBox[0] == null ? null : owner.textureBox[0].getMountedYOffset(this);
 		case caps_dominantArm:
 			return owner.maidDominantArm;
 //		case caps_mountedYOffset:
