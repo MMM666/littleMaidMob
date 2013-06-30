@@ -1649,6 +1649,11 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		if (mstatMasterEntity != null) {
 			mstatMasterDistanceSq = getDistanceSqToEntity(mstatMasterEntity);
 		}
+		// モデルサイズのリアルタイム変更有り？
+		if (textureBox[0].isUpdateSize) {
+			setSize(textureBox[0].getWidth(maidCaps), textureBox[0].getHeight(maidCaps));
+			func_98054_a(false);
+		}
 		// リアルタイム変動値をアップデート
 		if (worldObj.isRemote) {
 			// クライアント側

@@ -165,6 +165,11 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
 			}
 		}
 		
+		Material lmat = par1World.getBlockMaterial(par2, par3, par4);
+		if (lmat instanceof MaterialLiquid) {
+			return false;
+		}
+		
 		return par1World.canPlaceEntityOnSide(pItemBlock.getBlockID(), par2, par3, par4, false, par5, (Entity)null, par7ItemStack);
 	}
 

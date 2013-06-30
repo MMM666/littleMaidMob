@@ -141,13 +141,17 @@ public abstract class LMM_EntityModeBase {
 	public boolean checkBlock(int pMode, int px, int py, int pz) {
 		return false;
 	}
-	
+
 	/**
 	 * 検索範囲に索敵対象がなかった。
 	 */
-	public TileEntity overlooksBlock(int pMode) {
-		return null;
+	public boolean overlooksBlock(int pMode) {
+		return false;
 	}
+//	@Deprecated
+//	public TileEntity overlooksBlock(int pMode) {
+//		return null;
+//	}
 
 	/**
 	 * 限界距離を超えた時の処理
@@ -288,5 +292,13 @@ public abstract class LMM_EntityModeBase {
 		return pIndex == 0 ? 36D : pIndex == 1 ? 25D : 0D;
 	}
 
-
+	/**
+	 * 攻撃後にターゲットを再設定させるかの指定。
+	 * @param pTarget
+	 * @return
+	 */
+	public boolean isChangeTartget(Entity pTarget) {
+		return !owner.isBloodsuck();
+	}
+	
 }

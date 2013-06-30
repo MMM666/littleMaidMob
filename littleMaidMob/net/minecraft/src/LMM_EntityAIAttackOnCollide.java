@@ -122,8 +122,8 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEn
 		} else {
 			// UŒ‚
 			theMaid.attackEntityAsMob(entityTarget);
-			// ‘ÎÛ‚ğÄİ’è‚³‚¹‚é
-			if (!theMaid.isBloodsuck()) {
+			if (theMaid.getActiveModeClass().isChangeTartget(entityTarget)) {
+				// ‘ÎÛ‚ğÄİ’è‚³‚¹‚é
 				theMaid.setAttackTarget(null);
 				theMaid.setTarget(null);
 				theMaid.getNavigator().clearPathEntity();

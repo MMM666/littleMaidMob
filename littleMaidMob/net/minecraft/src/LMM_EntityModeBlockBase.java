@@ -37,11 +37,11 @@ public abstract class LMM_EntityModeBlockBase extends LMM_EntityModeBase {
 	}
 
 	@Override
-	public TileEntity overlooksBlock(int pMode) {
+	public boolean overlooksBlock(int pMode) {
 		if (owner.isTilePos()) {
 			owner.setTilePos(0);
 		}
-		return owner.maidTileEntity;
+		return true;
 	}
 
 

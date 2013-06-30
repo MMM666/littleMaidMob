@@ -109,17 +109,20 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements LMM_IEntityAI
 			}
 			vt = (vt + 1) & 3;
 		}
-		TileEntity ltile = fmodeBase.overlooksBlock(theMaid.maidMode);
-		if (ltile != null) {
-			lx = ltile.xCoord;
-			ly = ltile.yCoord;
-			lz = ltile.zCoord;
-			// TODO:Dummay
-			MMM_EntityDummy.setDummyEntity(theMaid, 0x004fff4f, lx, ly, lz);
-			flagdammy = true;
+		if (fmodeBase.overlooksBlock(theMaid.maidMode)) {
+			TileEntity ltile = theMaid.maidTileEntity;
+			if (ltile != null) {
+				lx = ltile.xCoord;
+				ly = ltile.yCoord;
+				lz = ltile.zCoord;
+				// TODO:Dummay
+				MMM_EntityDummy.setDummyEntity(theMaid, 0x004fff4f, lx, ly, lz);
+				flagdammy = true;
+			}
 			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	@Override

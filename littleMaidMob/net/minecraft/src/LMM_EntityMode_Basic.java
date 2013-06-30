@@ -3,12 +3,12 @@ package net.minecraft.src;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
+public class LMM_EntityMode_Basic extends LMM_EntityModeBlockBase {
 
 	public static final int mmode_Wild		= 0x0000;
 	public static final int mmode_Escorter	= 0x0001;
 	
-	private IInventory myTile;
+	private IInventory myInventory;
 	private IInventory myChest;
 	private List<IInventory> fusedTiles;
 	private boolean isWorking;
@@ -22,7 +22,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 	public LMM_EntityMode_Basic(LMM_EntityLittleMaid pEntity) {
 		super(pEntity);
 		fusedTiles = new ArrayList<IInventory>();
-		myTile = null;
+//		myTile = null;
 	}
 
 	@Override
@@ -118,35 +118,20 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 
 	@Override
 	public boolean isSearchBlock() {
-		if (owner.getMaidModeInt() == mmode_Escorter && owner.isFreedom() && owner.maidInventory.getFirstEmptyStack() == -1) {
-/*
-			// チェストカートの検索
-			List<Entity> list = owner.worldObj.getEntitiesWithinAABB(IInventory.class, owner.boundingBox.expand(8D, 2D, 8D));
-			double cartl = 256D;
-			for (Entity lentity : list) {
-				if (!fusedTiles.contains(lentity)) {
-					if (lentity instanceof EntityMinecart && ((EntityMinecart)lentity).minecartType != 1) {
-						continue;
-					}
-					double l = lentity.getDistanceSqToEntity(owner);
-					// 見える位置にある最も近い調べていないカートチェスト
-					
-					if (cartl > l && owner.getEntitySenses().canSee(lentity)) {
-						myTile = (IInventory)lentity;
-						cartl = l;
-					}
-				}
-			}
-*/
-			// Entity系のInventoryが見つからなければ通常のサーチを実行
-			return myTile == null;
+		if (owner.getMaidModeInt() == mmode_Escorter && owner.isFreedom() &&
+				owner.maidInventory.getFirstEmptyStack() == -1) {
+			// 対象をまだ見つけていないときは検索を行う。
+			fDistance = 100F;
+			return myInventory == null;
 		}
+//		clearMy();
+//		fusedTiles.clear();
 		return false;
 	}
 
 	@Override
 	public boolean shouldBlock(int pMode) {
-		return myTile != null;
+		return myInventory instanceof TileEntity;
 	}
 
 	@Override
@@ -155,50 +140,87 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 		if (!(ltile instanceof IInventory)) {
 			return false;
 		}
-		
-		// 世界のメイドから
-		for (Object lo : owner.worldObj.loadedEntityList) {
-			if (lo instanceof LMM_EntityLittleMaid) {
-				LMM_EntityLittleMaid lem = (LMM_EntityLittleMaid)lo;
-//				if (lem.isUsingTile(ltile)) {
-//					// 誰かが使っている
-//					return false;
-//				}
-			}
+		if (((IInventory)ltile).getSizeInventory() < 18) {
+			// インベントリのサイズが１８以下なら対象としない。
+			return false;
 		}
 		
+		// 世界のメイドから
+		if (checkWorldMaid(ltile)) return false;
+		// 使用済みチェック
 		if (fusedTiles.contains(ltile)) {
 			// 既に通り過ぎた場所よッ！
 			return false;
 		}
-		myTile = (IInventory)ltile;
-		return true;
+		
+		double ldis = owner.getDistanceTilePosSq(ltile);
+		if (fDistance > ldis) {
+			myInventory = (IInventory)ltile;
+			fDistance = ldis;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean overlooksBlock(int pMode) {
+		// チェストカートの検索
+		List<Entity> list = owner.worldObj.getEntitiesWithinAABB(IInventory.class, owner.boundingBox.expand(8D, 2D, 8D));
+		double cartl = 256D;
+		for (Entity lentity : list) {
+			if (!fusedTiles.contains(lentity)) {
+				if (((IInventory)lentity).getSizeInventory() < 18) {
+					// インベントリが一定サイズ以下はスキップ
+					continue;
+				}
+				double lr = lentity.getDistanceSqToEntity(owner);
+				// 見える位置にある最も近い調べていないカートチェスト
+				
+				if (fDistance > lr && owner.getEntitySenses().canSee(lentity)) {
+					myInventory = (IInventory)lentity;
+					fDistance = lr;
+				}
+			}
+		}
+		lastdistance = -1;
+		myChest = null;
+		maidSearchCount = 0;
+		if (myInventory instanceof TileEntity) {
+			owner.setTilePos((TileEntity)myInventory);
+			return myInventory != null;
+		} else {
+			owner.setTarget((Entity)myInventory);
+			return false;
+		}
+//		return myInventory != null;
 	}
 
 	@Override
 	public void startBlock(int pMode) {
-		lastdistance = -1;
-		myChest = null;
-		maidSearchCount = 0;
 	}
 
 	@Override
 	public void resetBlock(int pMode) {
-		myTile = null;
+		clearMy();
+//		fusedTiles.clear();
+	}
+
+	protected void clearMy() {
+		myInventory = null;
 		if (myChest != null) {
 			myChest.closeChest();
 			myChest = null;
 		}
+		owner.clearTilePos();
+		owner.setTarget(null);
 	}
 
 	@Override
 	public boolean executeBlock(int pMode, int px, int py, int pz) {
 //		isMaidChaseWait = true;
-		if (myTile instanceof TileEntityChest) {
+		if (myInventory instanceof TileEntityChest) {
 			// ブロック系のチェスト
-			if (!((TileEntityChest) myTile).isInvalid()) {
-				// サーチしたチェスト
-				TileEntityChest lchest = (TileEntityChest)myTile;
+			TileEntityChest lchest = (TileEntityChest)myInventory;
+			if (!lchest.isInvalid()) {
 				// 使用直前に可視判定
 				if (MMM_Helper.canBlockBeSeen(owner, lchest.xCoord, lchest.yCoord, lchest.zCoord, false, true, false)) {
 					if (myChest == null) {
@@ -207,7 +229,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 							myChest.openChest();
 						} else {
 							// 開かないチェスト
-							myTile = null;
+							myInventory = null;
 						}
 					}
 					// チェストに収納
@@ -216,66 +238,18 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 					return true;
 				} else {
 					// 見失った
-					myTile = null;
-					if (myChest != null) {
-						myChest.closeChest();
-						myChest = null;
-					}
+					clearMy();
 				}
 			} else {
 				// Tileの消失
-				myTile = null;
-				if (myChest != null) {
-					myChest.closeChest();
-					myChest = null;
-				}
+				clearMy();
 			}
-		} else if (myTile instanceof Entity) {
-			// チェスト付カートとか
-			/*
-			Entity lentity = (Entity)myTile;
-			if (!lentity.isDead) {
-				if (owner.getDistanceSqToEntity(lentity) < 5D)	{
-//				if (!hasPath() && getDistanceSqToEntity(myEntity) < 5D)	{
-					setPathToEntity(null);
-					if (myChest == null) {
-						myChest = (EntityMinecart)myEntity;
-						serchedChest.add((EntityMinecart)myEntity);
-							myChest.openChest();
-					}
-					if (myChest != null) {
-						faceEntity(myEntity, 30F, 40F);
-					}
-					// チェストに収納
-					putChest();
-				} else {
-					// チェストまでのパスを作る
-					if (!isMaidWaitEx()) {
-						double distance = getDistanceSqToEntity(myEntity);
-						if (distance == lastdistance) {
-							mod_littleMaidMob.Debug("Assert.");
-							updateWanderPath();
-						} else {
-							setPathToEntity(worldObj.getPathEntityToEntity(this, myEntity, 16F, true, false, false, true));
-						}
-						lastdistance = distance;
-//						mod_littleMaidMob.Debug(String.format("Rerute:%b", hasPath()));
-						if (myChest != null) {
-							myChest.closeChest();
-							myChest = null;
-						}
-					}
-				}
-				
-			} else {
-				// Entityの死亡
-				myTile = null;
-				if (myChest != null) {
-					myChest.closeChest();
-					myChest = null;
-				}
+		} else {
+			// 想定外のインベントリ
+			if (myInventory != null) {
+				fusedTiles.add(myInventory);
 			}
-			*/
+			clearMy();
 		}
 		return false;
 	}
@@ -286,19 +260,16 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 		boolean lf = false;
 		if (!owner.isMaidWaitEx()) {
 			double distance;
-			if (myTile instanceof TileEntity) {
-//				distance = ((TileEntity)myTile).getDistanceFrom(owner.posX, owner.posY, owner.posZ);
-				distance = owner.getDistance(
-						((TileEntity) myTile).xCoord,
-						((TileEntity) myTile).yCoord,
-						((TileEntity) myTile).zCoord);
+			if (myInventory instanceof TileEntity) {
+				distance = owner.getDistanceTilePos();
 				if (distance == lastdistance) {
+					// TODO:現状無意味
 					// 移動が固まらないように乱数加速
 					mod_LMM_littleMaidMob.Debug("Assert.");
 					owner.updateWanderPath();
 					lf = true;
 				} else {
-					lf = MMM_Helper.setPathToTile(owner, (TileEntity)myTile, false);
+					lf = MMM_Helper.setPathToTile(owner, (TileEntity)myInventory, false);
 				}
 			} else {
 				distance = 0;
@@ -315,66 +286,37 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 
 	@Override
 	public void farrangeBlock() {
-		// TODO Auto-generated method stub
 		super.farrangeBlock();
+		clearMy();
 	}
 
 
 	protected boolean getChest() {
 		// チェストを獲得
-		if (myTile == null) {
+		if (myInventory == null) {
 			return false;
 		}
-		World world = owner.worldObj;
-		int i = ((TileEntity)myTile).xCoord;
-		int j = ((TileEntity)myTile).yCoord;
-		int k = ((TileEntity)myTile).zCoord;
-		IInventory obj = (TileEntityChest)world.getBlockTileEntity(i, j, k);
-		IInventory obj2 = null;
-		if(obj == null || world.isRemote) {
-			return false;
-		}
-		// 検索済み
-		fusedTiles.add(obj);
-		
-		// 開くかどうかの判定
-		if(world.isBlockNormalCube(i, j + 1, k)) {
-			return false;
-		}
-		if(world.getBlockId(i - 1, j, k) == Block.chest.blockID && world.isBlockNormalCube(i - 1, j + 1, k)) {
-			return false;
-		}
-		if(world.getBlockId(i + 1, j, k) == Block.chest.blockID && world.isBlockNormalCube(i + 1, j + 1, k)) {
-			return false;
-		}
-		if(world.getBlockId(i, j, k - 1) == Block.chest.blockID && world.isBlockNormalCube(i, j + 1, k - 1)) {
-			return false;
-		}
-		if(world.getBlockId(i, j, k + 1) == Block.chest.blockID && world.isBlockNormalCube(i, j + 1, k + 1)) {
-			return false;
-		}
-		if(world.getBlockId(i - 1, j, k) == Block.chest.blockID) {
-			obj2 = (TileEntityChest)world.getBlockTileEntity(i - 1, j, k);
-			obj = new InventoryLargeChest("Large chest", obj2, ((IInventory) (obj)));
-		}
-		if(world.getBlockId(i + 1, j, k) == Block.chest.blockID) {
-			obj2 = (TileEntityChest)world.getBlockTileEntity(i + 1, j, k);
-			obj = new InventoryLargeChest("Large chest", ((IInventory) (obj)), obj2);
-		}
-		if(world.getBlockId(i, j, k - 1) == Block.chest.blockID) {
-			obj2 = (TileEntityChest)world.getBlockTileEntity(i, j, k - 1);
-			obj = new InventoryLargeChest("Large chest", obj2, ((IInventory) (obj)));
-		}
-		if(world.getBlockId(i, j, k + 1) == Block.chest.blockID) {
-			obj2 = (TileEntityChest)world.getBlockTileEntity(i, j, k + 1);
-			obj = new InventoryLargeChest("Large chest", ((IInventory) (obj)), obj2);
-		}
-		if (obj2 != null) {
-			fusedTiles.add(obj2);
+		// 検索済みにスタック
+		fusedTiles.add(myInventory);
+		if (myInventory instanceof TileEntityChest) {
+			TileEntityChest lchest = (TileEntityChest)myInventory;
+			if (!lchest.adjacentChestChecked) {
+				lchest.checkForAdjacentChests();
+			}
+			fusedTiles.add(lchest.adjacentChestXNeg);
+			fusedTiles.add(lchest.adjacentChestXPos);
+			fusedTiles.add(lchest.adjacentChestZNeg);
+			fusedTiles.add(lchest.adjacentChestZPosition);
 		}
 		
-		myChest = (IInventory)obj;
-		return true;
+		TileEntity ltile = (TileEntity)myInventory;
+		Block lblock = Block.blocksList[owner.worldObj.getBlockId(ltile.xCoord, ltile.yCoord, ltile.zCoord)];
+		myChest = myInventory;
+		if (lblock instanceof BlockChest) {
+			myChest = ((BlockChest)lblock).getInventory(owner.worldObj, ltile.xCoord, ltile.yCoord, ltile.zCoord);
+		}
+		
+		return myChest != null;
 	}
 
 	protected void putChest() {
@@ -433,9 +375,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 			if (++maidSearchCount >= owner.maidInventory.mainInventory.length) {
 				// 検索済みの対象をスタック
 //				serchedChest.add(myChest);
-				myTile = null;
-				myChest.closeChest();
-				myChest = null;
+				clearMy();
 				lastdistance = 0D;
 				mod_LMM_littleMaidMob.Debug("endChest.");
 				// 空きができたら捜索終了
@@ -447,6 +387,61 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBase {
 		}
 	}
 
+	@Override
+	public boolean attackEntityAsMob(int pMode, Entity pEntity) {
+		if (pEntity == myInventory) {
+			// チェスト付カートとか
+			Entity lentity = (Entity)myInventory;
+			if (!lentity.isDead) {
+				if (owner.getDistanceSqToEntity(lentity) < 5D)	{
+					owner.getNavigator().clearPathEntity();
+					if (myChest == null) {
+						myChest = (IInventory)lentity;
+						fusedTiles.add(myChest);
+						myChest.openChest();
+					}
+					if (myChest != null) {
+						owner.getLookHelper().setLookPositionWithEntity(lentity, 30F, 40F);
+					}
+					// チェストに収納
+					putChest();
+				} else {
+					// チェストまでのパスを作る
+					if (!owner.isMaidWaitEx()) {
+						double distance = owner.getDistanceSqToEntity(lentity);
+						if (distance == lastdistance) {
+							// TODO: 現状無意味
+							mod_LMM_littleMaidMob.Debug("Assert.");
+							owner.updateWanderPath();
+						} else {
+							owner.getNavigator().tryMoveToXYZ(lentity.posX, lentity.posY, lentity.posZ, owner.getAIMoveSpeed());
+						}
+						lastdistance = distance;
+//						mod_littleMaidMob.Debug(String.format("Rerute:%b", hasPath()));
+						if (myChest != null) {
+							myChest.closeChest();
+							myChest = null;
+						}
+					}
+				}
+			} else {
+				// Entityの死亡
+				clearMy();
+			}
+			return true;
+		} else {
+			// ターゲットが変わってる？
+			clearMy();
+		}
+		return true;
+	}
 
+	@Override
+	public boolean isChangeTartget(Entity pTarget) {
+		if (pTarget instanceof IInventory) {
+			return false;
+		}
+		return super.isChangeTartget(pTarget);
+	}
 
 }
