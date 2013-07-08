@@ -20,6 +20,8 @@ public class LMM_GuiTriggerSelect extends GuiContainer {
 	private LMM_ContainerTriggerSelect inventoryTrigger;
 	private int selectPage;
 	protected EntityPlayer target;
+	protected static ResourceLocation fguiTex = new ResourceLocation("textures/gui/container/littlemaidtrigger.png");
+
 
 	public LMM_GuiTriggerSelect(EntityPlayer entityplayer, LMM_GuiIFF guiowner) {
 		super(new LMM_ContainerTriggerSelect(entityplayer));
@@ -222,7 +224,7 @@ public class LMM_GuiTriggerSelect extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture("/gui/littlemaidtrigger.png");
+		MMM_Client.setTexture(fguiTex);
 		int l = guiLeft;
 		int i1 = guiTop;
 		drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);

@@ -8,32 +8,25 @@ import java.util.List;
 public class LMM_EntityAINearestAttackableTarget extends EntityAINearestAttackableTarget {
 
 	protected LMM_EntityLittleMaid theMaid;
-	Entity targetEntity;
-	Class targetClass;
-	int targetChance;
-	private final IEntitySelector field_82643_g;
-	private EntityAINearestAttackableTargetSorter theNearestAttackableTargetSorter;
+	protected Entity targetEntity;
+	protected Class targetClass;
+	protected int targetChance;
+	protected LMM_EntityAINearestAttackableTargetSorter theNearestAttackableTargetSorter;
 
 	private boolean field_75303_a;
 	private int field_75301_b;
 	private int field_75302_c;
 
 
-	public LMM_EntityAINearestAttackableTarget(LMM_EntityLittleMaid par1EntityLiving, Class par2Class, float par3, int par4, boolean par5) {
-		this(par1EntityLiving, par2Class, par3, par4, par5, false);
+	public LMM_EntityAINearestAttackableTarget(LMM_EntityLittleMaid par1EntityLiving, Class par2Class, int par4, boolean par5) {
+		this(par1EntityLiving, par2Class, par4, par5, false);
 	}
 
-	public LMM_EntityAINearestAttackableTarget(LMM_EntityLittleMaid par1EntityLiving, Class par2Class, float par3, int par4, boolean par5, boolean par6) {
-		this(par1EntityLiving, par2Class, par3, par4, par5, par6, (IEntitySelector)null);
-	}
-
-	public LMM_EntityAINearestAttackableTarget(LMM_EntityLittleMaid par1, Class par2, float par3, int par4, boolean par5, boolean par6, IEntitySelector par7IEntitySelector) {
-		super(par1, par2, par3, par4, par5, par6, par7IEntitySelector);
+	public LMM_EntityAINearestAttackableTarget(LMM_EntityLittleMaid par1, Class par2, int par4, boolean par5, boolean par6) {
+		super(par1, par2, par4, par5, par6, null);
 		targetClass = par2;
-		targetDistance = par3;
 		targetChance = par4;
-		theNearestAttackableTargetSorter = new EntityAINearestAttackableTargetSorter(this, par1);
-		field_82643_g = par7IEntitySelector;
+		theNearestAttackableTargetSorter = new LMM_EntityAINearestAttackableTargetSorter(par1);
 		field_75301_b = 0;
 		field_75302_c = 0;
 		field_75303_a = par6;
@@ -49,15 +42,17 @@ public class LMM_EntityAINearestAttackableTarget extends EntityAINearestAttackab
 //		} else if (theMaid.getAttackTarget() != null) {
 //			return true;
 		} else {
-			List var5 = this.taskOwner.worldObj.getEntitiesWithinAABB(this.targetClass, this.taskOwner.boundingBox.expand((double)this.targetDistance, 4.0D, (double)this.targetDistance));
+			double lfollowRange = this.func_111175_f();
+			List llist = this.taskOwner.worldObj.getEntitiesWithinAABB(targetClass, taskOwner.boundingBox.expand(lfollowRange, 4.0D, lfollowRange));
 			if (theMaid.mstatMasterEntity != null && !theMaid.isBloodsuck()) {
 				// ソーターを主中心へ
-				Collections.sort(var5, new EntityAINearestAttackableTargetSorter(this, theMaid.mstatMasterEntity));
+				theNearestAttackableTargetSorter.setEntity(theMaid.mstatMasterEntity);
 			} else {
 				// 自分中心にソート
-				Collections.sort(var5, this.theNearestAttackableTargetSorter);
+				theNearestAttackableTargetSorter.setEntity(theMaid);
 			}
-			Iterator var2 = var5.iterator();
+			Collections.sort(llist, theNearestAttackableTargetSorter);
+			Iterator var2 = llist.iterator();
 			while (var2.hasNext()) {
 				Entity var3 = (Entity)var2.next();
 				if (var3.isEntityAlive() && this.isSuitableTargetLM(var3, false)) {
@@ -83,6 +78,7 @@ public class LMM_EntityAINearestAttackableTarget extends EntityAINearestAttackab
 //	@Override
 	protected boolean isSuitableTargetLM(Entity par1EntityLiving, boolean par2) {
 		// LMM用にカスタム
+		// 非生物も対象のため別クラス
 		if (par1EntityLiving == null) {
 			return false;
 		}
@@ -110,7 +106,8 @@ public class LMM_EntityAINearestAttackableTarget extends EntityAINearestAttackab
 		}
 		
 		// 基点から一定距離離れている場合も攻撃しない
-		if (!taskOwner.isWithinHomeDistance(MathHelper.floor_double(par1EntityLiving.posX), MathHelper.floor_double(par1EntityLiving.posY), MathHelper.floor_double(par1EntityLiving.posZ))) {
+		if (!taskOwner.func_110176_b(MathHelper.floor_double(par1EntityLiving.posX), MathHelper.floor_double(par1EntityLiving.posY), MathHelper.floor_double(par1EntityLiving.posZ))) {
+//		if (!taskOwner.isWithinHomeDistance(MathHelper.floor_double(par1EntityLiving.posX), MathHelper.floor_double(par1EntityLiving.posY), MathHelper.floor_double(par1EntityLiving.posZ))) {
 			return false;
 		}
 		

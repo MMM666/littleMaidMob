@@ -3,7 +3,7 @@ package net.minecraft.src;
 public class LMM_EntityAIFollowOwner extends EntityAIBase implements LMM_IEntityAI {
 
 	private LMM_EntityLittleMaid theMaid;
-	private EntityLiving theOwner;
+	private Entity theOwner;
 	private World theWorld;
 	private float moveSpeed;
 	private PathNavigate petPathfinder;
@@ -32,7 +32,7 @@ public class LMM_EntityAIFollowOwner extends EntityAIBase implements LMM_IEntity
 		if (!isEnable)
 			return false;
 
-		EntityLiving entityliving = theMaid.getOwner();
+		Entity entityliving = theMaid.getOwner();
 		if (entityliving == null) {
 			return false;
 		}

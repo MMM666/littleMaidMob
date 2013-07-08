@@ -22,6 +22,8 @@ public class LMM_GuiInventory extends GuiContainer {
 	public GuiButtonNextPage txbutton[] = new GuiButtonNextPage[4];
 	public GuiButton selectbutton;
 	public boolean isChangeTexture;
+	
+	protected static ResourceLocation fguiTex = new ResourceLocation("textures/gui/container/littlemaidinventory.png");
 
 	// Method
 	public LMM_GuiInventory(EntityPlayer pPlayer, LMM_EntityLittleMaid elmaid) {
@@ -110,11 +112,11 @@ public class LMM_GuiInventory extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		// îwåi
-		String s = ((MMM_TextureBox)entitylittlemaid.textureBox[0]).getTextureName(MMM_TextureManager.tx_gui);
-		if (s == null) {
-			s = "/gui/littlemaidinventory.png";
+		ResourceLocation lrl = ((MMM_TextureBox)entitylittlemaid.textureBox[0]).getTextureName(MMM_TextureManager.tx_gui);
+		if (lrl == null) {
+			lrl = fguiTex;
 		}
-		mc.renderEngine.bindTexture(s);
+		MMM_Client.setTexture(lrl);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		int lj = guiLeft;
 		int lk = guiTop;
@@ -124,7 +126,9 @@ public class LMM_GuiInventory extends GuiContainer {
 		displayDebuffEffects();
 		
 		// LP/AP
-		mc.renderEngine.bindTexture("/gui/icons.png");
+		drawHeathArmor(0, 0);
+/*		
+		MMM_Client.setTexture(field_110324_m);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		
 		boolean flag1 = (entitylittlemaid.hurtResistantTime / 3) % 2 == 1;
@@ -177,6 +181,124 @@ public class LMM_GuiInventory extends GuiContainer {
 			}
 			if (j2 * 2 + 1 == i1) {
 				drawTexturedModalRect(i6, k3, 61, 0, 9, 9);
+			}
+		}
+*/
+	}
+
+	protected void drawHeathArmor(int par1, int par2) {
+		boolean var3 = entitylittlemaid.hurtResistantTime / 3 % 2 == 1;
+		
+		if (entitylittlemaid.hurtResistantTime < 10) {
+			var3 = false;
+		}
+		
+		int var4 = MathHelper.ceiling_float_int(entitylittlemaid.func_110143_aJ());
+		int var5 = MathHelper.ceiling_float_int(entitylittlemaid.prevHealth);
+		this.rand.setSeed((long) (updateCounter * 312871));
+		boolean var6 = false;
+//		FoodStats var7 = entitylittlemaid.getFoodStats();
+//		int var8 = var7.getFoodLevel();
+//		int var9 = var7.getPrevFoodLevel();
+		AttributeInstance var10 = entitylittlemaid.func_110148_a(SharedMonsterAttributes.field_111267_a);
+		int var11 = par1 / 2 - 91;
+		int var12 = par1 / 2 + 91;
+		int var13 = par2 - 39;
+		float var14 = (float) var10.func_111126_e();
+		float var15 = entitylittlemaid.func_110139_bj();
+		int var16 = MathHelper.ceiling_float_int((var14 + var15) / 2.0F / 10.0F);
+		int var17 = Math.max(10 - (var16 - 2), 3);
+		int var18 = var13 - (var16 - 1) * var17 - 10;
+		float var19 = var15;
+		int var20 = entitylittlemaid.getTotalArmorValue();
+		int var21 = -1;
+		
+		if (entitylittlemaid.isPotionActive(Potion.regeneration)) {
+			var21 = updateCounter % MathHelper.ceiling_float_int(var14 + 5.0F);
+		}
+		
+		// AP
+		int var23;
+		int var22;
+		
+		for (var22 = 0; var22 < 10; ++var22) {
+			if (var20 > 0) {
+				var23 = var11 + var22 * 8;
+				
+				if (var22 * 2 + 1 < var20) {
+					this.drawTexturedModalRect(var23, var18, 34, 9, 9, 9);
+				}
+				
+				if (var22 * 2 + 1 == var20) {
+					this.drawTexturedModalRect(var23, var18, 25, 9, 9, 9);
+				}
+				
+				if (var22 * 2 + 1 > var20) {
+					this.drawTexturedModalRect(var23, var18, 16, 9, 9, 9);
+				}
+			}
+		}
+		
+		// LP
+		int var25;
+		int var27;
+		int var26;
+		
+		for (var22 = MathHelper.ceiling_float_int((var14 + var15) / 2.0F) - 1; var22 >= 0; --var22) {
+			var23 = 16;
+			
+			if (entitylittlemaid.isPotionActive(Potion.poison)) {
+				var23 += 36;
+			} else if (entitylittlemaid.isPotionActive(Potion.wither)) {
+				var23 += 72;
+			}
+			
+			byte var24 = 0;
+			
+			if (var3) {
+				var24 = 1;
+			}
+			
+			var25 = MathHelper.ceiling_float_int((float) (var22 + 1) / 10.0F) - 1;
+			var26 = var11 + var22 % 10 * 8;
+			var27 = var13 - var25 * var17;
+			
+			if (var4 <= 4) {
+				var27 += this.rand.nextInt(2);
+			}
+			
+			if (var22 == var21) {
+				var27 -= 2;
+			}
+			
+			this.drawTexturedModalRect(var26, var27, 16 + var24 * 9, 9, 9, 9);
+			
+			if (var3) {
+				if (var22 * 2 + 1 < var5) {
+					this.drawTexturedModalRect(var26, var27, var23 + 54, 9, 9, 9);
+				}
+				
+				if (var22 * 2 + 1 == var5) {
+					this.drawTexturedModalRect(var26, var27, var23 + 63, 9, 9, 9);
+				}
+			}
+			
+			if (var19 > 0.0F) {
+				if (var19 == var15 && var15 % 2.0F == 1.0F) {
+					this.drawTexturedModalRect(var26, var27, var23 + 153, 9, 9, 9);
+				} else {
+					this.drawTexturedModalRect(var26, var27, var23 + 144, 9, 9, 9);
+				}
+				
+				var19 -= 2.0F;
+			} else {
+				if (var22 * 2 + 1 < var4) {
+					this.drawTexturedModalRect(var26, var27, var23 + 36, 9, 9, 9);
+				}
+				
+				if (var22 * 2 + 1 == var4) {
+					this.drawTexturedModalRect(var26, var27, var23 + 45, 9, 9, 9);
+				}
 			}
 		}
 	}
@@ -323,7 +445,7 @@ public class LMM_GuiInventory extends GuiContainer {
 			PotionEffect potioneffect = (PotionEffect) iterator.next();
 			Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			mc.renderEngine.bindTexture("/gui/inventory.png");
+			MMM_Client.setTexture(field_110408_a);
 			drawTexturedModalRect(lx, ly, 0, ySizebk, 140, 32);
 			if (potion.hasStatusIcon()) {
 				int i1 = potion.getStatusIconIndex();

@@ -16,24 +16,19 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 
 	
 	public LMM_EntityLittleMaidAvatar(World par1World, LMM_EntityLittleMaid par2EntityLittleMaid) {
-		super(par1World);
+		super(par1World, "");
 		
 		// 初期設定
 		avatar = par2EntityLittleMaid;
+		dataWatcher = avatar.dataWatcher;
 		
 		inventory = avatar.maidInventory;
 		inventory.player = this;
-		username = "";
 	}
 
 	@Override
 	public float getEyeHeight() {
 		return avatar.getEyeHeight();
-	}
-
-	@Override
-	protected String getLivingSound() {
-		return null;
 	}
 
 	@Override
@@ -47,17 +42,8 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	}
 
 	@Override
-	public void sendChatToPlayer(String var1) {
-	}
-
-	@Override
 	public boolean canCommandSenderUseCommand(int var1, String var2) {
 		return false;
-	}
-
-	@Override
-	public void triggerAchievement(StatBase par1StatBase) {
-		// アチーブメント殺し
 	}
 
 	@Override
@@ -116,19 +102,19 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	@Override
 	public void attackTargetEntityWithCurrentItem(Entity par1Entity) {
 		// TODO:
-		int ll = 0;
-		if (par1Entity instanceof EntityLiving) {
-			ll = ((EntityLiving)par1Entity).health;
+		float ll = 0;
+		if (par1Entity instanceof EntityLivingBase) {
+			ll = ((EntityLivingBase)par1Entity).func_110143_aJ();
 		}
 		super.attackTargetEntityWithCurrentItem(par1Entity);
-		if (par1Entity instanceof EntityLiving) {
-			((EntityLiving)par1Entity).setRevengeTarget(avatar);
+		if (par1Entity instanceof EntityLivingBase) {
+			((EntityLivingBase)par1Entity).setRevengeTarget(avatar);
 		}
 		if (par1Entity instanceof EntityCreature) {
 			((EntityCreature)par1Entity).setTarget(avatar);
 		}
 		if (ll > 0) {
-			mod_LMM_littleMaidMob.Debug(String.format("ID:%d Given Damege:%d", avatar.entityId, ll - ((EntityLiving)par1Entity).health));
+			mod_LMM_littleMaidMob.Debug(String.format("ID:%d Given Damege:%f", avatar.entityId, ll - ((EntityLivingBase)par1Entity).func_110143_aJ()));
 		}
 	}
 
@@ -153,7 +139,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	}
 
 	@Override
-	protected void alertWolves(EntityLiving par1EntityLiving, boolean par2) {
+	protected void alertWolves(EntityLivingBase par1EntityLiving, boolean par2) {
 		// ここを設定しちゃうと通常ではぬるぽ落ちする
 	}
 
@@ -167,7 +153,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	}
 
 	@Override
-	public void onKillEntity(EntityLiving entityliving) {
+	public void onKillEntity(EntityLivingBase entityliving) {
 		avatar.onKillEntity(entityliving);
 	}
 
@@ -285,12 +271,6 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	@Override
 	protected void setFlag(int par1, boolean par2) {
 		avatar.setFlag(par1, par2);
-	}
-
-	@Override
-	public void setEntityHealth(int par1) {
-		super.setEntityHealth(par1);
-//		avatar.setEntityHealth(par1);
 	}
 
 	@Override
@@ -438,6 +418,11 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	@Override
 	public ChunkCoordinates getPlayerCoordinates() {
 		return null;
+	}
+
+	@Override
+	public void sendChatToPlayer(ChatMessageComponent var1) {
+		// チャットメッセージは使わない。
 	}
 
 

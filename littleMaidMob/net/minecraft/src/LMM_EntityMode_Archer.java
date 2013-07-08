@@ -45,7 +45,7 @@ public class LMM_EntityMode_Archer extends LMM_EntityModeBase {
 //		ltasks[1].addTask(1, new EntityAIOwnerHurtByTarget(owner));
 //		ltasks[1].addTask(2, new EntityAIOwnerHurtTarget(owner));
 		ltasks[1].addTask(3, new LMM_EntityAIHurtByTarget(owner, true));
-		ltasks[1].addTask(4, new LMM_EntityAINearestAttackableTarget(owner, EntityLiving.class, 16F, 0, true));
+		ltasks[1].addTask(4, new LMM_EntityAINearestAttackableTarget(owner, EntityLiving.class, 0, true));
 		
 		owner.addMaidMode(ltasks, "Archer", mmode_Archer);
 		
@@ -56,7 +56,7 @@ public class LMM_EntityMode_Archer extends LMM_EntityModeBase {
 		ltasks2[1] = new EntityAITasks(owner.aiProfiler);
 		
 		ltasks2[1].addTask(1, new LMM_EntityAIHurtByTarget(owner, true));
-		ltasks2[1].addTask(2, new LMM_EntityAINearestAttackableTarget(owner, EntityLiving.class, 16F, 0, true));
+		ltasks2[1].addTask(2, new LMM_EntityAINearestAttackableTarget(owner, EntityLiving.class, 0, true));
 		
 		owner.addMaidMode(ltasks2, "Blazingstar", mmode_Blazingstar);
 	}

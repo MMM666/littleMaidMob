@@ -42,7 +42,7 @@ public class LMM_GuiIFF extends MMM_GuiMobSelect {
 					// –ì¶íA©•ªŒ_–ñÒ
 					lf = true;
 				} else {
-					// Œ_–ñÒ
+					// ‘¼l‚ÌŒ_–ñÒ
 				}
 			} else if (pEntity instanceof EntityTameable) {
 				if (pIndex == 0 || pIndex == 1) {

@@ -10,7 +10,7 @@ public class LMM_Statics {
 	/**
 	 * HPをサーバーからクライアントへ通知するのに使う。
 	 */
-	protected static final int dataWatch_Health		= 18;
+//	protected static final int dataWatch_Health		= 18;
 	protected static final int dataWatch_ColorMode	= 19;
 	/**
 	 * MSB|0x0000 0000|LSB

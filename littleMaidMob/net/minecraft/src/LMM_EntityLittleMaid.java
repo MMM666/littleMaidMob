@@ -23,9 +23,11 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	protected int maidContractLimit;		// 契約期間
 	protected long maidAnniversary;			// 契約日UIDとして使用
 	protected int maidDominantArm;			// 利き腕、1Byte
-	public String textures[] = new String[2];
-	public String textureArmor1[] = new String[4];
-	public String textureArmor2[] = new String[4];
+	public ResourceLocation textures[][] = new ResourceLocation[][] {
+			{null, null},
+			{null, null, null, null},
+			{null, null, null, null}
+	};
 	public MMM_TextureBoxBase textureBox[] = new MMM_TextureBoxBase[2];
 	public int textureIndex[] = new int[2];
 	public Map<String, MMM_EquippedStabilizer> maidStabilizer = new HashMap<String, MMM_EquippedStabilizer>();
@@ -149,12 +151,13 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		maidSoundInterval = 0;
 		
 		// 野生種用初期値設定
-		health = 15;
+		setEntityHealth(15F);
 		
 		// 移動用フィジカル設定
 		getNavigator().setAvoidsWater(true);
 		getNavigator().setBreakDoors(true);
-		moveSpeed = moveSpeed_Nomal;
+//		setAIMoveSpeed(moveSpeed_Nomal);
+//		setAIMoveSpeed(1.0F);
 		
 		
 		// TODO:これはテスト
@@ -186,8 +189,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	}
 
 	@Override
-	public void initCreature() {
-		super.initCreature();
+	public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingData) {
 		// テクスチャーをランダムで選択
 		String ls;
 		if (mod_LMM_littleMaidMob.defaultTexture.isEmpty()) {
@@ -202,6 +204,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		mod_LMM_littleMaidMob.Debug("init-ID:%d, %s:%d", entityId, textureBox[0].textureName, maidColor);
 		setTexturePackIndex(maidColor, textureIndex);
 		setMaidMode("Wild");
+		return super.func_110161_a(par1EntityLivingData);
 	}
 
 	@Override
@@ -212,13 +215,18 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		 */
 		
 		
-		// 0, 1, 2, 3, 4, 5, 6, 8, 12, 
+		// 0, 1, 2, 3, 4, 5,
+		// 6: HP
+		// 7, 8, 9,
+		// 10: 固有名称
+		// 11: 名付判定
+		// 12: GrowingAge
 		// 16: Tame(4), Sit(1) 
-		// 17:ownerName
+		// 17: ownerName
 		
 		// 独自分
-		// 18:HP
-		dataWatcher.addObject(dataWatch_Health, new Integer(getMaxHealth()));
+		// 18:HP:いらなくなった
+//		dataWatcher.addObject(dataWatch_Health, new Integer(getMaxHealth()));
 		// 19:maidMode(16Bit:LSB)、maidColor(8Bit:<<16)、maidDominantArm(8Bit:<<24);
 		dataWatcher.addObject(dataWatch_ColorMode, new Integer((maidMode & 0xffff) | ((maidColor & 0xff) << 16) | ((maidDominantArm & 0xff) << 24)));
 		// 20:選択テクスチャインデックス
@@ -305,12 +313,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		}
 		
 	
-	}
-
-	@Override
-	protected int func_96121_ay() {
-		// 移動パスの検索範囲を変更
-		return 20;
 	}
 
 
@@ -492,7 +494,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	protected String getLivingSound() {
 		// 普段の声
 		LMM_EnumSound so = LMM_EnumSound.Null;
-		if (health < 10)
+		if (func_110143_aJ() < 10)
 			so = LMM_EnumSound.living_whine;
 		else if (rand.nextFloat() < maidSoundRate) {
 			if (mstatTime > 23500 || mstatTime < 1500) {
@@ -577,7 +579,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	}
 
 	@Override
-	public void onKillEntity(EntityLiving par1EntityLiving) {
+	public void onKillEntity(EntityLivingBase par1EntityLiving) {
 		super.onKillEntity(par1EntityLiving);
 		if (isBloodsuck()) {
 //			mod_LMM_littleMaidMob.Debug("nice Kill.");
@@ -652,12 +654,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	public EntityAgeable createChild(EntityAgeable var1) {
 		// お子さんの設定
 		return null;
-	}
-
-	@Override
-	public int getMaxHealth() {
-		// 最大HP
-		return 20;
 	}
 
 	// エフェクト表示
@@ -800,7 +796,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	public boolean attackEntityAsMob(Entity par1Entity) {
 		
 		// 正常時は回復優先処理
-		if (health < 10 && !isBloodsuck() && maidInventory.hasItem(Item.sugar.itemID)) {
+		if (func_110143_aJ() < 10 && !isBloodsuck() && maidInventory.hasItem(Item.sugar.itemID)) {
 			return true;
 		}
 		
@@ -844,9 +840,12 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		par1nbtTagCompound.setString("texName", textureBox[0].textureName);
 		par1nbtTagCompound.setString("texArmor", textureBox[1].textureName);
 		// HomePosition
-		par1nbtTagCompound.setInteger("homeX", getHomePosition().posX);
-		par1nbtTagCompound.setInteger("homeY", getHomePosition().posY);
-		par1nbtTagCompound.setInteger("homeZ", getHomePosition().posZ);
+		par1nbtTagCompound.setInteger("homeX", func_110172_bL().posX);
+		par1nbtTagCompound.setInteger("homeY", func_110172_bL().posY);
+		par1nbtTagCompound.setInteger("homeZ", func_110172_bL().posZ);
+//		par1nbtTagCompound.setInteger("homeX", getHomePosition().posX);
+//		par1nbtTagCompound.setInteger("homeY", getHomePosition().posY);
+//		par1nbtTagCompound.setInteger("homeZ", getHomePosition().posZ);
 		par1nbtTagCompound.setInteger("homeWorld", homeWorld);
 		// Tiles
 		NBTTagCompound lnbt = new NBTTagCompound();
@@ -952,7 +951,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	        	lhy = MathHelper.floor_double(posY);
 	        	lhz = MathHelper.floor_double(posZ);
 	        }
-	        getHomePosition().set(lhx, lhy, lhz);
+	        func_110172_bL().set(lhx, lhy, lhz);
+//			getHomePosition().set(lhx, lhy, lhz);
 			long lcl = par1nbtTagCompound.getLong("Limit");
 			if (isContract() && lcl == 0) {
 				maidContractLimit = 24000;
@@ -1011,7 +1011,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			int lhx = par1nbtTagCompound.getInteger("homeX");
 			int lhy = par1nbtTagCompound.getInteger("homeY");
 			int lhz = par1nbtTagCompound.getInteger("homeZ");
-			getHomePosition().set(lhx, lhy, lhz);
+			func_110172_bL().set(lhx, lhy, lhz);
+//			getHomePosition().set(lhx, lhy, lhz);
 			homeWorld = par1nbtTagCompound.getInteger("homeWorld");
 			
 			// Tiles
@@ -1202,15 +1203,16 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 
 
 	// ダメージコントロール
-	@Override
+//	@Override
 	public boolean isBlocking() {
 		return getSwingStatusDominant().isBlocking();
 //		return maidAvatar.isBlocking();
 	}
 
 	@Override
-	protected void damageArmor(int i) {
-		maidAvatar.damageArmor(i);
+	protected void damageArmor(float pDamage) {
+		maidInventory.damageArmor(pDamage);
+		maidAvatar.damageArmor(pDamage);
 	}
 
 	@Override
@@ -1219,17 +1221,17 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	}
 
 	@Override
-	protected int applyArmorCalculations(DamageSource par1DamageSource, int par2) {
+	protected float applyArmorCalculations(DamageSource par1DamageSource, float par2) {
 		return maidAvatar.applyArmorCalculations(par1DamageSource, par2);
 	}
 
 	@Override
-	protected int applyPotionDamageCalculations(DamageSource par1DamageSource, int par2) {
+	protected float applyPotionDamageCalculations(DamageSource par1DamageSource, float par2) {
 		return maidAvatar.applyPotionDamageCalculations(par1DamageSource, par2);
 	}
 
 	@Override
-	protected void damageEntity(DamageSource par1DamageSource, int par2) {
+	protected void damageEntity(DamageSource par1DamageSource, float par2) {
 		// ダメージソースに応じて音声変更
 		if (par1DamageSource == DamageSource.fall) {
 			maidDamegeSound = LMM_EnumSound.hurt_fall;
@@ -1241,7 +1243,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		}
 		
 		// 被ダメ
-		maidAvatar.health = health;
+		float llasthealth = func_110143_aJ();
 		if (par2 > 0 && getActiveModeClass() != null && !getActiveModeClass().damageEntity(maidMode, par1DamageSource, par2)) {
 			maidAvatar.damageEntity(par1DamageSource, par2);
 			
@@ -1249,16 +1251,15 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			setMaidWait(false);
 		}
 		
-		if (health == maidAvatar.health && maidDamegeSound == LMM_EnumSound.hurt) {
+		if (llasthealth == func_110143_aJ() && maidDamegeSound == LMM_EnumSound.hurt) {
 			maidDamegeSound = LMM_EnumSound.hurt_nodamege;
 		}
-		mod_LMM_littleMaidMob.Debug(String.format("GetDamage ID:%d, %s, %d/ %d" , this.entityId, par1DamageSource.damageType, health - maidAvatar.health, par2));
-		health = maidAvatar.health;
+		mod_LMM_littleMaidMob.Debug(String.format("GetDamage ID:%d, %s, %d/ %d" , this.entityId, par1DamageSource.damageType, llasthealth - func_110143_aJ(), par2));
 //		super.damageEntity(par1DamageSource, par2);
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, int par2) {
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		Entity entity = par1DamageSource.getEntity();
 		
 		// ダメージソースを特定して音声の設定
@@ -1267,7 +1268,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			maidDamegeSound = LMM_EnumSound.hurt_fire;
 		}
 		for (LMM_EntityModeBase lm : maidEntityModeList) {
-			int li = lm.attackEntityFrom(par1DamageSource, par2);
+			float li = lm.attackEntityFrom(par1DamageSource, par2);
 			if (li > 0) return li == 1 ? false : true;
 		}
 		
@@ -1334,7 +1335,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	/**
 	 * 対象にポーションを使う。
 	 */
-	public void usePotionTotarget(EntityLiving entityliving) {
+	public void usePotionTotarget(EntityLivingBase entityliving) {
 		ItemStack itemstack = maidInventory.getCurrentItem();
 		if (itemstack != null && itemstack.getItem() instanceof ItemPotion) {
 			// ポーション効果の発動
@@ -1398,8 +1399,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 
 	@Override
 	protected void updateAITick() {
-		// AI対応型はこっちが呼ばれる
-		dataWatcher.updateObject(dataWatch_Health, Integer.valueOf(getHealth()));
+//		// AI対応型はこっちが呼ばれる
+//		dataWatcher.updateObject(dataWatch_Health, Integer.valueOf(getHealth()));
 		
 		// 追加分
 		for (LMM_EntityModeBase ieml : maidEntityModeList) {
@@ -1490,12 +1491,13 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	@Override
 	public void onLivingUpdate() {
 		// 回復判定
-		if (health > 0) {
+		float lhealth = func_110143_aJ();
+		if (lhealth > 0) {
 			if (!worldObj.isRemote) {
 				if (getSwingStatusDominant().canAttack()) {
 					if (!isBloodsuck()) {
 						// 通常時は回復優先
-						if (health < getMaxHealth()) {
+						if (lhealth < func_110138_aP()) {
 							if (maidInventory.consumeInventoryItem(Item.sugar.itemID)) {
 								eatSugar(true, false);
 							}
@@ -1517,7 +1519,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		if (grave && onGround) {
 			jump();
 		}
-		if(health > 0) {
+		if(lhealth > 0) {
 			// 近接監視の追加はここ
 			// アイテムの回収
 			if (!worldObj.isRemote) {
@@ -1603,7 +1605,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 				if (getSwingStatusDominant().canAttack()) {
 //					mod_LMM_littleMaidMob.Debug("isRemort:" + worldObj.isRemote);
 					// 回復
-					if (health < getMaxHealth()) {
+					if (func_110143_aJ() < func_110138_aP()) {
 						if (maidInventory.consumeInventoryItem(Item.sugar.itemID)) {
 							eatSugar(true, false);
 						}
@@ -1668,10 +1670,10 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			int lcolormode = dataWatcher.getWatchableObjectInt(dataWatch_ColorMode);
 			setMaidMode(lcolormode & 0xffff);
 			setDominantArm(lcolormode >>> 24);
-			if (health > 0) {
-				// なぜか死亡アニメーションがおかしくなるので判定付ける。
-				setEntityHealth(dataWatcher.getWatchableObjectInt(dataWatch_Health));
-			}
+//			if (health > 0) {
+//				// なぜか死亡アニメーションがおかしくなるので判定付ける。
+//				setEntityHealth(dataWatcher.getWatchableObjectInt(dataWatch_Health));
+//			}
 			updateMaidFlagsClient();
 			updateGotcha();
 		} else {
@@ -1699,7 +1701,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		}
 		// 移動速度の設定
 		// TODO:AI周りの移動速度を何とかしないと意味ない。
-		moveSpeed = (maidContract & !maidFreedom) ? moveSpeed_Max : moveSpeed_Nomal;
+//		setAIMoveSpeed((maidContract & !maidFreedom) ? moveSpeed_Max : moveSpeed_Nomal);
 		
 		// 独自処理用毎時処理
 		for (LMM_EntityModeBase leb : maidEntityModeList) {
@@ -1712,7 +1714,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		LMM_SwingStatus lmss1 = getSwingStatusDominant();
 		prevSwingProgress = maidAvatar.prevSwingProgress = lmss1.prevSwingProgress;
 		swingProgress = maidAvatar.swingProgress = lmss1.swingProgress;
-		swingProgressInt = maidAvatar.swingProgressInt = lmss1.swingProgressInt;
+		field_110158_av = maidAvatar.field_110158_av = lmss1.swingProgressInt;
 		isSwingInProgress = maidAvatar.isSwingInProgress = lmss1.isSwingInProgress;
 		
 		// Aveterの毎時処理
@@ -1754,7 +1756,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		LMM_SwingStatus lmss = getSwingStatusDominant();
 		prevSwingProgress = maidAvatar.prevSwingProgress = lmss.prevSwingProgress;
 		swingProgress = maidAvatar.swingProgress = lmss.swingProgress;
-		swingProgressInt = maidAvatar.swingProgressInt = lmss.swingProgressInt;
+		field_110158_av = maidAvatar.field_110158_av = lmss.swingProgressInt;
 		isSwingInProgress = maidAvatar.isSwingInProgress = lmss.isSwingInProgress;
 		
 		// 持ち物の確認
@@ -2177,8 +2179,9 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		if (par1EntityPlayer.isSneaking()) {
 			return false;
 		}
+		float lhealth = func_110143_aJ();
 		// ナデリ判定
-		if (health > 0 && par1EntityPlayer.riddenByEntity != null && !(par1EntityPlayer.riddenByEntity instanceof LMM_EntityLittleMaid)) {
+		if (lhealth > 0F && par1EntityPlayer.riddenByEntity != null && !(par1EntityPlayer.riddenByEntity instanceof LMM_EntityLittleMaid)) {
 			// 載せ替え
 			par1EntityPlayer.riddenByEntity.mountEntity(this);
 			return true;
@@ -2199,7 +2202,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			
 			if (isContract()) {
 				// 契約状態
-				if (health > 0 && isMaidContractOwner(par1EntityPlayer)) {
+				if (lhealth > 0F && isMaidContractOwner(par1EntityPlayer)) {
 					if (itemstack1 != null) {
 						// 追加分の処理
 						setPathToEntity(null);
@@ -2386,7 +2389,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 					}
 				}
 			}
-		} else if (health > 0 && mstatgotcha != null) {
+		} else if (lhealth > 0F && mstatgotcha != null) {
 			if (!worldObj.isRemote) {
 				EntityItem entityitem = new EntityItem(worldObj, mstatgotcha.posX, mstatgotcha.posY, mstatgotcha.posZ, new ItemStack(Item.silk));
 				worldObj.spawnEntityInWorld(entityitem);
@@ -2456,7 +2459,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	}
 
 	@Override
-	public EntityLiving getOwner() {
+	public Entity getOwner() {
 		return getMaidMasterEntity();
 	}
 	public String getMaidMaster() {
@@ -2479,7 +2482,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 				}
 				entityplayer = worldObj.getPlayerEntityByName(lname);
 				// とりあえず主の名前を入れてみる
-				maidAvatar.username = lname;
+				// TODO:再設定は不可になったので経過観察
+//				maidAvatar.username = lname;
 				
 				if (entityplayer != null && maidAvatar != null) {
 					maidAvatar.capabilities.isCreativeMode = entityplayer.capabilities.isCreativeMode;
@@ -2586,7 +2590,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	public void setSwinging(int pArm, LMM_EnumSound pSound) {
 		if (mstatSwingStatus[pArm].setSwinging()) {
 			playLittleMaidSound(pSound, true);
-			maidAvatar.swingProgressInt = -1;
+			maidAvatar.field_110158_av = -1;
+//			maidAvatar.swingProgressInt = -1;
 			maidAvatar.isSwingInProgress = true;
 		}
 	}
@@ -2638,7 +2643,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	 */
 	public void eatSugar(boolean motion, boolean recontract) {
 		if (motion) {
-			setSwing(2, (health == 19 && !isBurning()) ?  LMM_EnumSound.eatSugar_MaxPower : LMM_EnumSound.eatSugar);
+			setSwing(2, (func_110138_aP() - func_110143_aJ() <= 1F) ?  LMM_EnumSound.eatSugar_MaxPower : LMM_EnumSound.eatSugar);
 		}
 		int h = hurtResistantTime;
 		heal(1);
@@ -2736,15 +2741,17 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		aiAvoidPlayer.setEnable(!pFlag);
 		aiFollow.setEnable(!pFlag);
 		aiTracer.setEnable(false);
-		setAIMoveSpeed(pFlag ? moveSpeed_Nomal : moveSpeed_Max);
+//		setAIMoveSpeed(pFlag ? moveSpeed_Nomal : moveSpeed_Max);
 		setMoveForward(0.0F);
 		if (maidFreedom && isContract()) {
-			setHomeArea(
+			func_110171_b(
+//			setHomeArea(
 					MathHelper.floor_double(posX),
 					MathHelper.floor_double(posY),
 					MathHelper.floor_double(posZ), 16);
 		} else {
-			detachHome();
+			func_110177_bN();
+//			detachHome();
 		}
 		
 		setMaidFlags(maidFreedom, dataWatch_Flags_Freedom);
@@ -2902,9 +2909,10 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	}
 
 	@Override
-	public void setHomeArea(int par1, int par2, int par3, int par4) {
+	public void func_110171_b(int par1, int par2, int par3, int par4) {
 		homeWorld = dimension;
-		super.setHomeArea(par1, par2, par3, par4);
+		super.func_110171_b(par1, par2, par3, par4);
+//		super.setHomeArea(par1, par2, par3, par4);
 	}
 
 	@Override
@@ -2954,12 +2962,12 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		if (!(textureBox[0] instanceof MMM_TextureBox) && !(textureBox[1] instanceof MMM_TextureBox)) return;
 		int lc = (maidColor & 0x00ff) + (isContract() ? 0 : MMM_TextureManager.tx_wild);
 		if (((MMM_TextureBox)textureBox[0]).hasColor(lc)) {
-			textures[0] = ((MMM_TextureBox)textureBox[0]).getTextureName(lc);
-			textures[1] = ((MMM_TextureBox)textureBox[0]).getTextureName(lc + MMM_TextureManager.tx_eye);
+			textures[0][0] = ((MMM_TextureBox)textureBox[0]).getTextureName(lc);
+			textures[0][1] = ((MMM_TextureBox)textureBox[0]).getTextureName(lc + MMM_TextureManager.tx_eye);
 			for (int i = 0; i < 4; i++) {
 				ItemStack is = maidInventory.armorItemInSlot(i);
-				textureArmor1[i] = ((MMM_TextureBox)textureBox[1]).getArmorTextureName(true, is);
-				textureArmor2[i] = ((MMM_TextureBox)textureBox[1]).getArmorTextureName(false, is);
+				textures[1][i] = ((MMM_TextureBox)textureBox[1]).getArmorTextureName(MMM_TextureManager.tx_armor1, is);
+				textures[2][i] = ((MMM_TextureBox)textureBox[1]).getArmorTextureName(MMM_TextureManager.tx_armor1, is);
 			}
 		} else {
 			// TODO:setDefaultTexture
@@ -3005,12 +3013,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 
 	// textureEntity
 
-
-	@Override
-	public String getTexture() {
-		return textures[0];
-	}
-
 	@Override
 	public void setTextureBox(MMM_TextureBoxBase[] pTextureBox) {
 		textureBox = pTextureBox;
@@ -3032,28 +3034,13 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	}
 
 	@Override
-	public void setTextures(int pIndex, String[] pNames) {
-		switch(pIndex) {
-		case 0:
-			textures = pNames;
-		case 1:
-			textureArmor1 = pNames;
-		case 2:
-			textureArmor2 = pNames;
-		}
+	public void setTextures(int pIndex, ResourceLocation[] pNames) {
+		textures[pIndex] = pNames;
 	}
 
 	@Override
-	public String[] getTextures(int pIndex) {
-		switch(pIndex) {
-		case 0:
-			return textures;
-		case 1:
-			return textureArmor1;
-		case 2:
-			return textureArmor2;
-		}
-		return null;
+	public ResourceLocation[] getTextures(int pIndex) {
+		return textures[pIndex];
 	}
 
 	// Tile関係

@@ -56,9 +56,9 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 		ltasks[0].addTask(12, new EntityAIWatchClosest(owner, net.minecraft.src.EntityLiving.class, 10F));
 		ltasks[0].addTask(12, new EntityAILookIdle(owner));
 
-		ltasks[1].addTask(1, new LMM_EntityAINearestAttackableTarget(owner, EntityCreeper.class, 16F, 0, true));
-		ltasks[1].addTask(2, new LMM_EntityAINearestAttackableTarget(owner, EntityTNTPrimed.class, 16F, 0, true));
-		ltasks[1].addTask(3, new LMM_EntityAINearestAttackableTarget(owner, EntitySheep.class, 16F, 0, true));
+		ltasks[1].addTask(1, new LMM_EntityAINearestAttackableTarget(owner, EntityCreeper.class, 0, true));
+		ltasks[1].addTask(2, new LMM_EntityAINearestAttackableTarget(owner, EntityTNTPrimed.class, 0, true));
+		ltasks[1].addTask(3, new LMM_EntityAINearestAttackableTarget(owner, EntitySheep.class, 0, true));
 
 		owner.addMaidMode(ltasks, "Ripper", mmode_Ripper);
 
@@ -67,8 +67,8 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 		EntityAITasks[] ltasks2 = new EntityAITasks[2];
 		ltasks2[0] = ltasks[0];
 		ltasks2[1] = new EntityAITasks(owner.aiProfiler);
-		ltasks2[1].addTask(1, new LMM_EntityAINearestAttackableTarget(owner, EntityCreeper.class, 16F, 0, true));
-		ltasks2[1].addTask(2, new LMM_EntityAINearestAttackableTarget(owner, EntityTNTPrimed.class, 16F, 0, true));
+		ltasks2[1].addTask(1, new LMM_EntityAINearestAttackableTarget(owner, EntityCreeper.class, 0, true));
+		ltasks2[1].addTask(2, new LMM_EntityAINearestAttackableTarget(owner, EntityTNTPrimed.class, 0, true));
 		
 		owner.addMaidMode(ltasks2, "TNT-D", mmode_TNTD);
 		
@@ -77,7 +77,7 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 		EntityAITasks[] ltasks3 = new EntityAITasks[2];
 		ltasks3[0] = pDefaultMove;
 		ltasks3[1] = new EntityAITasks(owner.aiProfiler);
-		ltasks2[1].addTask(1, new LMM_EntityAINearestAttackableTarget(owner, EntityLiving.class, 16F, 0, true));
+		ltasks2[1].addTask(1, new LMM_EntityAINearestAttackableTarget(owner, EntityLiving.class, 0, true));
 
 		owner.addMaidMode(ltasks2, "Detonator", mmode_Detonator);
 
@@ -313,7 +313,7 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 	}
 	
 	@Override
-	public boolean damageEntity(int pMode, DamageSource par1DamageSource, int par2) {
+	public boolean damageEntity(int pMode, DamageSource par1DamageSource, float par2) {
 		// ‹N”š
 		if (pMode == mmode_Detonator && owner.maidInventory.isItemExplord(owner.getCurrentEquippedItem())) {
 			if (timeSinceIgnited == -1) {

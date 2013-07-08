@@ -103,15 +103,15 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
 	}
 
 	@Override
-	public void damageArmor(int i) {
+	public void damageArmor(float pDamage) {
 		// 装備アーマーに対するダメージ
 		// 頭部は除外
 		ItemStack lis = armorInventory[3];
 		armorInventory[3] = null;
-		super.damageArmor(i);
+		super.damageArmor(pDamage);
 		armorInventory[3] = lis;
 	}
-
+/*
 	@Override
 	public int getDamageVsEntity(Entity entity) {
 		return getDamageVsEntity(entity, currentItem);
@@ -132,7 +132,7 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
 			return 1;
 		}
 	}
-
+*/
 	public void dropAllItems(boolean detonator) {
 		// インベントリをブチマケロ！
 		Explosion lexp = null;

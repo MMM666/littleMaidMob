@@ -21,7 +21,7 @@ public class LMM_EntityAIHurtByTarget extends EntityAIHurtByTarget {
 	public boolean shouldExecute() {
 		if (theMaid.isContract() && !theMaid.isBlocking() && theMaid.mstatMasterEntity != null) {
 			// フェンサー系は主に対する攻撃に反応
-			EntityLiving lentity = theMaid.mstatMasterEntity.getAITarget();
+			EntityLivingBase lentity = theMaid.mstatMasterEntity.getAITarget();
 			if (isSuitableTarget(lentity, false)) {
 				theMaid.setRevengeTarget(lentity);
 				return true;
@@ -43,7 +43,7 @@ public class LMM_EntityAIHurtByTarget extends EntityAIHurtByTarget {
 //		System.out.println(String.format("ID:%d, target:%s, attack:%s", taskOwner.entityId, s1, s2));
 		
 		// 殴られた仕返し
-		EntityLiving leliving = taskOwner.getAITarget();
+		EntityLivingBase leliving = taskOwner.getAITarget();
 		if (leliving != null && leliving != taskOwner.getAttackTarget()) {
 			taskOwner.setAttackTarget(null);
 			System.out.println(String.format("ID:%d, ChangeTarget.", taskOwner.entityId));
@@ -52,19 +52,17 @@ public class LMM_EntityAIHurtByTarget extends EntityAIHurtByTarget {
 	}
 	
 	@Override
-	protected boolean isSuitableTarget(EntityLiving par1EntityLiving, boolean par2) {
+	protected boolean isSuitableTarget(EntityLivingBase par1EntityLiving, boolean par2) {
 		// LMM用にカスタム
 		if (par1EntityLiving == null) {
 			return false;
 		}
-		
 		if (par1EntityLiving == taskOwner) {
 			return false;
 		}
 		if (par1EntityLiving == theMaid.mstatMasterEntity) {
 			return false;
 		}
-		
 		if (!par1EntityLiving.isEntityAlive()) {
 			return false;
 		}
@@ -81,7 +79,8 @@ public class LMM_EntityAIHurtByTarget extends EntityAIHurtByTarget {
 		}
 		
 		// 基点から一定距離離れている場合も攻撃しない
-		if (!taskOwner.isWithinHomeDistance(MathHelper.floor_double(par1EntityLiving.posX), MathHelper.floor_double(par1EntityLiving.posY), MathHelper.floor_double(par1EntityLiving.posZ))) {
+		if (!taskOwner.func_110176_b(MathHelper.floor_double(par1EntityLiving.posX), MathHelper.floor_double(par1EntityLiving.posY), MathHelper.floor_double(par1EntityLiving.posZ))) {
+//		if (!taskOwner.isWithinHomeDistance(MathHelper.floor_double(par1EntityLiving.posX), MathHelper.floor_double(par1EntityLiving.posY), MathHelper.floor_double(par1EntityLiving.posZ))) {
 			return false;
 		}
 		

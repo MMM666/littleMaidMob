@@ -227,14 +227,14 @@ public abstract class LMM_EntityModeBase {
 	 * 1:falseで元の処理を終了する。
 	 * 2:trueで元の処理を終了する。
 	 */
-	public int attackEntityFrom(DamageSource par1DamageSource, int par2) {
+	public float attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		return 0;
 	}
 	/**
 	 * 被ダメ時の処理２。
 	 * trueを返すと処理を乗っ取る。
 	 */
-	public boolean damageEntity(int pMode, DamageSource par1DamageSource, int par2) {
+	public boolean damageEntity(int pMode, DamageSource par1DamageSource, float par2) {
 		return false;
 	}
 	

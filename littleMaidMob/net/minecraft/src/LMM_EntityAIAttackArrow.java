@@ -12,7 +12,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 	protected LMM_InventoryLittleMaid fInventory;
 	protected LMM_SwingStatus swingState;
 	protected World worldObj;
-	protected EntityLiving fTarget;
+	protected EntityLivingBase fTarget;
 	protected int fForget;
 
 	
@@ -28,7 +28,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 	
 	@Override
 	public boolean shouldExecute() {
-		EntityLiving entityliving = fMaid.getAttackTarget();
+		EntityLivingBase entityliving = fMaid.getAttackTarget();
 		
 		if (!fEnable || entityliving == null || entityliving.isDead) {
 			fMaid.setAttackTarget(null);

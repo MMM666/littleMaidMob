@@ -5,8 +5,6 @@ import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.Map;
 
-import net.minecraft.client.Minecraft;
-
 public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@MLProp(info="Relative spawn weight. The lower the less common. 10=pigs. 0=off")
@@ -79,13 +77,13 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.5.2-6";
+		return "1.6.1-1";
 	}
 
 	@Override
 	public void load() {
 		// MMMLibのRevisionチェック
-		MMM_Helper.checkRevision("7");
+		MMM_Helper.checkRevision("1");
 		
 //		UniqueEntityId = UniqueEntityId == 0 ? MMM_Helper.getNextEntityID(true) : UniqueEntityId;
 		defaultTexture = defaultTexture.trim();
@@ -199,11 +197,12 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		
 		if (MMM_Helper.isClient) {
 			// 音声の解析
-			if (useMinecraftPath) {
-				LMM_SoundManager.sounddir = new File(Minecraft.getMinecraftDir(), "/resources/mod/sound/littleMaidMob");
-			} else {
-				LMM_SoundManager.sounddir = Minecraft.getAppDir("minecraft/resources/mod/sound/littleMaidMob"); 
-			}
+			LMM_SoundManager.sounddir = new File(MMM_FileManager.minecraftDir, "/resources/mod/sound/littleMaidMob");
+//			if (useMinecraftPath) {
+//				LMM_SoundManager.sounddir = new File(MMM_FileManager.minecraftDir, "/resources/mod/sound/littleMaidMob");
+//			} else {
+//				LMM_SoundManager.sounddir = Minecraft.getAppDir("minecraft/resources/mod/sound/littleMaidMob"); 
+//			}
 			Debug("SoundDir:".concat(LMM_SoundManager.sounddir.toString()));
 			// サウンドパック
 			LMM_SoundManager.loadDefaultSoundPack();

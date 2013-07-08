@@ -87,7 +87,7 @@ public class LMM_EntityMode_Playing extends LMM_EntityModeBase {
 			}
 		
 		if (pe != null) {
-			owner.getNavigator().setPath(pe, owner.moveSpeed);
+			owner.getNavigator().setPath(pe, owner.getAIMoveSpeed());
 			mod_LMM_littleMaidMob.Debug("Find Snow Area-%d:%d, %d, %d.", owner.entityId, x, y, z);
 			return true;
 		} else {
@@ -284,7 +284,7 @@ public class LMM_EntityMode_Playing extends LMM_EntityModeBase {
 	}
 
 	@Override
-	public int attackEntityFrom(DamageSource par1DamageSource, int par2) {
+	public float attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		if (par1DamageSource.getSourceOfDamage() instanceof EntitySnowball) {
 			// Ç®óVÇ—îªíËópÅAê·ã Ç©Ç«Ç§Ç©îªíË
 			owner.maidDamegeSound = LMM_EnumSound.hurt_snow;
@@ -295,7 +295,7 @@ public class LMM_EntityMode_Playing extends LMM_EntityModeBase {
 				mod_LMM_littleMaidMob.Debug("playingMode Enable.");
 			}
 		}
-		return 0;
+		return 0F;
 	}
 
 	@Override

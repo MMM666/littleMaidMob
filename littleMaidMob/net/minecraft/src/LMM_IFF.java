@@ -86,7 +86,7 @@ public class LMM_IFF {
 					liff = LMM_IFF.iff_Friendry;
 					break;
 				}
-			} else if (pEntity instanceof EntityTameable) {
+			} else if (pEntity instanceof EntityOwnable) {
 				switch (pIndex) {
 				case 0:
 					// –ì¶Ží
@@ -113,7 +113,7 @@ public class LMM_IFF {
 			}
 			if (pMap != null) {
 				// •\Ž¦—pEntity‚Ì’Ç‰Á
-				pMap.put(pName, (EntityLiving) pEntity);
+				pMap.put(pName, pEntity);
 				mod_LMM_littleMaidMob.Debug(pName + " added.");
 			}
 			
@@ -141,9 +141,11 @@ public class LMM_IFF {
 		if (lmap.containsKey(entityname)) {
 			lt = lmap.get(entityname);
 		} else if (lmap != DefaultIFF && DefaultIFF.containsKey(entityname)) {
+			// –¢“o˜^‚¾‚¯‚ÇDefault‚É‚ÍÝ’è‚ª‚ ‚éŽž‚Í’l‚ðƒRƒs[
 			lt = DefaultIFF.get(entityname);
 			lmap.put(entityname, lt);
 		} else {
+			// –¢“o˜^Entity‚Ìê‡‚Í“o˜^“®ì
 			int li = entityname.indexOf(":");
 			String ls;
 			if (li > -1) {
@@ -196,9 +198,10 @@ public class LMM_IFF {
 					li = 2;
 				}
 			}
-		} else if (entity instanceof EntityTameable) {
-			if (((EntityTameable) entity).isTamed()) {
-				if (((EntityTameable) entity).getOwnerName().contentEquals(pUsername)) {
+		} else if (entity instanceof EntityOwnable) {
+			String loname = ((EntityOwnable)entity).getOwnerName();
+			if (!loname.isEmpty()) {
+				if (loname.contentEquals(pUsername)) {
 					// Ž©•ª‚Ì
 					lcname = (new StringBuilder()).append(lename).append(":Taim").toString();
 					li = 1;
@@ -237,7 +240,7 @@ public class LMM_IFF {
 	protected static File getFile(String pUsername) {
 		File lfile;
 		if (pUsername == null) {
-			lfile = new File(MMM_Helper.mc.getMinecraftDir(), "config/littleMaidMob.iff");
+			lfile = new File(MMM_Helper.mc.mcDataDir, "config/littleMaidMob.iff");
 		} else {
 			String lfilename;
 			if (pUsername.isEmpty()) {

@@ -101,7 +101,7 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 					// マスクドメイドは賢いな
 					while (owner.isMaskedMaid()) {
 						// 主の状態に合わせてアイテムを選択
-						if (lmaster.health < 9) {
+						if (lmaster.func_110143_aJ() < 9F) {
 							// HPが減っているときはポーションを使う
 							int j = owner.maidInventory.getInventorySlotContainItemPotion(false, Potion.heal.id, lmaster.isEntityUndead());
 							if (j > -1) {
@@ -144,7 +144,7 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 								for(Iterator iterator = list.iterator(); iterator.hasNext();) {
 									potioneffect = (PotionEffect)iterator.next();
 									if (potioneffect.getPotionID() == Potion.heal.id) {
-										if ((6 << potioneffect.getAmplifier()) <= (lmaster.getMaxHealth() - lmaster.health)) {
+										if ((6 << potioneffect.getAmplifier()) <= (lmaster.func_110138_aP() - lmaster.func_110143_aJ())) {
 //	                                    	mod_littleMaidMob.Debug(String.format("%d <= %d", (6 << potioneffect.getAmplifier()), (masterEntity.func_40117_c() - masterEntity.health)));
 											lswing = true;
 										} else {
@@ -153,7 +153,7 @@ public class LMM_EntityMode_Healer extends LMM_EntityModeBase {
 										break;
 									} else {
 										if (Potion.potionTypes[potioneffect.getPotionID()].isBadEffect()
-												|| lmaster.activePotionsMap.containsKey(potioneffect.getPotionID())) {
+												|| lmaster.isPotionActive(potioneffect.getPotionID())) {
 											lswing = false;
 											break;
 										}

@@ -76,8 +76,10 @@ public class LMM_EntityCaps extends MMM_EntityCaps {
 		switch (pIndex) {
 //		case caps_Entity:
 //			return owner;
-		case caps_health:
-			return owner.getHealth();
+//		case caps_health:
+//			return (int)owner.func_110143_aJ();
+//		case caps_healthFloat:
+//			return owner.func_110143_aJ();
 		case caps_isBloodsuck:
 			return owner.isBloodsuck();
 		case caps_isFreedom:

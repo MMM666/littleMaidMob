@@ -58,25 +58,25 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 			modelMain.model = ltbox0.models[0];
 			modelFATT.modelInner = ltbox1.models[1];
 			modelFATT.modelOuter = ltbox1.models[2];
-			plittleMaid.textures[0] = ltbox0.getTextureName(plittleMaid.maidColor);
-			plittleMaid.textures[1] = ltbox0.getTextureName(plittleMaid.maidColor + MMM_TextureManager.tx_eye);
-			plittleMaid.textureArmor1[0] = ltbox1.getArmorTextureName(true, plittleMaid.getCurrentArmor(0));
-			plittleMaid.textureArmor1[1] = ltbox1.getArmorTextureName(true, plittleMaid.getCurrentArmor(1));
-			plittleMaid.textureArmor1[2] = ltbox1.getArmorTextureName(true, plittleMaid.getCurrentArmor(2));
-			plittleMaid.textureArmor1[3] = ltbox1.getArmorTextureName(true, plittleMaid.getCurrentArmor(3));
-			plittleMaid.textureArmor2[0] = ltbox1.getArmorTextureName(false, plittleMaid.getCurrentArmor(0));
-			plittleMaid.textureArmor2[1] = ltbox1.getArmorTextureName(false, plittleMaid.getCurrentArmor(1));
-			plittleMaid.textureArmor2[2] = ltbox1.getArmorTextureName(false, plittleMaid.getCurrentArmor(2));
-			plittleMaid.textureArmor2[3] = ltbox1.getArmorTextureName(false, plittleMaid.getCurrentArmor(3));
-			modelFATT.textureInner = plittleMaid.textureArmor1;
-			modelFATT.textureOuter = plittleMaid.textureArmor2;
+			plittleMaid.textures[0][0] = ltbox0.getTextureName(plittleMaid.maidColor);
+			plittleMaid.textures[0][1] = ltbox0.getTextureName(plittleMaid.maidColor + MMM_TextureManager.tx_eye);
+			plittleMaid.textures[1][0] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentArmor(0));
+			plittleMaid.textures[1][1] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentArmor(1));
+			plittleMaid.textures[1][2] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentArmor(2));
+			plittleMaid.textures[1][3] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentArmor(3));
+			plittleMaid.textures[2][0] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentArmor(0));
+			plittleMaid.textures[2][1] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentArmor(1));
+			plittleMaid.textures[2][2] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentArmor(2));
+			plittleMaid.textures[2][3] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentArmor(3));
+			modelFATT.textureInner = plittleMaid.textures[1];
+			modelFATT.textureOuter = plittleMaid.textures[2];
 		} else {
 			modelMain.model = ((MMM_TextureBox)plittleMaid.textureBox[0]).models[0];
-			modelMain.textures = plittleMaid.textures;
+			modelMain.textures = plittleMaid.textures[0];
 			modelFATT.modelInner = ((MMM_TextureBox)plittleMaid.textureBox[1]).models[1];
 			modelFATT.modelOuter = ((MMM_TextureBox)plittleMaid.textureBox[1]).models[2];
-			modelFATT.textureInner = plittleMaid.textureArmor1;
-			modelFATT.textureOuter = plittleMaid.textureArmor2;
+			modelFATT.textureInner = plittleMaid.textures[1];
+			modelFATT.textureOuter = plittleMaid.textures[2];
 		}
 		
 //		doRenderLiving(plittleMaid, px, py, pz, f, f1);
@@ -139,11 +139,11 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 	}
 
 	@Override
-	protected void renderModel(EntityLiving par1EntityLiving, float par2,
+	protected void renderModel(EntityLivingBase par1EntityLiving, float par2,
 			float par3, float par4, float par5, float par6, float par7) {
 		if (!par1EntityLiving.isInvisible()) {
 			
-			loadDownloadableImageTexture(par1EntityLiving.skinUrl, par1EntityLiving.getTexture());
+//			loadDownloadableImageTexture(par1EntityLiving.skinUrl, par1EntityLiving.getTexture());
 			modelMain.setArmorRendering(true);
 		} else {
 			modelMain.setArmorRendering(false);
@@ -153,7 +153,7 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 	}
 
 	@Override
-	protected void passSpecialRender(EntityLiving par1EntityLiving, double par2, double par4, double par6) {
+	protected void passSpecialRender(EntityLivingBase par1EntityLiving, double par2, double par4, double par6) {
 		super.passSpecialRender(par1EntityLiving, par2, par4, par6);
 		
 		LMM_EntityLittleMaid llmm = (LMM_EntityLittleMaid)par1EntityLiving;
@@ -164,7 +164,7 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 	}
 
 	@Override
-	protected int getColorMultiplier(EntityLiving par1EntityLiving, float par2, float par3) {
+	protected int getColorMultiplier(EntityLivingBase par1EntityLiving, float par2, float par3) {
 		return ((LMM_EntityLittleMaid)par1EntityLiving).colorMultiplier(par2, par3);
 	}
 

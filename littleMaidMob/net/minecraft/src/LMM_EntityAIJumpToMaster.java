@@ -3,7 +3,7 @@ package net.minecraft.src;
 public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntityAI {
 
 	protected LMM_EntityLittleMaid theMaid;
-	protected EntityLiving theOwner;
+	protected EntityLivingBase theOwner;
 	protected World theWorld;
 	protected boolean isEnable;
 	private boolean jumpTarget;
@@ -30,14 +30,16 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 			if (theMaid.homeWorld != theMaid.dimension) {
 				mod_LMM_littleMaidMob.Debug(String.format("ID:%d, %d -> %d, Change HomeWorld. reset HomePosition.",
 						theMaid.entityId,theMaid.homeWorld, theMaid.worldObj.worldInfo.getDimension()));
-				theMaid.setHomeArea(
+				theMaid.func_110171_b(
+//				theMaid.setHomeArea(
 						MathHelper.floor_double(theMaid.posX),
 						MathHelper.floor_double(theMaid.posY),
 						MathHelper.floor_double(theMaid.posZ), 16);
 				return false;
 			}
 			
-			if (theMaid.getHomePosition().getDistanceSquared(
+			if (theMaid.func_110172_bL().getDistanceSquared(
+//			if (theMaid.getHomePosition().getDistanceSquared(
 					MathHelper.floor_double(theMaid.posX),
 					MathHelper.floor_double(theMaid.posY),
 					MathHelper.floor_double(theMaid.posZ)) > 400D) {
@@ -101,9 +103,12 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 			}
 		} else {
 			// ホームポジションエリア外で転移
-			int lx = theMaid.getHomePosition().posX;
-			int ly = theMaid.getHomePosition().posY;
-			int lz = theMaid.getHomePosition().posZ;
+			int lx = theMaid.func_110172_bL().posX;
+			int ly = theMaid.func_110172_bL().posY;
+			int lz = theMaid.func_110172_bL().posZ;
+//			int lx = theMaid.getHomePosition().posX;
+//			int ly = theMaid.getHomePosition().posY;
+//			int lz = theMaid.getHomePosition().posZ;
 			if (!(isCanJump(lx, ly, lz))) {
 				// ホームポジション消失
 				mod_LMM_littleMaidMob.Debug(String.format(
@@ -152,7 +157,8 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 					}
 				}
 				if (f) {
-					theMaid.setHomeArea(lx, ly, lz, (int) theMaid.getMaximumHomeDistance());
+					theMaid.func_110171_b(lx, ly, lz, (int) theMaid.func_110174_bM());
+//					theMaid.setHomeArea(lx, ly, lz, (int) theMaid.getMaximumHomeDistance());
 					mod_LMM_littleMaidMob.Debug(String.format(
 							"Find new position:%d, %d, %d.", lx, ly, lz));
 				} else {
