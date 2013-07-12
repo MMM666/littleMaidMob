@@ -94,14 +94,17 @@ public class LMM_IFF {
 				case 1:
 					// é©ï™ÇÃâ∆í{
 					pName = (new StringBuilder()).append(pName).append(":Taim").toString();
-					((EntityTameable) pEntity).setTamed(true);
+					if (pEntity instanceof EntityTameable) {
+						((EntityTameable) pEntity).setTamed(true);
+					}
 					liff = LMM_IFF.iff_Friendry;
 					break;
 				case 2:
 					// ëºêlÇÃâ∆í{
-					pName = (new StringBuilder()).append(pName)
-							.append(":Others").toString();
-					((EntityTameable) pEntity).setTamed(true);
+					pName = (new StringBuilder()).append(pName).append(":Others").toString();
+					if (pEntity instanceof EntityTameable) {
+						((EntityTameable) pEntity).setTamed(true);
+					}
 					liff = LMM_IFF.iff_Unknown;
 					break;
 				}

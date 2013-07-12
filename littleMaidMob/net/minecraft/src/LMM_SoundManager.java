@@ -26,6 +26,13 @@ public class LMM_SoundManager {
 	public static Map<String, Map<Integer, Float>> soundRateTexture = new HashMap<String,Map<Integer,Float>>();
 
 
+
+	public static void init() {
+		// ‰Šúİ’è
+		sounddir = new File(MMM_FileManager.minecraftDir, "/assets/sound/littleMaidMob");
+		mod_LMM_littleMaidMob.Debug("SoundDir: %s", sounddir.toString());
+	}
+
 	public static void setSoundRate(int soundindex, String value, String target) {
 		// •¶š—ñ‚ğ‰ğÍ‚µ‚Ä’l‚ğİ’è
 		String arg[] = value.split(",");
@@ -314,8 +321,6 @@ public class LMM_SoundManager {
 	}
 
 	public static void loadSoundPack() {
-//		File sounddir = Minecraft.getAppDir("minecraft/resources/mod/sound/littleMaidMob"); 
-//		File sounddir = new File(Minecraft.getMinecraftDir(), "/resources/mod/sound/littleMaidMob");
 		if (sounddir.exists() && sounddir.isDirectory()) {
 			for (File file : sounddir.listFiles()) {
 				if (file.getName().compareToIgnoreCase("littleMaidMob.cfg") == 0) {
@@ -374,6 +379,7 @@ public class LMM_SoundManager {
 				mod_LMM_littleMaidMob.Debug("Success create Default Sound cfg.");
 			}
 		} catch (IOException e) {
+			mod_LMM_littleMaidMob.Debug("Failed create Default Sound cfg(%s).", file1.getAbsolutePath());
 			e.printStackTrace();
 			return false;
 		}

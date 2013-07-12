@@ -224,6 +224,11 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		// 16: Tame(4), Sit(1) 
 		// 17: ownerName
 		
+		// maidAvater用EntityPlayer互換変数
+		// 17 -> 18
+		dataWatcher.addObject(18, Float.valueOf(0.0F));
+
+		
 		// 独自分
 		// 18:HP:いらなくなった
 //		dataWatcher.addObject(dataWatch_Health, new Integer(getMaxHealth()));
@@ -1254,7 +1259,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		if (llasthealth == func_110143_aJ() && maidDamegeSound == LMM_EnumSound.hurt) {
 			maidDamegeSound = LMM_EnumSound.hurt_nodamege;
 		}
-		mod_LMM_littleMaidMob.Debug(String.format("GetDamage ID:%d, %s, %d/ %d" , this.entityId, par1DamageSource.damageType, llasthealth - func_110143_aJ(), par2));
+		mod_LMM_littleMaidMob.Debug(String.format("GetDamage ID:%d, %s, %f/ %f" , this.entityId, par1DamageSource.damageType, llasthealth - func_110143_aJ(), par2));
 //		super.damageEntity(par1DamageSource, par2);
 	}
 
@@ -1904,11 +1909,12 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	}
 
 	@Override
-	protected void onChangedPotionEffect(PotionEffect par1PotionEffect) {
-		super.onChangedPotionEffect(par1PotionEffect);
-		if (mstatMasterEntity instanceof EntityPlayerMP) {
-			((EntityPlayerMP)mstatMasterEntity).playerNetServerHandler.sendPacketToPlayer(new Packet41EntityEffect(this.entityId, par1PotionEffect));
-		}
+	protected void onChangedPotionEffect(PotionEffect par1PotionEffect, boolean par2) {
+		super.onChangedPotionEffect(par1PotionEffect, par2);
+		// TODO:必要かどうかのチェック
+//		if (mstatMasterEntity instanceof EntityPlayerMP) {
+//			((EntityPlayerMP)mstatMasterEntity).playerNetServerHandler.sendPacketToPlayer(new Packet41EntityEffect(this.entityId, par1PotionEffect));
+//		}
 	}
 
 	@Override
@@ -2023,7 +2029,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	}
 
 	@Override
-	public ItemStack getCurrentArmor(int par1) {
+	public ItemStack func_130225_q(int par1) {
 		return maidInventory.armorItemInSlot(par1);
 	}
 

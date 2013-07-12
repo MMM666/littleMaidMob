@@ -77,7 +77,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.6.1-1";
+		return "1.6.2-1";
 	}
 
 	@Override
@@ -197,13 +197,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		
 		if (MMM_Helper.isClient) {
 			// 音声の解析
-			LMM_SoundManager.sounddir = new File(MMM_FileManager.minecraftDir, "/resources/mod/sound/littleMaidMob");
-//			if (useMinecraftPath) {
-//				LMM_SoundManager.sounddir = new File(MMM_FileManager.minecraftDir, "/resources/mod/sound/littleMaidMob");
-//			} else {
-//				LMM_SoundManager.sounddir = Minecraft.getAppDir("minecraft/resources/mod/sound/littleMaidMob"); 
-//			}
-			Debug("SoundDir:".concat(LMM_SoundManager.sounddir.toString()));
+			LMM_SoundManager.init();
 			// サウンドパック
 			LMM_SoundManager.loadDefaultSoundPack();
 			LMM_SoundManager.loadSoundPack();

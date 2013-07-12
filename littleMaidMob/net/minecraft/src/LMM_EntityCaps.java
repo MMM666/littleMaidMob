@@ -169,10 +169,10 @@ public class LMM_EntityCaps extends MMM_EntityCaps {
 			return owner.maidInventory;
 		case caps_interestedAngle:
 			return owner.getInterestedAngle((Float)pArg[0]);
-		case caps_currentArmor:
-			return owner.getCurrentArmor((Integer)pArg[0]);
-		case caps_currentEquippedItem:
-			return owner.getCurrentEquippedItem();
+//		case caps_currentArmor:
+//			return owner.getCurrentItemOrArmor((Integer)pArg[0] + 1);
+//		case caps_currentEquippedItem:
+//			return owner.getCurrentEquippedItem();
 		}
 		
 		return super.getCapsValue(pIndex, pArg);

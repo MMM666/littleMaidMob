@@ -29,7 +29,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 			// 自由行動の子は基点へジャンプ
 			if (theMaid.homeWorld != theMaid.dimension) {
 				mod_LMM_littleMaidMob.Debug(String.format("ID:%d, %d -> %d, Change HomeWorld. reset HomePosition.",
-						theMaid.entityId,theMaid.homeWorld, theMaid.worldObj.worldInfo.getDimension()));
+						theMaid.entityId,theMaid.homeWorld, theMaid.worldObj.provider.dimensionId));
 				theMaid.func_110171_b(
 //				theMaid.setHomeArea(
 						MathHelper.floor_double(theMaid.posX),

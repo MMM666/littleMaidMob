@@ -36,7 +36,7 @@ public class LMM_GuiIFF extends MMM_GuiMobSelect {
 		boolean lf = false;
 		// Entityの値を設定
 		int liff = LMM_IFF.checkEntityStatic(pName, pEntity, pIndex, entityMap);
-		if (pEntity instanceof EntityLiving) {
+		if (pEntity instanceof EntityLivingBase) {
 			if (pEntity instanceof LMM_EntityLittleMaid) {
 				if (pIndex == 0 || pIndex == 1) {
 					// 野生種、自分契約者
@@ -44,7 +44,7 @@ public class LMM_GuiIFF extends MMM_GuiMobSelect {
 				} else {
 					// 他人の契約者
 				}
-			} else if (pEntity instanceof EntityTameable) {
+			} else if (pEntity instanceof EntityOwnable) {
 				if (pIndex == 0 || pIndex == 1) {
 					// 野生種、自分の
 					lf = true;
@@ -94,7 +94,7 @@ public class LMM_GuiIFF extends MMM_GuiMobSelect {
 	}
 
 	@Override
-	public void clickSlot(int pIndex, boolean pDoubleClick, String pName, EntityLiving pEntity) {
+	public void clickSlot(int pIndex, boolean pDoubleClick, String pName, EntityLivingBase pEntity) {
 		if (pDoubleClick) {
 			int tt = LMM_IFF.getIFF(null, pName);
 			tt++;

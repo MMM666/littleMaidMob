@@ -60,14 +60,15 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 			modelFATT.modelOuter = ltbox1.models[2];
 			plittleMaid.textures[0][0] = ltbox0.getTextureName(plittleMaid.maidColor);
 			plittleMaid.textures[0][1] = ltbox0.getTextureName(plittleMaid.maidColor + MMM_TextureManager.tx_eye);
-			plittleMaid.textures[1][0] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentArmor(0));
-			plittleMaid.textures[1][1] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentArmor(1));
-			plittleMaid.textures[1][2] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentArmor(2));
-			plittleMaid.textures[1][3] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentArmor(3));
-			plittleMaid.textures[2][0] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentArmor(0));
-			plittleMaid.textures[2][1] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentArmor(1));
-			plittleMaid.textures[2][2] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentArmor(2));
-			plittleMaid.textures[2][3] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentArmor(3));
+			plittleMaid.textures[1][0] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentItemOrArmor(1));
+			plittleMaid.textures[1][1] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentItemOrArmor(2));
+			plittleMaid.textures[1][2] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentItemOrArmor(3));
+			plittleMaid.textures[1][3] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentItemOrArmor(4));
+			plittleMaid.textures[2][0] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentItemOrArmor(1));
+			plittleMaid.textures[2][1] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentItemOrArmor(2));
+			plittleMaid.textures[2][2] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentItemOrArmor(3));
+			plittleMaid.textures[2][3] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentItemOrArmor(4));
+			modelMain.textures = plittleMaid.textures[0];
 			modelFATT.textureInner = plittleMaid.textures[1];
 			modelFATT.textureOuter = plittleMaid.textures[2];
 		} else {

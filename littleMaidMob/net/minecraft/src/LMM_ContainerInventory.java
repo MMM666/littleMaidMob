@@ -86,8 +86,8 @@ public class LMM_ContainerInventory extends ContainerPlayer {
 	}
 
 	@Override
-	public void onCraftGuiClosed(EntityPlayer par1EntityPlayer) {
-		super.onCraftGuiClosed(par1EntityPlayer);
+	public void onContainerClosed(EntityPlayer par1EntityPlayer) {
+		super.onContainerClosed(par1EntityPlayer);
 		littlemaidInventory.closeChest();
 	}
 

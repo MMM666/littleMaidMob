@@ -125,7 +125,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 
 	@Override
 	public ItemStack getCurrentArmor(int par1) {
-		return avatar.getCurrentArmor(par1);
+		return avatar.func_130225_q(par1);
 	}
 
 	@Override
@@ -137,12 +137,12 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	public ItemStack[] getLastActiveItems() {
 		return avatar.getLastActiveItems();
 	}
-
+/*
 	@Override
 	protected void alertWolves(EntityLivingBase par1EntityLiving, boolean par2) {
 		// ここを設定しちゃうと通常ではぬるぽ落ちする
 	}
-
+*/
 	@Override
 	public void destroyCurrentEquippedItem() {
 		// アイテムが壊れたので次の装備を選択
@@ -425,5 +425,38 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 		// チャットメッセージは使わない。
 	}
 
+	// 不要？
+
+	@Override
+	protected void setHideCape(int par1, boolean par2) {}
+
+	@Override
+	protected boolean getHideCape(int par1) {
+		return false;
+	}
+
+	@Override
+	public void setScore(int par1) {}
+
+	@Override
+	public int getScore() {
+		return 0;
+	}
+
+	public void func_110149_m(float par1) {
+		/*
+		if (par1 < 0.0F) {
+			par1 = 0.0F;
+		}
+		
+		this.getDataWatcher().updateObject(17, Float.valueOf(par1));
+		*/
+		avatar.func_110149_m(par1);
+	}
+
+	public float func_110139_bj() {
+//		return this.getDataWatcher().func_111145_d(17);
+		return avatar.func_110139_bj();
+	}
 
 }
