@@ -164,7 +164,7 @@ public abstract class LMM_EntityModeBase {
 	 * —LŒøË’ö‹——£‚ğ’´‚¦‚½‚Ìˆ—
 	 */
 	public boolean outrangeBlock(int pMode, int pX, int pY, int pZ) {
-		return owner.getNavigator().tryMoveToXYZ(pX, pY, pZ, owner.getAIMoveSpeed());
+		return owner.getNavigator().tryMoveToXYZ(pX, pY, pZ, 1.0F);
 	}
 	public boolean outrangeBlock(int pMode) {
 		return outrangeBlock(pMode, owner.maidTile[0], owner.maidTile[1], owner.maidTile[2]);

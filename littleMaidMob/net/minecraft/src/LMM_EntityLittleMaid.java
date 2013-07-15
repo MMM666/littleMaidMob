@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.swing.text.MaskFormatter;
@@ -16,6 +17,9 @@ import javax.swing.text.MaskFormatter;
 public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITextureEntity {
 
 	// 定数はStaticsへ移動
+	protected static final UUID maidUUID = UUID.nameUUIDFromBytes("net.minecraft.src.littleMaidMob".getBytes());
+	protected static AttributeModifier attCombatSpeed = (new AttributeModifier(maidUUID, "Combat speed boost", 0.07D, 0)).func_111168_a(false);
+	protected static AttributeModifier attAxeAmp = (new AttributeModifier(maidUUID, "Axe Attack boost", 0.5D, 1)).func_111168_a(false);
 
 
 	// 変数減らしたいなぁ
@@ -156,8 +160,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		// 移動用フィジカル設定
 		getNavigator().setAvoidsWater(true);
 		getNavigator().setBreakDoors(true);
-//		setAIMoveSpeed(moveSpeed_Nomal);
-//		setAIMoveSpeed(1.0F);
 		
 		
 		// TODO:これはテスト
@@ -170,8 +172,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		maidColor = 12;
 		ltb[0] = ltb[1] = MMM_TextureManager.instance.getDefaultTexture(this);
 		setTexturePackName(ltb);
-//		mod_LMM_littleMaidMob.Debug("ltb[0]%s", ltb[0] == null ? "NULL" : ltb[0].textureName);
-//		maidSoundRate = LMM_SoundManager.getSoundRate(textureBox[0].textureName, maidColor);
 		
 		// モデルレンダリング用のフラグ獲得用ヘルパー関数
 		maidCaps = new LMM_EntityCaps(this);
@@ -207,6 +207,17 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		return super.func_110161_a(par1EntityLivingData);
 	}
 
+	protected void func_110147_ax() {
+		// 初期パラメーター
+		super.func_110147_ax();
+		// 対象移動可能範囲
+		func_110148_a(SharedMonsterAttributes.field_111265_b).func_111128_a(20.0D);
+		// 基本移動速度
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.23000000417232513D);
+		// 標準攻撃力１
+		func_110140_aT().func_111150_b(SharedMonsterAttributes.field_111264_e).func_111128_a(1.0D);
+	}
+
 	@Override
 	protected void entityInit() {
 		super.entityInit();
@@ -226,12 +237,10 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		
 		// maidAvater用EntityPlayer互換変数
 		// 17 -> 18
-		dataWatcher.addObject(18, Float.valueOf(0.0F));
-
+		// 18 : Absoption効果をクライアント側へ転送するのに使う
+		dataWatcher.addObject(dataWatch_Absoption, Float.valueOf(0.0F));
 		
 		// 独自分
-		// 18:HP:いらなくなった
-//		dataWatcher.addObject(dataWatch_Health, new Integer(getMaxHealth()));
 		// 19:maidMode(16Bit:LSB)、maidColor(8Bit:<<16)、maidDominantArm(8Bit:<<24);
 		dataWatcher.addObject(dataWatch_ColorMode, new Integer((maidMode & 0xffff) | ((maidColor & 0xff) << 16) | ((maidDominantArm & 0xff) << 24)));
 		// 20:選択テクスチャインデックス
@@ -255,24 +264,24 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	public void initModeList() {
 		// AI
 		aiBeg = new LMM_EntityAIBeg(this, 8F);
-		aiBegMove = new LMM_EntityAIBegMove(this, 0.3F);
+		aiBegMove = new LMM_EntityAIBegMove(this, 1.0F);
 		aiOpenDoor = new EntityAIOpenDoor(this, true);
 		aiCloseDoor = new EntityAIRestrictOpenDoor(this);
-		aiAvoidPlayer = new LMM_EntityAIAvoidPlayer(this, 0.3F, 3);
-		aiFollow = new LMM_EntityAIFollowOwner(this, 0.3F, 36D, 25D);
-		aiAttack = new LMM_EntityAIAttackOnCollide(this, 0.3F, true);
+		aiAvoidPlayer = new LMM_EntityAIAvoidPlayer(this, 1.0F, 3);
+		aiFollow = new LMM_EntityAIFollowOwner(this, 1.0F, 36D, 25D, 81D);
+		aiAttack = new LMM_EntityAIAttackOnCollide(this, 1.0F, true);
 		aiShooting = new LMM_EntityAIAttackArrow(this);
-		aiCollectItem = new LMM_EntityAICollectItem(this, 0.3F);
+		aiCollectItem = new LMM_EntityAICollectItem(this, 1.0F);
 		aiRestrictRain = new LMM_EntityAIRestrictRain(this);
-		aiFreeRain = new LMM_EntityAIFleeRain(this, 0.30F);
-		aiWander = new LMM_EntityAIWander(this, 0.23F);
+		aiFreeRain = new LMM_EntityAIFleeRain(this, 1.0F);
+		aiWander = new LMM_EntityAIWander(this, 1.0F);
 		aiJumpTo = new LMM_EntityAIJumpToMaster(this);
 		aiFindBlock = new LMM_EntityAIFindBlock(this);
 		aiSwiming = new LMM_EntityAISwimming(this);
-		aiPanic = new EntityAIPanic(this, 0.38F);
+		aiPanic = new EntityAIPanic(this, 2.0F);
 		aiTracer = new LMM_EntityAITracerMove(this);
 		aiSit = new LMM_EntityAIWait(this);
-				
+		
 		// TODO:これいらなくね？
 		aiProfiler = worldObj != null && worldObj.theProfiler != null ? worldObj.theProfiler : null;
 
@@ -306,18 +315,11 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		// 首の動き単独
 		ltasks[0].addTask(31, new EntityAIWatchClosest(this, net.minecraft.src.EntityLiving.class, 10F));
 		ltasks[0].addTask(32, new EntityAILookIdle(this));
-
-//		ltasks[1].addTask(2, new EntityAIHurtByTarget(this, false));
-
-//		addMaidMode(ltasks, "Escorter", 0x0001);
 		
-
 		// 追加分
 		for (LMM_EntityModeBase ieml : maidEntityModeList) {
 			ieml.addEntityMode(ltasks[0], ltasks[1]);
 		}
-		
-	
 	}
 
 
@@ -711,6 +713,18 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		default:
 			super.handleHealthUpdate(par1);
 		}
+	}
+
+	public void func_110149_m(float par1) {
+		if (par1 < 0.0F) {
+			par1 = 0.0F;
+		}
+		
+		this.getDataWatcher().updateObject(dataWatch_Absoption, Float.valueOf(par1));
+	}
+
+	public float func_110139_bj() {
+		return this.getDataWatcher().func_111145_d(dataWatch_Absoption);
 	}
 
 
@@ -1533,6 +1547,10 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 					for (int i = 0; i < list.size(); i++) {
 						Entity entity = (Entity)list.get(i);
 						if (!entity.isDead) {
+							if (entity instanceof EntityArrow) {
+								// 特殊回収
+								((EntityArrow)entity).canBePickedUp = 1;
+							}
 							entity.onCollideWithPlayer(maidAvatar);
 						}
 					}
@@ -1703,10 +1721,17 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 				setFreedom(true);
 				setMaidWait(false);
 			}
+			// 移動速度の変更
+			AttributeInstance latt = this.func_110148_a(SharedMonsterAttributes.field_111263_d);
+			// 属性を解除
+			latt.func_111124_b(attCombatSpeed);
+			if (isContract()) {
+				if (!isFreedom() || (entityToAttack != null || getAttackTarget() != null)) {
+					// 属性を設定
+					latt.func_111121_a(attCombatSpeed);
+				}
+			}
 		}
-		// 移動速度の設定
-		// TODO:AI周りの移動速度を何とかしないと意味ない。
-//		setAIMoveSpeed((maidContract & !maidFreedom) ? moveSpeed_Max : moveSpeed_Nomal);
 		
 		// 独自処理用毎時処理
 		for (LMM_EntityModeBase leb : maidEntityModeList) {
@@ -1791,6 +1816,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 					}
 //				}
 			}
+			
 			// 弓構え
 			mstatAimeBow &= !getSwingStatusDominant().canAttack();
 			// 構えの更新
@@ -1811,6 +1837,16 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 					return;
 				}
 			}
+			
+			// 斧装備時は攻撃力が上がる
+			AttributeInstance latt = this.func_110148_a(SharedMonsterAttributes.field_111264_e);
+			// 属性を解除
+			latt.func_111124_b(attAxeAmp);
+			ItemStack lis = getCurrentEquippedItem();
+			if (lis != null && lis.getItem() instanceof ItemAxe) {
+				// 属性を設定
+				latt.func_111121_a(attAxeAmp);
+			}
 		} else {
 			// Client
 			// TODO:test
@@ -1829,7 +1865,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 				}
 				if (d > 12.25D) {
 //                    setPathToEntity(worldObj.getPathEntityToEntity(mstatgotcha, this, 16F, true, false, false, true));
-					getNavigator().tryMoveToXYZ(mstatgotcha.posX, mstatgotcha.posY, mstatgotcha.posZ, getAIMoveSpeed());
+					getNavigator().tryMoveToXYZ(mstatgotcha.posX, mstatgotcha.posY, mstatgotcha.posZ, 1.0F);
 					getLookHelper().setLookPositionWithEntity(mstatgotcha, 15F, 15F);
 				}
 			}
@@ -2320,6 +2356,22 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 								MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
 								return true;
 							}
+							else if (itemstack1.getItem() instanceof ItemAppleGold) {
+								// ゴールデンアッポー
+								if(!worldObj.isRemote) {
+									((ItemAppleGold)itemstack1.getItem()).onFoodEaten(itemstack1, worldObj, maidAvatar);
+								}
+								MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
+								return true;
+							}
+							else if (itemstack1.getItem() instanceof ItemBucketMilk && !getActivePotionEffects().isEmpty()) {
+								// 牛乳に相談だ
+								if(!worldObj.isRemote) {
+									clearActivePotions();
+								}
+								MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
+								return true;
+							}
 							else if (isFreedom() && itemstack1.itemID == Item.redstone.itemID) {
 								// Tracer
 								MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
@@ -2748,7 +2800,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		aiFollow.setEnable(!pFlag);
 		aiTracer.setEnable(false);
 //		setAIMoveSpeed(pFlag ? moveSpeed_Nomal : moveSpeed_Max);
-		setMoveForward(0.0F);
+//		setMoveForward(0.0F);
+		
 		if (maidFreedom && isContract()) {
 			func_110171_b(
 //			setHomeArea(

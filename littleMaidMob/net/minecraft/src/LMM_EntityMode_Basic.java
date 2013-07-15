@@ -52,7 +52,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBlockBase {
 		ltasks[1] = new EntityAITasks(null);
 
 		ltasks[0].addTask(1, owner.aiSwiming);
-		ltasks[0].addTask(2, new LMM_EntityAIAttackOnCollide(owner, 0.23F, true));
+		ltasks[0].addTask(2, owner.aiAttack);
 		ltasks[0].addTask(3, owner.aiPanic);
 		ltasks[0].addTask(4, owner.aiBegMove);
 		ltasks[0].addTask(4, owner.aiBeg);
@@ -61,7 +61,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBlockBase {
 //        ltasks[0].addTask(4, new EntityAIMoveIndoors(this));
 //		ltasks[0].addTask(7, owner.aiCloseDoor);
 //		ltasks[0].addTask(8, owner.aiOpenDoor);
-		ltasks[0].addTask(9, new LMM_EntityAICollectItem(owner, 0.23F));
+		ltasks[0].addTask(9, owner.aiCollectItem);
 		ltasks[0].addTask(10, new EntityAILeapAtTarget(owner, 0.3F));
 		ltasks[0].addTask(11, owner.aiWander);
 		ltasks[0].addTask(12, new EntityAIWatchClosest2(owner, net.minecraft.src.EntityLiving.class, 10F, 0.02F));
@@ -414,7 +414,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBlockBase {
 							mod_LMM_littleMaidMob.Debug("Assert.");
 							owner.updateWanderPath();
 						} else {
-							owner.getNavigator().tryMoveToXYZ(lentity.posX, lentity.posY, lentity.posZ, owner.getAIMoveSpeed());
+							owner.getNavigator().tryMoveToXYZ(lentity.posX, lentity.posY, lentity.posZ, 1.0F);
 						}
 						lastdistance = distance;
 //						mod_littleMaidMob.Debug(String.format("Rerute:%b", hasPath()));

@@ -145,7 +145,7 @@ public class LMM_EntityAITracerMove extends EntityAIBase implements LMM_IEntityA
 	 * trueを返すとループ終了。
 	 */
 	protected boolean doFindBlock(int px, int py, int pz) {
-		return theMaid.getNavigator().tryMoveToXYZ(px, py, pz, theMaid.getAIMoveSpeed());
+		return theMaid.getNavigator().tryMoveToXYZ(px, py, pz, 1.0F);
 //		return theMaid.getNavigator().tryMoveToXYZ(px, py, pz, theMaid.getAIMoveSpeed());
 	}
 

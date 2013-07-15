@@ -107,7 +107,7 @@ public class LMM_EntityAIHurtByTarget extends EntityAIHurtByTarget {
 		return true;
 	}
 
-	private boolean func_75295_a(Entity par1EntityLiving) {
+	protected boolean func_75295_a(Entity par1EntityLiving) {
 		this.field_75302_c = 10 + this.taskOwner.getRNG().nextInt(5);
 		PathEntity var2 = taskOwner.getNavigator().getPathToXYZ(par1EntityLiving.posX, par1EntityLiving.posY, par1EntityLiving.posZ);
 //		PathEntity var2 = this.taskOwner.getNavigator().getPathToEntityLiving(par1EntityLiving);

@@ -140,7 +140,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 							tpx -= (atz / tpr);
 							tpz += (atx / tpr);
 						}
-						fMaid.getNavigator().tryMoveToXYZ(tpx, tpy, tpz, fMaid.getAIMoveSpeed());
+						fMaid.getNavigator().tryMoveToXYZ(tpx, tpy, tpz, 1.0F);
 					}
 					else if (lsee & ldist < 100) {
 						fMaid.getNavigator().clearPathEntity();
@@ -252,7 +252,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 		} else {
 			// —LŒøŽË’öŠO
 			if (fMaid.getNavigator().noPath()) {
-				fMaid.getNavigator().tryMoveToEntityLiving(fTarget, fMaid.getAIMoveSpeed());
+				fMaid.getNavigator().tryMoveToEntityLiving(fTarget, 1.0);
 			}
 			if (fMaid.getNavigator().noPath()) {
 				mod_LMM_littleMaidMob.Debug("id:%d Target renge out.", fMaid.entityId);

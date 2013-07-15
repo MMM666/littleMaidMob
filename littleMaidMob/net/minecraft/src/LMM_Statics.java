@@ -2,15 +2,10 @@ package net.minecraft.src;
 
 public class LMM_Statics {
 
-	// TODO:定数は要修正
-	protected static final float moveSpeed_Nomal		= 0.23F;
-	protected static final float moveSpeed_Max		= 0.3F;
-	protected static final float moveSpeed_Overdrive	= 1.0F;
-
 	/**
 	 * HPをサーバーからクライアントへ通知するのに使う。
 	 */
-//	protected static final int dataWatch_Health		= 18;
+	protected static final int dataWatch_Absoption	= 18;
 	protected static final int dataWatch_ColorMode	= 19;
 	/**
 	 * MSB|0x0000 0000|LSB

@@ -87,7 +87,7 @@ public class LMM_EntityMode_Playing extends LMM_EntityModeBase {
 			}
 		
 		if (pe != null) {
-			owner.getNavigator().setPath(pe, owner.getAIMoveSpeed());
+			owner.getNavigator().setPath(pe, 1.0F);
 			mod_LMM_littleMaidMob.Debug("Find Snow Area-%d:%d, %d, %d.", owner.entityId, x, y, z);
 			return true;
 		} else {

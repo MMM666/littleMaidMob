@@ -6,9 +6,9 @@ import java.util.List;
 public class LMM_EntityModeManager extends MMM_ManagerBase {
 
 	public static final String prefix = "EntityMode";
-    public static List<LMM_EntityModeBase> maidModeList = new ArrayList<LMM_EntityModeBase>();
+	public static List<LMM_EntityModeBase> maidModeList = new ArrayList<LMM_EntityModeBase>();
 
-    
+
 	public static void init() {
 		// 特定名称をプリフィックスに持つmodファイをを獲得
 		MMM_FileManager.getModFile("EntityMode", prefix);
@@ -54,7 +54,7 @@ public class LMM_EntityModeManager extends MMM_ManagerBase {
 
 		return false;
 	}
-	
+
 	/**
 	 * AI追加用のリストを獲得。 
 	 */

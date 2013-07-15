@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import java.util.Collection;
+
 
 public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 
@@ -24,6 +26,15 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 		
 		inventory = avatar.maidInventory;
 		inventory.player = this;
+	}
+
+	@Override
+	protected void func_110147_ax() {
+		// 初期設定殺し
+		// 初期設定値はダミーに設定される。
+		super.func_110147_ax();
+//		this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.13000000417232513D);
+
 	}
 
 	@Override
@@ -66,6 +77,7 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 			xpCooldown--;
 		}
 		avatar.experienceValue = experienceTotal;
+		
 		
 	}
 
@@ -283,6 +295,75 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 		avatar.playSound(par1Str, par2, par3);
 	}
 
+	@Override
+	public ChunkCoordinates getPlayerCoordinates() {
+		return null;
+	}
+
+	@Override
+	public void sendChatToPlayer(ChatMessageComponent var1) {
+		// チャットメッセージは使わない。
+	}
+
+	// 不要？
+
+	@Override
+	protected void setHideCape(int par1, boolean par2) {}
+
+	@Override
+	protected boolean getHideCape(int par1) {
+		return false;
+	}
+
+	@Override
+	public void setScore(int par1) {}
+
+	@Override
+	public int getScore() {
+		return 0;
+	}
+
+	public void func_110149_m(float par1) {
+		avatar.func_110149_m(par1);
+	}
+
+	public float func_110139_bj() {
+		return avatar.func_110139_bj();
+	}
+
+	/**
+	 * 属性値リストを取得
+	 */
+	public BaseAttributeMap func_110140_aT() {
+//		return super.func_110140_aT();
+		return avatar == null ? super.func_110140_aT() : avatar.func_110140_aT();
+	}
+
+	@Override
+	public void addPotionEffect(PotionEffect par1PotionEffect) {
+		avatar.addPotionEffect(par1PotionEffect);
+	}
+
+	@Override
+	public PotionEffect getActivePotionEffect(Potion par1Potion) {
+		return avatar.getActivePotionEffect(par1Potion);
+	}
+
+	@Override
+	public Collection getActivePotionEffects() {
+		return avatar.getActivePotionEffects();
+	}
+
+	@Override
+	public void clearActivePotions() {
+		avatar.clearActivePotions();
+	}
+
+	@Override
+	protected void onChangedPotionEffect(PotionEffect par1PotionEffect, boolean par2) {
+		avatar.onChangedPotionEffect(par1PotionEffect, par2);
+	}
+
 	public void getValue() {
 		// EntityLittleMaidから値をコピー
 		setPosition(avatar.posX, avatar.posY, avatar.posZ);
@@ -413,50 +494,6 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 		avatar.motionY = motionY;
 		avatar.motionZ = motionZ;
 		if (isSwingInProgress) avatar.setSwinging(LMM_EnumSound.Null);
-	}
-
-	@Override
-	public ChunkCoordinates getPlayerCoordinates() {
-		return null;
-	}
-
-	@Override
-	public void sendChatToPlayer(ChatMessageComponent var1) {
-		// チャットメッセージは使わない。
-	}
-
-	// 不要？
-
-	@Override
-	protected void setHideCape(int par1, boolean par2) {}
-
-	@Override
-	protected boolean getHideCape(int par1) {
-		return false;
-	}
-
-	@Override
-	public void setScore(int par1) {}
-
-	@Override
-	public int getScore() {
-		return 0;
-	}
-
-	public void func_110149_m(float par1) {
-		/*
-		if (par1 < 0.0F) {
-			par1 = 0.0F;
-		}
-		
-		this.getDataWatcher().updateObject(17, Float.valueOf(par1));
-		*/
-		avatar.func_110149_m(par1);
-	}
-
-	public float func_110139_bj() {
-//		return this.getDataWatcher().func_111145_d(17);
-		return avatar.func_110139_bj();
 	}
 
 }
