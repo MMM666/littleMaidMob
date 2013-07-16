@@ -444,4 +444,40 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBlockBase {
 		return super.isChangeTartget(pTarget);
 	}
 
+	@Override
+	public boolean preInteract(EntityPlayer pentityplayer, ItemStack pitemstack) {
+		// しゃがみ時は処理無効
+		if (pentityplayer.isSneaking()) {
+			return false;
+		}
+		if (owner.isContract()) {
+			// 契約状態
+			if (owner.isEntityAlive() && owner.isMaidContractOwner(pentityplayer)) {
+				if (pitemstack != null) {
+					// 追加分の処理
+					owner.setPathToEntity(null);
+					if (owner.isRemainsContract()) {
+						if (pitemstack.getItem() instanceof ItemAppleGold) {
+							// ゴールデンアッポー
+							if(!owner.worldObj.isRemote) {
+								((ItemAppleGold)pitemstack.getItem()).onFoodEaten(pitemstack, owner.worldObj, owner.maidAvatar);
+							}
+							MMM_Helper.decPlayerInventory(pentityplayer, -1, 1);
+							return true;
+						}
+						else if (pitemstack.getItem() instanceof ItemBucketMilk && !owner.getActivePotionEffects().isEmpty()) {
+							// 牛乳に相談だ
+							if(!owner.worldObj.isRemote) {
+								owner.clearActivePotions();
+							}
+							MMM_Helper.decPlayerInventory(pentityplayer, -1, 1);
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 }

@@ -18,7 +18,7 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 	}
 
 	@Override
-	public void setModelValues(EntityLiving par1EntityLiving, double par2,
+	public void setModelValues(EntityLivingBase par1EntityLiving, double par2,
 			double par4, double par6, float par8, float par9, MMM_IModelCaps pEntityCaps) {
 		LMM_EntityLittleMaid lmaid = (LMM_EntityLittleMaid)par1EntityLiving;
 		
@@ -50,6 +50,7 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 		// いくつか重複してるのであとで確認
 		// 姿勢による高さ調整
 		
+		// ここは本来的には要らない。
 		if (plittleMaid.worldObj instanceof WorldServer) {
 			// RSHUD-ACV用
 			MMM_TextureBox ltbox0, ltbox1;
@@ -83,10 +84,9 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 //		doRenderLiving(plittleMaid, px, py, pz, f, f1);
 		renderModelMulti(plittleMaid, px, py, pz, f, f1, plittleMaid.maidCaps);
 		
-		
 		// ひも
-		if(plittleMaid.mstatgotcha != null && plittleMaid.mstatgotcha instanceof EntityLiving) {
-			EntityLiving lel = (EntityLiving)plittleMaid.mstatgotcha;
+		if(plittleMaid.mstatgotcha != null && plittleMaid.mstatgotcha instanceof EntityLivingBase) {
+			EntityLivingBase lel = (EntityLivingBase)plittleMaid.mstatgotcha;
 			py -= 0.5D;
 			Tessellator tessellator = Tessellator.instance;
 			float f9 = ((lel.prevRotationYaw + (lel.rotationYaw - lel.prevRotationYaw) * f1 * 0.5F) * 3.141593F) / 180F;
@@ -135,9 +135,19 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 	}
 
 	@Override
-	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1) {
-		doRenderLitlleMaid((LMM_EntityLittleMaid)entity, d, d1, d2, f, f1);
+	public void doRenderLiving(EntityLiving par1EntityLiving, double par2,
+			double par4, double par6, float par8, float par9) {
+		LMM_EntityLittleMaid lmm = (LMM_EntityLittleMaid)par1EntityLiving;
+		fcaps = lmm.maidCaps;
+		doRenderLitlleMaid(lmm, par2, par4, par6, par8, par9);
+		// ロープ
+//		func_110827_b(lmm, par2, par4 - modelMain.model.getLeashOffset(lmm.maidCaps), par6, par8, par9);
 	}
+
+//	@Override
+//	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1) {
+//		doRenderLitlleMaid((LMM_EntityLittleMaid)entity, d, d1, d2, f, f1);
+//	}
 
 	@Override
 	protected void renderModel(EntityLivingBase par1EntityLiving, float par2,

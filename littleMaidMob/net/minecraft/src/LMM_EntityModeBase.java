@@ -19,20 +19,27 @@ public abstract class LMM_EntityModeBase {
 	public LMM_EntityModeBase(LMM_EntityLittleMaid pEntity) {
 		owner = pEntity;
 	}
-	
-	
+
 	public int fpriority;
 	/**
 	 * 優先順位。
+	 * 番号が若いほうが先に処理される。
+	 * 下二桁が00のものはシステム予約。
 	 */
 	public abstract int priority();
-	
+
 	/**
 	 * 起動時の初期化。
 	 */
 	public void init() {
 	}
-	
+
+	/**
+	 * Entity初期化時の実行部
+	 */
+	public void initEntity() {
+	}
+
 	/**
 	 * モードの追加。
 	 */
@@ -68,7 +75,15 @@ public abstract class LMM_EntityModeBase {
 	 */
 	public void onUpdate(int pMode) {
 	}
-	
+
+	/**
+	 * このへんの処理は若干時間かかっても良し。
+	 * 他のアイテムを使用したい時。
+	 * 補完処理に先んじて実行される、その代わり判定も全部自分持ち。
+	 */
+	public boolean preInteract(EntityPlayer pentityplayer, ItemStack pitemstack) {
+		return false;
+	}
 	/**
 	 * このへんの処理は若干時間かかっても良し。
 	 * 他のアイテムを使用したい時。
@@ -126,14 +141,14 @@ public abstract class LMM_EntityModeBase {
 	public boolean isSearchBlock() {
 		return false;
 	}
-	
+
 	/**
 	 * isSearchBlock=falseのときに判定される。
 	 */
 	public boolean shouldBlock(int pMode) {
 		return false;
 	}
-	
+
 	/**
 	 * 探し求めたブロックであるか。
 	 * trueを返すと検索終了。
@@ -206,14 +221,14 @@ public abstract class LMM_EntityModeBase {
 	public boolean isSearchEntity() {
 		return false;
 	}
-	
+
 	/**
 	 * 独自索敵処理
 	 */
 	public boolean checkEntity(int pMode, Entity pEntity) {
 		return false;
 	}
-	
+
 	/**
 	 * 発光処理用
 	 */
@@ -237,7 +252,7 @@ public abstract class LMM_EntityModeBase {
 	public boolean damageEntity(int pMode, DamageSource par1DamageSource, float par2) {
 		return false;
 	}
-	
+
 	/**
 	 * 自分が使っているTileならTrueを返す。
 	 */
@@ -300,5 +315,5 @@ public abstract class LMM_EntityModeBase {
 	public boolean isChangeTartget(Entity pTarget) {
 		return !owner.isBloodsuck();
 	}
-	
+
 }

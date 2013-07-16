@@ -49,7 +49,7 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 			llist.add(String.format("R:%d, [L]:%d, I:%d", owner.mstatSwingStatus[0].index, owner.mstatSwingStatus[1].index, owner.maidInventory.currentItem));
 			llist.add(String.format("swing[L]:%b:%f", owner.getSwingStatusDominant().isSwingInProgress, owner.getSwingStatusDominant().swingProgress));
 		}
-		llist.add(String.format("health:%d, death:%d, Exp:%d", owner.func_110143_aJ(), owner.deathTime, owner.experienceValue));
+		llist.add(String.format("health:%f, death:%d, Exp:%d", owner.func_110143_aJ(), owner.deathTime, owner.experienceValue));
 //		llist.add("stat:" + owner.statusMessage);
 		llist.add(String.format("working:%b, sneak:%b, sugar:%b", owner.isWorking(), owner.isSneaking(), owner.isLookSuger()));
 		llist.add(String.format("%s[%s]", owner.getMaidModeString(), owner.maidActiveModeClass == null ? "" : owner.maidActiveModeClass.getClass().getSimpleName()));

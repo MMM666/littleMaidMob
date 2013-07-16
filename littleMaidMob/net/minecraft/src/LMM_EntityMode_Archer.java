@@ -1,6 +1,5 @@
 package net.minecraft.src;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 public class LMM_EntityMode_Archer extends LMM_EntityModeBase {

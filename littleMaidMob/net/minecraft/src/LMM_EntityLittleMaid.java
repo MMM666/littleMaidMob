@@ -17,7 +17,8 @@ import javax.swing.text.MaskFormatter;
 public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITextureEntity {
 
 	// 定数はStaticsへ移動
-	protected static final UUID maidUUID = UUID.nameUUIDFromBytes("net.minecraft.src.littleMaidMob".getBytes());
+//	protected static final UUID maidUUID = UUID.nameUUIDFromBytes("net.minecraft.src.littleMaidMob".getBytes());
+	protected static final UUID maidUUID = UUID.fromString("e2361272-644a-3028-8416-8536667f0efb");
 	protected static AttributeModifier attCombatSpeed = (new AttributeModifier(maidUUID, "Combat speed boost", 0.07D, 0)).func_111168_a(false);
 	protected static AttributeModifier attAxeAmp = (new AttributeModifier(maidUUID, "Axe Attack boost", 0.5D, 1)).func_111168_a(false);
 
@@ -178,7 +179,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		
 		// EntityModeの追加
 		maidEntityModeList = LMM_EntityModeManager.getModeList(this);
-		
 		// モードリスト
 		maidActiveModeClass = null;
 		maidModeList = new HashMap<Integer, EntityAITasks[]>();
@@ -186,6 +186,10 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		initModeList();
 		mstatModeName = "";
 		maidMode = 65535;
+		// 初期化時実行コード
+		for (LMM_EntityModeBase lem : maidEntityModeList) {
+			lem.initEntity();
+		}
 	}
 
 	@Override
@@ -2218,10 +2222,19 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 
 	@Override
 	public boolean interact(EntityPlayer par1EntityPlayer) {
+		float lhealth = func_110143_aJ();
+		ItemStack itemstack1 = par1EntityPlayer.getCurrentEquippedItem();
+		
+		// プラグインでの処理を先に行う
+		for (int li = 0; li < maidEntityModeList.size(); li++) {
+			if (maidEntityModeList.get(li).preInteract(par1EntityPlayer, itemstack1)) {
+				return true;
+			}
+		}
+		// しゃがみ時は処理無効
 		if (par1EntityPlayer.isSneaking()) {
 			return false;
 		}
-		float lhealth = func_110143_aJ();
 		// ナデリ判定
 		if (lhealth > 0F && par1EntityPlayer.riddenByEntity != null && !(par1EntityPlayer.riddenByEntity instanceof LMM_EntityLittleMaid)) {
 			// 載せ替え
@@ -2229,7 +2242,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			return true;
 		}
 		
-		ItemStack itemstack1 = par1EntityPlayer.getCurrentEquippedItem();
 		
 		
 		if (mstatgotcha == null && par1EntityPlayer.fishEntity == null) {
@@ -2248,6 +2260,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 					if (itemstack1 != null) {
 						// 追加分の処理
 						setPathToEntity(null);
+						// プラグインでの処理を先に行う
 						for (int li = 0; li < maidEntityModeList.size(); li++) {
 							if (maidEntityModeList.get(li).interact(par1EntityPlayer, itemstack1)) {
 								return true;
@@ -2352,22 +2365,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 											potioneffect = (PotionEffect)iterator.next();
 										}
 									}
-								}
-								MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
-								return true;
-							}
-							else if (itemstack1.getItem() instanceof ItemAppleGold) {
-								// ゴールデンアッポー
-								if(!worldObj.isRemote) {
-									((ItemAppleGold)itemstack1.getItem()).onFoodEaten(itemstack1, worldObj, maidAvatar);
-								}
-								MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
-								return true;
-							}
-							else if (itemstack1.getItem() instanceof ItemBucketMilk && !getActivePotionEffects().isEmpty()) {
-								// 牛乳に相談だ
-								if(!worldObj.isRemote) {
-									clearActivePotions();
 								}
 								MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
 								return true;
@@ -2498,6 +2495,10 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			setMaidFlags(lflag, dataWatch_Flags_remainsContract);
 		}
 	}
+	/**
+	 * ストライキに入っていないか判定
+	 * @return
+	 */
 	public boolean isRemainsContract() {
 		return getMaidFlags(dataWatch_Flags_remainsContract);
 	}
@@ -2958,6 +2959,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	 *  利き腕の設定
 	 */
 	public void setDominantArm(int pindex) {
+		if (mstatSwingStatus.length <= pindex) return;
 		if (maidDominantArm == pindex) return;
 		for (LMM_SwingStatus lss : mstatSwingStatus) {
 			lss.index = lss.lastIndex = -1;
@@ -3026,7 +3028,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			for (int i = 0; i < 4; i++) {
 				ItemStack is = maidInventory.armorItemInSlot(i);
 				textures[1][i] = ((MMM_TextureBox)textureBox[1]).getArmorTextureName(MMM_TextureManager.tx_armor1, is);
-				textures[2][i] = ((MMM_TextureBox)textureBox[1]).getArmorTextureName(MMM_TextureManager.tx_armor1, is);
+				textures[2][i] = ((MMM_TextureBox)textureBox[1]).getArmorTextureName(MMM_TextureManager.tx_armor2, is);
 			}
 		} else {
 			// TODO:setDefaultTexture

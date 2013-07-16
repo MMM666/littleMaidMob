@@ -24,7 +24,10 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements LMM_IEntit
 			// 契約個体のみが跳ぶ
 			return false;
 		}
-		
+		if (theMaid.func_110167_bD()) {
+			// 括られているなら跳ばない
+			return false;
+		}
 		if (theMaid.isFreedom()) {
 			// 自由行動の子は基点へジャンプ
 			if (theMaid.homeWorld != theMaid.dimension) {

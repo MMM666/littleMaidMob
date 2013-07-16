@@ -1,6 +1,5 @@
 package net.minecraft.src;
 
-import java.lang.annotation.Target;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -13,10 +12,9 @@ public class LMM_EntityAINearestAttackableTarget extends EntityAINearestAttackab
 	protected int targetChance;
 	protected LMM_EntityAINearestAttackableTargetSorter theNearestAttackableTargetSorter;
 
-	private boolean field_75303_a;
-	private int field_75301_b;
-	private int field_75302_c;
-
+	private boolean fretarget;
+	private int fcanAttack;
+	private int fretryCounter;
 
 	public LMM_EntityAINearestAttackableTarget(LMM_EntityLittleMaid par1EntityLiving, Class par2Class, int par4, boolean par5) {
 		this(par1EntityLiving, par2Class, par4, par5, false);
@@ -27,14 +25,13 @@ public class LMM_EntityAINearestAttackableTarget extends EntityAINearestAttackab
 		targetClass = par2;
 		targetChance = par4;
 		theNearestAttackableTargetSorter = new LMM_EntityAINearestAttackableTargetSorter(par1);
-		field_75301_b = 0;
-		field_75302_c = 0;
-		field_75303_a = par6;
+		fretarget = par6;
 		theMaid = par1;
 		
 		setMutexBits(1);
 	}
 
+	
 	@Override
 	public boolean shouldExecute() {
 		if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0) {
@@ -43,7 +40,7 @@ public class LMM_EntityAINearestAttackableTarget extends EntityAINearestAttackab
 //			return true;
 		} else {
 			double lfollowRange = this.func_111175_f();
-			List llist = this.taskOwner.worldObj.getEntitiesWithinAABB(targetClass, taskOwner.boundingBox.expand(lfollowRange, 4.0D, lfollowRange));
+			List llist = this.taskOwner.worldObj.getEntitiesWithinAABB(targetClass, taskOwner.boundingBox.expand(lfollowRange, 8.0D, lfollowRange));
 			if (theMaid.mstatMasterEntity != null && !theMaid.isBloodsuck()) {
 				// ソーターを主中心へ
 				theNearestAttackableTargetSorter.setEntity(theMaid.mstatMasterEntity);
@@ -73,60 +70,62 @@ public class LMM_EntityAINearestAttackableTarget extends EntityAINearestAttackab
 		} else {
 			theMaid.setTarget(targetEntity);
 		}
+		fcanAttack = 0;
+		fretryCounter = 0;
 	}
 
 //	@Override
-	protected boolean isSuitableTargetLM(Entity par1EntityLiving, boolean par2) {
+	protected boolean isSuitableTargetLM(Entity pTarget, boolean par2) {
 		// LMM用にカスタム
 		// 非生物も対象のため別クラス
-		if (par1EntityLiving == null) {
+		if (pTarget == null) {
 			return false;
 		}
 		
-		if (par1EntityLiving == taskOwner) {
+		if (pTarget == taskOwner) {
 			return false;
 		}
-		if (par1EntityLiving == theMaid.mstatMasterEntity) {
+		if (pTarget == theMaid.mstatMasterEntity) {
 			return false;
 		}
 		
-		if (!par1EntityLiving.isEntityAlive()) {
+		if (!pTarget.isEntityAlive()) {
 			return false;
 		}
 		
 		LMM_EntityModeBase lailm = theMaid.getActiveModeClass(); 
 		if (lailm != null && lailm.isSearchEntity()) {
-			if (!lailm.checkEntity(theMaid.getMaidModeInt(), par1EntityLiving)) {
+			if (!lailm.checkEntity(theMaid.getMaidModeInt(), pTarget)) {
 				return false;
 			}
 		} else {
-			if (theMaid.getIFF(par1EntityLiving)) {
+			if (theMaid.getIFF(pTarget)) {
 				return false;
 			}
 		}
-		
+/*		
 		// 基点から一定距離離れている場合も攻撃しない
-		if (!taskOwner.func_110176_b(MathHelper.floor_double(par1EntityLiving.posX), MathHelper.floor_double(par1EntityLiving.posY), MathHelper.floor_double(par1EntityLiving.posZ))) {
+		if (!taskOwner.func_110176_b(MathHelper.floor_double(pTarget.posX), MathHelper.floor_double(pTarget.posY), MathHelper.floor_double(pTarget.posZ))) {
 //		if (!taskOwner.isWithinHomeDistance(MathHelper.floor_double(par1EntityLiving.posX), MathHelper.floor_double(par1EntityLiving.posY), MathHelper.floor_double(par1EntityLiving.posZ))) {
 			return false;
 		}
-		
+*/		
 		// ターゲットが見えない
-		if (shouldCheckSight && !taskOwner.getEntitySenses().canSee(par1EntityLiving)) {
+		if (shouldCheckSight && !taskOwner.getEntitySenses().canSee(pTarget)) {
 			return false;
 		}
 		
 		// 攻撃中止判定？
-		if (this.field_75303_a) {
-			if (--this.field_75302_c <= 0) {
-				this.field_75301_b = 0;
+		if (this.fretarget) {
+			if (--this.fretryCounter <= 0) {
+				this.fcanAttack = 0;
 			}
 			
-			if (this.field_75301_b == 0) {
-				this.field_75301_b = this.func_75295_a(par1EntityLiving) ? 1 : 2;
+			if (this.fcanAttack == 0) {
+				this.fcanAttack = this.func_75295_a(pTarget) ? 1 : 2;
 			}
 			
-			if (this.field_75301_b == 2) {
+			if (this.fcanAttack == 2) {
 				return false;
 			}
 		}
@@ -134,8 +133,9 @@ public class LMM_EntityAINearestAttackableTarget extends EntityAINearestAttackab
 		return true;
 	}
 
+	// 最終位置が攻撃の間合いでなければ失敗
 	protected boolean func_75295_a(Entity par1EntityLiving) {
-		this.field_75302_c = 10 + this.taskOwner.getRNG().nextInt(5);
+		this.fretryCounter = 10 + this.taskOwner.getRNG().nextInt(5);
 		PathEntity var2 = taskOwner.getNavigator().getPathToXYZ(par1EntityLiving.posX, par1EntityLiving.posY, par1EntityLiving.posZ);
 //		PathEntity var2 = this.taskOwner.getNavigator().getPathToEntityLiving(par1EntityLiving);
 		

@@ -83,7 +83,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 	@Override
 	public void load() {
 		// MMMLibのRevisionチェック
-		MMM_Helper.checkRevision("1");
+		MMM_Helper.checkRevision("2");
 		
 //		UniqueEntityId = UniqueEntityId == 0 ? MMM_Helper.getNextEntityID(true) : UniqueEntityId;
 		defaultTexture = defaultTexture.trim();
@@ -196,6 +196,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		
 		// モードリストを構築
 		LMM_EntityModeManager.loadEntityMode();
+		LMM_EntityModeManager.showLoadedModes();
 		
 		if (MMM_Helper.isClient) {
 			// 音声の解析
@@ -208,6 +209,8 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		// IFFのロード
 		LMM_IFF.loadIFFs();
 		
+		// TODO:UUIDの表示
+		Debug("UUID:%s", LMM_EntityLittleMaid.maidUUID.toString());
 	}
 
 	@Override

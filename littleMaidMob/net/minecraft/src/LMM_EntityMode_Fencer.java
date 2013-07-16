@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * 独自基準としてモード定数は0x0080は平常、0x00c0は血まみれモードと区別。
  */
-public class LMM_EntityMode_Fencer extends LMM_EntityModeBase{
+public class LMM_EntityMode_Fencer extends LMM_EntityModeBase {
 
 	public static final int mmode_Fencer		= 0x0080;
 	public static final int mmode_Bloodsucker	= 0x00c0;
