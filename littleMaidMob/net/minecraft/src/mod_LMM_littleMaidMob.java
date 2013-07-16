@@ -142,7 +142,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 			ModLoader.addLocalization("littleMaidMob.text.Health", "ja_JP", "メイド強度");
 			ModLoader.addLocalization("littleMaidMob.text.AP", "AP");
 			ModLoader.addLocalization("littleMaidMob.text.AP", "ja_JP", "メイド装甲");
-			ModLoader.addLocalization("littleMaidMob.text.STATUS", "STATUS");
+			ModLoader.addLocalization("littleMaidMob.text.STATUS", "Status");
 			ModLoader.addLocalization("littleMaidMob.text.STATUS", "ja_JP", "メイド状態");
 			
 			// デフォルトモデルの設定
