@@ -30,7 +30,12 @@ public class LMM_SoundManager {
 	public static void init() {
 		// ‰Šúİ’è
 		sounddir = new File(MMM_FileManager.minecraftDir, "/assets/sound/littleMaidMob");
-		mod_LMM_littleMaidMob.Debug("SoundDir: %s", sounddir.toString());
+		if (!sounddir.exists() || !sounddir.isDirectory()) {
+			sounddir.mkdir();
+			mod_LMM_littleMaidMob.Debug("Create SoundDir: %s", sounddir.toString());
+		} else {
+			mod_LMM_littleMaidMob.Debug("SoundDir: %s", sounddir.toString());
+		}
 	}
 
 	public static void setSoundRate(int soundindex, String value, String target) {

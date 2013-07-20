@@ -48,6 +48,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 	public void startExecuting() {
 		super.startExecuting();
 		fMaid.playSound(fMaid.isBloodsuck() ? LMM_EnumSound.findTarget_B : LMM_EnumSound.findTarget_N, false);
+		swingState = fMaid.getSwingStatusDominant();
 	}
 
 	@Override
@@ -65,7 +66,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 		double lrange = 225D;
 		double ldist = fMaid.getDistanceSqToEntity(fTarget);
 		boolean lsee = fMaid.getEntitySenses().canSee(fTarget);
-	
+		
 		// 視界の外に出たら一定時間で飽きる
 		if (lsee) {
 			fForget = 0;
@@ -88,7 +89,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 				double il = -1D;
 				double milsq = 10D;
 				Entity masterEntity = fMaid.getMaidMasterEntity();
-				if (masterEntity != null) {
+				if (masterEntity != null && !fMaid.isPlaying()) {
 					// 主とのベクトル
 					double amx = masterEntity.posX - fMaid.posX;
 					double amy = masterEntity.posY - fMaid.posY;//-2D
@@ -112,25 +113,31 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 					fMaid.mstatAimeBow = true;
 					fAvatar.getValueVectorFire(atx, aty, atz, atl);
 					// ダイヤ、金ヘルムなら味方への誤射を気持ち軽減
-					boolean fsh = true;
+					boolean lcanattack = true;
+					boolean ldotarget = false;
+					double tpr = Math.sqrt(atl);
+					Entity lentity = MMM_Helper.getRayTraceEntity(fMaid.maidAvatar, tpr + 1.0F, 1.0F, 1.0F);
 					int helmid = !fMaid.isMaskedMaid() ? 0 : fInventory.armorInventory[3].getItem().itemID;
 					if (helmid == Item.helmetDiamond.itemID || helmid == Item.helmetGold.itemID) {
 						// 射線軸の確認
-						double tpr = Math.sqrt(atl);
-						Entity lentity = MMM_Helper.getRayTraceEntity(fMaid.maidAvatar, tpr, 1.0F, 1.0F);
 						if (lentity != null && fMaid.getIFF(lentity)) {
-							fsh = false;
+							lcanattack = false;
 //							mod_LMM_littleMaidMob.Debug("ID:%d-friendly fire to ID:%d.", fMaid.entityId, lentity.entityId);
 						}
 					}
-					fsh &= (milsq > 3D || il < 0D);
+					if (lentity == fTarget) {
+						ldotarget = true;
+					}
+					lcanattack &= (milsq > 3D || il < 0D);
+					lcanattack &= ldotarget;
 					// 横移動
-					if (!fsh) {
+					if (!lcanattack) {
 						// 射撃位置を確保する
 						double tpx = fMaid.posX;
 						double tpy = fMaid.posY;
 						double tpz = fMaid.posZ;
-						double tpr = Math.sqrt(atl) * 0.5D;
+//						double tpr = Math.sqrt(atl) * 0.5D;
+						tpr = tpr * 0.5D;
 						if (fMaid.isBloodsuck()) {
 							// 左回り
 							tpx += (atz / tpr);
@@ -147,9 +154,9 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 //						mod_LMM_littleMaidMob.Debug("Shooting Range.");
 					}
 					
-					fsh &= lsee;
+					lcanattack &= lsee;
 //            		mod_littleMaidMob.Debug(String.format("id:%d at:%d", entityId, attackTime));
-					if (((fMaid.weaponFullAuto && !fsh) || (fsh && fMaid.getSwingStatusDominant().canAttack())) && fAvatar.isItemTrigger) {
+					if (((fMaid.weaponFullAuto && !lcanattack) || (lcanattack && fMaid.getSwingStatusDominant().canAttack())) && fAvatar.isItemTrigger) {
 						// シュート
 						// フルオート武器は射撃停止
 						mod_LMM_littleMaidMob.Debug("id:%d shoot.", fMaid.entityId);
@@ -162,7 +169,7 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 							// リロード無しの通常兵装
 							if (!fAvatar.isUsingItemLittleMaid()) {
 								// 構え
-								if (!fMaid.weaponFullAuto || fsh) {
+								if (!fMaid.weaponFullAuto || lcanattack) {
 									// フルオート兵装の場合は射線確認
 									int at = ((helmid == Item.helmetIron.itemID) || (helmid == Item.helmetDiamond.itemID)) ? 26 : 16;
 									if (swingState.attackTime < at) {
@@ -178,12 +185,12 @@ public class LMM_EntityAIAttackArrow extends EntityAIBase implements LMM_IEntity
 						else if (litemstack.getMaxItemUseDuration() == 0) {
 							// 通常投擲兵装
 							if (swingState.canAttack() && !fAvatar.isUsingItem()) {
-								if (fsh) {
+								if (lcanattack) {
 									litemstack = litemstack.useItemRightClick(worldObj, fAvatar);
 									// 意図的にショートスパンで音が鳴るようにしてある
 									fMaid.mstatAimeBow = false;
 									fMaid.setSwing(10, (litemstack.stackSize == itemcount) ? LMM_EnumSound.shoot_burst : LMM_EnumSound.Null);
-									mod_LMM_littleMaidMob.Debug(String.format("id:%d throw weapon.", fMaid.entityId));
+									mod_LMM_littleMaidMob.Debug(String.format("id:%d throw weapon.(%d:%f:%f)", fMaid.entityId, swingState.attackTime, fMaid.rotationYaw, fMaid.rotationYawHead));
 								} else {
 									mod_LMM_littleMaidMob.Debug(String.format("ID:%d-friendly fire throw weapon.", fMaid.entityId));
 								}

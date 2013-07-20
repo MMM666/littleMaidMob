@@ -77,21 +77,19 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.6.2-1";
+		return "1.6.2-2";
 	}
 
 	@Override
 	public void load() {
 		// MMMLibのRevisionチェック
-		MMM_Helper.checkRevision("2");
+		MMM_Helper.checkRevision("3");
 		
-//		UniqueEntityId = UniqueEntityId == 0 ? MMM_Helper.getNextEntityID(true) : UniqueEntityId;
 		defaultTexture = defaultTexture.trim();
 		containerID = 222;
 		ModLoader.registerContainerID(this, containerID);
-		MMM_Helper.registerEntity(LMM_EntityLittleMaid.class, "LittleMaid", UniqueEntityId, this, 80, 3, true, 0xefffef, 0x9f5f5f);
-//		ModLoader.registerEntityID(LMM_EntityLittleMaid.class, "LittleMaid", UniqueEntityId, 0xefffef, 0x9f5f5f);
-//        ModLoader.addEntityTracker(this, LMM_EntityLittleMaid.class, var2, var3, var4, var5);
+		UniqueEntityId = MMM_Helper.registerEntity(LMM_EntityLittleMaid.class,
+				"LittleMaid", UniqueEntityId, this, 80, 3, true, 0xefffef, 0x9f5f5f);
 		ModLoader.addLocalization("entity.LittleMaid.name", "LittleMaid");
 		ModLoader.addLocalization("entity.LittleMaid.name", "ja_JP", "リトルメイド");
 		if (enableSpawnEgg) {
@@ -209,8 +207,6 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		// IFFのロード
 		LMM_IFF.loadIFFs();
 		
-		// TODO:UUIDの表示
-		Debug("UUID:%s", LMM_EntityLittleMaid.maidUUID.toString());
 	}
 
 	@Override

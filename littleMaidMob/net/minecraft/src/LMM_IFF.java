@@ -66,7 +66,7 @@ public class LMM_IFF {
 	protected static int checkEntityStatic(String pName, Entity pEntity,
 			int pIndex, Map<String, Entity> pMap) {
 		int liff = LMM_IFF.iff_Unknown;
-		if (pEntity instanceof EntityLiving) {
+		if (pEntity instanceof EntityLivingBase) {
 			if (pEntity instanceof LMM_EntityLittleMaid) {
 				switch (pIndex) {
 				case 0:
@@ -177,7 +177,7 @@ public class LMM_IFF {
 	 * “G–¡•ûŽ¯•Ê”»’è
 	 */
 	public static int getIFF(String pUsername, Entity entity) {
-		if (entity == null || !(entity instanceof EntityLiving)) {
+		if (entity == null || !(entity instanceof EntityLivingBase)) {
 			return mod_LMM_littleMaidMob.Aggressive ? iff_Enemy : iff_Friendry;
 		}
 		String lename = EntityList.getEntityString(entity);

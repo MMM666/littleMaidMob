@@ -53,7 +53,7 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 		ltasks[0].addTask(10, owner.aiFollow);
 //		ltasks[0].addTask(11, new EntityAILeapAtTarget(pentitylittlemaid, 0.3F));
 		ltasks[0].addTask(11, owner.aiWander);
-		ltasks[0].addTask(12, new EntityAIWatchClosest(owner, net.minecraft.src.EntityLiving.class, 10F));
+		ltasks[0].addTask(12, new EntityAIWatchClosest(owner, net.minecraft.src.EntityLivingBase.class, 10F));
 		ltasks[0].addTask(12, new EntityAILookIdle(owner));
 
 		ltasks[1].addTask(1, new LMM_EntityAINearestAttackableTarget(owner, EntityCreeper.class, 0, true));
@@ -77,7 +77,7 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 		EntityAITasks[] ltasks3 = new EntityAITasks[2];
 		ltasks3[0] = pDefaultMove;
 		ltasks3[1] = new EntityAITasks(owner.aiProfiler);
-		ltasks2[1].addTask(1, new LMM_EntityAINearestAttackableTarget(owner, EntityLiving.class, 0, true));
+		ltasks2[1].addTask(1, new LMM_EntityAINearestAttackableTarget(owner, EntityLivingBase.class, 0, true));
 
 		owner.addMaidMode(ltasks2, "Detonator", mmode_Detonator);
 

@@ -22,7 +22,7 @@ public class LMM_EntityMode_Cooking extends LMM_EntityModeBlockBase {
 		ModLoader.addLocalization("littleMaidMob.mode.Cooking", "Cooking");
 		ModLoader.addLocalization("littleMaidMob.mode.T-Cooking", "T-Cooking");
 		ModLoader.addLocalization("littleMaidMob.mode.F-Cooking", "F-Cooking");
-		ModLoader.addLocalization("littleMaidMob.mode.F-Cooking", "D-Cooking");
+		ModLoader.addLocalization("littleMaidMob.mode.D-Cooking", "D-Cooking");
 	}
 
 	@Override

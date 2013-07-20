@@ -112,7 +112,7 @@ public class LMM_EntityMode_Playing extends LMM_EntityModeBase {
 				for (Entity e : list) {
 					if (e != null && (e instanceof EntityPlayer || e instanceof LMM_EntityLittleMaid)) {
 						if (owner.rand.nextBoolean()) {
-							owner.setAttackTarget((EntityLiving)e);
+							owner.setAttackTarget((EntityLivingBase)e);
 							break;
 						}
 					}

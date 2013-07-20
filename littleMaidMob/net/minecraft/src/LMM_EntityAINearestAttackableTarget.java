@@ -65,8 +65,8 @@ public class LMM_EntityAINearestAttackableTarget extends EntityAINearestAttackab
 	@Override
 	public void startExecuting() {
 		super.startExecuting();
-		if (targetEntity instanceof EntityLiving) {
-			theMaid.setAttackTarget((EntityLiving)targetEntity);
+		if (targetEntity instanceof EntityLivingBase) {
+			theMaid.setAttackTarget((EntityLivingBase)targetEntity);
 		} else {
 			theMaid.setTarget(targetEntity);
 		}

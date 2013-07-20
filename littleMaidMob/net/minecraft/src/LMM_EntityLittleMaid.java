@@ -317,7 +317,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		ltasks[0].addTask(21, aiOpenDoor);
 		ltasks[0].addTask(22, aiRestrictRain);
 		// 首の動き単独
-		ltasks[0].addTask(31, new EntityAIWatchClosest(this, net.minecraft.src.EntityLiving.class, 10F));
+		ltasks[0].addTask(31, new EntityAIWatchClosest(this, net.minecraft.src.EntityLivingBase.class, 10F));
 		ltasks[0].addTask(32, new EntityAILookIdle(this));
 		
 		// 追加分
@@ -1303,7 +1303,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			getNextEquipItem();
 		}
 		// ゲーム難易度によるダメージの補正
-		if(isContract() && (entity instanceof EntityLiving) || (entity instanceof EntityArrow)) {
+		if(isContract() && (entity instanceof EntityLivingBase) || (entity instanceof EntityArrow)) {
 			if(worldObj.difficultySetting == 0) {
 				par2 = 0;
 			}
@@ -1834,8 +1834,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			// 自分より大きなものは乗っけない（イカ除く）
 			if (riddenByEntity != null && !(riddenByEntity instanceof EntitySquid)) {
 				if (height * width < riddenByEntity.height * riddenByEntity.width) {
-					if (riddenByEntity instanceof EntityLiving) {
-						attackEntityFrom(DamageSource.causeMobDamage((EntityLiving)riddenByEntity), 0);
+					if (riddenByEntity instanceof EntityLivingBase) {
+						attackEntityFrom(DamageSource.causeMobDamage((EntityLivingBase)riddenByEntity), 0);
 					}
 					riddenByEntity.mountEntity(null);
 					return;
@@ -2463,6 +2463,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		return isContract();
 	}
 	public boolean isContract() {
+//		return worldObj.isRemote ? maidContract : super.isTamed();
 		return super.isTamed();
 	}
 	public boolean isContractEX() {
@@ -2812,6 +2813,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		} else {
 			func_110177_bN();
 //			detachHome();
+			setPlayingRole(0);
 		}
 		
 		setMaidFlags(maidFreedom, dataWatch_Flags_Freedom);
@@ -2868,7 +2870,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	}
 
 	protected void setMaidColorMode() {
-		if (worldObj == null || worldObj.isRemote) return;
+//		if (worldObj == null || worldObj.isRemote) return;
 		dataWatcher.updateObject(dataWatch_ColorMode,
 				(maidMode & 0xffff) | ((maidColor & 0x00ff) << 16) | ((maidDominantArm & 0x00ff) << 24));
 	}

@@ -2,6 +2,16 @@ ModelRendererにアイテム表示用のオブジェクトを追加（ハードポイント）
 将来拡張用にアイテムの複数装備の対応
 
 
+
+Augの本体とアーマーの腕の位置がおかしい。
+焼きレシピForgeの確認。
+done:soundでぃれくとりの作成。
+\AppData\Roaming\.minecraft\assets\sound\littleMaidMob
+ｃｆｇファイルの確認：MCP804で作成されないのを確認した。
+
+
+
+
 射線チェックの確認
 DONE:ML環境なら落ちない:毛刈りの動作確認。
 no:デフォルトのシニョンがおかしい。

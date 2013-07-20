@@ -64,7 +64,7 @@ public class LMM_EntityMode_Basic extends LMM_EntityModeBlockBase {
 		ltasks[0].addTask(9, owner.aiCollectItem);
 		ltasks[0].addTask(10, new EntityAILeapAtTarget(owner, 0.3F));
 		ltasks[0].addTask(11, owner.aiWander);
-		ltasks[0].addTask(12, new EntityAIWatchClosest2(owner, net.minecraft.src.EntityLiving.class, 10F, 0.02F));
+		ltasks[0].addTask(12, new EntityAIWatchClosest2(owner, net.minecraft.src.EntityLivingBase.class, 10F, 0.02F));
 		ltasks[0].addTask(13, new EntityAIWatchClosest2(owner, net.minecraft.src.LMM_EntityLittleMaid.class, 10F, 0.02F));
 		ltasks[0].addTask(13, new EntityAIWatchClosest2(owner, net.minecraft.src.EntityPlayer.class, 10F, 0.02F));
 		ltasks[0].addTask(13, new EntityAILookIdle(owner));
