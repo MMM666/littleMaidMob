@@ -29,7 +29,7 @@ public class LMM_SoundManager {
 
 	public static void init() {
 		// ‰Šúİ’è
-		sounddir = new File(MMM_FileManager.minecraftDir, "/assets/sound/littleMaidMob");
+		sounddir = new File(MMM_FileManager.assetsDir, "/sound/littleMaidMob");
 		if (!sounddir.exists() || !sounddir.isDirectory()) {
 			sounddir.mkdir();
 			mod_LMM_littleMaidMob.Debug("Create SoundDir: %s", sounddir.toString());
