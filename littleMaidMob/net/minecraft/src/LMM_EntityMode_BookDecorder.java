@@ -30,8 +30,8 @@ public class LMM_EntityMode_BookDecorder extends LMM_EntityModeBase {
 				String lcommands[] = ls.split(";");
 				String lcom[];
 				MMM_TextureBoxBase lboxs[] = new MMM_TextureBoxBase[] {
-						owner.textureBox[0],
-						owner.textureBox[1]
+						owner.textureData.textureBox[0],
+						owner.textureData.textureBox[1]
 				};
 				int lcolor = owner.getColor();
 				boolean lflag = false;

@@ -114,7 +114,7 @@ public class LMM_GuiInventory extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		// ”wŒi
-		ResourceLocation lrl = ((MMM_TextureBox)entitylittlemaid.textureBox[0]).getTextureName(MMM_TextureManager.tx_gui);
+		ResourceLocation lrl = entitylittlemaid.textureData.getGUITexture();
 		if (lrl == null) {
 			lrl = fguiTex;
 		}
@@ -332,21 +332,21 @@ public class LMM_GuiInventory extends GuiContainer {
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			
-			if (entitylittlemaid.textureBox[0] != null) {
-				int ltw1 = fontRenderer.getStringWidth(entitylittlemaid.textureBox[0].textureName);
-				int ltw2 = fontRenderer.getStringWidth(entitylittlemaid.textureBox[1].textureName);
+			if (entitylittlemaid.textureData.textureBox[0] != null) {
+				String ls1 = entitylittlemaid.textureData.getTextureName(0);
+				String ls2 = entitylittlemaid.textureData.getTextureName(1);
+				int ltw1 = fontRenderer.getStringWidth(ls1);
+				int ltw2 = fontRenderer.getStringWidth(ls2);
 				int ltwmax = (ltw1 > ltw2) ? ltw1 : ltw2;
 				int lbx = 52 - ltwmax / 2;
 				int lby = 68;
 				int lcolor;
 				lcolor = jj < 20 ? 0xc0882222 : 0xc0000000;
 				drawGradientRect(lbx - 3, lby - 4, lbx + ltwmax + 3, lby + 8, lcolor, lcolor);
-				fontRenderer.drawStringWithShadow(
-						entitylittlemaid.textureBox[0].textureName, 52 - ltw1 / 2, lby - 2, -1);
+				fontRenderer.drawStringWithShadow(ls1, 52 - ltw1 / 2, lby - 2, -1);
 				lcolor = jj > 46 ? 0xc0882222 : 0xc0000000;
 				drawGradientRect(lbx - 3, lby + 8, lbx + ltwmax + 3, lby + 16 + 4, lcolor, lcolor);
-				fontRenderer.drawStringWithShadow(
-						entitylittlemaid.textureBox[1].textureName, 52 - ltw2 / 2, lby + 10, -1);
+				fontRenderer.drawStringWithShadow(ls2, 52 - ltw2 / 2, lby + 10, -1);
 			}
 			
 			GL11.glPopMatrix();

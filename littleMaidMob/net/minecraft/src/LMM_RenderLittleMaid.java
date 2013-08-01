@@ -53,32 +53,22 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 		// ここは本来的には要らない。
 		if (plittleMaid.worldObj instanceof WorldServer) {
 			// RSHUD-ACV用
-			MMM_TextureBox ltbox0, ltbox1;
-			ltbox0 = MMM_TextureManager.instance.getTextureBox(plittleMaid.textureBox[0]);
-			ltbox1 = MMM_TextureManager.instance.getTextureBox(plittleMaid.textureBox[1]);
+			MMM_TextureBox ltbox0 = ((MMM_TextureBoxServer)plittleMaid.textureData.textureBox[0]).localBox;
+			MMM_TextureBox ltbox1 = ((MMM_TextureBoxServer)plittleMaid.textureData.textureBox[1]).localBox;
 			modelMain.model = ltbox0.models[0];
 			modelFATT.modelInner = ltbox1.models[1];
 			modelFATT.modelOuter = ltbox1.models[2];
-			plittleMaid.textures[0][0] = ltbox0.getTextureName(plittleMaid.maidColor);
-			plittleMaid.textures[0][1] = ltbox0.getTextureName(plittleMaid.maidColor + MMM_TextureManager.tx_eye);
-			plittleMaid.textures[1][0] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentItemOrArmor(1));
-			plittleMaid.textures[1][1] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentItemOrArmor(2));
-			plittleMaid.textures[1][2] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentItemOrArmor(3));
-			plittleMaid.textures[1][3] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor1, plittleMaid.getCurrentItemOrArmor(4));
-			plittleMaid.textures[2][0] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentItemOrArmor(1));
-			plittleMaid.textures[2][1] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentItemOrArmor(2));
-			plittleMaid.textures[2][2] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentItemOrArmor(3));
-			plittleMaid.textures[2][3] = ltbox1.getArmorTextureName(MMM_TextureManager.tx_armor2, plittleMaid.getCurrentItemOrArmor(4));
-			modelMain.textures = plittleMaid.textures[0];
-			modelFATT.textureInner = plittleMaid.textures[1];
-			modelFATT.textureOuter = plittleMaid.textures[2];
+			plittleMaid.textureData.setTextureNamesServer();
+			modelMain.textures = plittleMaid.textureData.getTextures(0);
+			modelFATT.textureInner = plittleMaid.textureData.getTextures(1);
+			modelFATT.textureOuter = plittleMaid.textureData.getTextures(2);
 		} else {
-			modelMain.model = ((MMM_TextureBox)plittleMaid.textureBox[0]).models[0];
-			modelMain.textures = plittleMaid.textures[0];
-			modelFATT.modelInner = ((MMM_TextureBox)plittleMaid.textureBox[1]).models[1];
-			modelFATT.modelOuter = ((MMM_TextureBox)plittleMaid.textureBox[1]).models[2];
-			modelFATT.textureInner = plittleMaid.textures[1];
-			modelFATT.textureOuter = plittleMaid.textures[2];
+			modelMain.model = ((MMM_TextureBox)plittleMaid.textureData.textureBox[0]).models[0];
+			modelFATT.modelInner = ((MMM_TextureBox)plittleMaid.textureData.textureBox[1]).models[1];
+			modelFATT.modelOuter = ((MMM_TextureBox)plittleMaid.textureData.textureBox[1]).models[2];
+			modelMain.textures = plittleMaid.textureData.getTextures(0);
+			modelFATT.textureInner = plittleMaid.textureData.getTextures(1);
+			modelFATT.textureOuter = plittleMaid.textureData.getTextures(2);
 		}
 		
 //		doRenderLiving(plittleMaid, px, py, pz, f, f1);

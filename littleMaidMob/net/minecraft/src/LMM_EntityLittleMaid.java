@@ -28,13 +28,14 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	protected int maidContractLimit;		// 契約期間
 	protected long maidAnniversary;			// 契約日UIDとして使用
 	protected int maidDominantArm;			// 利き腕、1Byte
-	public ResourceLocation textures[][] = new ResourceLocation[][] {
-			{null, null},
-			{null, null, null, null},
-			{null, null, null, null}
-	};
-	public MMM_TextureBoxBase textureBox[] = new MMM_TextureBoxBase[2];
-	public int textureIndex[] = new int[2];
+	public MMM_TextureData textureData;
+//	public ResourceLocation textures[][] = new ResourceLocation[][] {
+//			{null, null},
+//			{null, null, null, null},
+//			{null, null, null, null}
+//	};
+//	public MMM_TextureBoxBase textureBox[] = new MMM_TextureBoxBase[2];
+//	public int textureIndex[] = new int[2];
 	public Map<String, MMM_EquippedStabilizer> maidStabilizer = new HashMap<String, MMM_EquippedStabilizer>();
 	
 	
@@ -46,11 +47,11 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	public Map<Integer, EntityAITasks[]> maidModeList;
 	public Map<String, Integer> maidModeIndexList;
 	public int maidMode;		// 2Byte
-	public int maidColor;		// 1Byte
+//	public int maidColor;		// 1Byte
+//	public boolean maidContract;
 	public boolean maidTracer;
 	public boolean maidFreedom;
 	public boolean maidWait;
-	public boolean maidContract;
 	public int homeWorld;
 	protected int maidTiles[][] = new int[9][3];
 	public int maidTile[] = new int[3];
@@ -168,14 +169,15 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		
 		
 		
-		// 形態形成場
-		MMM_TextureBox ltb[] = new MMM_TextureBox[2];
-		maidColor = 12;
-		ltb[0] = ltb[1] = MMM_TextureManager.instance.getDefaultTexture(this);
-		setTexturePackName(ltb);
-		
 		// モデルレンダリング用のフラグ獲得用ヘルパー関数
 		maidCaps = new LMM_EntityCaps(this);
+		
+		// 形態形成場
+		textureData = new MMM_TextureData(this, maidCaps);
+		textureData.setColor(12);
+		MMM_TextureBox ltb[] = new MMM_TextureBox[2];
+		ltb[0] = ltb[1] = MMM_TextureManager.instance.getDefaultTexture(this);
+		setTexturePackName(ltb);
 		
 		// EntityModeの追加
 		maidEntityModeList = LMM_EntityModeManager.getModeList(this);
@@ -201,12 +203,9 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		} else {
 			ls = mod_LMM_littleMaidMob.defaultTexture;
 		}
-		textureIndex[0] = textureIndex[1] = MMM_TextureManager.instance.getIndexTextureBoxServer(this, ls);
-		textureBox[0] = textureBox[1] = MMM_TextureManager.instance.getTextureBoxServer(textureIndex[0]);
-		// 野生のメイド色をランダムで指定
-		maidColor = textureBox[0].getRandomWildColor(rand);
-		mod_LMM_littleMaidMob.Debug("init-ID:%d, %s:%d", entityId, textureBox[0].textureName, maidColor);
-		setTexturePackIndex(maidColor, textureIndex);
+		textureData.setTextureInit(ls);
+		mod_LMM_littleMaidMob.Debug("init-ID:%d, %s:%d", entityId, textureData.textureBox[0].textureName, textureData.getColor());
+		setTexturePackIndex(textureData.getColor(), textureData.textureIndex);
 		setMaidMode("Wild");
 		return super.func_110161_a(par1EntityLivingData);
 	}
@@ -246,7 +245,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		
 		// 独自分
 		// 19:maidMode(16Bit:LSB)、maidColor(8Bit:<<16)、maidDominantArm(8Bit:<<24);
-		dataWatcher.addObject(dataWatch_ColorMode, new Integer((maidMode & 0xffff) | ((maidColor & 0xff) << 16) | ((maidDominantArm & 0xff) << 24)));
+		dataWatcher.addObject(dataWatch_ColorMode, new Integer((maidMode & 0xffff) | ((textureData.color & 0xff) << 16) | ((maidDominantArm & 0xff) << 24)));
 		// 20:選択テクスチャインデックス
 		dataWatcher.addObject(dataWatch_Texture, Integer.valueOf(0));
 		// 21:アーマーテクスチャインデックス
@@ -582,7 +581,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		maidSoundInterval = 20;
 		if (worldObj.isRemote) {
 			// Client
-			String s = LMM_SoundManager.getSoundValue(enumsound, textureBox[0].textureName, maidColor & 0x00ff);
+			String s = LMM_SoundManager.getSoundValue(enumsound, textureData.getTextureName(0), textureData.getColor());
 			mod_LMM_littleMaidMob.Debug(String.format("id:%d, se:%04x-%s (%s)", entityId, enumsound.index, enumsound.name(), s));
 			float lpitch = mod_LMM_littleMaidMob.VoiceDistortion ? (rand.nextFloat() * 0.2F) + 0.95F : 1.0F;
 			worldObj.playSound(posX, posY, posZ, s, getSoundVolume(), lpitch, false);
@@ -859,9 +858,9 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		par1nbtTagCompound.setLong("Anniversary", maidAnniversary);
 		par1nbtTagCompound.setInteger("EXP", experienceValue);
 		par1nbtTagCompound.setInteger("DominantArm", maidDominantArm);
-		par1nbtTagCompound.setInteger("Color", maidColor);
-		par1nbtTagCompound.setString("texName", textureBox[0].textureName);
-		par1nbtTagCompound.setString("texArmor", textureBox[1].textureName);
+		par1nbtTagCompound.setInteger("Color", textureData.getColor());
+		par1nbtTagCompound.setString("texName", textureData.getTextureName(0));
+		par1nbtTagCompound.setString("texArmor", textureData.getTextureName(1));
 		// HomePosition
 		par1nbtTagCompound.setInteger("homeX", func_110172_bL().posX);
 		par1nbtTagCompound.setInteger("homeY", func_110172_bL().posY);
@@ -911,10 +910,10 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	        setMaidWait(par1nbtTagCompound.getBoolean("Wait"));
 	        setFreedom(par1nbtTagCompound.getBoolean("Freedom"));
 	        setTracer(par1nbtTagCompound.getBoolean("Tracer"));
-			textureIndex[0] = MMM_TextureManager.instance.getIndexTextureBoxServer(this, par1nbtTagCompound.getString("texName"));
-			textureIndex[1] = MMM_TextureManager.instance.getIndexTextureBoxServer(this, par1nbtTagCompound.getString("texArmor"));
-			textureBox[0] = MMM_TextureManager.instance.getTextureBoxServer(textureIndex[0]);
-			textureBox[1] = MMM_TextureManager.instance.getTextureBoxServer(textureIndex[1]);
+			textureData.textureIndex[0] = MMM_TextureManager.instance.getIndexTextureBoxServer(this, par1nbtTagCompound.getString("texName"));
+			textureData.textureIndex[1] = MMM_TextureManager.instance.getIndexTextureBoxServer(this, par1nbtTagCompound.getString("texArmor"));
+			textureData.textureBox[0] = MMM_TextureManager.instance.getTextureBoxServer(textureData.textureIndex[0]);
+			textureData.textureBox[1] = MMM_TextureManager.instance.getTextureBoxServer(textureData.textureIndex[1]);
 			byte b = par1nbtTagCompound.getByte("ModeColor");
 			setColor(b & 0x0f);
 	        switch ((b & 0xf0) >> 4) {
@@ -1024,11 +1023,11 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			if (mstatSwingStatus.length <= maidDominantArm) {
 				maidDominantArm = 0;
 			}
-			textureIndex[0] = MMM_TextureManager.instance.getIndexTextureBoxServer(this, par1nbtTagCompound.getString("texName"));
-			textureIndex[1] = MMM_TextureManager.instance.getIndexTextureBoxServer(this, par1nbtTagCompound.getString("texArmor"));
-			textureBox[0] = MMM_TextureManager.instance.getTextureBoxServer(textureIndex[0]);
-			textureBox[1] = MMM_TextureManager.instance.getTextureBoxServer(textureIndex[1]);
-			setTexturePackIndex(par1nbtTagCompound.getInteger("Color"), textureIndex);
+			textureData.textureIndex[0] = MMM_TextureManager.instance.getIndexTextureBoxServer(this, par1nbtTagCompound.getString("texName"));
+			textureData.textureIndex[1] = MMM_TextureManager.instance.getIndexTextureBoxServer(this, par1nbtTagCompound.getString("texArmor"));
+			textureData.textureBox[0] = MMM_TextureManager.instance.getTextureBoxServer(textureData.textureIndex[0]);
+			textureData.textureBox[1] = MMM_TextureManager.instance.getTextureBoxServer(textureData.textureIndex[1]);
+			setTexturePackIndex(par1nbtTagCompound.getInteger("Color"), textureData.getTextureIndex());
 			
 			// HomePosition
 			int lhx = par1nbtTagCompound.getInteger("homeX");
@@ -1679,10 +1678,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			mstatMasterDistanceSq = getDistanceSqToEntity(mstatMasterEntity);
 		}
 		// モデルサイズのリアルタイム変更有り？
-		if (textureBox[0].isUpdateSize) {
-			setSize(textureBox[0].getWidth(maidCaps), textureBox[0].getHeight(maidCaps));
-			func_98054_a(false);
-		}
+		textureData.onUpdate();
 		// リアルタイム変動値をアップデート
 		if (worldObj.isRemote) {
 			// クライアント側
@@ -2511,8 +2507,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	public boolean updateMaidContract() {
 		// 同一性のチェック
 		boolean lf = isContract();
-		if (maidContract != lf) {
-			maidContract = lf;
+		if (textureData.isContract() != lf) {
+			textureData.setContract(lf);
 			return true;
 		}
 		return false;
@@ -2830,7 +2826,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	 */
 	protected boolean sendTextureToServer() {
 		// 16bitあればテクスチャパックの数にたりんべ
-		MMM_TextureManager.instance.postSetTexturePack(this, maidColor, textureBox);
+		MMM_TextureManager.instance.postSetTexturePack(this, textureData.getColor(), textureData.getTextureBox());
 		return true;
 	}
 
@@ -2844,42 +2840,43 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		int ltexture = dataWatcher.getWatchableObjectInt(dataWatch_Texture);
 		int larmor = (ltexture >>> 16) & 0xffff;
 		ltexture &= 0xffff;
-		if (textureIndex[0] != ltexture) {
-			textureIndex[0] = ltexture;
+		if (textureData.textureIndex[0] != ltexture) {
+			textureData.textureIndex[0] = ltexture;
 			lflag = true;
 		}
-		if (textureIndex[1] != larmor) {
-			textureIndex[1] = larmor;
+		if (textureData.textureIndex[1] != larmor) {
+			textureData.textureIndex[1] = larmor;
 			lflag = true;
 		}
 		if (lflag) {
-			MMM_TextureManager.instance.postGetTexturePack(this, textureIndex);
+			MMM_TextureManager.instance.postGetTexturePack(this, textureData.getTextureIndex());
 		}
 		return lflag;
 	}
 
 	@Override
 	public int getColor() {
-		return (dataWatcher.getWatchableObjectInt(dataWatch_ColorMode) >>> 16) & 0xff;
+		return textureData.getColor();
+//		return (dataWatcher.getWatchableObjectInt(dataWatch_ColorMode) >>> 16) & 0xff;
 	}
 
 	@Override
 	public void setColor(int index) {
-		maidColor = index & 0x00ff;
+		textureData.setColor(index);
 		setMaidColorMode();
 	}
 
 	protected void setMaidColorMode() {
 //		if (worldObj == null || worldObj.isRemote) return;
 		dataWatcher.updateObject(dataWatch_ColorMode,
-				(maidMode & 0xffff) | ((maidColor & 0x00ff) << 16) | ((maidDominantArm & 0x00ff) << 24));
+				(maidMode & 0xffff) | (textureData.getColor() << 16) | ((maidDominantArm & 0x00ff) << 24));
 	}
 
 	public boolean updateMaidColor() {
 		// 同一性のチェック
 		int lc = getColor();
-		if ((maidColor & 0x00ff) != lc) {
-			maidColor = lc;
+		if (textureData.getColor() != lc) {
+			textureData.setColor(lc);
 			return true;
 		}
 		return false;
@@ -2981,14 +2978,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	@Override
 	public void setTexturePackIndex(int pColor, int[] pIndex) {
 		// Server
-		textureIndex[0] = pIndex[0];
-		textureIndex[1] = pIndex[1];
-		dataWatcher.updateObject(dataWatch_Texture, (Integer.valueOf(textureIndex[0]) & 0xffff) | ((Integer.valueOf(textureIndex[1]) & 0xffff) << 16));
-		textureBox[0] = MMM_TextureManager.instance.getTextureBoxServer(textureIndex[0]);
-		textureBox[1] = MMM_TextureManager.instance.getTextureBoxServer(textureIndex[1]);
-		// サイズの変更
-		setSize(textureBox[0].getWidth(maidCaps), textureBox[0].getHeight(maidCaps));
-		func_98054_a(false);
+		textureData.setTexturePackIndex(pColor, pIndex);
+		dataWatcher.updateObject(dataWatch_Texture, ((textureData.textureIndex[0] & 0xffff) | (textureData.textureIndex[1] & 0xffff) << 16));
 		mod_LMM_littleMaidMob.Debug("changeSize-ID:%d: %f, %f, %b", entityId, width, height, worldObj.isRemote);
 		setColor(pColor);
 	}
@@ -2996,25 +2987,18 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	@Override
 	public void setTexturePackName(MMM_TextureBox[] pTextureBox) {
 		// Client
-		textureBox[0] = pTextureBox[0];
-		textureBox[1] = pTextureBox[1];
+		textureData.setTexturePackName(pTextureBox);
 		setTextureNames();
-		// 身長変更用
-		setSize(textureBox[0].getWidth(maidCaps), textureBox[0].getHeight(maidCaps));
-		func_98054_a(false);
-		setPosition(posX, posY, posZ);
-		mod_LMM_littleMaidMob.Debug("ID:%d, TextureModel:%s", entityId, textureBox[0].textureName);
+		mod_LMM_littleMaidMob.Debug("ID:%d, TextureModel:%s", entityId, textureData.getTextureName(0));
 		// モデルの初期化
-		if (((MMM_TextureBox)textureBox[0]).models[0] instanceof MMM_ModelMultiMMMBase) {
-			((MMM_ModelMultiMMMBase)((MMM_TextureBox)textureBox[0]).models[0]).changeModel(maidCaps);
-		}
+		((MMM_TextureBox)textureData.textureBox[0]).models[0].setCapsValue(MMM_IModelCaps.caps_changeModel, maidCaps);
 		// スタビの付け替え
 //		for (Entry<String, MMM_EquippedStabilizer> le : pEntity.maidStabilizer.entrySet()) {
 //			if (le.getValue() != null) {
 //				le.getValue().updateEquippedPoint(pEntity.textureModel0);
 //			}
 //		}
-		maidSoundRate = LMM_SoundManager.getSoundRate(textureBox[0].textureName, maidColor);
+		maidSoundRate = LMM_SoundManager.getSoundRate(textureData.getTextureName(0), getColor());
 
 	}
 
@@ -3022,55 +3006,18 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	 * Client用
 	 */
 	public void setTextureNames() {
-		if (!(textureBox[0] instanceof MMM_TextureBox) && !(textureBox[1] instanceof MMM_TextureBox)) return;
-		int lc = (maidColor & 0x00ff) + (isContract() ? 0 : MMM_TextureManager.tx_wild);
-		if (((MMM_TextureBox)textureBox[0]).hasColor(lc)) {
-			textures[0][0] = ((MMM_TextureBox)textureBox[0]).getTextureName(lc);
-			textures[0][1] = ((MMM_TextureBox)textureBox[0]).getTextureName(lc + MMM_TextureManager.tx_eye);
-			for (int i = 0; i < 4; i++) {
-				ItemStack is = maidInventory.armorItemInSlot(i);
-				textures[1][i] = ((MMM_TextureBox)textureBox[1]).getArmorTextureName(MMM_TextureManager.tx_armor1, is);
-				textures[2][i] = ((MMM_TextureBox)textureBox[1]).getArmorTextureName(MMM_TextureManager.tx_armor2, is);
-			}
-		} else {
+		if (!textureData.setTextureNames()) {
 			// TODO:setDefaultTexture
 			setNextTexturePackege(0);
-//			MMM_TextureManager.postSetTexturePack(this, maidColor & 0x00ff, textureBox);
 		}
 	}
 
 	public void setNextTexturePackege(int pTargetTexture) {
-		if (pTargetTexture == 0) {
-			int lc = (maidColor & 0x00ff) + (isContract() ? 0 : MMM_TextureManager.tx_wild);
-			textureBox[0] = MMM_TextureManager.instance.getNextPackege((MMM_TextureBox)textureBox[0], lc);
-			if (textureBox[0] == null) {
-				// 指定色が無い場合は標準モデルに
-				textureBox[0] = textureBox[1] = MMM_TextureManager.instance.getDefaultTexture(this);
-				maidColor = 12;
-			} else {
-				textureBox[1] = textureBox[0];
-			}
-			if (!((MMM_TextureBox)textureBox[1]).hasArmor()) {
-				pTargetTexture = 1;
-			}
-		}
-		if (pTargetTexture == 1) {
-			textureBox[1] = MMM_TextureManager.instance.getNextArmorPackege((MMM_TextureBox)textureBox[1]);
-		}
+		textureData.setNextTexturePackege(pTargetTexture);
 	}
 
 	public void setPrevTexturePackege(int pTargetTexture) {
-		if (pTargetTexture == 0) {
-			int lc = (maidColor & 0x00ff) + (isContract() ? 0 : MMM_TextureManager.tx_wild);
-			textureBox[0] = MMM_TextureManager.instance.getPrevPackege((MMM_TextureBox)textureBox[0], lc);
-			textureBox[1] = textureBox[0];
-			if (!((MMM_TextureBox)textureBox[1]).hasArmor()) {
-				pTargetTexture = 1;
-			}
-		}
-		if (pTargetTexture == 1) {
-			textureBox[1] = MMM_TextureManager.instance.getPrevArmorPackege((MMM_TextureBox)textureBox[1]);
-		}
+		textureData.setPrevTexturePackege(pTargetTexture);
 	}
 
 
@@ -3078,32 +3025,32 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 
 	@Override
 	public void setTextureBox(MMM_TextureBoxBase[] pTextureBox) {
-		textureBox = pTextureBox;
+		textureData.setTextureBox(pTextureBox);
 	}
 
 	@Override
 	public MMM_TextureBoxBase[] getTextureBox() {
-		return textureBox;
+		return textureData.getTextureBox();
 	}
 
 	@Override
 	public void setTextureIndex(int[] pTextureIndex) {
-		textureIndex = pTextureIndex;
+		textureData.setTextureIndex(pTextureIndex);
 	}
 
 	@Override
 	public int[] getTextureIndex() {
-		return textureIndex;
+		return textureData.getTextureIndex();
 	}
 
 	@Override
 	public void setTextures(int pIndex, ResourceLocation[] pNames) {
-		textures[pIndex] = pNames;
+		textureData.setTextures(pIndex, pNames);
 	}
 
 	@Override
 	public ResourceLocation[] getTextures(int pIndex) {
-		return textures[pIndex];
+		return textureData.getTextures(pIndex);
 	}
 
 	// Tile関係
