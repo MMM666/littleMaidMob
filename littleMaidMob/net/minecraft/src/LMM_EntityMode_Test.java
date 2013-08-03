@@ -169,7 +169,7 @@ public class LMM_EntityMode_Test extends LMM_EntityModeBase implements ICommand 
 
 	@Override
 	public boolean interact(EntityPlayer pentityplayer, ItemStack pitemstack) {
-		if (pitemstack.itemID == Item.slimeBall.itemID) {
+		if (isEnable && pitemstack.itemID == Item.slimeBall.itemID) {
 //		if (pitemstack.itemID == Item.slimeBall.itemID && owner.maidContractLimit > 0) {
 			owner.maidContractLimit -= 24000;
 			return true;

@@ -146,6 +146,16 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		maidOverDriveTime = new MMM_Counter(5, 300, -100);
 		mstatWorkingCount = new MMM_Counter(11, 10, -10);
 		
+		// モデルレンダリング用のフラグ獲得用ヘルパー関数
+		maidCaps = new LMM_EntityCaps(this);
+		
+		// 形態形成場
+		textureData = new MMM_TextureData(this, maidCaps);
+		textureData.setColor(12);
+		MMM_TextureBox ltb[] = new MMM_TextureBox[2];
+		ltb[0] = ltb[1] = MMM_TextureManager.instance.getDefaultTexture(this);
+		setTexturePackName(ltb);
+		
 		entityIdFactor = (float)(entityId * 70);
 		// 腕振り
 		mstatSwingStatus = new LMM_SwingStatus[] { new LMM_SwingStatus(), new LMM_SwingStatus()};
@@ -168,16 +178,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 //		maidStabilizer.put("HeadTop", MMM_StabilizerManager.getStabilizer("WitchHat", "HeadTop"));
 		
 		
-		
-		// モデルレンダリング用のフラグ獲得用ヘルパー関数
-		maidCaps = new LMM_EntityCaps(this);
-		
-		// 形態形成場
-		textureData = new MMM_TextureData(this, maidCaps);
-		textureData.setColor(12);
-		MMM_TextureBox ltb[] = new MMM_TextureBox[2];
-		ltb[0] = ltb[1] = MMM_TextureManager.instance.getDefaultTexture(this);
-		setTexturePackName(ltb);
 		
 		// EntityModeの追加
 		maidEntityModeList = LMM_EntityModeManager.getModeList(this);
@@ -245,7 +245,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		
 		// 独自分
 		// 19:maidMode(16Bit:LSB)、maidColor(8Bit:<<16)、maidDominantArm(8Bit:<<24);
-		dataWatcher.addObject(dataWatch_ColorMode, new Integer((maidMode & 0xffff) | ((textureData.color & 0xff) << 16) | ((maidDominantArm & 0xff) << 24)));
+//		dataWatcher.addObject(dataWatch_ColorMode, new Integer((maidMode & 0xffff) | ((textureData.color & 0xff) << 16) | ((maidDominantArm & 0xff) << 24)));
+		dataWatcher.addObject(dataWatch_ColorMode, new Integer((maidMode & 0xffff) | (12 << 16) | ((maidDominantArm & 0xff) << 24)));
 		// 20:選択テクスチャインデックス
 		dataWatcher.addObject(dataWatch_Texture, Integer.valueOf(0));
 		// 21:アーマーテクスチャインデックス
@@ -1027,7 +1028,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			textureData.textureIndex[1] = MMM_TextureManager.instance.getIndexTextureBoxServer(this, par1nbtTagCompound.getString("texArmor"));
 			textureData.textureBox[0] = MMM_TextureManager.instance.getTextureBoxServer(textureData.textureIndex[0]);
 			textureData.textureBox[1] = MMM_TextureManager.instance.getTextureBoxServer(textureData.textureIndex[1]);
-			setTexturePackIndex(par1nbtTagCompound.getInteger("Color"), textureData.getTextureIndex());
+			textureData.setColor(par1nbtTagCompound.getInteger("Color"));
+			setTexturePackIndex(textureData.color, textureData.getTextureIndex());
 			
 			// HomePosition
 			int lhx = par1nbtTagCompound.getInteger("homeX");
@@ -2400,6 +2402,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 						}
 					}
 					// メイドインベントリ
+					setOwner(par1EntityPlayer.username);
 					getNavigator().clearPathEntity();
 					isJumping = false;
 					displayGUIMaidInventory(par1EntityPlayer);
