@@ -7,51 +7,64 @@ import java.util.Map;
 
 public class mod_LMM_littleMaidMob extends BaseMod {
 
-	@MLProp(info="Relative spawn weight. The lower the less common. 10=pigs. 0=off")
-	public static int spawnWeight = 5;
-	@MLProp(info="Maximum spawn count in the World.")
-	public static int spawnLimit = 20;
-	@MLProp(info="Minimum spawn group count.")
-	public static int minGroupSize = 1;
-	@MLProp(info="Maximum spawn group count.")
-	public static int maxGroupSize = 3;
-//    @MLProp(info="trampleCrops")
-	public static boolean trampleCrops = false;
-	@MLProp(info="It will despawn, if it lets things go. ")
-	public static boolean canDespawn = false;
-	@MLProp(info="At local, make sure the name of the owner. ")
-	public static boolean checkOwnerName = false;
-	@MLProp(info="Not to survive the doppelganger. ")
-	public static boolean antiDoppelganger = true;
-	@MLProp(info="Enable LMM SpawnEgg Recipe. ")
-	public static boolean enableSpawnEgg = false;
+	public static String[] cfg_comment = {
+		"spawnWeight = Relative spawn weight. The lower the less common. 10=pigs. 0=off",
+		"spawnLimit = Maximum spawn count in the World.",
+		"minGroupSize = Minimum spawn group count.",
+		"maxGroupSize = Maximum spawn group count.",
+		"canDespawn = It will despawn, if it lets things go. ",
+		"checkOwnerName = At local, make sure the name of the owner. ",
+		"antiDoppelganger = Not to survive the doppelganger. ",
+		"enableSpawnEgg = Enable LMM SpawnEgg Recipe. ",
+		"VoiceDistortion = LittleMaid Voice distortion.",
+		"defaultTexture = Default selected Texture Packege. Null is Random",
+		"DebugMessage = Print Debug Massages.",
+		"DeathMessage = Print Death Massages.",
+		"Dominant = Spawn Anywhere.",
+		"Aggressive = true: Will be hostile, false: Is a pacifist",
+		"AchievementID = used Achievement index.(0 = Disable)",
+		"UniqueEntityId = UniqueEntityId(0 is AutoAssigned. max 255)"
+	};
+	
+//	@MLProp(info="Relative spawn weight. The lower the less common. 10=pigs. 0=off")
+	public static int cfg_spawnWeight = 5;
+//	@MLProp(info="Maximum spawn count in the World.")
+	public static int cfg_spawnLimit = 20;
+//	@MLProp(info="Minimum spawn group count.")
+	public static int cfg_minGroupSize = 1;
+//	@MLProp(info="Maximum spawn group count.")
+	public static int cfg_maxGroupSize = 3;
+//	@MLProp(info="It will despawn, if it lets things go. ")
+	public static boolean cfg_canDespawn = false;
+//	@MLProp(info="At local, make sure the name of the owner. ")
+	public static boolean cfg_checkOwnerName = false;
+//	@MLProp(info="Not to survive the doppelganger. ")
+	public static boolean cfg_antiDoppelganger = true;
+//	@MLProp(info="Enable LMM SpawnEgg Recipe. ")
+	public static boolean cfg_enableSpawnEgg = false;
 	
 	
-//    @MLProp(info="Living Voice Rate. 1.0=100%, 0.5=50%, 0.0=0%", max=1.0F, min=0.0F)
-//    public static float LivingVoiceRate = 1.0F;
-	@MLProp(info="LittleMaid Voice distortion.")
-	public static boolean VoiceDistortion = true;
+//	@MLProp(info="LittleMaid Voice distortion.")
+	public static boolean cfg_VoiceDistortion = true;
 	
-	@MLProp(info="Default selected Texture Packege. Null is Random")
-	public static String defaultTexture = "";
-	@MLProp(info="Print Debug Massages.")
-	public static boolean DebugMessage = true;
-	@MLProp(info="Print Death Massages.")
-	public static boolean DeathMessage = true;
-	@MLProp(info="Spawn Anywhere.")
-	public static boolean Dominant = false;
+//	@MLProp(info="Default selected Texture Packege. Null is Random")
+	public static String cfg_defaultTexture = "";
+//	@MLProp(info="Print Debug Massages.")
+	public static boolean cfg_DebugMessage = true;
+//	@MLProp(info="Print Death Massages.")
+	public static boolean cfg_DeathMessage = true;
+//	@MLProp(info="Spawn Anywhere.")
+	public static boolean cfg_Dominant = false;
 //	@MLProp(info="true: AlphaBlend(request power), false: AlphaTest(more fast)")
 //	public static boolean AlphaBlend = true;
-	@MLProp(info="true: Will be hostile, false: Is a pacifist")
-	public static boolean Aggressive = true;
+//	@MLProp(info="true: Will be hostile, false: Is a pacifist")
+	public static boolean cfg_Aggressive = true;
 
-	@MLProp(info="used Achievement index.(0 = Disable)")
-	public static int AchievementID = 222000;
+//	@MLProp(info="used Achievement index.(0 = Disable)")
+	public static int cfg_AchievementID = 222000;
 
-	@MLProp(info="UniqueEntityId(0 is AutoAssigned.)", max=255)
-	public static int UniqueEntityId = 30;
-	@MLProp(info="FilePath mode.")
-	public static boolean useMinecraftPath = false;
+//	@MLProp(info="UniqueEntityId(0 is AutoAssigned.)", max=255)
+	public static int cfg_UniqueEntityId = 30;
 
 	public static Achievement ac_Contract;
 	public static int containerID;
@@ -59,7 +72,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	public static void Debug(String pText, Object... pVals) {
 		// デバッグメッセージ
-		if (DebugMessage) {
+		if (cfg_DebugMessage) {
 			System.out.println(String.format("littleMaidMob-" + pText, pVals));
 		}
 	}
@@ -77,24 +90,25 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.6.2-2";
+		return "1.6.2-3";
 	}
 
 	@Override
 	public void load() {
 		// MMMLibのRevisionチェック
-		MMM_Helper.checkRevision("3");
+		MMM_Helper.checkRevision("4");
+		MMM_Config.checkConfig(this.getClass());
 		
-		defaultTexture = defaultTexture.trim();
+		cfg_defaultTexture = cfg_defaultTexture.trim();
 		containerID = 222;
 		ModLoader.registerContainerID(this, containerID);
-		UniqueEntityId = MMM_Helper.registerEntity(LMM_EntityLittleMaid.class,
-				"LittleMaid", UniqueEntityId, this, 80, 3, true, 0xefffef, 0x9f5f5f);
+		cfg_UniqueEntityId = MMM_Helper.registerEntity(LMM_EntityLittleMaid.class,
+				"LittleMaid", cfg_UniqueEntityId, this, 80, 3, true, 0xefffef, 0x9f5f5f);
 		ModLoader.addLocalization("entity.LittleMaid.name", "LittleMaid");
 		ModLoader.addLocalization("entity.LittleMaid.name", "ja_JP", "リトルメイド");
-		if (enableSpawnEgg) {
+		if (cfg_enableSpawnEgg) {
 			// 招喚用レシピを追加
-			ModLoader.addRecipe(new ItemStack(Item.monsterPlacer, 1, UniqueEntityId), new Object[] {
+			ModLoader.addRecipe(new ItemStack(Item.monsterPlacer, 1, cfg_UniqueEntityId), new Object[] {
 				"scs",
 				"sbs",
 				" e ",
@@ -107,23 +121,23 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		
 		if (MMM_Helper.isClient) {
 			// アチ実験用
-			if (AchievementID != 0) {
+			if (cfg_AchievementID != 0) {
 				while (true) {
 					// アチーブを獲得した状態で未登録だと、UNKNOWNのアチーブが登録されているので削除する。
-					int laid = 5242880 + AchievementID;
+					int laid = 5242880 + cfg_AchievementID;
 					StatBase lsb = StatList.getOneShotStat(laid);
 					boolean lflag = false;
 					if (lsb != null) {
 						if (lsb instanceof StatPlaceholder) {
 							StatList.oneShotStats.remove(Integer.valueOf(laid));
-							Debug("Replace Achievement: %d(%d)", AchievementID, laid);
+							Debug("Replace Achievement: %d(%d)", cfg_AchievementID, laid);
 							lflag = true;
 						} else {
-							Debug("Already Achievement: %d(%d) - %s(%s)", AchievementID, laid, lsb.statGuid, lsb.getClass().getSimpleName());
+							Debug("Already Achievement: %d(%d) - %s(%s)", cfg_AchievementID, laid, lsb.statGuid, lsb.getClass().getSimpleName());
 							break;
 						}
 					}
-					ac_Contract = new Achievement(AchievementID, "littleMaid", 1, -4, Item.cake, AchievementList.bakeCake).registerAchievement();
+					ac_Contract = new Achievement(cfg_AchievementID, "littleMaid", 1, -4, Item.cake, AchievementList.bakeCake).registerAchievement();
 //	                ModLoader.AddAchievementDesc(ac_Contract, "(21)", "Capture the LittleMaid!");
 					ModLoader.addAchievementDesc(ac_Contract, "Enlightenment!", "Capture the LittleMaid!");
 					ModLoader.addLocalization("achievement.littleMaid", "ja_JP", "悟り。");
@@ -165,10 +179,10 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 		// デフォルトモデルの設定
 		MMM_TextureManager.instance.setDefaultTexture(LMM_EntityLittleMaid.class, MMM_TextureManager.instance.getTextureBox("default_Orign"));
 		
-		if (UniqueEntityId == -1) return;
+		if (cfg_UniqueEntityId == -1) return;
 		// Dominant
-		if(spawnWeight > 0) {
-			if (Dominant) {
+		if(cfg_spawnWeight > 0) {
+			if (cfg_Dominant) {
 				// あらゆる場所にスポーンする
 				try {
 					Field afield[] = (net.minecraft.src.BiomeGenBase.class).getDeclaredFields();
@@ -182,13 +196,13 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 					}
 					BiomeGenBase[] dominateBiomes = (BiomeGenBase[])linkedlist.toArray(new BiomeGenBase[0]);
 					
-					ModLoader.addSpawn(net.minecraft.src.LMM_EntityLittleMaid.class, spawnWeight, minGroupSize, maxGroupSize, EnumCreatureType.creature, dominateBiomes);
+					ModLoader.addSpawn(net.minecraft.src.LMM_EntityLittleMaid.class, cfg_spawnWeight, cfg_minGroupSize, cfg_maxGroupSize, EnumCreatureType.creature, dominateBiomes);
 				} catch (Exception exception) {
 					Debug("Dominate Exception.");
 				}
 			} else {
 				// 通常スポーン設定
-				ModLoader.addSpawn(LMM_EntityLittleMaid.class, spawnWeight, minGroupSize, maxGroupSize, EnumCreatureType.creature);
+				ModLoader.addSpawn(LMM_EntityLittleMaid.class, cfg_spawnWeight, cfg_minGroupSize, cfg_maxGroupSize, EnumCreatureType.creature);
 			}
 		}
 		

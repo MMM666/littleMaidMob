@@ -137,7 +137,7 @@ public class LMM_IFF {
 	 */
 	public static int getIFF(String pUsername, String entityname) {
 		if (entityname == null) {
-			return mod_LMM_littleMaidMob.Aggressive ? iff_Enemy : iff_Friendry;
+			return mod_LMM_littleMaidMob.cfg_Aggressive ? iff_Enemy : iff_Friendry;
 		}
 		int lt = iff_Enemy;
 		Map<String, Integer> lmap = getUserIFF(pUsername);
@@ -178,7 +178,7 @@ public class LMM_IFF {
 	 */
 	public static int getIFF(String pUsername, Entity entity) {
 		if (entity == null || !(entity instanceof EntityLivingBase)) {
-			return mod_LMM_littleMaidMob.Aggressive ? iff_Enemy : iff_Friendry;
+			return mod_LMM_littleMaidMob.cfg_Aggressive ? iff_Enemy : iff_Friendry;
 		}
 		String lename = EntityList.getEntityString(entity);
 		String lcname = lename;

@@ -79,7 +79,7 @@ public class LMM_EntityAIBeg extends EntityAIBase {
 			littleMaid.setLooksWithInterest(false);
 		}
 		
-		field_48347_e--;
+//		field_48347_e--;
 	}
 
 	private boolean checkItem(EntityPlayer par1EntityPlayer) {
