@@ -2135,7 +2135,9 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 				// ƒwƒ‹ƒ€‚ğ‚Á‚Ä‚é
 				mstatMaskSelect = i;
 				maidInventory.armorInventory[3] = is;
-				setTextureNames();
+				if (worldObj.isRemote) {
+					setTextureNames();
+				}
 				return;
 			}
 		}
