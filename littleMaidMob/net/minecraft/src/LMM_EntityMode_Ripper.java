@@ -25,7 +25,9 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 		// ìoò^ÉÇÅ[ÉhÇÃñºèÃí«â¡
 		ModLoader.addLocalization("littleMaidMob.mode.Ripper", "Ripper");
 		ModLoader.addLocalization("littleMaidMob.mode.Ripper", "ja_JP", "ñ—éÎÇËë‡");
+		ModLoader.addLocalization("littleMaidMob.mode.D-Ripper", "ja_JP", "ñ—éÎÇËë‡");
 		ModLoader.addLocalization("littleMaidMob.mode.TNT-D", "TNT-D");
+		ModLoader.addLocalization("littleMaidMob.mode.D-TNT-D", "TNT-D");
 //		ModLoader.addLocalization("littleMaidMob.mode.TNT-D", "ja_JP", "TNT-D");
 		ModLoader.addLocalization("littleMaidMob.mode.Detonator", "Detonator");
 	}

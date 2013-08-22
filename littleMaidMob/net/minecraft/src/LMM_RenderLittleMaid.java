@@ -62,6 +62,8 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 			modelMain.textures = plittleMaid.textureData.getTextures(0);
 			modelFATT.textureInner = plittleMaid.textureData.getTextures(1);
 			modelFATT.textureOuter = plittleMaid.textureData.getTextures(2);
+			modelFATT.textureInnerLight = plittleMaid.textureData.getTextures(3);
+			modelFATT.textureOuterLight = plittleMaid.textureData.getTextures(4);
 		} else {
 			modelMain.model = ((MMM_TextureBox)plittleMaid.textureData.textureBox[0]).models[0];
 			modelFATT.modelInner = ((MMM_TextureBox)plittleMaid.textureData.textureBox[1]).models[1];
@@ -69,6 +71,8 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 			modelMain.textures = plittleMaid.textureData.getTextures(0);
 			modelFATT.textureInner = plittleMaid.textureData.getTextures(1);
 			modelFATT.textureOuter = plittleMaid.textureData.getTextures(2);
+			modelFATT.textureInnerLight = plittleMaid.textureData.getTextures(3);
+			modelFATT.textureOuterLight = plittleMaid.textureData.getTextures(4);
 		}
 		
 //		doRenderLiving(plittleMaid, px, py, pz, f, f1);

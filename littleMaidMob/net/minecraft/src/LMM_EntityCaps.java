@@ -173,6 +173,10 @@ public class LMM_EntityCaps extends MMM_EntityCaps {
 //			return owner.getCurrentItemOrArmor((Integer)pArg[0] + 1);
 //		case caps_currentEquippedItem:
 //			return owner.getCurrentEquippedItem();
+		case caps_PartsVisible:
+			return owner.textureData.selectValue;
+		case caps_textureData:
+			return owner.textureData;
 		}
 		
 		return super.getCapsValue(pIndex, pArg);
@@ -180,6 +184,10 @@ public class LMM_EntityCaps extends MMM_EntityCaps {
 
 	@Override
 	public boolean setCapsValue(int pIndex, Object... pArg) {
+		switch (pIndex) {
+		case caps_PartsVisible:
+			owner.textureData.selectValue = (Integer)pArg[0];
+		}
 		return super.setCapsValue(pIndex, pArg);
 	}
 
