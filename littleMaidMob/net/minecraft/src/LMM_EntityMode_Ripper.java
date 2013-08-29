@@ -24,12 +24,22 @@ public class LMM_EntityMode_Ripper extends LMM_EntityModeBase {
 	public void init() {
 		// ìoò^ÉÇÅ[ÉhÇÃñºèÃí«â¡
 		ModLoader.addLocalization("littleMaidMob.mode.Ripper", "Ripper");
+		ModLoader.addLocalization("littleMaidMob.mode.F-Ripper", "F-Ripper");
+		ModLoader.addLocalization("littleMaidMob.mode.D-Ripper", "D-Ripper");
+		ModLoader.addLocalization("littleMaidMob.mode.T-Ripper", "T-Ripper");
 		ModLoader.addLocalization("littleMaidMob.mode.Ripper", "ja_JP", "ñ—éÎÇËë‡");
+		ModLoader.addLocalization("littleMaidMob.mode.F-Ripper", "ja_JP", "ñ—éÎÇËë‡");
 		ModLoader.addLocalization("littleMaidMob.mode.D-Ripper", "ja_JP", "ñ—éÎÇËë‡");
+		ModLoader.addLocalization("littleMaidMob.mode.T-Ripper", "ja_JP", "ñ—éÎÇËë‡");
 		ModLoader.addLocalization("littleMaidMob.mode.TNT-D", "TNT-D");
+		ModLoader.addLocalization("littleMaidMob.mode.F-TNT-D", "TNT-D");
 		ModLoader.addLocalization("littleMaidMob.mode.D-TNT-D", "TNT-D");
+		ModLoader.addLocalization("littleMaidMob.mode.T-TNT-D", "TNT-D");
 //		ModLoader.addLocalization("littleMaidMob.mode.TNT-D", "ja_JP", "TNT-D");
 		ModLoader.addLocalization("littleMaidMob.mode.Detonator", "Detonator");
+		ModLoader.addLocalization("littleMaidMob.mode.F-Detonator", "F-Detonator");
+		ModLoader.addLocalization("littleMaidMob.mode.D-Detonator", "D-Detonator");
+		ModLoader.addLocalization("littleMaidMob.mode.T-Detonator", "T-Detonator");
 	}
 
 	@Override

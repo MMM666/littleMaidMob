@@ -21,12 +21,13 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 	public void setModelValues(EntityLivingBase par1EntityLiving, double par2,
 			double par4, double par6, float par8, float par9, MMM_IModelCaps pEntityCaps) {
 		LMM_EntityLittleMaid lmaid = (LMM_EntityLittleMaid)par1EntityLiving;
+		super.setModelValues(par1EntityLiving, par2, par4, par6, par8, par9, pEntityCaps);
 		
-		modelMain.setRender(this);
-		modelMain.setEntityCaps(pEntityCaps);
-		modelMain.showAllParts();
-		modelMain.isAlphablend = true;
-		modelFATT.isAlphablend = true;
+//		modelMain.setRender(this);
+//		modelMain.setEntityCaps(pEntityCaps);
+//		modelMain.showAllParts();
+//		modelMain.isAlphablend = true;
+//		modelFATT.isAlphablend = true;
 		
 		modelMain.setCapsValue(MMM_IModelCaps.caps_heldItemLeft, (Integer)0);
 		modelMain.setCapsValue(MMM_IModelCaps.caps_heldItemRight, (Integer)0);
@@ -46,38 +47,7 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 //		plittleMaid.textureModel0.isChild = plittleMaid.textureModel1.isChild = plittleMaid.textureModel2.isChild = plittleMaid.isChild();
 	}
 
-	public void doRenderLitlleMaid(LMM_EntityLittleMaid plittleMaid, double px, double py, double pz, float f, float f1) {
-		// いくつか重複してるのであとで確認
-		// 姿勢による高さ調整
-		
-		// ここは本来的には要らない。
-		if (plittleMaid.worldObj instanceof WorldServer) {
-			// RSHUD-ACV用
-			MMM_TextureBox ltbox0 = ((MMM_TextureBoxServer)plittleMaid.textureData.textureBox[0]).localBox;
-			MMM_TextureBox ltbox1 = ((MMM_TextureBoxServer)plittleMaid.textureData.textureBox[1]).localBox;
-			modelMain.model = ltbox0.models[0];
-			modelFATT.modelInner = ltbox1.models[1];
-			modelFATT.modelOuter = ltbox1.models[2];
-			plittleMaid.textureData.setTextureNamesServer();
-			modelMain.textures = plittleMaid.textureData.getTextures(0);
-			modelFATT.textureInner = plittleMaid.textureData.getTextures(1);
-			modelFATT.textureOuter = plittleMaid.textureData.getTextures(2);
-			modelFATT.textureInnerLight = plittleMaid.textureData.getTextures(3);
-			modelFATT.textureOuterLight = plittleMaid.textureData.getTextures(4);
-		} else {
-			modelMain.model = ((MMM_TextureBox)plittleMaid.textureData.textureBox[0]).models[0];
-			modelFATT.modelInner = ((MMM_TextureBox)plittleMaid.textureData.textureBox[1]).models[1];
-			modelFATT.modelOuter = ((MMM_TextureBox)plittleMaid.textureData.textureBox[1]).models[2];
-			modelMain.textures = plittleMaid.textureData.getTextures(0);
-			modelFATT.textureInner = plittleMaid.textureData.getTextures(1);
-			modelFATT.textureOuter = plittleMaid.textureData.getTextures(2);
-			modelFATT.textureInnerLight = plittleMaid.textureData.getTextures(3);
-			modelFATT.textureOuterLight = plittleMaid.textureData.getTextures(4);
-		}
-		
-//		doRenderLiving(plittleMaid, px, py, pz, f, f1);
-		renderModelMulti(plittleMaid, px, py, pz, f, f1, plittleMaid.maidCaps);
-		
+	protected void renderString(LMM_EntityLittleMaid plittleMaid, double px, double py, double pz, float f, float f1) {
 		// ひも
 		if(plittleMaid.mstatgotcha != null && plittleMaid.mstatgotcha instanceof EntityLivingBase) {
 			EntityLivingBase lel = (EntityLivingBase)plittleMaid.mstatgotcha;
@@ -127,28 +97,57 @@ public class LMM_RenderLittleMaid extends MMM_RenderModelMulti {
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 		}
 	}
-
+/*
+	public void doRenderLitlleMaid(LMM_EntityLittleMaid plittleMaid, double px, double py, double pz, float f, float f1) {
+		// いくつか重複してるのであとで確認
+		// 姿勢による高さ調整
+		
+		// ここは本来的には要らない。
+		if (plittleMaid.worldObj instanceof WorldServer) {
+			// RSHUD-ACV用
+			MMM_TextureBox ltbox0 = ((MMM_TextureBoxServer)plittleMaid.textureData.textureBox[0]).localBox;
+			MMM_TextureBox ltbox1 = ((MMM_TextureBoxServer)plittleMaid.textureData.textureBox[1]).localBox;
+			modelMain.model = ltbox0.models[0];
+			modelFATT.modelInner = ltbox1.models[1];
+			modelFATT.modelOuter = ltbox1.models[2];
+			plittleMaid.textureData.setTextureNamesServer();
+			modelMain.textures = plittleMaid.textureData.getTextures(0);
+			modelFATT.textureInner = plittleMaid.textureData.getTextures(1);
+			modelFATT.textureOuter = plittleMaid.textureData.getTextures(2);
+			modelFATT.textureInnerLight = plittleMaid.textureData.getTextures(3);
+			modelFATT.textureOuterLight = plittleMaid.textureData.getTextures(4);
+		} else {
+			modelMain.model = ((MMM_TextureBox)plittleMaid.textureData.textureBox[0]).models[0];
+			modelFATT.modelInner = ((MMM_TextureBox)plittleMaid.textureData.textureBox[1]).models[1];
+			modelFATT.modelOuter = ((MMM_TextureBox)plittleMaid.textureData.textureBox[1]).models[2];
+			modelMain.textures = plittleMaid.textureData.getTextures(0);
+			modelFATT.textureInner = plittleMaid.textureData.getTextures(1);
+			modelFATT.textureOuter = plittleMaid.textureData.getTextures(2);
+			modelFATT.textureInnerLight = plittleMaid.textureData.getTextures(3);
+			modelFATT.textureOuterLight = plittleMaid.textureData.getTextures(4);
+		}
+		
+//		doRenderLiving(plittleMaid, px, py, pz, f, f1);
+		renderModelMulti(plittleMaid, px, py, pz, f, f1, plittleMaid.maidCaps);
+		renderString(plittleMaid, px, py, pz, f, f1);
+	}
+*/
 	@Override
-	public void doRenderLiving(EntityLiving par1EntityLiving, double par2,
-			double par4, double par6, float par8, float par9) {
+	public void doRenderLiving(EntityLiving par1EntityLiving,
+			double par2, double par4, double par6, float par8, float par9) {
 		LMM_EntityLittleMaid lmm = (LMM_EntityLittleMaid)par1EntityLiving;
 		fcaps = lmm.maidCaps;
-		doRenderLitlleMaid(lmm, par2, par4, par6, par8, par9);
+//		doRenderLitlleMaid(lmm, par2, par4, par6, par8, par9);
+		renderModelMulti(lmm, par2, par4, par6, par8, par9, fcaps);
+		renderString(lmm, par2, par4, par6, par8, par9);
 		// ロープ
 //		func_110827_b(lmm, par2, par4 - modelMain.model.getLeashOffset(lmm.maidCaps), par6, par8, par9);
 	}
-
-//	@Override
-//	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1) {
-//		doRenderLitlleMaid((LMM_EntityLittleMaid)entity, d, d1, d2, f, f1);
-//	}
 
 	@Override
 	protected void renderModel(EntityLivingBase par1EntityLiving, float par2,
 			float par3, float par4, float par5, float par6, float par7) {
 		if (!par1EntityLiving.isInvisible()) {
-			
-//			loadDownloadableImageTexture(par1EntityLiving.skinUrl, par1EntityLiving.getTexture());
 			modelMain.setArmorRendering(true);
 		} else {
 			modelMain.setArmorRendering(false);

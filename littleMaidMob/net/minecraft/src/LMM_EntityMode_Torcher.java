@@ -17,6 +17,9 @@ public class LMM_EntityMode_Torcher extends LMM_EntityModeBase {
 	@Override
 	public void init() {
 		ModLoader.addLocalization("littleMaidMob.mode.Torcher", "Torcher");
+		ModLoader.addLocalization("littleMaidMob.mode.F-Torcher", "F-Torcher");
+		ModLoader.addLocalization("littleMaidMob.mode.D-Torcher", "D-Torcher");
+		ModLoader.addLocalization("littleMaidMob.mode.T-Torcher", "T-Torcher");
 		LMM_TriggerSelect.appendTriggerItem(null, "Torch", "");
 	}
 

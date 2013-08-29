@@ -1,4 +1,4 @@
-Little Maid Mob 1.7.3 Rev8以降用サウンド設定の仕様
+Little Maid Mob 1.6.2 Rev1以降用サウンド設定の仕様
 
 
 littleMaidMobではcfgファイルの記述を変更する事で、
@@ -6,6 +6,14 @@ littleMaidMobではcfgファイルの記述を変更する事で、
 また、各種音声はテクスチャパック、メイド色毎に設定する事が可能です。
 このテキストではcfgファイルで設定される音声設定の記述方法について説明します。
 
+1.6.2からリソースの配置場所が変更になっているため注意して下さい。
+
+
+使用可能音声形式
+	クライアント1.6.2現在、使用可能なフォーマットは以下の通りです。
+		.ogg	Ogg.Vorbis
+
+		※確認済みのフォーマット・コーデックを記載しています。
 
 
 音声定義変数
@@ -19,12 +27,12 @@ littleMaidMobではcfgファイルの記述を変更する事で、
 
 	・例1
 		se_living_daytime=mob.ghast.moan
-			この記述の場合、%AppData%/.mincraft/resources/newsound/mob/ghastに含まれる、
+			この記述の場合、%AppData%/.mincraft/assets/sound/mob/ghastに含まれる、
 			moan1.ogg～moan7.oggがランダムで再生されます。
 
 	・例2
 		se_living_daytime=littleMaidMob.live_d
-			この記述の場合、%AppData%/.mincraft/resources/mod/sound/littleMaidMobに含まれる、
+			この記述の場合、%AppData%/.mincraft/assets/sound/littleMaidMobに含まれる、
 			live_d?.oggがランダムで再生されます。
 			（?は1～9の数字）
 
@@ -76,8 +84,9 @@ littleMaidMobではcfgファイルの記述を変更する事で、
 
 
 サウンドパック
-	1.8.1-4からサウンドパックに対応しています。
-	「%AppData%/.mincraft/resources/mod/sound/littleMaidMob/」に含まれる
+	b1.8.1-4からサウンドパックに対応しています。
+	また、1.6.2からリソースの配置場所が変更になっているため注意して下さい。
+	「%AppData%/.mincraft/assets/sound/littleMaidMob/」に含まれる
 	設定ファイルを読み込んで音声を設定することができます。
 
 	設定ファイルの記述方法は通常のcfgファイルのものと同様ですが、
@@ -166,9 +175,10 @@ littleMaidMobではcfgファイルの記述を変更する事で、
 
 
 履歴
+	20130829.1	クライアント変更によるリソース位置の記述を変更。
+
+
 	20120621.1	追加分の音声説明を記述
-
-
 	20111125.1	追加分の音声説明を記述
 	20111104.1	追加分の音声説明を記述
 	20111006.1	サウンドパックの説明を追加

@@ -1256,7 +1256,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		}
 		if(!par1DamageSource.isUnblockable() && isBlocking()) {
 			// ブロッキング
-			mod_LMM_littleMaidMob.Debug(String.format("Blocking success ID:%d, %d" , this.entityId, par2));
+			mod_LMM_littleMaidMob.Debug(String.format("Blocking success ID:%d, %f" , this.entityId, par2));
 			maidDamegeSound = LMM_EnumSound.hurt_guard;
 		}
 		
