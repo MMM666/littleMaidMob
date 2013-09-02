@@ -2982,6 +2982,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		dataWatcher.updateObject(dataWatch_Texture, ((textureData.textureIndex[0] & 0xffff) | (textureData.textureIndex[1] & 0xffff) << 16));
 		mod_LMM_littleMaidMob.Debug("changeSize-ID:%d: %f, %f, %b", entityId, width, height, worldObj.isRemote);
 		setColor(pColor);
+		setTextureNames();
 	}
 
 	@Override
@@ -3051,6 +3052,11 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	@Override
 	public ResourceLocation[] getTextures(int pIndex) {
 		return textureData.getTextures(pIndex);
+	}
+
+	@Override
+	public MMM_TextureData getTextureData() {
+		return textureData;
 	}
 
 	// TileŠÖŒW
