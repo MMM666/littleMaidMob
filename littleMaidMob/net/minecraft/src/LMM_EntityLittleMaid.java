@@ -2473,6 +2473,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	@Override
 	public void setContract(boolean flag) {
 		super.setTamed(flag);
+		textureData.setContract(flag);
 		if (flag) {
 //        	maidMode = mmode_Escorter;
 		} else {
@@ -3009,7 +3010,9 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	public void setTextureNames() {
 		if (!textureData.setTextureNames()) {
 			// TODO:setDefaultTexture
-			setNextTexturePackege(0);
+//			if (worldObj.isRemote) {
+				setNextTexturePackege(0);
+//			}
 		}
 	}
 
