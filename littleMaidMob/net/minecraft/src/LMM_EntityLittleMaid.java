@@ -197,7 +197,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		} else {
 			ls = mod_LMM_littleMaidMob.cfg_defaultTexture;
 		}
-		textureData.setTextureInit(ls);
+		textureData.setTextureInitServer(ls);
 		mod_LMM_littleMaidMob.Debug("init-ID:%d, %s:%d", entityId, textureData.textureBox[0].textureName, textureData.getColor());
 		setTexturePackIndex(textureData.getColor(), textureData.textureIndex);
 		setMaidMode("Wild");
