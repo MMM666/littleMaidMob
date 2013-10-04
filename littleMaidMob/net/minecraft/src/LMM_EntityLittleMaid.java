@@ -222,10 +222,13 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		 * DataWatcherはクライアントからサーバーへは値を渡さない
 		 */
 		
-		
-		// 0, 1, 2, 3, 4, 5,
+		// 使用中リスト
+		// 0:Flags
+		// 1:Air
+		// 2, 3, 4, 5,
 		// 6: HP
-		// 7, 8, 9,
+		// 7, 8:PotionMap
+		// 9: ArrowCount
 		// 10: 固有名称
 		// 11: 名付判定
 		// 12: GrowingAge
@@ -293,26 +296,26 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		ltasks[0].addTask(2, aiSit);
 		ltasks[0].addTask(3, aiJumpTo);
 		ltasks[0].addTask(4, aiFindBlock);
-		ltasks[0].addTask(5, aiAttack);
-		ltasks[0].addTask(6, aiShooting);
-//		ltasks[0].addTask(7, aiPanic);
-		ltasks[0].addTask(8, aiBeg);
-		ltasks[0].addTask(9, aiBegMove);
-		ltasks[0].addTask(10, aiAvoidPlayer);
-		ltasks[0].addTask(11, aiFreeRain);
-		ltasks[0].addTask(12, aiCollectItem);
+		ltasks[0].addTask(6, aiAttack);
+		ltasks[0].addTask(7, aiShooting);
+//		ltasks[0].addTask(8, aiPanic);
+		ltasks[0].addTask(10, aiBeg);
+		ltasks[0].addTask(11, aiBegMove);
+		ltasks[0].addTask(20, aiAvoidPlayer);
+		ltasks[0].addTask(21, aiFreeRain);
+		ltasks[0].addTask(22, aiCollectItem);
 		// 移動用AI
-		ltasks[0].addTask(15, aiTracer);
-		ltasks[0].addTask(16, aiFollow);
-		ltasks[0].addTask(17, aiWander);
-		ltasks[0].addTask(18, new EntityAILeapAtTarget(this, 0.3F));
+		ltasks[0].addTask(30, aiTracer);
+		ltasks[0].addTask(31, aiFollow);
+		ltasks[0].addTask(32, aiWander);
+		ltasks[0].addTask(33, new EntityAILeapAtTarget(this, 0.3F));
 		// Mutexの影響しない特殊行動
-		ltasks[0].addTask(20, aiCloseDoor);
-		ltasks[0].addTask(21, aiOpenDoor);
-		ltasks[0].addTask(22, aiRestrictRain);
+		ltasks[0].addTask(40, aiCloseDoor);
+		ltasks[0].addTask(41, aiOpenDoor);
+		ltasks[0].addTask(42, aiRestrictRain);
 		// 首の動き単独
-		ltasks[0].addTask(31, new EntityAIWatchClosest(this, net.minecraft.src.EntityLivingBase.class, 10F));
-		ltasks[0].addTask(32, new EntityAILookIdle(this));
+		ltasks[0].addTask(51, new EntityAIWatchClosest(this, net.minecraft.src.EntityLivingBase.class, 10F));
+		ltasks[0].addTask(52, new EntityAILookIdle(this));
 		
 		// 追加分
 		for (LMM_EntityModeBase ieml : maidEntityModeList) {
@@ -412,6 +415,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		}
 
 		// モード切替に応じた処理系を確保
+		maidAvatar.stopUsingItem();
 		setSitting(false);
 		setSneaking(false);
 		setActiveModeClass(null);
@@ -461,6 +465,12 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 				
 				ltasksDoDEST.clear();
 				ltasksDoDEST.addAll(ltasksDoSRC);
+				// TODO: 未実装の機能、モードチェンジ時の初期化を行う。
+				for (EntityAITaskEntry ltask : ltasksDoSRC) {
+					if (ltask instanceof LMM_IEntityAI) {
+//						((LMM_IEntityAI)ltask).setDefaultEnable();
+					}
+				}
 			}
 		} catch (Exception s) {
 		}
@@ -1256,7 +1266,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		}
 		if(!par1DamageSource.isUnblockable() && isBlocking()) {
 			// ブロッキング
-			mod_LMM_littleMaidMob.Debug(String.format("Blocking success ID:%d, %f" , this.entityId, par2));
+//			par2 = (1.0F + par2) * 0.5F;
+			mod_LMM_littleMaidMob.Debug(String.format("Blocking success ID:%d, %f -> %f" , this.entityId, par2, (par2 = (1.0F + par2) * 0.5F)));
 			maidDamegeSound = LMM_EnumSound.hurt_guard;
 		}
 		

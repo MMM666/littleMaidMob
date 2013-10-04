@@ -5,15 +5,19 @@ public class LMM_Statics {
 	/**
 	 * HPをサーバーからクライアントへ通知するのに使う。
 	 */
-	protected static final int dataWatch_Absoption	= 18;
-	protected static final int dataWatch_ColorMode	= 19;
+	protected static final int dataWatch_Absoption		= 18;
+	protected static final int dataWatch_ColorMode		= 19;
+	/** メイドカラー(byte) */
+	protected static final int dataWatch_Color			= 19;
 	/**
-	 * MSB|0x0000 0000|LSB
-	 *       |    |本体のテクスチャインデックス
-	 *       |アーマーのテクスチャインデックス
+	 * MSB|0x0000 0000|LSB<br>
+	 *       |    |本体のテクスチャインデックス<br>
+	 *       |アーマーのテクスチャインデックス<br>
 	 */
-	protected static final int dataWatch_Texture	= 20;
-//    protected static final int dataWatch_TexArmar	= 21;
+	protected static final int dataWatch_Texture		= 20;
+//    protected static final int dataWatch_TexArmar		= 21;
+	/** モデルパーツの表示フラグ(Integer) */
+	protected static final int dataWatch_Parts			= 21;
 	/**
 	 * 各種フラグを一纏めにしたもの。
 	 */
@@ -34,11 +38,23 @@ public class LMM_Statics {
 	/**
 	 * 紐の持ち主のEntityID。
 	 */
-	protected static final int dataWatch_Gotcha		= 23;
+	protected static final int dataWatch_Gotcha			= 23;
+	
+	/** メイドモード(Short) */
+	protected static final int dataWatch_Mode			= 24;
+	/** 利き腕(Integer) */
+	protected static final int dataWatch_DominamtArm	= 25;
+	/** アイテムの使用判定、腕毎(Integer) */
+	protected static final int dataWatch_ItemUse		= 26;
+	/** 保持経験値、実のところクライアント側では必要ないので要らない(Integer) */
+	protected static final int dataWatch_ExpValue		= 27;
+	
+	
+	
 	/**
 	 * 自由設定値。
 	 */
-	protected static final int dataWatch_Free		= 31;
+	protected static final int dataWatch_Free			= 31;
 	
 	protected static final int dataFlags_ForceUpdateInventory	= 0x80000000;
 

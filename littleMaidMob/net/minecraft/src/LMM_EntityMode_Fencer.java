@@ -86,6 +86,7 @@ public class LMM_EntityMode_Fencer extends LMM_EntityModeBase {
 		case mmode_Fencer :
 //			pentitylittlemaid.maidInventory.currentItem = getNextEquipItem(pentitylittlemaid, pMode);
 			owner.setBloodsuck(false);
+			owner.aiAttack.isGuard = true;
 			return true;
 		case mmode_Bloodsucker :
 //			pentitylittlemaid.maidInventory.currentItem = getNextEquipItem(pentitylittlemaid, pMode);

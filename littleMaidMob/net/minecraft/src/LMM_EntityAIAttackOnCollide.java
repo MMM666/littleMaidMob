@@ -13,12 +13,15 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEn
 	protected int rerouteTimer;
 	protected double attackRange;
 
+	public boolean isGuard;
+
 
 	public LMM_EntityAIAttackOnCollide(LMM_EntityLittleMaid par1EntityLittleMaid, float par2, boolean par3) {
 		theMaid = par1EntityLittleMaid;
 		worldObj = par1EntityLittleMaid.worldObj;
 		moveSpeed = par2;
 		isReroute = par3;
+		isGuard = false;
 		setMutexBits(3);
 	}
 
@@ -56,6 +59,7 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEn
 		theMaid.getNavigator().setPath(pathToTarget, moveSpeed);
 		rerouteTimer = 0;
 		theMaid.playSound(theMaid.isBloodsuck() ? LMM_EnumSound.findTarget_B : LMM_EnumSound.findTarget_N, false);
+		theMaid.maidAvatar.stopUsingItem();
 	}
 
 	@Override
@@ -91,6 +95,7 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEn
 	public void resetTask() {
 		entityTarget = null;
 //		theMaid.getNavigator().clearPathEntity();
+		theMaid.maidAvatar.stopUsingItem();
 	}
 
 	@Override
@@ -104,23 +109,38 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEn
 		}
 		
 		if (theMaid.getDistanceSq(entityTarget.posX, entityTarget.boundingBox.minY, entityTarget.posZ) > attackRange) {
+			if (isGuard && theMaid.isMaskedMaid()) {
+				EntityLivingBase lel = null;
+				if (entityTarget instanceof EntityCreature) {
+					lel = ((EntityCreature)entityTarget).getAttackTarget();
+				}
+				else if (entityTarget instanceof EntityLivingBase) {
+					lel = ((EntityLivingBase)entityTarget).getAITarget();
+				}
+				if (lel == theMaid) {
+					ItemStack li = theMaid.getCurrentEquippedItem();
+					if (li != null && li.getItemUseAction() == EnumAction.block) {
+						li.useItemRightClick(worldObj, theMaid.maidAvatar);
+					}
+				}
+			}
 			return;
 		}
 		
-		// ³–Ê‚©‚ç110“x•ûŒü‚ªUŒ‚”ÍˆÍ
-		double tdx = entityTarget.posX - theMaid.posX;
-		double tdz = entityTarget.posZ - theMaid.posZ;
-		double vdx = -Math.sin(theMaid.renderYawOffset * 3.1415926535897932384626433832795F / 180F);
-		double vdz = Math.cos(theMaid.renderYawOffset * 3.1415926535897932384626433832795F / 180F);
-		double ld = (tdx * vdx + tdz * vdz) / (Math.sqrt(tdx * tdx + tdz * tdz) * Math.sqrt(vdx * vdx + vdz * vdz));
-//        System.out.println(theMaid.renderYawOffset + ", " + ld);
-		if (ld < -0.35D) {
-			return;
-		}
-
 		if (!theMaid.getSwingStatusDominant().canAttack()) {
 			return;
 		} else {
+			// ³–Ê‚©‚ç110“x•ûŒü‚ªUŒ‚”ÍˆÍ
+			double tdx = entityTarget.posX - theMaid.posX;
+			double tdz = entityTarget.posZ - theMaid.posZ;
+			double vdx = -Math.sin(theMaid.renderYawOffset * 3.1415926535897932384626433832795F / 180F);
+			double vdz = Math.cos(theMaid.renderYawOffset * 3.1415926535897932384626433832795F / 180F);
+			double ld = (tdx * vdx + tdz * vdz) / (Math.sqrt(tdx * tdx + tdz * tdz) * Math.sqrt(vdx * vdx + vdz * vdz));
+//	        System.out.println(theMaid.renderYawOffset + ", " + ld);
+			if (ld < -0.35D) {
+				return;
+			}
+			
 			// UŒ‚
 			theMaid.attackEntityAsMob(entityTarget);
 			if (theMaid.getActiveModeClass().isChangeTartget(entityTarget)) {

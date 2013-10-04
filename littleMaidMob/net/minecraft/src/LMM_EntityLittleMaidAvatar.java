@@ -215,6 +215,8 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	}
 
 	public void clearItemInUse(int pIndex) {
+		isItemTrigger = false;
+		isItemReload = isItemPreReload = false;
 		avatar.getSwingStatus(pIndex).clearItemInUse(getEntityServer());
 	}
 	@Deprecated
@@ -227,6 +229,8 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	}
 
 	public void stopUsingItem(int pIndex) {
+		isItemTrigger = false;
+		isItemReload = isItemPreReload = false;
 		avatar.getSwingStatus(pIndex).stopUsingItem(getEntityServer());
 	}
 	@Deprecated
@@ -239,6 +243,8 @@ public class LMM_EntityLittleMaidAvatar extends EntityPlayer {
 	}
 
 	public void setItemInUse(int pIndex, ItemStack itemstack, int i) {
+		isItemTrigger = true;
+		isItemReload = isItemPreReload;
 		avatar.getSwingStatus(pIndex).setItemInUse(itemstack, i, getEntityServer());
 	}
 	@Deprecated
