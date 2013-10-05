@@ -1,18 +1,15 @@
 package net.minecraft.src;
 
 import static net.minecraft.src.LMM_Statics.*;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
-
-import javax.annotation.PostConstruct;
-import javax.swing.text.MaskFormatter;
  
 public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITextureEntity {
 
@@ -219,7 +216,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	protected void entityInit() {
 		super.entityInit();
 		/*
-		 * DataWatcherはクライアントからサーバーへは値を渡さない
+		 * DataWatcherはクライアントからサーバーへは値を渡さない、渡せない。
 		 */
 		
 		// 使用中リスト
@@ -241,25 +238,28 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		dataWatcher.addObject(dataWatch_Absoption, Float.valueOf(0.0F));
 		
 		// 独自分
-		// 19:maidMode(16Bit:LSB)、maidColor(8Bit:<<16)、maidDominantArm(8Bit:<<24);
-//		dataWatcher.addObject(dataWatch_ColorMode, new Integer((maidMode & 0xffff) | ((textureData.color & 0xff) << 16) | ((maidDominantArm & 0xff) << 24)));
-		dataWatcher.addObject(dataWatch_ColorMode, new Integer((maidMode & 0xffff) | (12 << 16) | ((maidDominantArm & 0xff) << 24)));
+		// 19:maidColor
+		dataWatcher.addObject(dataWatch_Color, Byte.valueOf((byte)0));
 		// 20:選択テクスチャインデックス
 		dataWatcher.addObject(dataWatch_Texture, Integer.valueOf(0));
-		// 21:アーマーテクスチャインデックス
-//        dataWatcher.addObject(dataWatch_TexArmar, Integer.valueOf(0));
-		// 22:状態遷移フラグ群(32Bit)
-		// isLookSuger, looksWithInterest, isContract, isBloodsuck, isWorking, isWait
-		dataWatcher.addObject(dataWatch_Flags, new Integer(0));
+		// 21:モデルパーツの表示フラグ
+		dataWatcher.addObject(dataWatch_Parts, Integer.valueOf(0));
+		// 22:状態遷移フラグ群(32Bit)、詳細はStatics参照
+		dataWatcher.addObject(dataWatch_Flags, Integer.valueOf(0));
 		// 23:GotchaID
-		dataWatcher.addObject(dataWatch_Gotcha, new Integer(0));
+		dataWatcher.addObject(dataWatch_Gotcha, Integer.valueOf(0));
+		// 24:メイドモード
+		dataWatcher.addObject(dataWatch_Mode, Short.valueOf((short)0));
+		// 25:利き腕
+		dataWatcher.addObject(dataWatch_DominamtArm, Byte.valueOf((byte)0));
+		// 26:アイテムの使用判定
+		dataWatcher.addObject(dataWatch_ItemUse, Integer.valueOf(0));
+		// 27:保持経験値
+		dataWatcher.addObject(dataWatch_ExpValue, Integer.valueOf(0));
 		
-		// TODO:test:30:
-		dataWatcher.addObject(30, new Integer(0));
-
+		// TODO:test
 		// 31:自由変数、EntityMode等で使用可能な変数。
 		dataWatcher.addObject(dataWatch_Free, new Integer(0));
-		
 	}
 
 	public void initModeList() {
@@ -348,10 +348,10 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			if (maidOverDriveTime.isEnable()) {
 				ls = "D-" + ls;
 			} else
-			if (maidTracer) {
+			if (isTracer()) {
 				ls = "T-" + ls;
 			} else
-			if (maidFreedom) {
+			if (isFreedom()) {
 				ls = "F-" + ls;
 			}
 			return ls;
@@ -399,7 +399,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		}
 		mstatModeName = getMaidModeString(pindex);
 		maidMode = pindex;
-		setMaidColorMode();
+		dataWatcher.updateObject(dataWatch_Mode, (short)maidMode);
 		EntityAITasks[] ltasks = maidModeList.get(pindex);
 		
 		// AIを根底から書き換える
@@ -1050,11 +1050,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 				maidTiles[li] = ltile.length > 0 ? ltile : null;
 			}
 			
-			// テスト用
-			if (worldObj.isRemote) {
-//	        	setOwner(ModLoader.getMinecraftInstance().thePlayer.username);
-			}
-			
 			// 追加分
 			for (int li = 0; li < maidEntityModeList.size(); li++) {
 				maidEntityModeList.get(li).readEntityFromNBT(par1nbtTagCompound);
@@ -1697,13 +1692,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			if (lupd) {
 				setTextureNames();
 			}
-			int lcolormode = dataWatcher.getWatchableObjectInt(dataWatch_ColorMode);
-			setMaidMode(lcolormode & 0xffff);
-			setDominantArm(lcolormode >>> 24);
-//			if (health > 0) {
-//				// なぜか死亡アニメーションがおかしくなるので判定付ける。
-//				setEntityHealth(dataWatcher.getWatchableObjectInt(dataWatch_Health));
-//			}
+			setMaidMode(dataWatcher.getWatchableObjectShort(dataWatch_Mode));
+			setDominantArm(dataWatcher.getWatchableObjectByte(dataWatch_DominamtArm));
 			updateMaidFlagsClient();
 			updateGotcha();
 		} else {
@@ -1830,8 +1820,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			updateAimebow();
 			
 			// TODO:test
-			if (dataWatcher.getWatchableObjectInt(30) != experienceValue) {
-				dataWatcher.updateObject(30, experienceValue);
+			if (dataWatcher.getWatchableObjectInt(dataWatch_ExpValue) != experienceValue) {
+				dataWatcher.updateObject(dataWatch_ExpValue, Integer.valueOf(experienceValue));
 			}
 			
 			// 自分より大きなものは乗っけない（イカ除く）
@@ -1857,7 +1847,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		} else {
 			// Client
 			// TODO:test
-			experienceValue = dataWatcher.getWatchableObjectInt(30);
+			experienceValue = dataWatcher.getWatchableObjectInt(dataWatch_ExpValue);
 		}
 		
 		// 紐で拉致
@@ -2380,7 +2370,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 								MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
 								setPathToEntity(null);
 								setMaidWait(false);
-								setTracer(!maidTracer);
+								setTracer(!isTracer());
 								if (isTracer()) {
 									worldObj.setEntityState(this, (byte)14);
 								} else {
@@ -2869,19 +2859,13 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	@Override
 	public int getColor() {
 //		return textureData.getColor();
-		return (dataWatcher.getWatchableObjectInt(dataWatch_ColorMode) >>> 16) & 0xff;
+		return dataWatcher.getWatchableObjectByte(dataWatch_Color);
 	}
 
 	@Override
 	public void setColor(int index) {
 		textureData.setColor(index);
-		setMaidColorMode();
-	}
-
-	protected void setMaidColorMode() {
-//		if (worldObj == null || worldObj.isRemote) return;
-		dataWatcher.updateObject(dataWatch_ColorMode,
-				(maidMode & 0xffff) | (textureData.getColor() << 16) | ((maidDominantArm & 0x00ff) << 24));
+		dataWatcher.updateObject(dataWatch_Color, (byte)index);
 	}
 
 	public boolean updateMaidColor() {
@@ -2917,6 +2901,10 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	public void setGotcha(int pEntityID) {
 		dataWatcher.updateObject(dataWatch_Gotcha, Integer.valueOf(pEntityID));
 	}
+	public void setGotcha(Entity pEntity) {
+		setGotcha(pEntity == null ? 0 : pEntity.entityId);
+	}
+
 
 	/**
 	 * 弓構えを更新
@@ -2976,7 +2964,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			lss.index = lss.lastIndex = -1;
 		}
 		maidDominantArm = pindex;
-		setMaidColorMode();
+		dataWatcher.updateObject(dataWatch_DominamtArm, (byte)maidDominantArm);
 		mod_LMM_littleMaidMob.Debug("Change Dominant.");
 	}
 

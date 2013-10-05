@@ -2,11 +2,9 @@ package net.minecraft.src;
 
 public class LMM_Statics {
 
-	/**
-	 * HPをサーバーからクライアントへ通知するのに使う。
-	 */
+	/** Absoption効果をクライアント側へ転送するのに使う */
 	protected static final int dataWatch_Absoption		= 18;
-	protected static final int dataWatch_ColorMode		= 19;
+	
 	/** メイドカラー(byte) */
 	protected static final int dataWatch_Color			= 19;
 	/**
@@ -15,13 +13,12 @@ public class LMM_Statics {
 	 *       |アーマーのテクスチャインデックス<br>
 	 */
 	protected static final int dataWatch_Texture		= 20;
-//    protected static final int dataWatch_TexArmar		= 21;
 	/** モデルパーツの表示フラグ(Integer) */
 	protected static final int dataWatch_Parts			= 21;
 	/**
 	 * 各種フラグを一纏めにしたもの。
 	 */
-	protected static final int dataWatch_Flags		= 22;
+	protected static final int dataWatch_Flags			= 22;
 	protected static final int dataWatch_Flags_looksWithInterest		= 0x00000001;
 	protected static final int dataWatch_Flags_looksWithInterestAXIS	= 0x00000002;
 	protected static final int dataWatch_Flags_Aimebow					= 0x00000004;
@@ -35,14 +32,12 @@ public class LMM_Statics {
 	protected static final int dataWatch_Flags_LooksSugar				= 0x00000400;
 	protected static final int dataWatch_Flags_Bloodsuck				= 0x00000800;
 	protected static final int dataWatch_Flags_OverDrive				= 0x00001000;
-	/**
-	 * 紐の持ち主のEntityID。
-	 */
+	/** 紐の持ち主のEntityID。 */
 	protected static final int dataWatch_Gotcha			= 23;
 	
 	/** メイドモード(Short) */
 	protected static final int dataWatch_Mode			= 24;
-	/** 利き腕(Integer) */
+	/** 利き腕(Byte) */
 	protected static final int dataWatch_DominamtArm	= 25;
 	/** アイテムの使用判定、腕毎(Integer) */
 	protected static final int dataWatch_ItemUse		= 26;
