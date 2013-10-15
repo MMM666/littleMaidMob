@@ -90,13 +90,13 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.6.2-4";
+		return "1.6.2-5";
 	}
 
 	@Override
 	public void load() {
 		// MMMLibのRevisionチェック
-		MMM_Helper.checkRevision("5");
+		MMM_Helper.checkRevision("6");
 		MMM_Config.checkConfig(this.getClass());
 		
 		cfg_defaultTexture = cfg_defaultTexture.trim();

@@ -102,10 +102,25 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEn
 	public void updateTask() {
 		theMaid.getLookHelper().setLookPositionWithEntity(entityTarget, 30F, 30F);
 		
-		if ((isReroute || theMaid.getEntitySenses().canSee(entityTarget)) && --rerouteTimer <= 0) {
-			// リルート
-			rerouteTimer = 4 + theMaid.getRNG().nextInt(7);
-			theMaid.getNavigator().tryMoveToXYZ(entityTarget.posX, entityTarget.posY, entityTarget.posZ, moveSpeed);
+//		if ((isReroute || theMaid.getEntitySenses().canSee(entityTarget)) && --rerouteTimer <= 0) {
+//			// リルート
+//			rerouteTimer = 4 + theMaid.getRNG().nextInt(7);
+//			theMaid.getNavigator().tryMoveToXYZ(entityTarget.posX, entityTarget.posY, entityTarget.posZ, moveSpeed);
+//		}
+		if (--rerouteTimer <= 0) {
+			if (isReroute) {
+				// リルート
+				rerouteTimer = 4 + theMaid.getRNG().nextInt(7);
+				theMaid.getNavigator().tryMoveToXYZ(entityTarget.posX, entityTarget.posY, entityTarget.posZ, moveSpeed);
+			}
+			if (theMaid.getEntitySenses().canSee(entityTarget)) {
+				// リルート
+				rerouteTimer = 4 + theMaid.getRNG().nextInt(7);
+				theMaid.getNavigator().tryMoveToXYZ(entityTarget.posX, entityTarget.posY, entityTarget.posZ, moveSpeed);
+			} else {
+				theMaid.setAttackTarget(null);
+				theMaid.setTarget(null);
+			}
 		}
 		
 		if (theMaid.getDistanceSq(entityTarget.posX, entityTarget.boundingBox.minY, entityTarget.posZ) > attackRange) {

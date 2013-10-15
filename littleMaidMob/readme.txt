@@ -1,4 +1,4 @@
-Little Maid Mob 1.6.2 Rev4
+Little Maid Mob 1.6.2 Rev5
 
 Minecraft Texture・MOD総合.0.0.3の>>92氏のキャラクターで
 ラナさんのモデルデータを差し替えて、調整を行ったものです。
@@ -25,7 +25,7 @@ Minecraft Texture・MOD総合.0.0.3の>>92氏のキャラクターで
 
 使い方
 	・要Modloader。
-	・要MMMLib Rev5。
+	・要MMMLib Rev6。
 	・%appdata%/.mincraft/versions/1.6.2ML/modsにZipのまま放りこめば動くはずです。
 	いや、解ってる人なら直接jarに放り込んでもいいけど特にメリットはないかと。
 	・%appdata%/.mincraft/config/mod_LMM_littleMaidMob.cfgができるので適当にいじって下さい。
@@ -69,12 +69,10 @@ Minecraft Texture・MOD総合.0.0.3の>>92氏のキャラクターで
 
 
 	・ユーザー向け修正
-		assetsディレクトリの参照先取得を修正。
-		cfgを独自仕様へ変更。
 
 	・開発者向け修正
-		テストモジュールの修正。
-		初期化周りの修正。
+		定数の変更。
+		DataWatcherの整理、付随する関数の修正。
 
 
 
@@ -208,14 +206,17 @@ Minecraft Texture・MOD総合.0.0.3の>>92氏のキャラクターで
 
 
 更新履歴
+	20131016.1	1.6.2 Rev5 更新
+				定数の変更。
+				DataWatcherの整理、付随する関数の修正。
+
+
+
 	20130908.1	1.6.2 Rev4 更新
 				テクスチャ管理周りを修正。
 				モード表示がおかしかったのを修正。
 				Rendererの修正。
 				音声関係のドキュメントを修正。
-
-
-
 	20130807.1	1.6.2 Rev3 更新
 				assetsディレクトリの参照先取得を修正。
 				初期化周りの修正。
