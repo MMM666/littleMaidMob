@@ -18,6 +18,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	protected static final UUID maidUUID = UUID.fromString("e2361272-644a-3028-8416-8536667f0efb");
 	protected static AttributeModifier attCombatSpeed = (new AttributeModifier(maidUUID, "Combat speed boost", 0.07D, 0)).func_111168_a(false);
 	protected static AttributeModifier attAxeAmp = (new AttributeModifier(maidUUID, "Axe Attack boost", 0.5D, 1)).func_111168_a(false);
+	protected static AttributeModifier attSneakingSpeed = (new AttributeModifier(maidUUID, "Sneking speed ampd", -0.8D, 2)).func_111168_a(false);
 
 
 	// 変数減らしたいなぁ
@@ -38,8 +39,6 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	public Map<Integer, EntityAITasks[]> maidModeList;
 	public Map<String, Integer> maidModeIndexList;
 	public int maidMode;		// 2Byte
-//	public int maidColor;		// 1Byte
-//	public boolean maidContract;
 	public boolean maidTracer;
 	public boolean maidFreedom;
 	public boolean maidWait;
@@ -723,14 +722,15 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		}
 	}
 
+	// ポーション効果のエフェクト
 	public void func_110149_m(float par1) {
+		// AbsorptionAmount
 		if (par1 < 0.0F) {
 			par1 = 0.0F;
 		}
 		
 		this.getDataWatcher().updateObject(dataWatch_Absoption, Float.valueOf(par1));
 	}
-
 	public float func_110139_bj() {
 		return this.getDataWatcher().func_111145_d(dataWatch_Absoption);
 	}
@@ -984,7 +984,7 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			if (isContract() && lcl == 0) {
 				maidContractLimit = 24000;
 			} else {
-				maidContractLimit = (int)((lcl - worldObj.getWorldTime()));
+				maidContractLimit = (int)((lcl - worldObj.getTotalWorldTime()));
 			}
 			maidAnniversary = par1nbtTagCompound.getLong("Anniversary");
 			if (maidAnniversary == 0L && isContract()) {
@@ -1728,6 +1728,13 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 					latt.func_111121_a(attCombatSpeed);
 				}
 			}
+			// スニーキング判定
+//			setSneaking(true);
+//			isSneaking()
+//			if ((maidAvatar.isUsingItem() && !this.isRiding()) || true) {
+//				// 属性を設定
+//				latt.func_111121_a(attCombatSpeed);
+//			}
 		}
 		
 		// 独自処理用毎時処理
@@ -2417,7 +2424,9 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 						
 						deathTime = 0;
 						if (!worldObj.isRemote) {
-							par1EntityPlayer.triggerAchievement(mod_LMM_littleMaidMob.ac_Contract);
+							if (mod_LMM_littleMaidMob.ac_Contract != null) {
+								par1EntityPlayer.triggerAchievement(mod_LMM_littleMaidMob.ac_Contract);
+							}
 							setContract(true);
 							setOwner(par1EntityPlayer.username);
 							setEntityHealth(20);
@@ -2426,11 +2435,11 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 							setFreedom(false);
 							playSound(LMM_EnumSound.getCake, true);
 //							playLittleMaidSound(LMM_EnumSound.getCake, true);
-//    	                    playTameEffect(true);
+//							playTameEffect(true);
 							worldObj.setEntityState(this, (byte)7);
 							// 契約記念日と、初期契約期間
 							maidContractLimit = (24000 * 7);
-							maidAnniversary = worldObj.getWorldTime();
+							maidAnniversary = worldObj.getTotalWorldTime();
 							// テクスチャのアップデート:いらん？
 //							LMM_Net.sendToAllEClient(this, new byte[] {LMM_Net.LMN_Client_UpdateTexture, 0, 0, 0, 0});
 							

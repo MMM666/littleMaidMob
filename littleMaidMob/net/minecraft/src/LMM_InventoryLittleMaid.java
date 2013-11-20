@@ -77,8 +77,13 @@ public class LMM_InventoryLittleMaid extends InventoryPlayer {
 	public void decrementAnimations() {
 		for (int li = 0; li < this.mainInventory.length; ++li) {
 			if (this.mainInventory[li] != null) {
-				this.mainInventory[li].updateAnimation(this.player.worldObj,
-						entityLittleMaid, li, this.currentItem == li);
+				try {
+					this.mainInventory[li].updateAnimation(this.player.worldObj,
+							entityLittleMaid, li, this.currentItem == li);
+				} catch (ClassCastException e) {
+					this.mainInventory[li].updateAnimation(this.player.worldObj,
+							entityLittleMaid.maidAvatar, li, this.currentItem == li);
+				}
 			}
 		}
 	}
