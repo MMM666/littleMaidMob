@@ -90,7 +90,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.6.2-5";
+		return "1.6.2-6";
 	}
 
 	@Override
@@ -196,7 +196,7 @@ public class mod_LMM_littleMaidMob extends BaseMod {
 					}
 					BiomeGenBase[] dominateBiomes = (BiomeGenBase[])linkedlist.toArray(new BiomeGenBase[0]);
 					
-					ModLoader.addSpawn(net.minecraft.src.LMM_EntityLittleMaid.class, cfg_spawnWeight, cfg_minGroupSize, cfg_maxGroupSize, EnumCreatureType.creature, dominateBiomes);
+					ModLoader.addSpawn(LMM_EntityLittleMaid.class, cfg_spawnWeight, cfg_minGroupSize, cfg_maxGroupSize, EnumCreatureType.creature, dominateBiomes);
 				} catch (Exception exception) {
 					Debug("Dominate Exception.");
 				}
