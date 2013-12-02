@@ -2,13 +2,16 @@ package net.minecraft.src;
 
 public class LMM_SwingStatus {
 
+	/** 使用中のアイテムスロット */
 	public int index;
 	public int lastIndex;
+	/* 腕振り関連変数 */
 	public boolean isSwingInProgress;
 	public float swingProgress;
 	public float prevSwingProgress;
 	public int swingProgressInt;
 	public float onGround;
+	/** クールタイム */
 	public int attackTime;
 //	public int usingCount;
 	public int itemInUseCount;

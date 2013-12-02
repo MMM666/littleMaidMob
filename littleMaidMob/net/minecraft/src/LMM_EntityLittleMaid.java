@@ -16,9 +16,11 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 	// 定数はStaticsへ移動
 //	protected static final UUID maidUUID = UUID.nameUUIDFromBytes("net.minecraft.src.littleMaidMob".getBytes());
 	protected static final UUID maidUUID = UUID.fromString("e2361272-644a-3028-8416-8536667f0efb");
+	protected static final UUID maidUUIDSneak = UUID.nameUUIDFromBytes("net.minecraft.src.littleMaidMob.sneak".getBytes());
+//	protected static final UUID maidUUID = UUID.fromString("e2361272-644a-3028-8416-8536667f0efb");
 	protected static AttributeModifier attCombatSpeed = (new AttributeModifier(maidUUID, "Combat speed boost", 0.07D, 0)).func_111168_a(false);
 	protected static AttributeModifier attAxeAmp = (new AttributeModifier(maidUUID, "Axe Attack boost", 0.5D, 1)).func_111168_a(false);
-	protected static AttributeModifier attSneakingSpeed = (new AttributeModifier(maidUUID, "Sneking speed ampd", -0.8D, 2)).func_111168_a(false);
+	protected static AttributeModifier attSneakingSpeed = (new AttributeModifier(maidUUIDSneak, "Sneking speed ampd", -0.4D, 2)).func_111168_a(false);
 
 
 	// 変数減らしたいなぁ
@@ -1657,6 +1659,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 
 	@Override
 	public void onUpdate() {
+		int litemuse = 0;
+		
 		// Entity初回生成時のインベントリ更新用
 		// サーバーの方が先に起動するのでクライアント側が更新を受け取れない
 		if (firstload > 0) {
@@ -1696,6 +1700,17 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 			setDominantArm(dataWatcher.getWatchableObjectByte(dataWatch_DominamtArm));
 			updateMaidFlagsClient();
 			updateGotcha();
+			
+			// 腕の挙動関連
+			litemuse = dataWatcher.getWatchableObjectInt(dataWatch_ItemUse);
+			for (int li = 0; li < mstatSwingStatus.length; li++) {
+				ItemStack lis = mstatSwingStatus[li].getItemStack(this);
+				if ((litemuse & (1 << li)) > 0 && lis != null) {
+					mstatSwingStatus[li].setItemInUse(lis, lis.getMaxItemUseDuration(), this);
+				} else {
+					mstatSwingStatus[li].stopUsingItem(this);
+				}
+			}
 		} else {
 			boolean lf;
 			// サーバー側
@@ -1729,12 +1744,11 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 				}
 			}
 			// スニーキング判定
-//			setSneaking(true);
-//			isSneaking()
-//			if ((maidAvatar.isUsingItem() && !this.isRiding()) || true) {
-//				// 属性を設定
-//				latt.func_111121_a(attCombatSpeed);
-//			}
+			latt.func_111124_b(attSneakingSpeed);
+			if ((onGround && isSneaking()) || isUsingItem()) {
+				latt.func_111121_a(attSneakingSpeed);
+			}
+//			isSprinting()
 		}
 		
 		// 独自処理用毎時処理
@@ -1783,10 +1797,18 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		if (getAttackTarget() != null || getEntityToAttack() != null) {
 			setWorking(true);
 		}
+		// お仕事カウンター
 		mstatWorkingCount.onUpdate();
-		for (LMM_SwingStatus lmss : mstatSwingStatus) {
-			lmss.onUpdate(this);
+		
+		// 腕の挙動に関する処理
+		litemuse = 0;
+		for (int li = 0; li < mstatSwingStatus.length; li++) {
+			mstatSwingStatus[li].onUpdate(this);
+			if (mstatSwingStatus[li].isUsingItem()) {
+				litemuse |= (1 << li);
+			}
 		}
+		// 標準変数に対する数値の代入
 		LMM_SwingStatus lmss = getSwingStatusDominant();
 		prevSwingProgress = maidAvatar.prevSwingProgress = lmss.prevSwingProgress;
 		swingProgress = maidAvatar.swingProgress = lmss.swingProgress;
@@ -1800,6 +1822,8 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 		}
 		if (!worldObj.isRemote) {
 			// サーバー側処理
+			// アイテム使用状態の更新
+			dataWatcher.updateObject(dataWatch_ItemUse, litemuse);
 			// インベントリの更新
 //			if (!mstatOpenInventory) {
 				for (int li = 0 ;li < maidInventory.getSizeInventory(); li++) {
@@ -3241,6 +3265,14 @@ public class LMM_EntityLittleMaid extends EntityTameable implements MMM_ITexture
 					maidTiles[pIndex][2] + 0.5D,
 					10F, getVerticalFaceSpeed());
 		}
+	}
+
+	public boolean isUsingItem() {
+		return dataWatcher.getWatchableObjectInt(dataWatch_ItemUse) > 0;
+	}
+
+	public boolean isUsingItem(int pIndex) {
+		return (dataWatcher.getWatchableObjectInt(dataWatch_ItemUse) & (1 << pIndex)) > 0;
 	}
 
 }

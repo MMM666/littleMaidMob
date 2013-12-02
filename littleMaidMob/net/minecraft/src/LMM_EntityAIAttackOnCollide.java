@@ -123,6 +123,7 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEn
 			}
 		}
 		
+		boolean lguard = false;
 		if (theMaid.getDistanceSq(entityTarget.posX, entityTarget.boundingBox.minY, entityTarget.posZ) > attackRange) {
 			if (isGuard && theMaid.isMaskedMaid()) {
 				EntityLivingBase lel = null;
@@ -136,10 +137,14 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements LMM_IEn
 					ItemStack li = theMaid.getCurrentEquippedItem();
 					if (li != null && li.getItemUseAction() == EnumAction.block) {
 						li.useItemRightClick(worldObj, theMaid.maidAvatar);
+						lguard = true;
 					}
 				}
 			}
 			return;
+		}
+		if (theMaid.maidAvatar.isUsingItem() && !lguard) {
+			theMaid.maidAvatar.stopUsingItem();
 		}
 		
 		if (!theMaid.getSwingStatusDominant().canAttack()) {
