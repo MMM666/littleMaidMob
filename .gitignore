@@ -1,2 +1,6 @@
 *.zip
 *.class
+/bin
+/build
+/eclipse
+.*

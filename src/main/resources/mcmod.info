@@ -1,0 +1,16 @@
+[
+{
+  "modid": "MMMLib",
+  "name": "MMMLib",
+  "description": "MMM's Library. ",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authors": ["MMM"],
+  "credits": "created by MMM",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
