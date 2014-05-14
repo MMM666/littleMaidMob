@@ -1,9 +1,7 @@
 package mmm.littleMaidMob;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import mmm.littleMaidMob.entity.EntityLittleMaidBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,6 +10,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class SwingStatus {
 

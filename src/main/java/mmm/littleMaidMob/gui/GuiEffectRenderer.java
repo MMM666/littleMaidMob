@@ -64,8 +64,8 @@ public abstract class GuiEffectRenderer extends GuiContainer {
 				k = 132 / (collection.size() - 1);
 			}
 			
-			for (Iterator<?> iterator = target.getActivePotionEffects()
-					.iterator(); iterator.hasNext(); j += k) {
+			for (Iterator<?> iterator = target.getActivePotionEffects().iterator();
+					iterator.hasNext(); j += k) {
 				PotionEffect potioneffect = (PotionEffect) iterator.next();
 				Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

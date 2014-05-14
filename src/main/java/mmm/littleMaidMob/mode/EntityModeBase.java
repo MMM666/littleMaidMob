@@ -203,7 +203,11 @@ public abstract class EntityModeBase {
 		return owner.getNavigator().tryMoveToXYZ(pX, pY, pZ, 1.0F);
 	}
 	public boolean outrangeBlock(int pMode) {
-		return outrangeBlock(pMode, owner.maidTile[0], owner.maidTile[1], owner.maidTile[2]);
+		if (owner.tiles.size() > 0) {
+			int[] li = owner.tiles.get(0);
+			return outrangeBlock(pMode, li[0], li[1], li[2]);
+		}
+		return false;
 	}
 
 	/**
@@ -214,7 +218,11 @@ public abstract class EntityModeBase {
 		return false;
 	}
 	public boolean executeBlock(int pMode) {
-		return executeBlock(pMode, owner.maidTile[0], owner.maidTile[1], owner.maidTile[2]);
+		if (owner.tiles.size() > 0) {
+			int[] li = owner.tiles.get(0);
+			return executeBlock(pMode, li[0], li[1], li[2]);
+		}
+		return false;
 	}
 
 	/**

@@ -1,37 +1,20 @@
 package mmm.littleMaidMob;
 
-import mmm.lib.MMMLib;
-import mmm.lib.multiModel.model.mc162.IModelCaps;
-import mmm.lib.multiModel.model.mc162.ModelBaseDuo;
-import mmm.lib.multiModel.model.mc162.ModelBaseSolo;
+import mmm.lib.multiModel.RenderMultiModel;
 import mmm.lib.multiModel.model.mc162.ModelMultiBase;
 import mmm.lib.multiModel.texture.MultiModelContainer;
-import mmm.lib.multiModel.texture.MultiModelManager;
 import mmm.littleMaidMob.entity.EntityLittleMaidBase;
-import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderLittleMaid extends RenderLiving {
+public class RenderLittleMaid extends RenderMultiModel {
 
-	public ModelBaseSolo modelMain;
-	public ModelBaseDuo modelFATT;
-	public IModelCaps fcaps;
-	
 	public MultiModelContainer modelContainer;
 
 
 	public RenderLittleMaid(float pShadowSize) {
-		super(null, pShadowSize);
-		modelFATT = new ModelBaseDuo(this);
-		modelFATT.isModelAlphablend = MMMLib.isModelAlphaBlend;
-//		modelFATT.isRendering = true;
-		modelMain = new ModelBaseSolo(this);
-		modelMain.isModelAlphablend = MMMLib.isModelAlphaBlend;
-		modelMain.capsLink = modelFATT;
-		mainModel = modelMain;
-		setRenderPassModel(modelFATT);
+		super(pShadowSize);
 		
 		modelMain.textures = new ResourceLocation[0];
 //		modelMain.textures = new ResourceLocation[] { textures };
