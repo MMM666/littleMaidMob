@@ -16,6 +16,7 @@ import mmm.lib.multiModel.model.IModelCaps;
 import mmm.lib.multiModel.texture.MultiModelContainer;
 import mmm.lib.multiModel.texture.MultiModelManager;
 import mmm.littleMaidMob.TileContainer;
+import mmm.littleMaidMob.littleMaidMob;
 import mmm.littleMaidMob.gui.GuiLittleMaidInventory;
 import mmm.littleMaidMob.inventory.InventoryLittleMaid;
 import mmm.littleMaidMob.mode.ModeController;
@@ -52,7 +53,7 @@ public class EntityLittleMaidBase extends EntityTameable {
 	protected static AttributeModifier attSneakingSpeed = (new AttributeModifier(maidUUIDSneak, "Sneking speed ampd", -0.4D, 2)).setSaved(false);
 	
 	public EntityLittleMaidAvatar avatar;
-	public InventoryLittleMaid inventry;
+	public InventoryLittleMaid inventory;
 	public MultiModelContainer multiModel;
 	public int color;
 	public int maidContractLimit;
@@ -76,7 +77,7 @@ public class EntityLittleMaidBase extends EntityTameable {
 		if (par1World instanceof WorldServer) {
 			avatar = new EntityLittleMaidAvatar((WorldServer)par1World, new GameProfile("10", "maid"));
 		}
-		inventry = new InventoryLittleMaid(this);
+		inventory = new InventoryLittleMaid(this);
 		
 //		multiModel = MultiModelManager.instance.getMultiModel("MMM_SR2");
 		color = 0x0c;
@@ -315,7 +316,8 @@ public class EntityLittleMaidBase extends EntityTameable {
 	 */
 	@SideOnly(Side.CLIENT)
 	public void displayGUIInventry(EntityPlayer pPlayer) {
-		FMLClientHandler.instance().displayGuiScreen(pPlayer, new GuiLittleMaidInventory(this, pPlayer));
+		pPlayer.openGui(littleMaidMob.instance, 0, worldObj, getEntityId(), 0, 0);
+//		FMLClientHandler.instance().displayGuiScreen(pPlayer, new GuiLittleMaidInventory(this, pPlayer));
 	}
 
 	/**
@@ -324,6 +326,7 @@ public class EntityLittleMaidBase extends EntityTameable {
 	 */
 	@SideOnly(Side.CLIENT)
 	public void displayGUIIFF(EntityPlayer pPlayer) {
+		pPlayer.openGui(littleMaidMob.instance, 1, worldObj, getEntityId(), 0, 0);
 //		FMLClientHandler.instance().displayGuiScreen(pPlayer, new GuiLittleMaidInventory(this, pPlayer));
 	}
 

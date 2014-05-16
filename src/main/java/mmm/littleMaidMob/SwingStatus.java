@@ -79,7 +79,7 @@ public class SwingStatus {
 		swingProgress = (float)swingProgressInt / (float)li;
 		
 		if (isUsingItem()) {
-			ItemStack itemstack = pEntity.inventry.getStackInSlot(index);
+			ItemStack itemstack = pEntity.inventory.getStackInSlot(index);
 			Entity lrentity = pEntity.worldObj.isRemote ? null : pEntity;
 			
 			if (itemstack != itemInUse) {
@@ -109,7 +109,7 @@ public class SwingStatus {
 	 */
 	public ItemStack getItemStack(EntityLittleMaidBase pEntity) {
 		if (index > -1) {
-			return pEntity.inventry.getStackInSlot(index);
+			return pEntity.inventory.getStackInSlot(index);
 		} else {
 			return null;
 		}

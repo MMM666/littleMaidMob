@@ -4,6 +4,7 @@ import java.io.File;
 
 import mmm.lib.ProxyCommon;
 import mmm.littleMaidMob.entity.EntityLittleMaidBase;
+import mmm.littleMaidMob.gui.GuiHandler;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -11,10 +12,12 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -26,6 +29,8 @@ public class littleMaidMob {
 
 	@SidedProxy(clientSide = "mmm.littleMaidMob.ProxyClient", serverSide = "mmm.lib.ProxyCommon")
 	public static ProxyCommon proxy;
+	@Instance("littleMaidMob")
+	public static littleMaidMob instance;
 
 	public static boolean isDebugMessage = true;
 
@@ -90,6 +95,9 @@ public class littleMaidMob {
 	public void init(FMLInitializationEvent pEvent) {
 		// レンダラの登録
 		proxy.init();
+		
+		// GUIハンドラ
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 		
 		// スポーンエッグのレシピを追加
 		if (addSpawnEggRecipe) {
