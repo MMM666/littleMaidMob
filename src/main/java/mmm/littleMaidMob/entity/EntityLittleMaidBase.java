@@ -32,11 +32,13 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.network.play.server.S1EPacketRemoveEntityEffect;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import static mmm.littleMaidMob.Statics.*;
@@ -61,6 +63,13 @@ public class EntityLittleMaidBase extends EntityTameable {
 	public EntityPlayer mstatMasterEntity;
 	/** 上司の識別 */
 	public EntityLivingBase keeperEntity;
+	/** 待機状態 */
+	protected boolean maidWait;
+	protected int mstatWaitCount;
+	/** 動作状態 */
+	protected short maidMode;
+	/** 待機判定 */
+	protected boolean maidFreedom;
 	
 	/** 文字しているモードの管理用クラス */
 	public ModeController modeController;
@@ -88,8 +97,52 @@ public class EntityLittleMaidBase extends EntityTameable {
 
 	@Override
 	protected void entityInit() {
-		// datawatcherの追加
 		super.entityInit();
+		/*
+		 * DataWatcherはクライアントからサーバーへは値を渡さない、渡せない。
+		 */
+		
+		// 使用中リスト
+		// 0:Flags
+		// 1:Air
+		// 2, 3, 4, 5,
+		// 6: HP
+		// 7, 8:PotionMap
+		// 9: ArrowCount
+		// 10: 固有名称
+		// 11: 名付判定
+		// 12: GrowingAge
+		// 16: Tame(4), Sit(1) 
+		// 17: ownerName
+		
+		// maidAvater用EntityPlayer互換変数
+		// 17 -> 18
+		// 18 : Absoption効果をクライアント側へ転送するのに使う（拡張HP）
+		dataWatcher.addObject(dataWatch_Absoption, Float.valueOf(0.0F));
+		
+		// 独自分
+		// 19:maidColor
+		dataWatcher.addObject(dataWatch_Color, Byte.valueOf((byte)0));
+		// 20:選択テクスチャインデックス
+		dataWatcher.addObject(dataWatch_Texture, Integer.valueOf(0));
+		// 21:モデルパーツの表示フラグ
+		dataWatcher.addObject(dataWatch_Parts, Integer.valueOf(0));
+		// 22:状態遷移フラグ群(32Bit)、詳細はStatics参照
+		dataWatcher.addObject(dataWatch_Flags, Integer.valueOf(0));
+		// 23:GotchaID
+		dataWatcher.addObject(dataWatch_Gotcha, Integer.valueOf(0));
+		// 24:メイドモード
+		dataWatcher.addObject(dataWatch_Mode, Short.valueOf((short)0));
+		// 25:利き腕
+		dataWatcher.addObject(dataWatch_DominamtArm, Byte.valueOf((byte)0));
+		// 26:アイテムの使用判定
+		dataWatcher.addObject(dataWatch_ItemUse, Integer.valueOf(0));
+		// 27:保持経験値
+		dataWatcher.addObject(dataWatch_ExpValue, Integer.valueOf(0));
+		
+		// TODO:test
+		// 31:自由変数、EntityMode等で使用可能な変数。
+		dataWatcher.addObject(dataWatch_Free, new Integer(0));
 	}
 
 	@Override
@@ -185,11 +238,6 @@ public class EntityLittleMaidBase extends EntityTameable {
 //	@Override
 	public void setContract(boolean flag) {
 		super.setTamed(flag);
-//		textureData.setContract(flag);
-		if (flag) {
-//        	maidMode = mmode_Escorter;
-		} else {
-		}
 	}
 
 	/**
@@ -219,7 +267,7 @@ public class EntityLittleMaidBase extends EntityTameable {
 
 	public boolean updateMaidContract() {
 		// TODO 同一性のチェック
-		boolean lf = isContract();
+//		boolean lf = isContract();
 //		if (textureData.isContract() != lf) {
 //			textureData.setContract(lf);
 //			return true;
@@ -275,16 +323,29 @@ public class EntityLittleMaidBase extends EntityTameable {
 
 	@Override
 	protected boolean isAIEnabled() {
-		// TODO Auto-generated method stub
+		// TODO 設定変えること
 		return false;
 	}
 
 	@Override
 	public boolean interact(EntityPlayer par1EntityPlayer) {
 		if (true) {
-			// インベントリの表示
-			displayGUIInventry(par1EntityPlayer);
-			return true;
+			ItemStack lis = par1EntityPlayer.getCurrentEquippedItem();
+			if (isContractEX()) {
+				if (lis.getItem() == Items.cake) {
+					
+				} else {
+					// インベントリの表示
+					displayGUIInventry(par1EntityPlayer);
+					return true;
+				}
+			} else {
+				if (lis.getItem() == Items.cake) {
+					// 契約
+					setOwner("");
+					setContract(true);
+				}
+			}
 		}
 		
 		return super.interact(par1EntityPlayer);
@@ -363,8 +424,9 @@ public class EntityLittleMaidBase extends EntityTameable {
 	@Override
 	protected void onChangedPotionEffect(PotionEffect par1PotionEffect, boolean par2) {
 		super.onChangedPotionEffect(par1PotionEffect, par2);
+		// なんかエンドレスで再設定されるので更新なし。
 //		if (isContract()) {
-			sendToAllNear(64D, new S1DPacketEntityEffect(getEntityId(), par1PotionEffect));
+//			sendToAllNear(64D, new S1DPacketEntityEffect(getEntityId(), par1PotionEffect));
 //		}
 	}
 
@@ -394,6 +456,108 @@ public class EntityLittleMaidBase extends EntityTameable {
 		return (dataWatcher.getWatchableObjectInt(dataWatch_Flags) & pFlagvalue) > 0;
 	}
 
+	// メイドの待機設定
+	public boolean isMaidWait() {
+		return maidWait;
+	}
 
+	public boolean isMaidWaitEx() {
+		return isMaidWait() | (mstatWaitCount > 0) | isOpenInventory();
+	}
+
+	public void setMaidWait(boolean pflag) {
+		// 待機常態の設定、 isMaidWait系でtrueを返すならAIが勝手に移動を停止させる。
+		maidWait = pflag;
+		setMaidFlags(pflag, dataWatch_Flags_Wait);
+		
+		aiSit.setSitting(pflag);
+		maidWait = pflag;
+		isJumping = false;
+		setAttackTarget(null);
+		setRevengeTarget(null);
+		setPathToEntity(null);
+		getNavigator().clearPathEntity();
+		velocityChanged = true;
+	}
+
+	public void setMaidWaitCount(int count) {
+		mstatWaitCount = count;
+	}
+
+	// インベントリの表示関係
+	// まさぐれるのは一人だけ
+	public boolean isOpenInventory() {
+		return inventory.isOpen;
+	}
+
+	/**
+	 * GUIを開いた時にサーバー側で呼ばれる。
+	 */
+	public void onGuiOpened() {
+	}
+
+	/**
+	 * GUIを閉めた時にサーバー側で呼ばれる。
+	 */
+	public void onGuiClosed() {
+		setMaidWaitCount(modeController.activeMode.getWaitDelayTime());
+	}
+
+	// 自由行動
+	public void setFreedom(boolean pFlag) {
+		// AI関連のリセットもここで。
+		maidFreedom = pFlag;
+//		aiRestrictRain.setEnable(pFlag);
+//		aiFreeRain.setEnable(pFlag);
+//		aiWander.setEnable(pFlag);
+//		aiJumpTo.setEnable(!pFlag);
+//		aiAvoidPlayer.setEnable(!pFlag);
+//		aiFollow.setEnable(!pFlag);
+//		aiTracer.setEnable(false);
+//		setAIMoveSpeed(pFlag ? moveSpeed_Nomal : moveSpeed_Max);
+//		setMoveForward(0.0F);
+		
+		if (maidFreedom && isContract()) {
+//			func_110171_b(
+			setHomeArea(
+					MathHelper.floor_double(posX),
+					MathHelper.floor_double(posY),
+					MathHelper.floor_double(posZ), 16);
+		} else {
+//			func_110177_bN();
+			detachHome();
+//			setPlayingRole(0);
+		}
+		
+		setMaidFlags(maidFreedom, dataWatch_Flags_Freedom);
+	}
+
+	public boolean isFreedom() {
+		return maidFreedom;
+	}
+
+	public void setAbsorptionAmount(float par1) {
+		if (par1 < 0.0F) {
+			par1 = 0.0F;
+		}
+		
+		dataWatcher.updateObject(dataWatch_Absoption, Float.valueOf(par1));
+	}
+
+	public float getAbsorptionAmount() {
+		return dataWatcher.getWatchableObjectFloat(dataWatch_Absoption);
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound) {
+		// TODO Auto-generated method stub
+		super.readEntityFromNBT(par1nbtTagCompound);
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
+		// TODO Auto-generated method stub
+		super.writeEntityToNBT(par1nbtTagCompound);
+	}
 
 }

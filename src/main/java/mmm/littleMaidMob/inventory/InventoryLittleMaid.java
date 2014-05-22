@@ -17,11 +17,14 @@ import net.minecraft.world.Explosion;
 public class InventoryLittleMaid extends InventoryPlayer {
 
 	public EntityLittleMaidBase maid;
-
+	public boolean isOpen;
+	
+	
 	public InventoryLittleMaid(EntityLittleMaidBase pMaid) {
 		super(pMaid.avatar);
 		mainInventory = new ItemStack[getInitInvSize()];
 		maid = pMaid;
+		isOpen = false;
 	}
 
 	/**
@@ -217,6 +220,20 @@ public class InventoryLittleMaid extends InventoryPlayer {
 		Block lblock = Block.getBlockFromItem(pItemstack.getItem());
 		return (pItemstack != null && lblock != null &&
 				lblock.getMaterial() == Material.tnt);
+	}
+
+	@Override
+	public void openInventory() {
+		super.openInventory();
+		isOpen = true;
+		maid.onGuiOpened();
+	}
+
+	@Override
+	public void closeInventory() {
+		super.closeInventory();
+		isOpen = false;
+		maid.onGuiClosed();
 	}
 
 }

@@ -44,9 +44,9 @@ public class GuiLittleMaidInventory extends GuiEffectRenderer {
 		}
 		mc.getTextureManager().bindTexture(lrl);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		int lj = guiLeft;
-		int lk = guiTop;
-		drawTexturedModalRect(lj, lk, 0, 0, xSize, ySize);
+		int lx = guiLeft;
+		int ly = guiTop;
+		drawTexturedModalRect(lx, ly, 0, 0, xSize, ySize);
 		
 		// LP/AP
 //		drawHeathArmor(0, 0);

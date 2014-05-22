@@ -348,4 +348,9 @@ public abstract class EntityModeBase {
 		return !owner.isBloodsuck();
 	}
 
+	public int getWaitDelayTime() {
+		int li = 0;//owner.maidMode & 0x0080;
+		return (li == 0) ? 50 : 0;
+	}
+
 }
