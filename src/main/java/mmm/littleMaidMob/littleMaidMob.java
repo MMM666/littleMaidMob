@@ -3,6 +3,8 @@ package mmm.littleMaidMob;
 import java.io.File;
 
 import mmm.lib.ProxyCommon;
+import mmm.lib.multiModel.MultiModelHandler;
+import mmm.lib.multiModel.texture.MultiModelData;
 import mmm.littleMaidMob.entity.EntityLittleMaidBase;
 import mmm.littleMaidMob.gui.GuiHandler;
 import net.minecraft.entity.EnumCreatureType;
@@ -111,6 +113,9 @@ public class littleMaidMob {
 				Character.valueOf('e'), Items.egg,
 			});
 		}
+		
+		MultiModelHandler.init();
+		MultiModelHandler.instance.registerEntityClass(EntityLittleMaidBase.class, MultiModelData.class, "default");
 	}
 
 	@Mod.EventHandler

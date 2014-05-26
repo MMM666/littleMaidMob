@@ -41,7 +41,7 @@ public class RenderLittleMaid extends RenderMultiModel {
 		modelMain.isRendering = true;
 //		modelMain.model = pEntity.getModel();
 //		modelContainer = MultiModelManager.instance.getMultiModel("MMM_Aug");
-		modelContainer = pEntity.multiModel;
+		modelContainer = pEntity.multiModel.model;
 		modelMain.model = (ModelMultiBase)modelContainer.getModelClass()[0];
 		
 		super.doRender(pEntity, pX, pY, pZ, par8, par9);

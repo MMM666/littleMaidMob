@@ -1,27 +1,32 @@
 package mmm.littleMaidMob.entity;
 
+import static mmm.littleMaidMob.Statics.dataWatch_Absoption;
+import static mmm.littleMaidMob.Statics.dataWatch_Color;
+import static mmm.littleMaidMob.Statics.dataWatch_DominamtArm;
+import static mmm.littleMaidMob.Statics.dataWatch_ExpValue;
+import static mmm.littleMaidMob.Statics.dataWatch_Flags;
+import static mmm.littleMaidMob.Statics.dataWatch_Flags_Freedom;
+import static mmm.littleMaidMob.Statics.dataWatch_Flags_Wait;
+import static mmm.littleMaidMob.Statics.dataWatch_Flags_remainsContract;
+import static mmm.littleMaidMob.Statics.dataWatch_Free;
+import static mmm.littleMaidMob.Statics.dataWatch_Gotcha;
+import static mmm.littleMaidMob.Statics.dataWatch_ItemUse;
+import static mmm.littleMaidMob.Statics.dataWatch_Mode;
+import static mmm.littleMaidMob.Statics.dataWatch_Parts;
+import static mmm.littleMaidMob.Statics.dataWatch_Texture;
+
 import java.util.UUID;
 
-import com.mojang.authlib.GameProfile;
-
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.handshake.FMLHandshakeMessage.ModList;
-import cpw.mods.fml.common.network.handshake.NetworkDispatcher;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mmm.lib.Client;
 import mmm.lib.multiModel.model.AbstractModelBase;
 import mmm.lib.multiModel.model.IModelCaps;
-import mmm.lib.multiModel.texture.MultiModelContainer;
+import mmm.lib.multiModel.texture.IMultiModelEntity;
+import mmm.lib.multiModel.texture.MultiModelData;
 import mmm.lib.multiModel.texture.MultiModelManager;
 import mmm.littleMaidMob.TileContainer;
 import mmm.littleMaidMob.littleMaidMob;
-import mmm.littleMaidMob.gui.GuiLittleMaidInventory;
 import mmm.littleMaidMob.inventory.InventoryLittleMaid;
 import mmm.littleMaidMob.mode.ModeController;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
@@ -41,10 +46,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import static mmm.littleMaidMob.Statics.*;
+
+import com.mojang.authlib.GameProfile;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 //public class EntityLittleMaidMob extends EntityCreature implements IAnimals, IEntityOwnable {
-public class EntityLittleMaidBase extends EntityTameable {
+public class EntityLittleMaidBase extends EntityTameable implements IMultiModelEntity {
 
 //	protected static final UUID maidUUID = UUID.nameUUIDFromBytes("net.minecraft.src.littleMaidMob".getBytes());
 	protected static final UUID maidUUID = UUID.fromString("e2361272-644a-3028-8416-8536667f0efb");
@@ -56,8 +66,11 @@ public class EntityLittleMaidBase extends EntityTameable {
 	
 	public EntityLittleMaidAvatar avatar;
 	public InventoryLittleMaid inventory;
-	public MultiModelContainer multiModel;
-	public int color;
+//	public MultiModelContainer multiModel;
+//	public int color;
+	public MultiModelData multiModel;
+	
+	/** 契約限界時間 */
 	public int maidContractLimit;
 	/** 主の識別 */
 	public EntityPlayer mstatMasterEntity;
@@ -89,8 +102,7 @@ public class EntityLittleMaidBase extends EntityTameable {
 		inventory = new InventoryLittleMaid(this);
 		
 //		multiModel = MultiModelManager.instance.getMultiModel("MMM_SR2");
-		color = 0x0c;
-		setModel("MMM_Aug");
+//		setModel("MMM_Aug");
 	}
 
 // 初期化関数群
@@ -150,6 +162,7 @@ public class EntityLittleMaidBase extends EntityTameable {
 		// 別に通常のスポーンでも呼ばれる。
 		// 個体値は持たせないのでsuperしない。
 //		multiModel = MultiModelManager.instance.getMultiModel("MMM_SR2");
+		multiModel.setColor(0x0c);
 		setModel("MMM_Aug");
 		return par1EntityLivingData;
 	}
@@ -177,8 +190,8 @@ public class EntityLittleMaidBase extends EntityTameable {
 // 形態形成場
 
 	public boolean setModel(String pName) {
-		multiModel = MultiModelManager.instance.getMultiModel(pName);
-		AbstractModelBase lamb = multiModel.getModelClass(color)[0];
+		multiModel.setModelFromName(pName);
+		AbstractModelBase lamb = multiModel.model.getModelClass(multiModel.getColor())[0];
 		setSize(lamb.getWidth(modelCaps), lamb.getHeight(modelCaps));
 		setScale(1.0F);
 		return MultiModelManager.instance.isMultiModel(pName);
@@ -558,6 +571,27 @@ public class EntityLittleMaidBase extends EntityTameable {
 	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
 		// TODO Auto-generated method stub
 		super.writeEntityToNBT(par1nbtTagCompound);
+	}
+
+
+// MultiModel関連
+
+	@Override
+	public MultiModelData getMultiModel() {
+		return multiModel;
+	}
+
+	@Override
+	public void setMultiModelData(MultiModelData pMultiModelData) {
+		multiModel = pMultiModelData;
+	}
+
+	@Override
+	public void initMultiModel() {
+		// 値の初期化
+		multiModel.setColor(0x0c);
+		setModel("MMM_Aug");
+//		multiModel.setModelFromName("MMM_Aug");
 	}
 
 }
