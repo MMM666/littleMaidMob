@@ -52,7 +52,7 @@ public class RenderLittleMaid extends RenderMultiModel {
 		// TODO Auto-generated method stub
 //		return ((EntityLittleMaidMob)var1).getTexture();
 //		return textures;
-		return modelContainer.getTexture(0x0c);
+		return modelContainer.getTexture(((EntityLittleMaidBase)var1).multiModel.getColor());
 	}
 
 }

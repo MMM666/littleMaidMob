@@ -18,11 +18,11 @@ import static mmm.littleMaidMob.Statics.dataWatch_Texture;
 import java.util.UUID;
 
 import mmm.lib.Client;
+import mmm.lib.multiModel.MultiModelManager;
 import mmm.lib.multiModel.model.AbstractModelBase;
 import mmm.lib.multiModel.model.IModelCaps;
 import mmm.lib.multiModel.texture.IMultiModelEntity;
 import mmm.lib.multiModel.texture.MultiModelData;
-import mmm.lib.multiModel.texture.MultiModelManager;
 import mmm.littleMaidMob.TileContainer;
 import mmm.littleMaidMob.littleMaidMob;
 import mmm.littleMaidMob.inventory.InventoryLittleMaid;
@@ -94,7 +94,7 @@ public class EntityLittleMaidBase extends EntityTameable implements IMultiModelE
 
 	public EntityLittleMaidBase(World par1World) {
 		super(par1World);
-		this.setSize(0.6F, 0.8F);
+		this.setSize(0.6F, 2.8F);
 		
 		if (par1World instanceof WorldServer) {
 			avatar = new EntityLittleMaidAvatar((WorldServer)par1World, new GameProfile("10", "maid"));
@@ -103,7 +103,14 @@ public class EntityLittleMaidBase extends EntityTameable implements IMultiModelE
 		
 //		multiModel = MultiModelManager.instance.getMultiModel("MMM_SR2");
 //		setModel("MMM_Aug");
+		
+		initMultiModel();
+		// TODO 付けないと無限落下する・・・意味解らん
+//		setSize(width, height);
+//		setScale(1.0F);	// ダメ
+//		moveEntity(posX, posY, posZ);	// ダメ
 	}
+
 
 // 初期化関数群
 
@@ -162,8 +169,9 @@ public class EntityLittleMaidBase extends EntityTameable implements IMultiModelE
 		// 別に通常のスポーンでも呼ばれる。
 		// 個体値は持たせないのでsuperしない。
 //		multiModel = MultiModelManager.instance.getMultiModel("MMM_SR2");
-		multiModel.setColor(0x0c);
+		multiModel.setColor(0x08);
 		setModel("MMM_Aug");
+//		multiModel.forceChanged(true);
 		return par1EntityLivingData;
 	}
 
@@ -191,9 +199,11 @@ public class EntityLittleMaidBase extends EntityTameable implements IMultiModelE
 
 	public boolean setModel(String pName) {
 		multiModel.setModelFromName(pName);
-		AbstractModelBase lamb = multiModel.model.getModelClass(multiModel.getColor())[0];
-		setSize(lamb.getWidth(modelCaps), lamb.getHeight(modelCaps));
-		setScale(1.0F);
+//		AbstractModelBase lamb = multiModel.model.getModelClass(multiModel.getColor())[0];
+//		setScale(0.1F);
+//		setSize(lamb.getWidth(modelCaps), lamb.getHeight(modelCaps));
+//		setScale(1.0F);
+//		littleMaidMob.Debug("setSize:%f,  %f - %s", width, height, isClientWorld() ? "server" : "client");
 		return MultiModelManager.instance.isMultiModel(pName);
 	}
 
@@ -565,6 +575,7 @@ public class EntityLittleMaidBase extends EntityTameable implements IMultiModelE
 	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound) {
 		// TODO Auto-generated method stub
 		super.readEntityFromNBT(par1nbtTagCompound);
+		multiModel.setChange();
 	}
 
 	@Override
@@ -592,6 +603,13 @@ public class EntityLittleMaidBase extends EntityTameable implements IMultiModelE
 		multiModel.setColor(0x0c);
 		setModel("MMM_Aug");
 //		multiModel.setModelFromName("MMM_Aug");
+		multiModel.forceChanged(false);
+	}
+
+	@Override
+	public void onMultiModelChange() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
